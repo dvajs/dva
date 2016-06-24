@@ -1,0 +1,20 @@
+{
+  "entry": {
+    "index": "./index.js"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.9.1",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  },
+  "devDependencies": {
+    "atool-build": "^0.7.6",
+    "dora": "0.3.x",
+    "dora-plugin-proxy": "^0.7.0",
+    "dora-plugin-webpack": "0.6.x",
+    "dora-plugin-webpack-hmr": "^0.1.0"
+  },
+  "scripts": {
+    "start": "dora --plugins \"proxy,webpack?disableNpmInstall,webpack-hmr\""
+  }
+}

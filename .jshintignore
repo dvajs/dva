@@ -1,0 +1,7 @@
+node_modules
+coverage
+test/fixtures
+test/expected
+tmp
+demo
+spm_modules
