@@ -15,6 +15,7 @@
     "lint": "eslint --ext .js src"
   },
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "react-redux": "4.4.x",
     "react-router": "^2.5.1",
     "react-router-redux": "^4.0.5",
@@ -54,6 +55,9 @@
   ],
   "files": [
     "lib",
-    "src"
+    "src",
+    "effects.js",
+    "router.js",
+    "fetch.js"
   ]
 }

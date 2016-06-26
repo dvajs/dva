@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
-import { hashHistory, Router, Route, IndexRoute, Link } from 'react-router';
+import { hashHistory, Router } from 'react-router';
 import { syncHistoryWithStore, routerReducer as routing } from 'react-router-redux';
 import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';

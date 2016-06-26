@@ -1,9 +1,9 @@
 import './index.html';
 import React from 'react';
-import fetch from 'isomorphic-fetch';
 import dva, { connect } from 'dva';
 import { put, call } from 'dva/effects';
 import { Route } from 'dva/router';
+import fetch from 'dva/fetch';
 import ProductList from './components/ProductList/ProductList';
 import styles from './index.less';
 
