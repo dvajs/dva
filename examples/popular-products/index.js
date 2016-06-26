@@ -1,8 +1,11 @@
-import "babel-polyfill";
+import './index.html';
 import React from 'react';
+import fetch from 'isomorphic-fetch';
 import dva, { connect } from 'dva';
 import { put, call } from 'dva/effects';
 import { Route } from 'dva/router';
+import ProductList from './components/ProductList/ProductList';
+import styles from './index.less';
 
 const app = dva();
 
@@ -19,11 +22,22 @@ app.model({
   ],
   effects: {
     ['products/query']: function*() {
-      yield call(delay(800));
-      yield put({
-        type: 'products/query/success',
-        payload: ['ant-tool', 'roof'],
-      });
+      const { success, data } = yield fetch(`/api/products`).then(res => res.json());
+      if (success) {
+        yield put({
+          type: 'products/query/success',
+          payload: data,
+        });
+      }
+    },
+    ['products/vote']: function*({ payload }) {
+      const { success } = yield fetch(`/api/products/vote?id=${payload}`).then(res => res.json());
+      if (success) {
+        yield put({
+          type: 'products/vote/success',
+          payload,
+        });
+      }
     },
   },
   reducers: {
@@ -33,41 +47,37 @@ app.model({
     ['products/query/success'](state, { payload }) {
       return { ...state, loading: false, list: payload };
     },
+    ['products/vote'](state) {
+      return { ...state, loading: true };
+    },
+    ['products/vote/success'](state, { payload }) {
+      const newList = state.list.map(product => {
+        if (product.id === payload) {
+          return { ...product, vote:product.vote + 1 };
+        } else {
+          return product;
+        }
+      });
+      return { ...state, list: newList, loading: false };
+    },
   },
 });
 
-const MainView = connect(({products}) => ({products}))(ProductList);
+const ProductsPage = connect(({products}) => ({products}))(function(props) {
+  return (
+    <div className={styles.productPage}>
+      <h2>Popular Products</h2>
+      <ProductList
+        data={props.products.list}
+        loading={props.products.loading}
+        dispatch={props.dispatch}
+      />
+    </div>
+  );
+});
 
 app.router(
-  <Route path="/" component={MainView} />
+  <Route path="/" component={ProductsPage} />
 );
 
 app.start('root');
-
-///////////////////
-// Utils
-
-function delay(timeout) {
-  return () => {
-    return new Promise(resolve => {
-      setTimeout(resolve, timeout);
-    });
-  };
-}
-
-///////////////////
-// Components
-
-function ProductList(props) {
-  return (
-    <div>
-      <h2>Popular Products</h2>
-      {
-        props.products.loading ? 'loading' :
-          props.products.list.map((product, index) => (
-            <li key={index}>{product}</li>
-          ))
-      }
-    </div>
-  );
-}
