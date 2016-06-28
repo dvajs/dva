@@ -4,7 +4,7 @@
   },
   "dependencies": {
     "antd": "^1.6.1",
-    "dva": "^0.0.1",
+    "dva": "^0.0.2",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   },
@@ -19,6 +19,6 @@
     "dora-plugin-webpack-hmr": "^0.1.0"
   },
   "scripts": {
-    "start": "dora --plugins \"proxy,webpack?disableNpmInstall,webpack-hmr\""
+    "start": "dora --plugins \"proxy,webpack,webpack-hmr\""
   }
 }
