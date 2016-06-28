@@ -7,8 +7,10 @@ import fetch from 'dva/fetch';
 import ProductList from './components/ProductList/ProductList';
 import styles from './index.less';
 
+// 1. Initialize
 const app = dva();
 
+// 2. Model
 app.model({
   namespace: 'products',
   state: {
@@ -63,6 +65,7 @@ app.model({
   },
 });
 
+// 3. View
 const ProductsPage = connect(({products}) => ({products}))(function(props) {
   return (
     <div className={styles.productPage}>
@@ -76,8 +79,10 @@ const ProductsPage = connect(({products}) => ({products}))(function(props) {
   );
 });
 
+// 4. Router
 app.router(
   <Route path="/" component={ProductsPage} />
 );
 
+// 5. Start
 app.start('root');
