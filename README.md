@@ -6,17 +6,23 @@ Front-end framework based on react, redux, react-redux, react-router and redux-s
 
 ----
 
-## Quick start with count
+## Documents
+
+- [dva 简介](https://github.com/sorrycc/dva/issues/1)
+
+## Quick Start
+
+Let's create an count app that changes when user click the + or - button. 
 
 ```javascript
 import React from 'react';
 import dva, { connect } from 'dva';
 import { Route } from 'dva/router';
 
-// Initialize
+// 1. Initialize
 const app = dva();
 
-// Model
+// 2. Model
 app.model({
   namespace: 'count',
   state: 0,
@@ -26,7 +32,7 @@ app.model({
   },
 });
 
-// View
+// 3. View
 const Count = ({ count, dispatch }) =>
   <div>
     <h2>{ count }</h2>
@@ -35,17 +41,20 @@ const Count = ({ count, dispatch }) =>
   </div>
 const HomePage = connect(({ count }) => ({ count }))(Count);
 
-// Router
+// 4. Router
 app.router(
   <Route path="/" component={HomePage} />
 );
 
-// Start
+// 5. Start
 app.start('root');
 ```
 
-## More examples
+## Examples
 
-- [count](./examples/count)
-- [popular-products](./examples/popular-products)
+- [Count](./examples/count)
+- [Popular Products](./examples/popular-products)
 
+## License
+
+[MIT](https://tldrlegal.com/license/mit-license)

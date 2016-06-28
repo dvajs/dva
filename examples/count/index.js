@@ -2,10 +2,10 @@ import React from 'react';
 import dva, { connect } from 'dva';
 import { Route } from 'dva/router';
 
-// Initialize
+// 1. Initialize
 const app = dva();
 
-// Model
+// 2. Model
 app.model({
   namespace: 'count',
   state: 0,
@@ -15,7 +15,7 @@ app.model({
   },
 });
 
-// View
+// 3. View
 const Count = ({ count, dispatch }) =>
   <div>
     <h2>{ count }</h2>
@@ -24,10 +24,10 @@ const Count = ({ count, dispatch }) =>
   </div>
 const HomePage = connect(({ count }) => ({ count }))(Count);
 
-// Router
+// 4. Router
 app.router(
   <Route path="/" component={HomePage} />
 );
 
-// Start
+// 5. Start
 app.start('root');
