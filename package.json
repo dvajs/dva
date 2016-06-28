@@ -7,6 +7,17 @@
     "url": "https://github.com/sorrycc/dva"
   },
   "homepage": "https://github.com/sorrycc/dva",
+  "keywords": [
+    "dva",
+    "ant",
+    "react",
+    "redux",
+    "redux-saga",
+    "elm",
+    "choo",
+    "framework",
+    "frontend"
+  ],
   "main": "lib/index.js",
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
