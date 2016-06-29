@@ -7,7 +7,7 @@ import { hashHistory, Router } from 'react-router';
 import { syncHistoryWithStore, routerReducer as routing } from 'react-router-redux';
 import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';
-import { is, check } from './utils';
+import { is, check, warn } from './utils';
 
 function dva() {
   let _routes = null;
@@ -63,9 +63,25 @@ function dva() {
     });
 
     function getWatcher(k, saga) {
-      return function*() {
-        yield takeLatest(k, saga);
-      };
+      let _saga = saga;
+      let _type = 'takeEvery';
+      if (Array.isArray(saga)) {
+        [_saga, opts] = saga;
+        opts = opts || {};
+        check(opts.type, is.sagaType, 'Type must be takeEvery or takeLatest');
+        warn(opts.type, v => v === 'takeLatest', 'takeEvery is the default type, no need to set it by opts');
+        _type = opts.type;
+      }
+
+      if (_type === 'takeEvery') {
+        return function*() {
+          yield takeEvery(k, _saga);
+        };
+      } else {
+        return function*() {
+          yield takeLatest(k, _saga);
+        };
+      }
     }
 
     function* rootSaga() {

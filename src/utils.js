@@ -1,8 +1,14 @@
 
 export function check(value, predicate, error) {
   if(!predicate(value)) {
-    log('error', 'uncaught at check', error)
+    log('error', 'uncaught at check', error);
     throw new Error(error)
+  }
+}
+
+export function warn(value, predicate, error) {
+  if(!predicate(value)) {
+    log('warn', 'uncaught at check', error);
   }
 }
 
@@ -14,6 +20,7 @@ export const is = {
   number    : n => typeof n === 'number',
   array     : Array.isArray,
   jsx       : v => v && v.$$typeof && v.$$typeof.toString() === 'Symbol(react.element)',
+  sagaType  : v => v === 'takeEvery' || v === 'takeLatest',
 };
 
 /**
