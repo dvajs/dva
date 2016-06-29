@@ -1,7 +1,4 @@
 {
-  "entry": {
-    "index": "./index.js"
-  },
   "dependencies": {
     "antd": "^1.6.1",
     "dva": "^0.0.2",
