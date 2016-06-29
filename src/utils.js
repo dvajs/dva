@@ -2,7 +2,7 @@
 export function check(value, predicate, error) {
   if(!predicate(value)) {
     log('error', 'uncaught at check', error);
-    throw new Error(error)
+    throw new Error(error);
   }
 }
 
@@ -31,8 +31,8 @@ export const is = {
 export function log(level, message, error) {
   /*eslint-disable no-console*/
   if(typeof window === 'undefined') {
-    console.log(`redux-saga ${level}: ${message}\n${(error && error.stack) || error}`)
+    console.log(`redux-saga ${level}: ${message}\n${(error && error.stack) || error}`);
   } else {
-    console[level].call(console, message, error)
+    console[level].call(console, message, error);
   }
 }

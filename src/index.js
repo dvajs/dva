@@ -56,6 +56,7 @@ function dva() {
         if (subscriptions) {
           check(subscriptions, is.array, 'Subscriptions must be an array');
           subscriptions.forEach(sub => {
+            check(sub, is.func, 'Subscription must be an function');
             sub(store.dispatch);
           });
         }
