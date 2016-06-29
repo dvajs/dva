@@ -66,7 +66,9 @@ app.model({
 });
 
 // 3. View
-const ProductsPage = connect(({products}) => ({products}))(function(props) {
+const App = connect(({products}) => ({
+  products
+}))(function(props) {
   return (
     <div className={styles.productPage}>
       <h2>Popular Products</h2>
@@ -81,7 +83,7 @@ const ProductsPage = connect(({products}) => ({products}))(function(props) {
 
 // 4. Router
 app.router(
-  <Route path="/" component={ProductsPage} />
+  <Route path="/" component={App} />
 );
 
 // 5. Start

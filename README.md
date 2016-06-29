@@ -33,17 +33,21 @@ app.model({
 });
 
 // 3. View
-const Count = ({ count, dispatch }) =>
-  <div>
-    <h2>{ count }</h2>
-    <button key="add" onClick={() => { dispatch({type: 'count/add'})}}>+</button>
-    <button key="minus" onClick={() => { dispatch({type: 'count/minus'})}}>-</button>
-  </div>
-const HomePage = connect(({ count }) => ({ count }))(Count);
+const App = connect(({ count }) => ({
+  count
+}))(function(props) {
+  return (
+    <div>
+      <h2>{ props.count }</h2>
+      <button key="add" onClick={() => { props.dispatch({type: 'count/add'})}}>+</button>
+      <button key="minus" onClick={() => { props.dispatch({type: 'count/minus'})}}>-</button>
+    </div>
+  );
+});
 
 // 4. Router
 app.router(
-  <Route path="/" component={HomePage} />
+  <Route path="/" component={App} />
 );
 
 // 5. Start
@@ -54,6 +58,7 @@ app.start('root');
 
 - [Count](./examples/count)
 - [Popular Products](./examples/popular-products)
+- [Friend List](./examples/friend-list)
 
 ## License
 
