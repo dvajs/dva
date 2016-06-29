@@ -68,6 +68,7 @@ app.start('root');
 - [Count](./examples/count)
 - [Popular Products](./examples/popular-products)
 - [Friend List](./examples/friend-list)
+- [User Dashboard](./examples/user-dashboard)
 
 ## License
 
