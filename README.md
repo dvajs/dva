@@ -9,6 +9,7 @@ Front-end framework based on react, redux, react-redux, react-router and redux-s
 ## Documents
 
 - [dva 简介](https://github.com/sorrycc/dva/issues/1)
+- [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1) (dva 基于此封装)
 - [subscription 及其适用场景](https://github.com/sorrycc/dva/issues/3#issuecomment-229250708)
 
 ## Getting Started
