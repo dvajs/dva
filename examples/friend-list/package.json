@@ -17,6 +17,7 @@
     "dora-plugin-webpack-hmr": "^0.1.0"
   },
   "scripts": {
-    "start": "dora --plugins \"proxy,webpack?disableNpmInstall,webpack-hmr\""
+    "start": "dora --plugins \"proxy,webpack?disableNpmInstall,webpack-hmr\"",
+    "build": "atool-build"
   }
 }

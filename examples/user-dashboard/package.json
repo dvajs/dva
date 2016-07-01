@@ -20,6 +20,7 @@
     "mockjs": "^1.0.1-beta2"
   },
   "scripts": {
-    "start": "dora --plugins \"proxy,webpack,webpack-hmr\""
+    "start": "dora --plugins \"proxy,webpack,webpack-hmr\"",
+    "build": "atool-build"
   }
 }
