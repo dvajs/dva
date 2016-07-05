@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Front-end framework based on react, redux, react-redux, react-router and redux-saga, inspired by elm and choo.",
   "repository": {
     "type": "git",
