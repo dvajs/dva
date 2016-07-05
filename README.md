@@ -28,7 +28,7 @@ Let's create an count app that changes when user click the + or - button.
 ```javascript
 import React from 'react';
 import dva, { connect } from 'dva';
-import { Route } from 'dva/router';
+import { Router, Route } from 'dva/router';
 
 // 1. Initialize
 const app = dva();
@@ -57,8 +57,10 @@ const App = connect(({ count }) => ({
 });
 
 // 4. Router
-app.router(
-  <Route path="/" component={App} />
+app.router(({ history }) =>
+  <Router history={history}>
+    <Route path="/" component={App} />
+  </Router>
 );
 
 // 5. Start

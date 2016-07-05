@@ -2,7 +2,7 @@ import './index.html';
 import React from 'react';
 import dva, { connect } from 'dva';
 import { put, call } from 'dva/effects';
-import { Route, hashHistory } from 'dva/router';
+import { Router, Route, hashHistory } from 'dva/router';
 import fetch from 'dva/fetch';
 import styles from './index.less';
 import SearchInput from './components/SearchInput';
@@ -81,8 +81,10 @@ const App = connect(({ friends }) => ({
 });
 
 // 4. Router
-app.router(
-  <Route path="/" component={App} />
+app.router(({ history }) =>
+  <Router history={history}>
+    <Route path="/" component={App} />
+  </Router>
 );
 
 // 5. Start

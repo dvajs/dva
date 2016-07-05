@@ -25,7 +25,7 @@ function dva() {
   }
 
   function router(routes) {
-    check(routes, is.jsx, 'Routes must be react elements.');
+    check(routes, is.func, 'Routes must be function.');
     _routes = routes;
   }
 
@@ -94,11 +94,19 @@ function dva() {
       }
     }
 
-    ReactDOM.render((
-      <Provider store={store}>
-        <Router history={history}>{_routes}</Router>
-      </Provider>
-    ), document.getElementById(rootId));
+    function render(routes) {
+      const Routes = routes || _routes;
+      ReactDOM.render((
+        <Provider store={store}>
+          <Routes history={history} />
+        </Provider>
+      ), document.getElementById(rootId));
+    }
+
+    render();
+    return {
+      render,
+    };
   }
 }
 

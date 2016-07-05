@@ -8,12 +8,6 @@ module.exports = function(webpackConfig) {
     style: 'css',  // if true, use less
   }]);
 
-  // Enable this if you have to support IE8.
-  // webpackConfig.module.loaders.unshift({
-  //   test: /\.jsx?$/,
-  //   loader: 'es3ify-loader',
-  // });
-
   // Parse all less files as css module.
   webpackConfig.module.loaders.forEach(function(loader, index) {
     if (typeof loader.test === 'function' && loader.test.toString().indexOf('\\.less$') > -1) {

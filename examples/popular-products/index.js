@@ -2,7 +2,7 @@ import './index.html';
 import React from 'react';
 import dva, { connect } from 'dva';
 import { put, call } from 'dva/effects';
-import { Route } from 'dva/router';
+import { Router, Route } from 'dva/router';
 import fetch from 'dva/fetch';
 import ProductList from './components/ProductList/ProductList';
 import styles from './index.less';
@@ -82,8 +82,10 @@ const App = connect(({products}) => ({
 });
 
 // 4. Router
-app.router(
-  <Route path="/" component={App} />
+app.router(({ history }) =>
+  <Router history={history}>
+    <Route path="/" component={App} />
+  </Router>
 );
 
 // 5. Start

@@ -1,7 +1,7 @@
 
 export function check(value, predicate, error) {
   if(!predicate(value)) {
-    log('error', 'uncaught at check', error);
+    //log('error', 'uncaught at check', error);
     throw new Error(error);
   }
 }
