@@ -88,4 +88,4 @@ app.router(({ history }) =>
 );
 
 // 5. Start
-app.start('root');
+app.start(document.getElementById('root'));

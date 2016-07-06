@@ -12,6 +12,12 @@ build:
 	./node_modules/.bin/uglifyjs -o dist/fetch-min.js dist/fetch.js
 	./node_modules/.bin/uglifyjs -o dist/effects-min.js dist/effects.js
 
+copy:
+	cp lib/* ./examples/user-dashboard/node_modules/dva/lib/
+	cp lib/* ./examples/count/node_modules/dva/lib/
+	cp lib/* ./examples/friend-list/node_modules/dva/lib/
+	cp lib/* ./examples/popular-products/node_modules/dva/lib/
+
 publish: build
 	npm publish
 

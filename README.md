@@ -64,7 +64,7 @@ app.router(({ history }) =>
 );
 
 // 5. Start
-app.start('root');
+app.start(document.getElementById('root'));
 ```
 
 ## Examples
@@ -78,7 +78,7 @@ app.start('root');
 
 ### dva 命名的来历 ?
 
-dva 是守望先锋 (overwatch) 的英雄之一。我喜欢使用这个角色，她有强大的机甲，是个坚实的肉盾，并且她是唯一背景是真实的电竞选手，来自韩国。
+dva 是守望先锋 (overwatch) 里的[英雄](http://ow.blizzard.cn/heroes/dva)。我喜欢使用这个角色，拥有强大的机甲，是个坚实的肉盾，并且她是唯一背景是真实的电竞选手，来自韩国。
 
 ## License
 

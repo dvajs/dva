@@ -12,7 +12,7 @@ app.model(require('../models/users'));
 app.router(require('../routes'));
 
 // 4. Start
-const { render } = app.start('root');
+const { render } = app.start(document.getElementById('root'));
 
 // Support Routes HMR.
 // This will be implemented in babel plugin later.

@@ -18,6 +18,7 @@ export const is = {
   string    : f => typeof f === 'string',
   func      : f => typeof f === 'function',
   number    : n => typeof n === 'number',
+  element   : n => typeof n === 'object' && n.nodeType && n.nodeName,
   array     : Array.isArray,
   jsx       : v => v && v.$$typeof && v.$$typeof.toString() === 'Symbol(react.element)',
   sagaType  : v => v === 'takeEvery' || v === 'takeLatest',

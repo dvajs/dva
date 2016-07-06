@@ -18,7 +18,6 @@
     "framework",
     "frontend"
   ],
-  "main": "lib/index.js",
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -75,9 +74,10 @@
   "files": [
     "lib",
     "src",
+    "dist",
     "effects.js",
     "router.js",
     "fetch.js",
-    "dist"
+    "index.js"
   ]
 }

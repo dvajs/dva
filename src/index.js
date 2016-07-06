@@ -29,8 +29,8 @@ function dva() {
     _routes = routes;
   }
 
-  function start(rootId, opts = {}) {
-    check(rootId, is.string, 'RootId must be string');
+  function start(container, opts = {}) {
+    check(container, is.element, 'Container must be DOMElement');
     check(_routes, is.notUndef, 'Routes is not defined');
     let sagas = {};
     const rootReducer = {};
@@ -100,7 +100,7 @@ function dva() {
         <Provider store={store}>
           <Routes history={history} />
         </Provider>
-      ), document.getElementById(rootId));
+      ), container);
     }
 
     render();
