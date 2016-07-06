@@ -1,4 +1,8 @@
 
+## `0.0.6`
+
+- Change `app.start(elementId)` to `app.start(domElement)`
+
 ## `0.0.5`
 
 - [5](https://github.com/sorrycc/dva/pull/5) - Prepare umd build before publish, then we can make demo on jsfiddle and jsbin more easily
