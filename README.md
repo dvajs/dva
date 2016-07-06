@@ -74,6 +74,12 @@ app.start('root');
 - [Friend List](./examples/friend-list)
 - [User Dashboard](./examples/user-dashboard)
 
+## FAQ
+
+### dva 命名的来历 ?
+
+dva 是守望先锋 (overwatch) 的英雄之一。我喜欢使用这个角色，她有强大的机甲，是个坚实的肉盾，并且她是唯一背景是真实的电竞选手，来自韩国。
+
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license)
