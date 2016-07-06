@@ -1,4 +1,8 @@
 
+## `0.0.5`
+
+- [5](https://github.com/sorrycc/dva/pull/5) - Prepare umd build before publish, then we can make demo on jsfiddle and jsbin more easily
+
 ## `0.0.4`
 
 - Change router format from jsx element to component function
