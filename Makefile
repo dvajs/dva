@@ -12,8 +12,7 @@ build:
 	./node_modules/.bin/uglifyjs -o dist/fetch-min.js dist/fetch.js
 	./node_modules/.bin/uglifyjs -o dist/effects-min.js dist/effects.js
 
-publish:
-	make build
+publish: build
 	npm publish
 
 publish-sync: publish
