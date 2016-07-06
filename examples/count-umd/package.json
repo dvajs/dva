@@ -1,0 +1,11 @@
+{
+  "entry": {
+    "index": "./index.js"
+  },
+  "devDependencies": {
+    "atool-build": "^0.7.15"
+  },
+  "scripts": {
+    "build": "atool-build --no-compress"
+  }
+}

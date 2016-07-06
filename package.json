@@ -47,8 +47,12 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "~6.5.0",
     "babel-runtime": "^6.9.2",
+    "browserify": "^13.0.1",
+    "browserify-shim": "^3.8.12",
+    "envify": "^3.4.1",
     "eslint": "^2.7.0",
-    "eslint-config-airbnb": "^9.0.1"
+    "eslint-config-airbnb": "^9.0.1",
+    "uglifyjs": "^2.4.10"
   },
   "babel": {
     "presets": [
@@ -64,11 +68,16 @@
   "pre-commit": [
     "lint"
   ],
+  "browserify-shim": {
+    "react": "global:React",
+    "react-dom": "global:ReactDOM"
+  },
   "files": [
     "lib",
     "src",
     "effects.js",
     "router.js",
-    "fetch.js"
+    "fetch.js",
+    "dist"
   ]
 }

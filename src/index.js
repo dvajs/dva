@@ -111,4 +111,3 @@ function dva() {
 }
 
 export default dva;
-export { connect } from 'react-redux';
