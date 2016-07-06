@@ -69,7 +69,7 @@ app.start(document.getElementById('root'));
 
 ## Examples
 
-- [Count](./examples/count) ([jsfiddle](https://jsfiddle.net/3d9njnka/))
+- [Count](./examples/count) ([jsfiddle](https://jsfiddle.net/puftw0ea/))
 - [Popular Products](./examples/popular-products)
 - [Friend List](./examples/friend-list)
 - [User Dashboard](./examples/user-dashboard)
