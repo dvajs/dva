@@ -69,7 +69,7 @@ app.start('root');
 
 ## Examples
 
-- [Count](./examples/count)
+- [Count](./examples/count) ([jsfiddle](https://jsfiddle.net/3d9njnka/))
 - [Popular Products](./examples/popular-products)
 - [Friend List](./examples/friend-list)
 - [User Dashboard](./examples/user-dashboard)
