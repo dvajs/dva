@@ -10,12 +10,12 @@ describe('basic', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        ['add'](state) {
+        ['add'](data, state) {
           return state + 1;
         },
       },
       effects: {
-        ['add']: function*() {
+        ['add']: function*(data, state, send) {
           sagaCount = sagaCount + 1;
         },
       }
@@ -23,7 +23,7 @@ describe('basic', () => {
     app.router(({history}) => <div />);
     app.start();
 
-    app.store.dispatch({ type: 'add' });
+    app.store.dispatch({ type: 'count:add' });
     expect(app.store.getState().count).toEqual(1);
     expect(sagaCount).toEqual(1);
   });

@@ -5,8 +5,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
 import { hashHistory, Router } from 'react-router';
 import { syncHistoryWithStore, routerReducer as routing } from 'react-router-redux';
-import { handleActions } from 'redux-actions';
-import { fork } from 'redux-saga/effects';
+import { fork, select, put } from 'redux-saga/effects';
 import document from 'global/document';
 import window from 'global/window';
 import { is, check, warn } from './utils';
@@ -50,13 +49,25 @@ function dva() {
     check(_routes, is.notUndef, 'Routes is not defined.');
 
     // Get sagas and reducers from model.
-    let sagas = {};
+    let sagas = [];
     let reducers = {
       routing,
     };
     _models.forEach(model => {
-      reducers[model.namespace] = handleActions(model.reducers || {}, model.state);
-      sagas = { ...sagas, ...model.effects };
+      const ns = model.namespace;
+      reducers[ns] = (state = model.state, action) => {
+        const [_ns, _name] = action.type.split(':');
+        const _reducer = _name ? model.reducers[_name] : null;
+        if (_ns === ns && _reducer) {
+          return _reducer(action.payload, state);
+        }
+        return state;
+      };
+      if (model.effects) {
+        Object.keys(model.effects).forEach(function(key) {
+          sagas.push(getWatcher(ns, key, model.effects[key]));
+        });
+      }
     });
 
     // Support external reducers.
@@ -102,7 +113,9 @@ function dva() {
           check(subscriptions, is.array, 'Subscriptions must be an array');
           subscriptions.forEach(sub => {
             check(sub, is.func, 'Subscription must be an function');
-            sub(store.dispatch);
+            sub((type, payload) => {
+              store.dispatch({ type, payload });
+            });
           });
         }
       });
@@ -121,7 +134,11 @@ function dva() {
       </Provider>;
     }
 
-    function getWatcher(k, saga) {
+    function* send(type, payload) {
+      yield put({ type, payload });
+    }
+
+    function getWatcher(ns, k, saga) {
       let _saga = saga;
       let _type = 'takeEvery';
       if (Array.isArray(saga)) {
@@ -132,23 +149,25 @@ function dva() {
         _type = opts.type;
       }
 
+      function* sagaWrap(action) {
+        const _state = yield select(state => state[ns]);
+        yield _saga(action.payload, _state, send);
+      }
+
       if (_type === 'takeEvery') {
         return function*() {
-          yield takeEvery(k, _saga);
+          yield takeEvery(ns + ':' + k, sagaWrap);
         };
       } else {
         return function*() {
-          yield takeLatest(k, _saga);
+          yield takeLatest(ns + ':' + k, sagaWrap);
         };
       }
     }
 
     function* rootSaga() {
-      for (var k in sagas) {
-        if (sagas.hasOwnProperty(k)) {
-          const watcher = getWatcher(k, sagas[k]);
-          yield fork(watcher);
-        }
+      for (let saga of sagas) {
+        yield fork(saga);
       }
     }
 
