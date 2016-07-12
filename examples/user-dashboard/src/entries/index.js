@@ -12,26 +12,31 @@ app.model(require('../models/users'));
 app.router(require('../routes'));
 
 // 4. Start
-const { render } = app.start(document.getElementById('root'));
+app.start(document.getElementById('root'), {
 
-// Support Routes HMR.
-// This will be implemented in babel plugin later.
-if (module.hot) {
-  const renderNormally = render;
-  const renderException = (error) => {
-    const RedBox = require('redbox-react');
-    ReactDOM.render(<RedBox error={error} />, document.getElementById('root'));
-  };
-  const newRender = (routes) => {
-    try {
-      renderNormally(routes);
-    } catch (error) {
-      console.error('error', error);
-      renderException(error);
+  // Support Routes HMR.
+  // This will be implemented in babel plugin later.
+  hmr: (render) => {
+    if (module.hot) {
+      const renderNormally = render;
+      const renderException = (error) => {
+        const RedBox = require('redbox-react');
+        ReactDOM.render(<RedBox error={error} />, document.getElementById('root'));
+      };
+      const newRender = (routes) => {
+        try {
+          renderNormally(routes);
+        } catch (error) {
+          console.error('error', error);
+          renderException(error);
+        }
+      };
+      module.hot.accept('../routes', () => {
+        const routes = require('../routes');
+        newRender(routes);
+      });
     }
-  };
-  module.hot.accept('../routes', () => {
-    const routes = require('../routes');
-    newRender(routes);
-  });
-}
+  },
+});
+
+

@@ -104,9 +104,9 @@ function dva() {
     }
 
     render();
-    return {
-      render,
-    };
+    if (opts.hmr) {
+      opts.hmr(render);
+    }
   }
 }
 
