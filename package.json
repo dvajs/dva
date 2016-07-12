@@ -25,6 +25,7 @@
     "lint": "eslint --ext .js src"
   },
   "dependencies": {
+    "is-plain-object": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "react-redux": "4.4.x",
     "react-router": "^2.5.1",

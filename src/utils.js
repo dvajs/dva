@@ -1,3 +1,4 @@
+import isPlainObject from 'is-plain-object';
 
 export function check(value, predicate, error) {
   if(!predicate(value)) {
@@ -20,6 +21,7 @@ export const is = {
   number    : n => typeof n === 'number',
   element   : n => typeof n === 'object' && n.nodeType && n.nodeName,
   array     : Array.isArray,
+  object    : isPlainObject,
   jsx       : v => v && v.$$typeof && v.$$typeof.toString() === 'Symbol(react.element)',
   sagaType  : v => v === 'takeEvery' || v === 'takeLatest',
 };
