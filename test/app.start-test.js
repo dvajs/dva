@@ -66,4 +66,30 @@ describe('app.start', () => {
     }).toThrow(/Reducers should not be conflict with namespace in model/);
   });
 
+  it('opts.middlewares', () => {
+    let count = 0;
+    const countMiddleware = ({dispatch, getState}) => next => action => {
+      count = count + 1;
+    };
+
+    const app = dva();
+    app.router(({history}) => <div />);
+    app.start({
+      middlewares: [countMiddleware]
+    });
+
+    app.store.dispatch({ type: 'test' });
+    expect(count).toEqual(1);
+  });
+
+  it('opts.middlewares: throw error if not array', () => {
+    const app = dva();
+    app.router(({history}) => <div />);
+    expect(() => {
+      app.start({
+        middlewares: 0,
+      });
+    }).toThrow(/Middlewares must be array/);
+  });
+
 });

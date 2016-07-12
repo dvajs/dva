@@ -33,7 +33,7 @@ function dva() {
     _routes = routes;
   }
 
-  // start
+  // start usage:
   // app.start();
   // app.start(container);
   // app.start(container, opts);
@@ -72,9 +72,12 @@ function dva() {
     }
 
     // Create store.
+    if (is.notUndef(opts.middlewares)) {
+      check(opts.middlewares, is.array, 'Middlewares must be array.')
+    }
     const sagaMiddleware = createSagaMiddleware();
     const enhancer = compose(
-      applyMiddleware(sagaMiddleware),
+      applyMiddleware.apply(null, [sagaMiddleware, ...(opts.middlewares || [])]),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     );
     const initialState = opts.initialState || {};
