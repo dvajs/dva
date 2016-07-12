@@ -7,6 +7,8 @@ import { hashHistory, Router } from 'react-router';
 import { syncHistoryWithStore, routerReducer as routing } from 'react-router-redux';
 import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';
+import document from 'global/document';
+import window from 'global/window';
 import { is, check, warn } from './utils';
 
 function dva() {
@@ -31,10 +33,16 @@ function dva() {
     _routes = routes;
   }
 
+  // start
+  // app.start();
+  // app.start(container);
+  // app.start(container, opts);
+  // app.start(opts);
   function start(container, opts = {}) {
     // If no container supplied, return jsx element.
-    if (is.object(container)) {
-      opts = container;
+    if (arguments.length === 0
+      || (arguments.length === 1 && is.object(container))) {
+      opts = container || {};
       container = null;
     } else {
       check(container, is.element, 'Container must be DOMElement.');
@@ -52,7 +60,7 @@ function dva() {
     });
 
     // Support external reducers.
-    if (opts.reducers) {
+    if (is.notUndef(opts.reducers)) {
       check(opts.reducers, is.object, 'Reducers must be object.');
       check(opts.reducers, optReducers => {
         for (var k in optReducers) {
@@ -75,7 +83,11 @@ function dva() {
     );
 
     // Sync history.
-    const history = syncHistoryWithStore(opts.history || hashHistory, store);
+    // Use try catch because it don't work in test.
+    let history;
+    try {
+      history = syncHistoryWithStore(opts.history || hashHistory, store);
+    } catch (e) {}
 
     // Start saga.
     sagaMiddleware.run(rootSaga);
