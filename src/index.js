@@ -32,7 +32,13 @@ function dva() {
   }
 
   function start(container, opts = {}) {
-    check(container, is.element, 'Container must be DOMElement.');
+    // If no container supplied, return jsx element.
+    if (is.object(container)) {
+      opts = container;
+      container = null;
+    } else {
+      check(container, is.element, 'Container must be DOMElement.');
+    }
     check(_routes, is.notUndef, 'Routes is not defined.');
 
     // Get sagas and reducers from model.
@@ -88,9 +94,16 @@ function dva() {
     });
 
     // Render and hmr.
-    render();
-    if (opts.hmr) {
-      opts.hmr(render);
+    if (container) {
+      render();
+      if (opts.hmr) {
+        opts.hmr(render);
+      }
+    } else {
+      const Routes = _routes;
+      return <Provider store={store}>
+        <Routes history={history} />
+      </Provider>;
     }
 
     function getWatcher(k, saga) {
