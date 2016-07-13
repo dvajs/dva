@@ -23,7 +23,7 @@ export const is = {
   array     : Array.isArray,
   object    : isPlainObject,
   jsx       : v => v && v.$$typeof && v.$$typeof.toString() === 'Symbol(react.element)',
-  sagaType  : v => v === 'takeEvery' || v === 'takeLatest',
+  sagaType  : v => v === 'takeEvery' || v === 'takeLatest' || v === 'watcher',
 };
 
 /**

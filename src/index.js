@@ -132,12 +132,14 @@ function dva() {
       if (Array.isArray(saga)) {
         [_saga, opts] = saga;
         opts = opts || {};
-        check(opts.type, is.sagaType, 'Type must be takeEvery or takeLatest');
-        warn(opts.type, v => v === 'takeLatest', 'takeEvery is the default type, no need to set it by opts');
+        check(opts.type, is.sagaType, 'Type must be takeEvery, takeLatest or watcher');
+        warn(opts.type, v => v !== 'takeEvery', 'takeEvery is the default type, no need to set it by opts');
         _type = opts.type;
       }
 
-      if (_type === 'takeEvery') {
+      if (_type === 'watcher') {
+        return _saga;
+      } else if (_type === 'takeEvery') {
         return function*() {
           yield takeEvery(k, _saga);
         };
