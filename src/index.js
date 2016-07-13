@@ -55,7 +55,12 @@ function dva() {
       routing,
     };
     _models.forEach(model => {
-      reducers[model.namespace] = handleActions(model.reducers || {}, model.state);
+      if (is.array(model.reducers)) {
+        const [_reducers, enhancer] = model.reducers;
+        reducers[model.namespace] = enhancer(handleActions(_reducers || {}, model.state));
+      } else {
+        reducers[model.namespace] = handleActions(model.reducers || {}, model.state);
+      }
       sagas = { ...sagas, ...model.effects };
     });
 
