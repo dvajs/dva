@@ -1,4 +1,10 @@
 
+## `0.0.7`
+
+- [7](https://github.com/sorrycc/dva/pull/7) - API Improvement 
+
+详见：[API 设计](https://github.com/sorrycc/dva/issues/7)
+
 ## `0.0.6`
 
 - Change `app.start(elementId)` to `app.start(domElement)`
