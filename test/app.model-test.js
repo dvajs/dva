@@ -143,4 +143,38 @@ describe('app.model', () => {
 
     expect(errors).toEqual(['effect error']);
   });
+
+  it('subscriptions: onError', (done) => {
+    const errors = [];
+    const app = dva({
+      onError: (error) => {
+        errors.push(error.message);
+      },
+    });
+
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        ['add']: function*() {
+          throw new Error('effect error');
+        },
+      },
+      subscriptions: [
+        function(dispatch, done) {
+          dispatch({ type: 'add' });
+          setTimeout(() => {
+            done('subscription error');
+          }, 100);
+        },
+      ]
+    });
+    app.router(({history}) => <div />);
+    app.start();
+
+    setTimeout(() => {
+      expect(errors).toEqual(['effect error', 'subscription error']);
+      done();
+    }, 500);
+  });
 });

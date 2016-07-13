@@ -12,8 +12,14 @@ import window from 'global/window';
 import { is, check, warn } from './utils';
 
 function dva(opts = {}) {
-  const onError = opts.onError || function(error) {
-    throw new Error(error);
+  const onError = opts.onError || function(err) {
+    throw new Error(err);
+  };
+  const onErrorWrapper = (err) => {
+    if (err) {
+      if (is.string(err)) err = new Error(err);
+      onError(err);
+    }
   };
 
   let _routes = null;
@@ -105,16 +111,14 @@ function dva(opts = {}) {
     sagaMiddleware.run(rootSaga);
 
     // Handle subscriptions.
-    document.addEventListener('DOMContentLoaded', () => {
-      _models.forEach(({ subscriptions }) => {
-        if (subscriptions) {
-          check(subscriptions, is.array, 'Subscriptions must be an array');
-          subscriptions.forEach(sub => {
-            check(sub, is.func, 'Subscription must be an function');
-            sub(store.dispatch);
-          });
-        }
-      });
+    _models.forEach(({ subscriptions }) => {
+      if (subscriptions) {
+        check(subscriptions, is.array, 'Subscriptions must be an array');
+        subscriptions.forEach(sub => {
+          check(sub, is.func, 'Subscription must be an function');
+          sub(store.dispatch, onErrorWrapper);
+        });
+      }
     });
 
     // Render and hmr.
