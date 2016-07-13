@@ -7,7 +7,6 @@ import { hashHistory, Router } from 'react-router';
 import { syncHistoryWithStore, routerReducer as routing } from 'react-router-redux';
 import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';
-import document from 'global/document';
 import window from 'global/window';
 import { is, check, warn } from './utils';
 
