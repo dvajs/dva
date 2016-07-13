@@ -119,4 +119,28 @@ describe('app.model', () => {
       done();
     }, 100);
   });
+
+  it('effects: onError', () => {
+    const errors = [];
+    const app = dva({
+      onError: (error) => {
+        errors.push(error.message);
+      },
+    });
+
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        ['add']: function*() {
+          throw new Error('effect error');
+        },
+      }
+    });
+    app.router(({history}) => <div />);
+    app.start();
+    app.store.dispatch({type: 'add'});
+
+    expect(errors).toEqual(['effect error']);
+  });
 });

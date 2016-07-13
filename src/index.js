@@ -11,7 +11,11 @@ import document from 'global/document';
 import window from 'global/window';
 import { is, check, warn } from './utils';
 
-function dva() {
+function dva(opts = {}) {
+  const onError = opts.onError || function(error) {
+    throw new Error(error);
+  };
+
   let _routes = null;
   const _models = [];
   const app = {
@@ -33,7 +37,7 @@ function dva() {
     _routes = routes;
   }
 
-  // start usage:
+  // Usage:
   // app.start();
   // app.start(container);
   // app.start(container, opts);
@@ -137,15 +141,23 @@ function dva() {
         _type = opts.type;
       }
 
+      function* sagaWithErrorCatch() {
+        try {
+          yield _saga();
+        } catch (e) {
+          onError(e);
+        }
+      }
+
       if (_type === 'watcher') {
-        return _saga;
+        return sagaWithErrorCatch;
       } else if (_type === 'takeEvery') {
         return function*() {
-          yield takeEvery(k, _saga);
+          yield takeEvery(k, sagaWithErrorCatch);
         };
       } else {
         return function*() {
-          yield takeLatest(k, _saga);
+          yield takeLatest(k, sagaWithErrorCatch);
         };
       }
     }
