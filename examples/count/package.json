@@ -5,7 +5,8 @@
   "dependencies": {
     "dva": "^0.0.6",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react-dom": "^15.1.0",
+    "history": "^2.0.1"
   },
   "devDependencies": {
     "atool-build": "^0.7.6",

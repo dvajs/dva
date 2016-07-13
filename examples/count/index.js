@@ -1,6 +1,7 @@
 import React from 'react';
 import dva, { connect } from 'dva';
-import { Router, Route } from 'dva/router';
+import { Router, Route, useRouterHistory } from 'dva/router';
+import { createHashHistory } from 'history';
 
 // 1. Initialize
 const app = dva();
@@ -36,4 +37,6 @@ app.router(({ history }) =>
 );
 
 // 5. Start
-app.start(document.getElementById('root'));
+app.start(document.getElementById('root'), {
+  history: useRouterHistory(createHashHistory)({ queryKey: false }),
+});
