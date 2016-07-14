@@ -1,4 +1,8 @@
 
+## `0.0.8`
+
+- [12](https://github.com/sorrycc/dva/pull/12) - Fix effects can't pass arguments
+
 ## `0.0.7`
 
 - [7](https://github.com/sorrycc/dva/pull/7) - API Improvement 
