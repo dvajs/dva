@@ -144,9 +144,9 @@ function dva(opts = {}) {
         _type = opts.type;
       }
 
-      function* sagaWithErrorCatch() {
+      function* sagaWithErrorCatch(...arg) {
         try {
-          yield _saga();
+          yield _saga(...arg);
         } catch (e) {
           onError(e);
         }

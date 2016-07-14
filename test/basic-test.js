@@ -15,15 +15,15 @@ describe('basic', () => {
         },
       },
       effects: {
-        ['add']: function*() {
-          sagaCount = sagaCount + 1;
+        ['add']: function*({ payload }) {
+          sagaCount = sagaCount + payload;
         },
       }
     });
     app.router(({history}) => <div />);
     app.start();
 
-    app.store.dispatch({ type: 'add' });
+    app.store.dispatch({type: 'add', payload: 1});
     expect(app.store.getState().count).toEqual(1);
     expect(sagaCount).toEqual(1);
   });
