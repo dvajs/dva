@@ -17,13 +17,13 @@ describe('app.model', () => {
     app.model({
       namespace: 'count',
       state: 3,
-      reducers: [{
+      reducers: [ {
         ['add'](state) {
           return state + 1;
-        },
-      }, enhancer],
+        }
+      }, enhancer ]
     });
-    app.router(({history}) => <div />);
+    app.router(({ history }) => <div />);
     app.start();
 
     app.store.dispatch({ type: 'square' });
@@ -39,15 +39,16 @@ describe('app.model', () => {
       state: 0,
       effects: {
         ['add']: function*() {
+          yield 1;
           count = count + 1;
-        },
+        }
       }
     });
-    app.router(({history}) => <div />);
+    app.router(({ history }) => <div />);
     app.start();
 
-    app.store.dispatch({type: 'add'});
-    app.store.dispatch({type: 'add'});
+    app.store.dispatch({ type: 'add' });
+    app.store.dispatch({ type: 'add' });
     expect(count).toEqual(2);
   });
 
@@ -63,20 +64,20 @@ describe('app.model', () => {
       namespace: 'count',
       state: 0,
       effects: {
-        ['add']: [function*() {
+        ['add']: [ function*() {
           yield call(delay, 1);
           count = count + 1;
         }, {
-          type: 'takeLatest',
-        }],
+          type: 'takeLatest'
+        } ]
       }
     });
-    app.router(({history}) => <div />);
+    app.router(({ history }) => <div />);
     app.start();
 
     // Only catch the last one.
-    app.store.dispatch({type: 'add'});
-    app.store.dispatch({type: 'add'});
+    app.store.dispatch({ type: 'add' });
+    app.store.dispatch({ type: 'add' });
 
     setTimeout(() => {
       expect(count).toEqual(1);
@@ -96,23 +97,24 @@ describe('app.model', () => {
       namespace: 'count',
       state: 0,
       effects: {
-        ['addWatcher']: [function*() {
+        ['addWatcher']: [ function*() {
+          /*eslint-disable no-constant-condition*/
           while(true) {
             yield take('add');
             yield delay(1);
             count = count + 1;
           }
         }, {
-          type: 'watcher',
-        }],
+          type: 'watcher'
+        } ]
       }
     });
-    app.router(({history}) => <div />);
+    app.router(({ history }) => <div />);
     app.start();
 
     // Only catch the first one.
-    app.store.dispatch({type: 'add'});
-    app.store.dispatch({type: 'add'});
+    app.store.dispatch({ type: 'add' });
+    app.store.dispatch({ type: 'add' });
 
     setTimeout(() => {
       expect(count).toEqual(1);
@@ -125,7 +127,7 @@ describe('app.model', () => {
     const app = dva({
       onError: (error) => {
         errors.push(error.message);
-      },
+      }
     });
 
     app.model({
@@ -133,15 +135,16 @@ describe('app.model', () => {
       state: 0,
       effects: {
         ['add']: function*() {
+          yield 1;
           throw new Error('effect error');
-        },
+        }
       }
     });
-    app.router(({history}) => <div />);
+    app.router(({ history }) => <div />);
     app.start();
-    app.store.dispatch({type: 'add'});
+    app.store.dispatch({ type: 'add' });
 
-    expect(errors).toEqual(['effect error']);
+    expect(errors).toEqual([ 'effect error' ]);
   });
 
   it('subscriptions: onError', (done) => {
@@ -149,7 +152,7 @@ describe('app.model', () => {
     const app = dva({
       onError: (error) => {
         errors.push(error.message);
-      },
+      }
     });
 
     app.model({
@@ -157,23 +160,24 @@ describe('app.model', () => {
       state: 0,
       effects: {
         ['add']: function*() {
+          yield 1;
           throw new Error('effect error');
-        },
+        }
       },
       subscriptions: [
-        function(dispatch, done) {
+        function (dispatch, done) {
           dispatch({ type: 'add' });
           setTimeout(() => {
             done('subscription error');
           }, 100);
-        },
+        }
       ]
     });
-    app.router(({history}) => <div />);
+    app.router(({ history }) => <div />);
     app.start();
 
     setTimeout(() => {
-      expect(errors).toEqual(['effect error', 'subscription error']);
+      expect(errors).toEqual([ 'effect error', 'subscription error' ]);
       done();
     }, 500);
   });

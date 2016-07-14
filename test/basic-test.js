@@ -12,18 +12,19 @@ describe('basic', () => {
       reducers: {
         ['add'](state) {
           return state + 1;
-        },
+        }
       },
       effects: {
         ['add']: function*({ payload }) {
+          yield 1;
           sagaCount = sagaCount + payload;
-        },
+        }
       }
     });
-    app.router(({history}) => <div />);
+    app.router(({ history }) => <div />);
     app.start();
 
-    app.store.dispatch({type: 'add', payload: 1});
+    app.store.dispatch({ type: 'add', payload: 1 });
     expect(app.store.getState().count).toEqual(1);
     expect(sagaCount).toEqual(1);
   });

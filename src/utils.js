@@ -23,14 +23,12 @@ export const is = {
   array     : Array.isArray,
   object    : isPlainObject,
   jsx       : v => v && v.$$typeof && v.$$typeof.toString() === 'Symbol(react.element)',
-  sagaType  : v => v === 'takeEvery' || v === 'takeLatest' || v === 'watcher',
+  sagaType  : v => v === 'takeEvery' || v === 'takeLatest' || v === 'watcher'
 };
 
-/**
- Print error in a useful way whether in a browser environment
- (with expandable error stack traces), or in a node.js environment
- (text-only log output)
- **/
+// Print error in a useful way whether in a browser environment
+// (with expandable error stack traces), or in a node.js environment
+// (text-only log output)
 export function log(level, message, error) {
   /*eslint-disable no-console*/
   if(typeof window === 'undefined') {

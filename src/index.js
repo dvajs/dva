@@ -11,7 +11,7 @@ import window from 'global/window';
 import { is, check, warn } from './utils';
 
 function dva(opts = {}) {
-  const onError = opts.onError || function(err) {
+  const onError = opts.onError || function (err) {
     throw new Error(err);
   };
   const onErrorWrapper = (err) => {
@@ -27,7 +27,7 @@ function dva(opts = {}) {
     model,
     router,
     start,
-    store: null,
+    store: null
   };
   return app;
 
@@ -61,11 +61,11 @@ function dva(opts = {}) {
     // Get sagas and reducers from model.
     let sagas = {};
     let reducers = {
-      routing,
+      routing
     };
     _models.forEach(model => {
       if (is.array(model.reducers)) {
-        const [_reducers, enhancer] = model.reducers;
+        const [ _reducers, enhancer ] = model.reducers;
         reducers[model.namespace] = enhancer(handleActions(_reducers || {}, model.state));
       } else {
         reducers[model.namespace] = handleActions(model.reducers || {}, model.state);
@@ -77,7 +77,7 @@ function dva(opts = {}) {
     if (is.notUndef(opts.reducers)) {
       check(opts.reducers, is.object, 'Reducers must be object.');
       check(opts.reducers, optReducers => {
-        for (var k in optReducers) {
+        for (let k in optReducers) {
           if (k in reducers) return false;
         }
         return true;
@@ -87,11 +87,11 @@ function dva(opts = {}) {
 
     // Create store.
     if (is.notUndef(opts.middlewares)) {
-      check(opts.middlewares, is.array, 'Middlewares must be array.')
+      check(opts.middlewares, is.array, 'Middlewares must be array.');
     }
     const sagaMiddleware = createSagaMiddleware();
     const enhancer = compose(
-      applyMiddleware.apply(null, [sagaMiddleware, ...(opts.middlewares || [])]),
+      applyMiddleware.apply(null, [ sagaMiddleware, ...(opts.middlewares || []) ]),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     );
     const initialState = opts.initialState || {};
@@ -104,7 +104,7 @@ function dva(opts = {}) {
     let history;
     try {
       history = syncHistoryWithStore(opts.history || hashHistory, store);
-    } catch (e) {}
+    } catch (e) { /*eslint-disable no-empty*/ }
 
     // Start saga.
     sagaMiddleware.run(rootSaga);
@@ -128,16 +128,16 @@ function dva(opts = {}) {
       }
     } else {
       const Routes = _routes;
-      return <Provider store={store}>
+      return (<Provider store={store}>
         <Routes history={history} />
-      </Provider>;
+      </Provider>);
     }
 
     function getWatcher(k, saga) {
       let _saga = saga;
       let _type = 'takeEvery';
       if (Array.isArray(saga)) {
-        [_saga, opts] = saga;
+        [ _saga, opts ] = saga;
         opts = opts || {};
         check(opts.type, is.sagaType, 'Type must be takeEvery, takeLatest or watcher');
         warn(opts.type, v => v !== 'takeEvery', 'takeEvery is the default type, no need to set it by opts');
@@ -166,7 +166,7 @@ function dva(opts = {}) {
     }
 
     function* rootSaga() {
-      for (var k in sagas) {
+      for (let k in sagas) {
         if (sagas.hasOwnProperty(k)) {
           const watcher = getWatcher(k, sagas[k]);
           yield fork(watcher);
