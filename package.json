@@ -21,11 +21,11 @@
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha --no-timeouts",
-    "debug": "./node_modules/.bin/mocha --require babel-core/register --no-timeouts",
+    "test": "nyc mocha --compilers js:babel-register --no-timeouts",
+    "debug": "mocha --compilers js:babel-register --no-timeouts",
     "build": "rm -rf lib && babel src --out-dir lib --ignore __tests__",
-    "lint": "eslint --ext .js src",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "lint": "eslint --ext .js src test",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "global": "^4.3.0",
@@ -45,21 +45,21 @@
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-eslint": "^6.0.4",
-    "babel-istanbul": "^0.11.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "~6.5.0",
+    "babel-register": "^6.9.0",
     "babel-runtime": "^6.9.2",
-    "browserify": "^13.0.1",
-    "browserify-shim": "^3.8.12",
     "coveralls": "^2.11.9",
     "envify": "^3.4.1",
-    "eslint": "^2.7.0",
-    "eslint-config-airbnb": "^9.0.1",
+    "eslint": "^3.0.1",
+    "eslint-config-rackt": "^1.1.1",
+    "eslint-plugin-react": "^5.2.2",
     "expect": "^1.20.2",
     "mocha": "^2.5.3",
+    "nyc": "^7.0.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "uglifyjs": "^2.4.10"
@@ -78,10 +78,6 @@
   "pre-commit": [
     "lint"
   ],
-  "browserify-shim": {
-    "react": "global:React",
-    "react-dom": "global:ReactDOM"
-  },
   "files": [
     "lib",
     "src",
