@@ -1,8 +1,12 @@
 import isPlainObject from 'is-plain-object';
 
 export function check(value, predicate, error) {
-  if(!predicate(value)) {
-    //log('error', 'uncaught at check', error);
+  try {
+    if (!predicate(value)) {
+      //log('error', 'uncaught at check', error);
+      throw new Error(error);
+    }
+  } catch (e) {
     throw new Error(error);
   }
 }
