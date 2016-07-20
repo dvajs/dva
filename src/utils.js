@@ -1,12 +1,8 @@
 import isPlainObject from 'is-plain-object';
 
 export function check(value, predicate, error) {
-  try {
-    if (!predicate(value)) {
-      //log('error', 'uncaught at check', error);
-      throw new Error(error);
-    }
-  } catch (e) {
+  if(!predicate(value)) {
+    //log('error', 'uncaught at check', error);
     throw new Error(error);
   }
 }
@@ -23,7 +19,7 @@ export const is = {
   string    : f => typeof f === 'string',
   func      : f => typeof f === 'function',
   number    : n => typeof n === 'number',
-  element   : n => typeof n === 'object' && n.nodeType && n.nodeName,
+  element   : n => typeof n === 'object' && n !== null && n.nodeType && n.nodeName,
   array     : Array.isArray,
   object    : isPlainObject,
   jsx       : v => v && v.$$typeof && v.$$typeof.toString() === 'Symbol(react.element)',
