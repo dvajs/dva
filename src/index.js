@@ -12,7 +12,7 @@ import { is, check, warn } from './utils';
 
 function dva(opts = {}) {
   const onError = opts.onError || function (err) {
-    throw new Error(err.stack);
+    throw new Error(err.stack || err);
   };
   const onErrorWrapper = (err) => {
     if (err) {
