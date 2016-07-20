@@ -19,7 +19,7 @@ export const is = {
   string    : f => typeof f === 'string',
   func      : f => typeof f === 'function',
   number    : n => typeof n === 'number',
-  element   : n => typeof n === 'object' && n.nodeType && n.nodeName,
+  element   : n => typeof n === 'object' && n !== null && n.nodeType && n.nodeName,
   array     : Array.isArray,
   object    : isPlainObject,
   jsx       : v => v && v.$$typeof && v.$$typeof.toString() === 'Symbol(react.element)',
