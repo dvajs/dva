@@ -1,4 +1,8 @@
 
+## `0.0.9`
+
+- app.start: Return react component so that can be rendered by ReactDOM
+
 ## `0.0.8`
 
 - [12](https://github.com/sorrycc/dva/pull/12) - Fix effects can't pass arguments
