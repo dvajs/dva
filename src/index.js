@@ -128,9 +128,11 @@ function dva(opts = {}) {
       }
     } else {
       const Routes = _routes;
-      return (<Provider store={store}>
-        <Routes history={history} />
-      </Provider>);
+      return () => (
+        <Provider store={store}>
+          <Routes history={history} />
+        </Provider>
+      );
     }
 
     function getWatcher(k, saga) {
