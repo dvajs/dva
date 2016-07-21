@@ -5,7 +5,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/sorrycc/dva.svg?style=flat)](https://coveralls.io/r/sorrycc/dva)
 [![NPM downloads](http://img.shields.io/npm/dm/dva.svg?style=flat)](https://npmjs.org/package/dva)
 
-Front-end framework based on react, redux, react-redux, react-router and redux-saga, inspired by elm and choo.
+Dis-frustrated lightweight front-end framework based on react, redux, react-router and redux-saga.
 
 ----
 
