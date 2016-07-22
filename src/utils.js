@@ -32,7 +32,7 @@ export const is = {
 export function log(level, message, error) {
   /*eslint-disable no-console*/
   if(typeof window === 'undefined') {
-    console.log(`redux-saga ${level}: ${message}\n${(error && error.stack) || error}`);
+    console.log(`dva ${level}: ${message}\n${(error && error.stack) || error}`);
   } else {
     console[level].call(console, message, error);
   }
