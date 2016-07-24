@@ -23,7 +23,7 @@
   "scripts": {
     "test": "nyc mocha --compilers js:babel-register --no-timeouts",
     "debug": "mocha --compilers js:babel-register --no-timeouts",
-    "build": "rm -rf lib && babel src --out-dir lib --ignore __tests__",
+    "build": "rm -rf lib && babel src --out-dir lib",
     "lint": "eslint --ext .js src test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
