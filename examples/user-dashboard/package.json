@@ -1,4 +1,8 @@
 {
+  "private": true,
+  "entry": {
+    "index": "./src/index.js"
+  },
   "dependencies": {
     "antd": "^1.6.1",
     "dva": "^0.0.6",

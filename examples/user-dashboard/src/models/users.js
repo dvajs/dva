@@ -1,7 +1,7 @@
 import { take, call, put, fork, cancel, select } from 'dva/effects';
 import { hashHistory } from 'dva/router';
 import { message } from 'antd';
-import { create, remove, update, query } from '../services/users';
+import { create, remove, update, query } from '../../services/users';
 
 export default {
 

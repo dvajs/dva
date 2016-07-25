@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
-import MainLayout from '../layouts/MainLayout/MainLayout';
+import MainLayout from '../components/MainLayout/MainLayout';
 import styles from './Users.less';
 import UserList from '../components/Users/UserList';
 import UserSearch from '../components/Users/UserSearch';

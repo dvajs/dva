@@ -6,10 +6,10 @@ import dva, { connect } from 'dva';
 const app = dva();
 
 // 2. Model
-app.model(require('../models/users'));
+app.model(require('./models/users'));
 
 // 3. Router
-app.router(require('../routes'));
+app.router(require('./router'));
 
 // 4. Start
 app.start(document.getElementById('root'), {
@@ -23,17 +23,17 @@ app.start(document.getElementById('root'), {
         const RedBox = require('redbox-react');
         ReactDOM.render(<RedBox error={error} />, document.getElementById('root'));
       };
-      const newRender = (routes) => {
+      const newRender = (router) => {
         try {
-          renderNormally(routes);
+          renderNormally(router);
         } catch (error) {
           console.error('error', error);
           renderException(error);
         }
       };
-      module.hot.accept('../routes', () => {
-        const routes = require('../routes');
-        newRender(routes);
+      module.hot.accept('./router', () => {
+        const router = require('./router');
+        newRender(router);
       });
     }
   },
