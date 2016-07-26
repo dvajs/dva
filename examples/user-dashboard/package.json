@@ -9,9 +9,7 @@
     "js-cookie": "^2.1.2",
     "qs": "^6.2.0",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "react-router": "^2.5.2",
-    "redbox-react": "^1.2.10"
+    "react-dom": "^15.1.0"
   },
   "devDependencies": {
     "atool-build": "^0.7.6",
