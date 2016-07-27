@@ -1,1 +1,1 @@
-module.exports = require('isomorphic-fetch');
+module.exports = require('whatwg-fetch');
