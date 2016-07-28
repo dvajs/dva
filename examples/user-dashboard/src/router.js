@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Router, Route, IndexRoute, Link } from 'react-router';
+import { Router, Route, IndexRoute, Link } from 'dva/router';
 import HomePage from './routes/HomePage';
 import NotFound from './routes/NotFound';
 import Users from './routes/Users';
