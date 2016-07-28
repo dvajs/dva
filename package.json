@@ -23,7 +23,7 @@
   "scripts": {
     "test": "nyc mocha --compilers js:babel-register --no-timeouts",
     "debug": "mocha --compilers js:babel-register --no-timeouts",
-    "build": "rm -rf lib && babel src --out-dir lib",
+    "build": "rimraf lib && babel src --out-dir lib",
     "lint": "eslint --ext .js src test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -64,6 +64,7 @@
     "nyc": "^7.1.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
+    "rimraf": "^2.5.4",
     "uglifyjs": "^2.4.10"
   },
   "babel": {
