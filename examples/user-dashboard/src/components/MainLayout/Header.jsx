@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
-import { Link } from 'react-router';
+import { Link } from 'dva/router';
 
 function getMenuKeyFromUrl(pathname) {
   let key = '';
