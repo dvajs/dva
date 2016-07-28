@@ -33,7 +33,6 @@ export default {
 
   effects: {
     *['users/query']({ payload, pop }) {
-      throw new Error('111');
       try {
         const routing = yield select(({ routing }) => routing);
         const newQuery = {
