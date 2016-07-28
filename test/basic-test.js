@@ -2,6 +2,7 @@ import expect from 'expect';
 import dva from '../src/index';
 
 describe('basic', () => {
+
   it('basic', () => {
     let sagaCount = 0;
 
