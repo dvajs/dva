@@ -1,7 +1,7 @@
 import { take, call, put, fork, cancel, select } from 'dva/effects';
 import { hashHistory } from 'dva/router';
 import { message } from 'antd';
-import { create, remove, update, query } from '../../services/users';
+import { create, remove, update, query } from '../services/users';
 
 export default {
 
@@ -32,7 +32,8 @@ export default {
   ],
 
   effects: {
-    ['users/query']: function*({ payload, pop }) {
+    *['users/query']({ payload, pop }) {
+      throw new Error('111');
       try {
         const routing = yield select(({ routing }) => routing);
         const newQuery = {
@@ -64,7 +65,7 @@ export default {
         message.error(err);
       }
     },
-    ['users/delete']: function*({ payload }) {
+    *['users/delete']({ payload }) {
       try {
         yield put({ type: 'users/showLoading' });
         const { jsonResult } = yield call(remove, { id: payload });
@@ -78,7 +79,7 @@ export default {
         message.error(err);
       }
     },
-    ['users/create']: function*({ payload }) {
+    *['users/create']({ payload }) {
       try {
         yield put({ type: 'users/hideModal' });
         yield put({ type: 'users/showLoading' });
@@ -93,7 +94,7 @@ export default {
         message.error(err);
       }
     },
-    ['users/update']: function*({ payload }) {
+    *['users/update']({ payload }) {
       try {
         yield put({ type: 'users/hideModal' });
         yield put({ type: 'users/showLoading' });
