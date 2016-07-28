@@ -10,10 +10,10 @@ export const hooks = {
 
 export function use(plugin) {
   check(plugin, is.object, 'Plugin must be plain object.');
-  for (const k in plugin) {
-    if (plugin.hasOwnProperty(k)) {
-      check(k, k => k in hooks, `Unknown plugin property: ${k}.`);
-      hooks[k].push(plugin[k]);
+  for (const key in plugin) {
+    if (plugin.hasOwnProperty(key)) {
+      check(key, key => key in hooks, `Unknown plugin property: ${key}.`);
+      hooks[key].push(plugin[key]);
     }
   }
 }
@@ -31,7 +31,7 @@ export function apply(key, defaultHandler) {
     } else if (defaultHandler) {
       defaultHandler.apply(null, args);
     }
-  }
+  };
 }
 
 export function get(key) {
