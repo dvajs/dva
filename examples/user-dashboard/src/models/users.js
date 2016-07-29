@@ -1,4 +1,4 @@
-import { take, call, put, fork, cancel, select } from 'dva/effects';
+import { call, put, select } from 'dva/effects';
 import { hashHistory } from 'dva/router';
 import { message } from 'antd';
 import { create, remove, update, query } from '../services/users';
@@ -11,42 +11,47 @@ export default {
     list: [],
     loading: false,
     total: null,
-    current: null,
+    current: 1,
     currentItem: {},
     modalVisible: false,
-    modalType: 'create',
+    modalType: 'create'
   },
 
   subscriptions: [
-    function(dispatch) {
+    function (dispatch) {
       hashHistory.listen(location => {
-        if (location.action === 'POP' && location.pathname === '/users') {
+        if (location.pathname === '/users') {
           dispatch({
             type: 'users/query',
-            payload: location.query,
-            pop: true,
+            payload: location.query
           });
         }
       });
-    },
+    }
   ],
 
   effects: {
-    *['users/query']({ payload, pop }) {
+    *['users/query']({ payload }) {
       try {
-        const routing = yield select(({ routing }) => routing);
+        const route = yield select(({ routing }) => routing);
+
+        const routerQuery = { ...route.locationBeforeTransitions.query };
+
+        if (!routerQuery.keyword) {
+          delete routerQuery.keyword;
+          delete routerQuery.field;
+        }
+
         const newQuery = {
-          ...routing.locationBeforeTransitions.query,
-          page: undefined,
-          ...payload,
+          ...routerQuery,
+          page: 1,
+          ...payload
         };
 
-        if (!pop) {
-          yield call(hashHistory.push, {
-            pathname: '/users',
-            query: newQuery,
-          });
-        }
+        yield call(hashHistory.push, {
+          pathname: '/users',
+          query: newQuery
+        });
 
         yield put({ type: 'users/showLoading' });
         const { jsonResult } = yield call(query, newQuery);
@@ -56,8 +61,8 @@ export default {
             payload: {
               list: jsonResult.data,
               total: jsonResult.page.total,
-              current: jsonResult.page.current,
-            },
+              current: jsonResult.page.current
+            }
           });
         }
       } catch (err) {
@@ -71,7 +76,7 @@ export default {
         if (jsonResult && jsonResult.success) {
           yield put({
             type: 'users/delete/success',
-            payload,
+            payload
           });
         }
       } catch (err) {
@@ -86,7 +91,7 @@ export default {
         if (jsonResult && jsonResult.success) {
           yield put({
             type: 'users/create/success',
-            payload,
+            payload
           });
         }
       } catch (err) {
@@ -103,17 +108,17 @@ export default {
         if (jsonResult && jsonResult.success) {
           yield put({
             type: 'users/update/success',
-            payload: newUser,
+            payload: newUser
           });
         }
       } catch (err) {
         message.error(err);
       }
-    },
+    }
   },
 
   reducers: {
-    ['users/showLoading'](state, action) {
+    ['users/showLoading'](state) {
       return { ...state, loading: true };
     },
     ['users/create/success'](state, action) {
@@ -141,9 +146,9 @@ export default {
     ['users/showModal'](state, action) {
       return { ...state, ...action.payload, modalVisible: true };
     },
-    ['users/hideModal'](state, action) {
+    ['users/hideModal'](state) {
       return { ...state, modalVisible: false };
-    },
-  },
+    }
+  }
 
-}
+};

@@ -11,12 +11,12 @@ if (!global.tableListData) {
       'id|+1': 1,
       name: '@cname',
       'age|11-99': 1,
-      address: '@region',
+      address: '@region'
     }],
     page: {
       total: 100,
-      current: 1,
-    },
+      current: 1
+    }
   });
   tableListData = data;
   global.tableListData = tableListData;
@@ -26,51 +26,66 @@ if (!global.tableListData) {
 
 module.exports = {
 
-  'GET /api/users': function (req, res) {
-
+  'GET /api/users' (req, res) {
     const page = qs.parse(req.query);
-    const pageSize = page.pageSize || 7;
+    const pageSize = page.pageSize || 10;
     const currentPage = page.page || 1;
 
-    let data = tableListData.data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    let data;
+    let newPage;
 
-    tableListData.page.current = currentPage * 1;
+    let newData = tableListData.data.concat();
 
     if (page.field) {
-      data = data.filter(function(item) {
+      const d = newData.filter(function (item) {
         return item[page.field].indexOf(page.keyword) > -1;
       });
+
+      data = d.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+      newPage = {
+        current: currentPage * 1,
+        total: d.length
+      };
+    } else {
+      data = tableListData.data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+      tableListData.page.current = currentPage * 1;
+      newPage = {
+        current: tableListData.page.current,
+        total: tableListData.page.total
+      };
     }
+
 
     setTimeout(function () {
       res.json({
         success: true,
-        data: data,
-        page: tableListData.page,
+        data,
+        page: newPage
       });
     }, 500);
   },
 
-  'POST /api/users': function (req, res) {
+  'POST /api/users' (req, res) {
     setTimeout(function () {
       const newData = qs.parse(req.body);
 
-      newData.id = String(+new Date);
+      newData.id = tableListData.data.length + 1;
       tableListData.data.unshift(newData);
 
       tableListData.page.total = tableListData.data.length;
+      tableListData.page.current = 1;
 
       global.tableListData = tableListData;
       res.json({
         success: true,
         data: tableListData.data,
-        page: tableListData.page,
+        page: tableListData.page
       });
     }, 500);
-
   },
 
-  'DELETE /api/users': function (req, res) {
+  'DELETE /api/users' (req, res) {
     setTimeout(function () {
       const deleteItem = qs.parse(req.body);
 
@@ -87,12 +102,12 @@ module.exports = {
       res.json({
         success: true,
         data: tableListData.data,
-        page: tableListData.page,
+        page: tableListData.page
       });
     }, 500);
   },
 
-  'PUT /api/users': function (req, res) {
+  'PUT /api/users' (req, res) {
     setTimeout(function () {
       const editItem = qs.parse(req.body);
 
@@ -107,9 +122,9 @@ module.exports = {
       res.json({
         success: true,
         data: tableListData.data,
-        page: tableListData.page,
+        page: tableListData.page
       });
     }, 500);
-  },
+  }
 
 };
