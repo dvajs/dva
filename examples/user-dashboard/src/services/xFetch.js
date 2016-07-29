@@ -33,7 +33,7 @@ function xFetch(url, options) {
   const opts = { ...options };
   opts.headers = {
     ...opts.headers,
-    authorization: cookie.get('authorization') || '',
+    authorization: cookie.get('authorization') || ''
   };
 
   return fetch(url, opts)

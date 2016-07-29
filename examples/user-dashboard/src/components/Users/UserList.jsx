@@ -1,58 +1,37 @@
-import React, { Component, PropTypes } from 'react';
-import { Table, Icon, Popconfirm, Modal, Pagination, message } from 'antd';
+import React, { PropTypes } from 'react';
+import { Table, Popconfirm, Pagination } from 'antd';
 
 function UserList({
-  dispatch, total, current, loading, dataSource,
-}) {
-  function handleChange(page) {
-    dispatch({
-      type: 'users/query',
-      payload: { page },
-    });
-  }
-
-  function handleDelete(id) {
-    dispatch({
-      type: 'users/delete',
-      payload: id,
-    });
-  }
-
-  function handleShowEditModal(currentItem) {
-    dispatch({
-      type: 'users/showModal',
-      payload: {
-        modalType: 'update',
-        currentItem,
-      },
-    });
-  }
-
+  total, current, loading, dataSource,
+  onPageChange,
+  onDeleteItem,
+  onEditItem
+  }) {
   const columns = [{
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
-    render: (text) => <a href="#">{text}</a>,
+    render: (text) => <a href="#">{text}</a>
   }, {
     title: '年龄',
     dataIndex: 'age',
-    key: 'age',
+    key: 'age'
   }, {
     title: '住址',
     dataIndex: 'address',
-    key: 'address',
+    key: 'address'
   }, {
     title: '操作',
     key: 'operation',
     render: (text, record) => (
       <p>
-        <a onClick={handleShowEditModal.bind(this, record)}>编辑</a>
+        <a onClick={() => onEditItem(record)}>编辑</a>
         &nbsp;
-        <Popconfirm title="确定要删除吗？" onConfirm={handleDelete.bind(this, record.id)}>
+        <Popconfirm title="确定要删除吗？" onConfirm={() => onDeleteItem(record.id)}>
           <a>删除</a>
         </Popconfirm>
       </p>
-    ),
+    )
   }];
 
   return (
@@ -69,10 +48,20 @@ function UserList({
         total={total}
         current={current}
         pageSize={10}
-        onChange={handleChange}
+        onChange={onPageChange}
       />
     </div>
   );
 }
+
+UserList.propTypes = {
+  onPageChange: PropTypes.func,
+  onDeleteItem: PropTypes.func,
+  onEditItem: PropTypes.func,
+  dataSource: PropTypes.array,
+  loading: PropTypes.any,
+  total: PropTypes.any,
+  current: PropTypes.any
+};
 
 export default UserList;
