@@ -9,17 +9,10 @@ import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';
 import window from 'global/window';
 import { is, check, warn } from './utils';
+import { use, apply, get } from './plugin';
 
 function dva(opts = {}) {
-  const onError = opts.onError || function (err) {
-    throw new Error(err);
-  };
-  const onErrorWrapper = (err) => {
-    if (err) {
-      if (is.string(err)) err = new Error(err);
-      onError(err);
-    }
-  };
+  use(opts);
 
   let _routes = null;
   const _models = [];
@@ -27,6 +20,7 @@ function dva(opts = {}) {
     model,
     router,
     start,
+    use,
     store: null
   };
   return app;
@@ -58,6 +52,17 @@ function dva(opts = {}) {
     }
     check(_routes, is.notUndef, 'Routes is not defined.');
 
+    // Handle onError.
+    const onError = apply('onError', function(err) {
+      throw new Error(err.stack || err);
+    });
+    const onErrorWrapper = (err) => {
+      if (err) {
+        if (is.string(err)) err = new Error(err);
+        onError(err);
+      }
+    };
+
     // Get sagas and reducers from model.
     let sagas = {};
     let reducers = {
@@ -74,30 +79,32 @@ function dva(opts = {}) {
     });
 
     // Support external reducers.
-    if (is.notUndef(opts.reducers)) {
-      check(opts.reducers, is.object, 'Reducers must be object.');
-      check(opts.reducers, optReducers => {
-        for (let k in optReducers) {
-          if (k in reducers) return false;
-        }
-        return true;
-      }, 'Reducers should not be conflict with namespace in model.');
-      reducers = { ...reducers, ...opts.reducers };
-    }
+    const extraReducers = get('extraReducers');
+    check(extraReducers, extraReducers => {
+      for (let k in extraReducers) {
+        if (k in reducers) return false;
+      }
+      return true;
+    }, 'extraReducers should not be conflict with namespace in model.');
+    reducers = { ...reducers, ...extraReducers };
 
     // Create store.
-    if (is.notUndef(opts.middlewares)) {
-      check(opts.middlewares, is.array, 'Middlewares must be array.');
-    }
+    const extraMiddlewares = get('onAction');
     const sagaMiddleware = createSagaMiddleware();
     const enhancer = compose(
-      applyMiddleware.apply(null, [ sagaMiddleware, ...(opts.middlewares || []) ]),
+      applyMiddleware.apply(null, [ sagaMiddleware, ...(extraMiddlewares || []) ]),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     );
     const initialState = opts.initialState || {};
     const store = app.store = createStore(
       combineReducers(reducers), initialState, enhancer
     );
+
+    // Handle onStateChange.
+    const listeners = get('onStateChange');
+    for (const listener of listeners) {
+      store.subscribe(listener);
+    }
 
     // Sync history.
     // Use try catch because it don't work in test.
@@ -123,9 +130,7 @@ function dva(opts = {}) {
     // Render and hmr.
     if (container) {
       render();
-      if (opts.hmr) {
-        opts.hmr(render);
-      }
+      apply('onHmr')(render);
     } else {
       const Routes = _routes;
       return () => (

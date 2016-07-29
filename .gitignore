@@ -5,3 +5,4 @@ lib
 dist
 coverage
 .nyc_output
+npm-debug.log
