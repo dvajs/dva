@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
 import { hashHistory, Router } from 'react-router';
-import { syncHistoryWithStore, routerReducer as routing } from 'react-router-redux';
+import { routerMiddleware, syncHistoryWithStore, routerReducer as routing } from 'react-router-redux';
 import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';
 import window from 'global/window';
@@ -88,11 +88,18 @@ function dva(opts = {}) {
     }, 'extraReducers should not be conflict with namespace in model.');
     reducers = { ...reducers, ...extraReducers };
 
+    // Sync history.
+    // Use try catch because it don't work in test.
+    let history;
+    try {
+      history = syncHistoryWithStore(opts.history || hashHistory, store);
+    } catch (e) { /*eslint-disable no-empty*/ }
+
     // Create store.
     const extraMiddlewares = get('onAction');
     const sagaMiddleware = createSagaMiddleware();
     const enhancer = compose(
-      applyMiddleware.apply(null, [ sagaMiddleware, ...(extraMiddlewares || []) ]),
+      applyMiddleware.apply(null, [ routerMiddleware(history), sagaMiddleware, ...(extraMiddlewares || []) ]),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     );
     const initialState = opts.initialState || {};
@@ -105,13 +112,6 @@ function dva(opts = {}) {
     for (const listener of listeners) {
       store.subscribe(listener);
     }
-
-    // Sync history.
-    // Use try catch because it don't work in test.
-    let history;
-    try {
-      history = syncHistoryWithStore(opts.history || hashHistory, store);
-    } catch (e) { /*eslint-disable no-empty*/ }
 
     // Start saga.
     sagaMiddleware.run(rootSaga);
