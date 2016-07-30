@@ -22,6 +22,7 @@
     "dora-plugin-webpack-hmr": "^0.1.0",
     "glob": "^7.0.5",
     "mockjs": "^1.0.1-beta2",
+    "redbox-react": "^1.2.10",
     "babel-eslint": "^6.0.4",
     "eslint": "^2.13.1",
     "eslint-config-airbnb": "^9.0.1",
