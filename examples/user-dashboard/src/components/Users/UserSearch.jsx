@@ -23,7 +23,7 @@ function UserSearch({
   return (
     <div className={styles.normal}>
       <div className={styles.search}>
-        <Form inline onSubmit={handleSubmit} form={form}>
+        <Form inline onSubmit={handleSubmit}>
           <Form.Item>
             <Select {...getFieldProps('field', { initialValue: field || 'name' })}>
               <Select.Option value="name">名字</Select.Option>

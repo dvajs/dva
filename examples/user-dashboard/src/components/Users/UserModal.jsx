@@ -57,7 +57,7 @@ function UserModal({
 
   return (
     <Modal {...modalOpts}>
-      <Form horizontal form={form}>
+      <Form horizontal>
         <FormItem
           label="姓名："
           hasFeedback
