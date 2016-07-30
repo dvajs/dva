@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 import { Menu, Icon } from 'antd';
 import { Link } from 'dva/router';
 
@@ -6,6 +6,7 @@ function getMenuKeyFromUrl(pathname) {
   let key = '';
   try {
     key = pathname.match(/\/([^\/]*)/i)[1];
+    /* eslint no-empty:0 */
   } catch (e) {}
   return key;
 }
@@ -32,5 +33,9 @@ function Header({ location }) {
     </Menu>
   );
 }
+
+Header.propTypes = {
+  location: PropTypes.object,
+};
 
 export default Header;

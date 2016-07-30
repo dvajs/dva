@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import { Router, Route, IndexRoute, Link } from 'dva/router';
+import React, { PropTypes } from 'react';
 import styles from './MainLayout.less';
 import Header from './Header';
 
@@ -18,6 +17,7 @@ function MainLayout({ children, location }) {
 
 MainLayout.propTypes = {
   children: PropTypes.element.isRequired,
+  location: PropTypes.object,
 };
 
 export default MainLayout;

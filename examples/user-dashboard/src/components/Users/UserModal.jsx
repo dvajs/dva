@@ -1,24 +1,23 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Form, Input, Modal } from 'antd';
 const FormItem = Form.Item;
 
 const formItemLayout = {
   labelCol: {
-    span: 6,
+    span: 6
   },
   wrapperCol: {
-    span: 14,
-  },
+    span: 14
+  }
 };
 
-function UserModal({ dispatch, visible, form, item = {}, type }) {
-  const { getFieldProps } = form;
+function UserModal({
+  visible, form, item = {},
+  onOk,
+  onCancel,
+  }) {
 
-  function handleCancel() {
-    dispatch({
-      type: 'users/hideModal',
-    });
-  }
+  const { getFieldProps } = form;
 
   function handleOk() {
     form.validateFields((errors) => {
@@ -27,10 +26,8 @@ function UserModal({ dispatch, visible, form, item = {}, type }) {
       }
 
       const data = { ...form.getFieldsValue(), key: item.key };
-      dispatch({
-        type: `users/${type}`,
-        payload: data,
-      });
+
+      onOk(data);
     });
   }
 
@@ -46,7 +43,7 @@ function UserModal({ dispatch, visible, form, item = {}, type }) {
     const rules = [{
       required: true,
       message,
-      validator,
+      validator
     }];
     return getFieldProps(key, { rules, initialValue: item[key] || '' });
   }
@@ -55,32 +52,32 @@ function UserModal({ dispatch, visible, form, item = {}, type }) {
     title: '修改用户',
     visible,
     onOk: handleOk,
-    onCancel: handleCancel,
+    onCancel,
   };
 
   return (
-    <Modal { ...modalOpts }>
+    <Modal {...modalOpts}>
       <Form horizontal form={form}>
         <FormItem
           label="姓名："
           hasFeedback
-          { ...formItemLayout }
+          {...formItemLayout}
         >
-          <Input { ...getFieldPropsBy('name', '不能为空') } />
+          <Input {...getFieldPropsBy('name', '不能为空')} />
         </FormItem>
         <FormItem
           label="年龄："
           hasFeedback
-          { ...formItemLayout }
+          {...formItemLayout}
         >
-          <Input type="age" { ...getFieldPropsBy('age', '年龄不合法', checkNumber) } />
+          <Input type="age" {...getFieldPropsBy('age', '年龄不合法', checkNumber)} />
         </FormItem>
         <FormItem
           label="住址："
           hasFeedback
-          { ...formItemLayout }
+          {...formItemLayout}
         >
-          <Input type="address" { ...getFieldPropsBy('address', '不能为空') } />
+          <Input type="address" {...getFieldPropsBy('address', '不能为空')} />
         </FormItem>
       </Form>
     </Modal>
@@ -88,6 +85,11 @@ function UserModal({ dispatch, visible, form, item = {}, type }) {
 }
 
 UserModal.propTypes = {
+  visible: PropTypes.any,
+  form: PropTypes.object,
+  item: PropTypes.object,
+  onOk: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 export default Form.create()(UserModal);
