@@ -3,7 +3,7 @@
     "index": "./index.js"
   },
   "dependencies": {
-    "dva": "^0.0.6",
+    "dva": "^0.0.10",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   },
