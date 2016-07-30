@@ -1,5 +1,6 @@
 import fetch from 'dva/fetch';
 import cookie from 'js-cookie';
+import fetch2 from 'whatwg-fetch';
 
 const errorMessages = (res) => `${res.status} ${res.statusText}`;
 

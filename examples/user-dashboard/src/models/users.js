@@ -32,87 +32,74 @@ export default {
 
   effects: {
     *['users/query']({ payload }) {
-      try {
-        const route = yield select(({ routing }) => routing);
+      const route = yield select(({ routing }) => routing);
+      console.log(route);
+      let routerQuery = {};
+      if (route && route.locationBeforeTransitions && route.locationBeforeTransitions.query) {
+        routerQuery = {...route.locationBeforeTransitions.query};
+      }
 
-        const routerQuery = { ...route.locationBeforeTransitions.query };
+      if (!routerQuery.keyword) {
+        delete routerQuery.keyword;
+        delete routerQuery.field;
+      }
 
-        if (!routerQuery.keyword) {
-          delete routerQuery.keyword;
-          delete routerQuery.field;
-        }
+      const newQuery = {
+        ...routerQuery,
+        page: 1,
+        ...payload
+      };
 
-        const newQuery = {
-          ...routerQuery,
-          page: 1,
-          ...payload
-        };
+      yield call(hashHistory.push, {
+        pathname: '/users',
+        query: newQuery
+      });
 
-        yield call(hashHistory.push, {
-          pathname: '/users',
-          query: newQuery
+      yield put({ type: 'users/showLoading' });
+      const { jsonResult } = yield call(query, newQuery);
+      if (jsonResult) {
+        yield put({
+          type: 'users/query/success',
+          payload: {
+            list: jsonResult.data,
+            total: jsonResult.page.total,
+            current: jsonResult.page.current
+          }
         });
-
-        yield put({ type: 'users/showLoading' });
-        const { jsonResult } = yield call(query, newQuery);
-        if (jsonResult) {
-          yield put({
-            type: 'users/query/success',
-            payload: {
-              list: jsonResult.data,
-              total: jsonResult.page.total,
-              current: jsonResult.page.current
-            }
-          });
-        }
-      } catch (err) {
-        message.error(err);
       }
     },
     *['users/delete']({ payload }) {
-      try {
-        yield put({ type: 'users/showLoading' });
-        const { jsonResult } = yield call(remove, { id: payload });
-        if (jsonResult && jsonResult.success) {
-          yield put({
-            type: 'users/delete/success',
-            payload
-          });
-        }
-      } catch (err) {
-        message.error(err);
+      yield put({ type: 'users/showLoading' });
+      const { jsonResult } = yield call(remove, { id: payload });
+      if (jsonResult && jsonResult.success) {
+        yield put({
+          type: 'users/delete/success',
+          payload
+        });
       }
     },
     *['users/create']({ payload }) {
-      try {
-        yield put({ type: 'users/hideModal' });
-        yield put({ type: 'users/showLoading' });
-        const { jsonResult } = yield call(create, payload);
-        if (jsonResult && jsonResult.success) {
-          yield put({
-            type: 'users/create/success',
-            payload
-          });
-        }
-      } catch (err) {
-        message.error(err);
+      yield put({ type: 'users/hideModal' });
+      yield put({ type: 'users/showLoading' });
+      const { jsonResult } = yield call(create, payload);
+      if (jsonResult && jsonResult.success) {
+        yield put({
+          type: 'users/create/success',
+          payload
+        });
       }
     },
     *['users/update']({ payload }) {
-      try {
-        yield put({ type: 'users/hideModal' });
-        yield put({ type: 'users/showLoading' });
-        const id = yield select(({ users }) => users.currentItem.id);
-        const newUser = { ...payload, id };
-        const { jsonResult } = yield call(update, newUser);
-        if (jsonResult && jsonResult.success) {
-          yield put({
-            type: 'users/update/success',
-            payload: newUser
-          });
-        }
-      } catch (err) {
-        message.error(err);
+      yield put({ type: 'users/hideModal' });
+      yield put({ type: 'users/showLoading' });
+      const id = yield select(({ users }) => users.currentItem.id);
+      const newUser = { ...payload, id };
+      const { jsonResult } = yield call(update, newUser);
+      if (jsonResult && jsonResult.success) {
+        yield put({
+          type: 'users/update/success',
+          payload: newUser
+        });
       }
     }
   },

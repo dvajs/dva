@@ -1,4 +1,8 @@
 
+## `0.0.11`
+
+- Fix fetch and router don't work
+
 ## `0.0.10`
 
 - [28](https://github.com/dvajs/dva/pull/28), Support plugin with `app.use` 
