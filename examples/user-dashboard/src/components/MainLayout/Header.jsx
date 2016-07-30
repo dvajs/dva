@@ -28,7 +28,7 @@ function Header({ location }) {
         <Link to="/page-you-dont-know"><Icon type="frown-circle" />404</Link>
       </Menu.Item>
       <Menu.Item key="antd">
-        <a href="http://ant.design/" target="_blank">ant.design</a>
+        <a href="https://github.com/dvajs/dva" target="_blank">dva</a>
       </Menu.Item>
     </Menu>
   );

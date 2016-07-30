@@ -56,22 +56,22 @@ export default {
       });
 
       yield put({ type: 'users/showLoading' });
-      const { jsonResult } = yield call(query, newQuery);
-      if (jsonResult) {
+      const { data } = yield call(query, newQuery);
+      if (data) {
         yield put({
           type: 'users/query/success',
           payload: {
-            list: jsonResult.data,
-            total: jsonResult.page.total,
-            current: jsonResult.page.current
+            list: data.data,
+            total: data.page.total,
+            current: data.page.current
           }
         });
       }
     },
     *['users/delete']({ payload }) {
       yield put({ type: 'users/showLoading' });
-      const { jsonResult } = yield call(remove, { id: payload });
-      if (jsonResult && jsonResult.success) {
+      const { data } = yield call(remove, { id: payload });
+      if (data && data.success) {
         yield put({
           type: 'users/delete/success',
           payload
@@ -81,8 +81,8 @@ export default {
     *['users/create']({ payload }) {
       yield put({ type: 'users/hideModal' });
       yield put({ type: 'users/showLoading' });
-      const { jsonResult } = yield call(create, payload);
-      if (jsonResult && jsonResult.success) {
+      const { data } = yield call(create, payload);
+      if (data && data.success) {
         yield put({
           type: 'users/create/success',
           payload
@@ -94,8 +94,8 @@ export default {
       yield put({ type: 'users/showLoading' });
       const id = yield select(({ users }) => users.currentItem.id);
       const newUser = { ...payload, id };
-      const { jsonResult } = yield call(update, newUser);
-      if (jsonResult && jsonResult.success) {
+      const { data } = yield call(update, newUser);
+      if (data && data.success) {
         yield put({
           type: 'users/update/success',
           payload: newUser
