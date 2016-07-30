@@ -1,4 +1,10 @@
 
+## `0.0.10`
+
+- [28](https://github.com/dvajs/dva/pull/28), Support plugin with `app.use` 
+- Export api from react-router-redux, so we can use actions like `push`, `go`, `replace`, ...
+- Use whatwg-fetch instead of isomorphic-fetch
+
 ## `0.0.9`
 
 - app.start: Return react component so that can be rendered by ReactDOM
