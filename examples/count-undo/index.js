@@ -6,7 +6,13 @@ import undoable, { ActionCreators } from 'redux-undo';
 
 // 1. Initialize
 const app = dva({
-  onReducer: undoable,
+  onReducer: reducer => {
+    return (state, action) => {
+      const undoOpts = {};
+      const newState = undoable(reducer, undoOpts)(state, action);
+      return { ...newState, routing: newState.present.routing };
+    };
+  },
 });
 
 // 2. Model
