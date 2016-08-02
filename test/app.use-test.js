@@ -9,6 +9,7 @@ describe('app.use', () => {
     hooks.onStateChange = [];
     hooks.onAction = [];
     hooks.onHmr = [];
+    hooks.onReducer = [];
     hooks.extraReducers = [];
   });
 
@@ -57,5 +58,22 @@ describe('app.use', () => {
 
     app.store.dispatch({ type: 'test' });
     expect(count).toEqual(1);
+  });
+
+  it('onReducer', () => {
+    let count = 0;
+
+    const undo = r => state => ({ present: r(state) });
+    const app = dva({
+      onReducer: undo,
+    });
+    app.model({
+      namespace: 'count',
+      state: 0,
+    });
+    app.router(({ history }) => <div />);
+    app.start();
+
+    expect(app.store.getState().present.count).toEqual(0);
   });
 });
