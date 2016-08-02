@@ -92,6 +92,7 @@ function dva(opts = {}) {
 
     // Create store.
     const extraMiddlewares = get('onAction');
+    const reducerEnhancer = get('onReducer');
     const sagaMiddleware = createSagaMiddleware();
     const enhancer = compose(
       applyMiddleware.apply(null, [ routerMiddleware(_history), sagaMiddleware, ...(extraMiddlewares || []) ]),
@@ -99,7 +100,7 @@ function dva(opts = {}) {
     );
     const initialState = opts.initialState || {};
     const store = app.store = createStore(
-      combineReducers(reducers), initialState, enhancer
+      reducerEnhancer(combineReducers(reducers)), initialState, enhancer
     );
 
     // Handle onStateChange.
