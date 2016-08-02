@@ -1,4 +1,8 @@
 
+## `0.0.12`
+
+- [31](https://github.com/dvajs/dva/pull/31), Add onReducer hook to support reducer enhancer
+
 ## `0.0.11`
 
 - Fix fetch and router don't work
