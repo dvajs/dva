@@ -6,6 +6,7 @@ export const hooks = {
   onAction: [],
   onHmr: [],
   extraReducers: [],
+  onReducer: [],
 };
 
 export function use(plugin) {
@@ -42,6 +43,13 @@ export function get(key) {
       ret = { ...ret, ...reducerObj };
     }
     return ret;
+  } else if (key === 'onReducer') {
+    return function(reducer) {
+      for (const reducerEnhancer of hooks[key]) {
+        reducer = reducerEnhancer(reducer);
+      }
+      return reducer;
+    }
   } else {
     return hooks[key];
   }

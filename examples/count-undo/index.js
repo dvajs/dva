@@ -5,21 +5,29 @@ import { createHashHistory } from 'history';
 import undoable, { ActionCreators } from 'redux-undo';
 
 // 1. Initialize
-const app = dva();
+const app = dva({
+  onReducer: reducer => {
+    return (state, action) => {
+      const undoOpts = {};
+      const newState = undoable(reducer, undoOpts)(state, action);
+      return { ...newState, routing: newState.present.routing };
+    };
+  },
+});
 
 // 2. Model
 app.model({
   namespace: 'count',
   state: 0,
-  reducers: [{
+  reducers: {
     ['count/add'  ](count) { return count + 1 },
     ['count/minus'](count) { return count - 1 },
-  }, undoable],
+  },
 });
 
 // 3. View
-const App = connect(({ count }) => ({
-  count: count.present,
+const App = connect(state => ({
+  count: state.present.count,
 }))(function(props) {
   return (
     <div>
