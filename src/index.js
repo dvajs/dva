@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
-import { hashHistory, Router } from 'react-router';
+import { hashHistory, Router, match } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore, routerReducer as routing } from 'react-router-redux';
 import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';
@@ -112,23 +112,34 @@ function dva(opts = {}) {
     // Start saga.
     sagaMiddleware.run(rootSaga);
 
-    // Handle subscriptions.
-    _models.forEach(({ subscriptions }) => {
-      if (subscriptions) {
-        check(subscriptions, is.array, 'Subscriptions must be an array');
-        subscriptions.forEach(sub => {
-          check(sub, is.func, 'Subscription must be an function');
-          sub(store.dispatch, onErrorWrapper);
-        });
-      }
-    });
-
     // Sync history.
     // Use try catch because it don't work in test.
     let history;
     try {
       history = syncHistoryWithStore(_history, store);
     } catch (e) { /*eslint-disable no-empty*/ }
+
+    const oldHistoryListen = history.listen;
+    const routes = _routes({history});
+    history.listen = callback => {
+      oldHistoryListen.call(history, location => {
+        match({location, routes}, (error, _, state) => {
+          if (error) throw new Error(error);
+          callback(location, state);
+        });
+      });
+    };
+
+    // Handle subscriptions.
+    _models.forEach(({ subscriptions }) => {
+      if (subscriptions) {
+        check(subscriptions, is.array, 'Subscriptions must be an array');
+        subscriptions.forEach(sub => {
+          check(sub, is.func, 'Subscription must be an function');
+          sub({dispatch: store.dispatch, history}, onErrorWrapper);
+        });
+      }
+    });
 
     // Render and hmr.
     if (container) {
