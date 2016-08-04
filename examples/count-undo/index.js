@@ -1,6 +1,7 @@
 import React from 'react';
-import dva, { connect } from 'dva';
-import { Router, Route, useRouterHistory } from 'dva/router';
+import dva from '../../src/index';
+import { connect } from '../../index';
+import { Router, Route, useRouterHistory } from '../../router';
 import { createHashHistory } from 'history';
 import undoable, { ActionCreators } from 'redux-undo';
 

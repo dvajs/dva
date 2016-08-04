@@ -1,9 +1,10 @@
 import './index.html';
 import React from 'react';
-import dva, { connect } from 'dva';
-import { put, call } from 'dva/effects';
-import { Router, Route, hashHistory } from 'dva/router';
-import fetch from 'dva/fetch';
+import dva from '../../src/index';
+import { connect } from '../../index';
+import { Router, Route, useRouterHistory } from '../../router';
+import { put, call } from '../../effects';
+import fetch from '../../fetch';
 import styles from './index.less';
 import SearchInput from './components/SearchInput';
 import FriendList from './components/FriendList';
