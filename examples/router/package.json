@@ -1,0 +1,37 @@
+{
+  "private": true,
+  "entry": {
+    "index": "./index.js"
+  },
+  "dependencies": {
+    "atool-build": "^0.7.6",
+    "babel-plugin-transform-runtime": "^6.8.0",
+    "babel-runtime": "^6.9.2",
+    "path-to-regexp": "^1.5.3",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.2",
+    "dora": "0.3.x",
+    "dora-plugin-livereload": "^0.4.0",
+    "dora-plugin-proxy": "^0.7.0",
+    "dora-plugin-webpack": "0.6.x",
+    "eslint": "^2.12.0",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.8.1",
+    "eslint-plugin-jsx-a11y": "^1.4.2",
+    "eslint-plugin-react": "^5.1.1",
+    "pre-commit": "1.x"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "scripts": {
+    "build": "atool-build",
+    "lint": "eslint --ext .js,.jsx src/",
+    "start": "dora --plugins \"proxy,webpack?disableNpmInstall,livereload?enableJs=false&injectHost=127.0.0.1\"",
+    "test": "echo \"no\""
+  }
+}
