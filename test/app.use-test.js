@@ -1,17 +1,7 @@
 import expect from 'expect';
 import dva from '../src/index';
-import { hooks } from '../src/plugin';
 
 describe('app.use', () => {
-
-  afterEach(() => {
-    hooks.onError = [];
-    hooks.onStateChange = [];
-    hooks.onAction = [];
-    hooks.onHmr = [];
-    hooks.onReducer = [];
-    hooks.extraReducers = [];
-  });
 
   it('extraReducers', () => {
     const reducers = {
