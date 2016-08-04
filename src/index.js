@@ -9,10 +9,11 @@ import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';
 import window from 'global/window';
 import { is, check, warn } from './utils';
-import { use, apply, get } from './plugin';
+import Plugin from './plugin';
 
 function dva(opts = {}) {
-  use(opts);
+  const plugin = new Plugin();
+  plugin.use(opts);
 
   let _routes = null;
   const _models = [];
@@ -20,7 +21,7 @@ function dva(opts = {}) {
     model,
     router,
     start,
-    use,
+    use: plugin.use.bind(plugin),
     store: null
   };
   return app;
@@ -53,7 +54,7 @@ function dva(opts = {}) {
     check(_routes, is.notUndef, 'Routes is not defined.');
 
     // Handle onError.
-    const onError = apply('onError', function(err) {
+    const onError = plugin.apply('onError', function(err) {
       throw new Error(err.stack || err);
     });
     const onErrorWrapper = (err) => {
@@ -79,7 +80,7 @@ function dva(opts = {}) {
     });
 
     // Support external reducers.
-    const extraReducers = get('extraReducers');
+    const extraReducers = plugin.get('extraReducers');
     check(extraReducers, extraReducers => {
       for (let k in extraReducers) {
         if (k in reducers) return false;
@@ -91,8 +92,8 @@ function dva(opts = {}) {
     const _history = opts.history || hashHistory;
 
     // Create store.
-    const extraMiddlewares = get('onAction');
-    const reducerEnhancer = get('onReducer');
+    const extraMiddlewares = plugin.get('onAction');
+    const reducerEnhancer = plugin.get('onReducer');
     const sagaMiddleware = createSagaMiddleware();
     const enhancer = compose(
       applyMiddleware.apply(null, [ routerMiddleware(_history), sagaMiddleware, ...(extraMiddlewares || []) ]),
@@ -104,7 +105,7 @@ function dva(opts = {}) {
     );
 
     // Handle onStateChange.
-    const listeners = get('onStateChange');
+    const listeners = plugin.get('onStateChange');
     for (const listener of listeners) {
       store.subscribe(listener);
     }
@@ -144,7 +145,7 @@ function dva(opts = {}) {
     // Render and hmr.
     if (container) {
       render();
-      apply('onHmr')(render);
+      plugin.apply('onHmr')(render);
     } else {
       const Routes = _routes;
       return () => (
