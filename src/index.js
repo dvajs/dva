@@ -117,18 +117,18 @@ function dva(opts = {}) {
     let history;
     try {
       history = syncHistoryWithStore(_history, store);
-    } catch (e) { /*eslint-disable no-empty*/ }
 
-    const oldHistoryListen = history.listen;
-    const routes = _routes({history});
-    history.listen = callback => {
-      oldHistoryListen.call(history, location => {
-        match({location, routes}, (error, _, state) => {
-          if (error) throw new Error(error);
-          callback(location, state);
+      const oldHistoryListen = history.listen;
+      const routes = _routes({history});
+      history.listen = callback => {
+        oldHistoryListen.call(history, location => {
+          match({location, routes}, (error, _, state) => {
+            if (error) throw new Error(error);
+            callback(location, state);
+          });
         });
-      });
-    };
+      };
+    } catch (e) { /*eslint-disable no-empty*/ }
 
     // Handle subscriptions.
     _models.forEach(({ subscriptions }) => {

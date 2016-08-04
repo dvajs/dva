@@ -165,7 +165,7 @@ describe('app.model', () => {
         }
       },
       subscriptions: [
-        function (dispatch, done) {
+        function ({ dispatch }, done) {
           dispatch({ type: 'add' });
           setTimeout(() => {
             done('subscription error');
