@@ -1,4 +1,9 @@
 
+## `0.0.13`
+
+- **Break Change:** [32](https://github.com/dvajs/dva/pull/32) - Improve subscription, with api break change 
+- [33](https://github.com/dvajs/dva/pull/33) - Change plugin from singleton to class, so won't break with multiple dva instance
+
 ## `0.0.12`
 
 - [31](https://github.com/dvajs/dva/pull/31), Add onReducer hook to support reducer enhancer
