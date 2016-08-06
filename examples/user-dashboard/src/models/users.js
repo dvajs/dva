@@ -1,5 +1,5 @@
 import { call, put, select } from 'dva/effects';
-import { hashHistory } from 'dva/router';
+import { hashHistory, routerRedux } from 'dva/router';
 import { message } from 'antd';
 import { create, remove, update, query } from '../services/users';
 
@@ -18,8 +18,8 @@ export default {
   },
 
   subscriptions: [
-    function (dispatch) {
-      hashHistory.listen(location => {
+    function ({ dispatch, history }) {
+      history.listen(location => {
         if (location.pathname === '/users') {
           dispatch({
             type: 'users/query',
@@ -33,7 +33,6 @@ export default {
   effects: {
     *['users/query']({ payload }) {
       const route = yield select(({ routing }) => routing);
-      console.log(route);
       let routerQuery = {};
       if (route && route.locationBeforeTransitions && route.locationBeforeTransitions.query) {
         routerQuery = {...route.locationBeforeTransitions.query};

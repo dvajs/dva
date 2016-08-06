@@ -6,29 +6,29 @@
   "dependencies": {
     "antd": "^1.6.1",
     "dva": "^0.0.13",
-    "js-cookie": "^2.1.2",
     "qs": "^6.2.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   },
   "devDependencies": {
     "atool-build": "^0.7.6",
+    "babel-eslint": "^6.0.4",
     "babel-plugin-antd": "^0.4.0",
+    "babel-plugin-dva-hmr": "^0.1.0",
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-runtime": "^6.9.2",
     "dora": "0.3.x",
     "dora-plugin-proxy": "^0.7.0",
     "dora-plugin-webpack": "0.6.x",
     "dora-plugin-webpack-hmr": "^0.1.0",
-    "glob": "^7.0.5",
-    "mockjs": "^1.0.1-beta2",
-    "redbox-react": "^1.2.10",
-    "babel-eslint": "^6.0.4",
     "eslint": "^2.13.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.1",
     "eslint-plugin-jsx-a11y": "^1.4.2",
-    "eslint-plugin-react": "^5.1.1"
+    "eslint-plugin-react": "^5.1.1",
+    "glob": "^7.0.5",
+    "mockjs": "^1.0.1-beta2",
+    "redbox-react": "^1.2.10"
   },
   "scripts": {
     "start": "dora --plugins \"proxy,webpack,webpack-hmr\"",
