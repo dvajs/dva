@@ -5,7 +5,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/sorrycc/dva.svg?style=flat)](https://coveralls.io/r/sorrycc/dva)
 [![NPM downloads](http://img.shields.io/npm/dm/dva.svg?style=flat)](https://npmjs.org/package/dva)
 
-Dis-frustrated lightweight front-end framework based on react, redux, react-router and redux-saga.
+Lightweight elm-style framework based on react and redux.
 
 ----
 
