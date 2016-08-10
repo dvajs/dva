@@ -29,6 +29,9 @@ function dva(opts = {}) {
   function checkModel(model) {
     check(model.namespace, is.notUndef, 'Namespace must be defined with model.');
     check(model.namespace, namespace => namespace !== 'routing', 'Namespace should not be routing.');
+    if (model.subscriptions) {
+      check(model.subscriptions, is.array, 'Subscriptions must be an array');
+    }
   }
 
   function model(model) {
@@ -158,10 +161,10 @@ function dva(opts = {}) {
       history = syncHistoryWithStore(_history, store);
 
       const oldHistoryListen = history.listen;
-      const routes = _routes({history});
+      const routes = _routes({ history });
       history.listen = callback => {
         oldHistoryListen.call(history, location => {
-          match({location, routes}, (error, _, state) => {
+          match({ location, routes }, (error, _, state) => {
             if (error) throw new Error(error);
             callback(location, state);
           });
@@ -172,8 +175,7 @@ function dva(opts = {}) {
     // Handle subscriptions.
     const subs = _models.reduce((ret, model) => {
       if (model.subscriptions) {
-        check(model.subscriptions, is.array, 'Subscriptions must be an array');
-        ret = [...ret, ...model.subscriptions];
+        ret = [ ...ret, ...model.subscriptions ];
       }
       return ret;
     }, []);
@@ -238,7 +240,7 @@ function dva(opts = {}) {
     function runSubscriptions(subs) {
       for (const sub of subs) {
         check(sub, is.func, 'Subscription must be an function');
-        sub({dispatch: store.dispatch, history}, onErrorWrapper);
+        sub({ dispatch: store.dispatch, history }, onErrorWrapper);
       }
     }
 
