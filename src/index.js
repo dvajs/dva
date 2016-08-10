@@ -26,9 +26,13 @@ function dva(opts = {}) {
   };
   return app;
 
-  function model(model) {
+  function checkModel(model) {
     check(model.namespace, is.notUndef, 'Namespace must be defined with model.');
     check(model.namespace, namespace => namespace !== 'routing', 'Namespace should not be routing.');
+  }
+
+  function model(model) {
+    checkModel(model);
     _models.push(model);
   }
 
@@ -69,15 +73,19 @@ function dva(opts = {}) {
     let reducers = {
       routing
     };
-    _models.forEach(model => {
-      if (is.array(model.reducers)) {
-        const [ _reducers, enhancer ] = model.reducers;
-        reducers[model.namespace] = enhancer(handleActions(_reducers || {}, model.state));
-      } else {
-        reducers[model.namespace] = handleActions(model.reducers || {}, model.state);
-      }
-      sagas = { ...sagas, ...model.effects };
+    _models.forEach(({ reducers:_reducers, state, namespace, effects }) => {
+      reducers[namespace] = getReducer(_reducers, state);
+      sagas = {...sagas, ...effects};
     });
+
+    function getReducer(reducers, state) {
+      if (is.array(reducers)) {
+        const [ _reducers, enhancer ] = reducers;
+        return enhancer(handleActions(_reducers || {}, state));
+      } else {
+        return handleActions(reducers || {}, state);
+      }
+    }
 
     // Support external reducers.
     const extraReducers = plugin.get('extraReducers');
@@ -87,7 +95,6 @@ function dva(opts = {}) {
       }
       return true;
     }, 'extraReducers should not be conflict with namespace in model.');
-    reducers = { ...reducers, ...extraReducers };
 
     const _history = opts.history || hashHistory;
 
@@ -95,14 +102,32 @@ function dva(opts = {}) {
     const extraMiddlewares = plugin.get('onAction');
     const reducerEnhancer = plugin.get('onReducer');
     const sagaMiddleware = createSagaMiddleware();
-    const enhancer = compose(
-      applyMiddleware.apply(null, [ routerMiddleware(_history), sagaMiddleware, ...(extraMiddlewares || []) ]),
-      window.devToolsExtension ? window.devToolsExtension() : f => f
-    );
+    const devtools = window.devToolsExtension || (() => noop => noop);
+    const middlewares = [
+      routerMiddleware(_history),
+      sagaMiddleware,
+      ...(extraMiddlewares || []),
+    ];
+    const enhancers = [
+      applyMiddleware(...middlewares),
+      devtools(),
+    ];
     const initialState = opts.initialState || {};
     const store = app.store = createStore(
-      reducerEnhancer(combineReducers(reducers)), initialState, enhancer
+      createReducer(),
+      initialState,
+      compose(...enhancers)
     );
+
+    function createReducer(asyncReducers) {
+      return reducerEnhancer(combineReducers({
+        ...reducers,
+        ...extraReducers,
+        ...asyncReducers,
+      }));
+    }
+
+    store.asyncReducers = {};
 
     // Handle onStateChange.
     const listeners = plugin.get('onStateChange');
@@ -132,15 +157,16 @@ function dva(opts = {}) {
     } catch (e) { /*eslint-disable no-empty*/ }
 
     // Handle subscriptions.
-    _models.forEach(({ subscriptions }) => {
-      if (subscriptions) {
-        check(subscriptions, is.array, 'Subscriptions must be an array');
-        subscriptions.forEach(sub => {
-          check(sub, is.func, 'Subscription must be an function');
-          sub({dispatch: store.dispatch, history}, onErrorWrapper);
-        });
+    const subs = _models.reduce((ret, model) => {
+      if (model.subscriptions) {
+        check(model.subscriptions, is.array, 'Subscriptions must be an array');
+        ret = [...ret, ...model.subscriptions];
       }
-    });
+      return ret;
+    }, []);
+    runSubscriptions(subs);
+
+    app.model = injectModel;
 
     // Render and hmr.
     if (container) {
@@ -203,6 +229,28 @@ function dva(opts = {}) {
           <Routes history={history} />
         </Provider>
       ), container);
+    }
+
+    function runSubscriptions(subs) {
+      for (const sub of subs) {
+        check(sub, is.func, 'Subscription must be an function');
+        sub({dispatch: store.dispatch, history}, onErrorWrapper);
+      }
+    }
+
+    function injectModel(model) {
+      checkModel(model);
+
+      // inject reducers
+      store.asyncReducers[model.namespace] = getReducer(model.reducers, model.state);
+      store.replaceReducer(createReducer(store.asyncReducers));
+
+      // inject effects
+
+      // run subscriptions
+      if (model.subscriptions) {
+        runSubscriptions(model.subscriptions);
+      }
     }
   }
 }
