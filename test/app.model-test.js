@@ -207,6 +207,12 @@ describe('app.model', () => {
           return [...state, payload];
         },
       },
+      effects: {
+        *'add'() {
+          yield 1;
+          count = count + 1;
+        },
+      },
       subscriptions: [
         function() {
           count = count + 1;
@@ -222,5 +228,8 @@ describe('app.model', () => {
     const state = app.store.getState();
     expect(state.users).toEqual(['foo']);
     expect(state.tasks).toEqual(['foo']);
+
+    // effects
+    expect(count).toEqual(2);
   });
 });

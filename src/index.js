@@ -69,14 +69,25 @@ function dva(opts = {}) {
     };
 
     // Get sagas and reducers from model.
-    let sagas = {};
+    let sagas = [];
     let reducers = {
       routing
     };
     _models.forEach(({ reducers:_reducers, state, namespace, effects }) => {
       reducers[namespace] = getReducer(_reducers, state);
-      sagas = {...sagas, ...effects};
+      if (effects) sagas.push(getSaga(effects));
     });
+
+    function getSaga(effects) {
+      return function *() {
+        for (let k in effects) {
+          if (effects.hasOwnProperty(k)) {
+            const watcher = getWatcher(k, effects[k]);
+            yield fork(watcher);
+          }
+        }
+      };
+    }
 
     function getReducer(reducers, state) {
       if (is.array(reducers)) {
@@ -127,6 +138,8 @@ function dva(opts = {}) {
       }));
     }
 
+    // extension
+    store.runSaga = sagaMiddleware.run;
     store.asyncReducers = {};
 
     // Handle onStateChange.
@@ -136,7 +149,7 @@ function dva(opts = {}) {
     }
 
     // Start saga.
-    sagaMiddleware.run(rootSaga);
+    sagas.forEach(sagaMiddleware.run);
 
     // Sync history.
     // Use try catch because it don't work in test.
@@ -213,15 +226,6 @@ function dva(opts = {}) {
       }
     }
 
-    function* rootSaga() {
-      for (let k in sagas) {
-        if (sagas.hasOwnProperty(k)) {
-          const watcher = getWatcher(k, sagas[k]);
-          yield fork(watcher);
-        }
-      }
-    }
-
     function render(routes) {
       const Routes = routes || _routes;
       ReactDOM.render((
@@ -246,6 +250,9 @@ function dva(opts = {}) {
       store.replaceReducer(createReducer(store.asyncReducers));
 
       // inject effects
+      if (model.effects) {
+        store.runSaga(getSaga(model.effects));
+      }
 
       // run subscriptions
       if (model.subscriptions) {
