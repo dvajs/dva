@@ -21,8 +21,8 @@
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "nyc mocha --compilers js:babel-register --no-timeouts",
-    "debug": "mocha --compilers js:babel-register --no-timeouts",
+    "test": "nyc mocha --compilers js:babel-register --require ./test/setup.js --no-timeouts",
+    "debug": "mocha --compilers js:babel-register --require ./test/setup.js --no-timeouts",
     "build": "rimraf lib && babel src --out-dir lib",
     "lint": "eslint --ext .js src test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
@@ -60,6 +60,7 @@
     "eslint-config-rackt": "^1.1.1",
     "eslint-plugin-react": "^5.2.2",
     "expect": "^1.20.2",
+    "jsdom": "^9.4.2",
     "mocha": "^2.5.3",
     "nyc": "^7.1.0",
     "react": "^15.2.1",

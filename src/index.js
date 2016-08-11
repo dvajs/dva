@@ -156,21 +156,18 @@ function dva(opts = {}) {
 
     // Sync history.
     // Use try catch because it don't work in test.
-    let history;
-    try {
-      history = syncHistoryWithStore(_history, store);
+    let history = syncHistoryWithStore(_history, store);
 
-      const oldHistoryListen = history.listen;
-      const routes = _routes({ history });
-      history.listen = callback => {
-        oldHistoryListen.call(history, location => {
-          match({ location, routes }, (error, _, state) => {
-            if (error) throw new Error(error);
-            callback(location, state);
-          });
+    const oldHistoryListen = history.listen;
+    const routes = _routes({ history });
+    history.listen = callback => {
+      oldHistoryListen.call(history, location => {
+        match({ location, routes }, (error, _, state) => {
+          if (error) throw new Error(error);
+          callback(location, state);
         });
-      };
-    } catch (e) { /*eslint-disable no-empty*/ }
+      });
+    };
 
     // Handle subscriptions.
     const subs = _models.reduce((ret, model) => {

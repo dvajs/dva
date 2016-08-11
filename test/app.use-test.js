@@ -1,4 +1,5 @@
 import expect from 'expect';
+import React from 'react';
 import dva from '../src/index';
 
 describe('app.use', () => {
@@ -17,7 +18,7 @@ describe('app.use', () => {
       extraReducers: reducers,
     });
     app.router(({ history }) => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
 
     expect(app.store.getState().count).toEqual(0);
     app.store.dispatch({ type: 'add' });
@@ -30,7 +31,7 @@ describe('app.use', () => {
     });
     app.router(({ history }) => <div />);
     expect(() => {
-      app.start();
+      app.start(document.getElementById('root'));
     }).toThrow(/Reducers should not be conflict with namespace in model/);
   });
 

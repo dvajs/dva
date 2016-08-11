@@ -1,4 +1,5 @@
 import expect from 'expect';
+import React from 'react';
 import dva from '../src/index';
 
 describe('basic', () => {
@@ -23,7 +24,7 @@ describe('basic', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
 
     app.store.dispatch({ type: 'add', payload: 1 });
     expect(app.store.getState().count).toEqual(1);
