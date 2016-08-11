@@ -181,4 +181,55 @@ describe('app.model', () => {
       done();
     }, 500);
   });
+
+  it('dynamic model', () => {
+    let count = 0;
+
+    const app = dva();
+    app.model({
+      namespace: 'users',
+      state: [],
+      reducers: {
+        'add'(state, { payload }) {
+          return [...state, payload];
+        },
+      },
+    });
+    app.router(_ => <div />);
+    app.start();
+
+    // inject model
+    app.model({
+      namespace: 'tasks',
+      state: [],
+      reducers: {
+        'add'(state, { payload }) {
+          return [...state, payload];
+        },
+      },
+      effects: {
+        *'add'() {
+          yield 1;
+          count = count + 1;
+        },
+      },
+      subscriptions: [
+        function() {
+          count = count + 1;
+        }
+      ],
+    });
+
+    // subscriptions
+    expect(count).toEqual(1);
+
+    // reducers
+    app.store.dispatch({ type: 'add', payload: 'foo' });
+    const state = app.store.getState();
+    expect(state.users).toEqual(['foo']);
+    expect(state.tasks).toEqual(['foo']);
+
+    // effects
+    expect(count).toEqual(2);
+  });
 });
