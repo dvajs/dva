@@ -1,4 +1,8 @@
 
+## `0.0.14`
+
+- [34](https://github.com/dvajs/dva/pull/34) - Support dynamic load
+
 ## `0.0.13`
 
 - **Break Change:** [32](https://github.com/dvajs/dva/pull/32) - Improve subscription, with api break change 
