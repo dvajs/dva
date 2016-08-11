@@ -55,7 +55,10 @@ describe('app.use', () => {
   it('onReducer', () => {
     let count = 0;
 
-    const undo = r => state => ({ present: r(state) });
+    const undo = r => state => {
+      const newState = r(state);
+      return { present: newState, routing: newState.routing };
+    };
     const app = dva({
       onReducer: undo,
     });
