@@ -36,7 +36,7 @@ describe('app.use', () => {
   });
 
   it('onAction', () => {
-    let count = 0;
+    let count;
     const countMiddleware = ({ dispatch, getState }) => next => action => {
       count = count + 1;
     };
@@ -47,6 +47,7 @@ describe('app.use', () => {
     app.router(({ history }) => <div />);
     app.start();
 
+    count = 0;
     app.store.dispatch({ type: 'test' });
     expect(count).toEqual(1);
   });
