@@ -191,7 +191,7 @@ function dva(opts = {}) {
       const Routes = _routes;
       return () => (
         <Provider store={store}>
-          <Routes history={history} />
+          <Routes history={history} app={app} />
         </Provider>
       );
     }
@@ -232,7 +232,7 @@ function dva(opts = {}) {
       const Routes = routes || _routes;
       ReactDOM.render((
         <Provider store={store}>
-          <Routes history={history} />
+          <Routes history={history} app={app} />
         </Provider>
       ), container);
     }
