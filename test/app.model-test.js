@@ -1,4 +1,5 @@
 import expect from 'expect';
+import React from 'react';
 import dva from '../src/index';
 import { take, call } from '../effects';
 
@@ -24,7 +25,7 @@ describe('app.model', () => {
       }, enhancer ]
     });
     app.router(({ history }) => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
 
     app.store.dispatch({ type: 'square' });
     app.store.dispatch({ type: 'add' });
@@ -45,7 +46,7 @@ describe('app.model', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
 
     app.store.dispatch({ type: 'add' });
     app.store.dispatch({ type: 'add' });
@@ -73,7 +74,7 @@ describe('app.model', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
 
     // Only catch the last one.
     app.store.dispatch({ type: 'add' });
@@ -110,7 +111,7 @@ describe('app.model', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
 
     // Only catch the first one.
     app.store.dispatch({ type: 'add' });
@@ -141,7 +142,7 @@ describe('app.model', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
     app.store.dispatch({ type: 'add' });
 
     expect(errors).toEqual([ 'effect error' ]);
@@ -174,7 +175,7 @@ describe('app.model', () => {
       ]
     });
     app.router(({ history }) => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
 
     setTimeout(() => {
       expect(errors).toEqual([ 'effect error', 'subscription error' ]);
@@ -196,7 +197,7 @@ describe('app.model', () => {
       },
     });
     app.router(_ => <div />);
-    app.start();
+    app.start(document.getElementById('root'));
 
     // inject model
     app.model({
