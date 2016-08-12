@@ -160,10 +160,10 @@ export default function createDva(createOpts) {
       const subs = this._models.reduce((ret, { subscriptions }) => {
         return [ ...ret, ...(subscriptions || [])];
       }, []);
-      runSubscriptions(subs, this, onError);
+      runSubscriptions(subs, this, onErrorWrapper);
 
       // inject model after start
-      this.model = injectModel.bind(this, createReducer, onError);
+      this.model = injectModel.bind(this, createReducer, onErrorWrapper);
 
       // If has container, render; else, return react component
       if (container) {
