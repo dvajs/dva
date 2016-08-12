@@ -27,9 +27,9 @@ describe('app.model', () => {
     app.router(({ history }) => <div />);
     app.start(document.getElementById('root'));
 
-    app.store.dispatch({ type: 'square' });
-    app.store.dispatch({ type: 'add' });
-    expect(app.store.getState().count).toEqual(10);
+    app._store.dispatch({ type: 'square' });
+    app._store.dispatch({ type: 'add' });
+    expect(app._store.getState().count).toEqual(10);
   });
 
   it('effects: type takeEvery', () => {
@@ -48,8 +48,8 @@ describe('app.model', () => {
     app.router(({ history }) => <div />);
     app.start(document.getElementById('root'));
 
-    app.store.dispatch({ type: 'add' });
-    app.store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'add' });
     expect(count).toEqual(2);
   });
 
@@ -77,8 +77,8 @@ describe('app.model', () => {
     app.start(document.getElementById('root'));
 
     // Only catch the last one.
-    app.store.dispatch({ type: 'add' });
-    app.store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'add' });
 
     setTimeout(() => {
       expect(count).toEqual(1);
@@ -114,8 +114,8 @@ describe('app.model', () => {
     app.start(document.getElementById('root'));
 
     // Only catch the first one.
-    app.store.dispatch({ type: 'add' });
-    app.store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'add' });
 
     setTimeout(() => {
       expect(count).toEqual(1);
@@ -143,7 +143,7 @@ describe('app.model', () => {
     });
     app.router(({ history }) => <div />);
     app.start(document.getElementById('root'));
-    app.store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'add' });
 
     expect(errors).toEqual([ 'effect error' ]);
   });
@@ -225,8 +225,8 @@ describe('app.model', () => {
     expect(count).toEqual(1);
 
     // reducers
-    app.store.dispatch({ type: 'add', payload: 'foo' });
-    const state = app.store.getState();
+    app._store.dispatch({ type: 'add', payload: 'foo' });
+    const state = app._store.getState();
     expect(state.users).toEqual(['foo']);
     expect(state.tasks).toEqual(['foo']);
 

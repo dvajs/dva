@@ -20,9 +20,9 @@ describe('app.use', () => {
     app.router(({ history }) => <div />);
     app.start(document.getElementById('root'));
 
-    expect(app.store.getState().count).toEqual(0);
-    app.store.dispatch({ type: 'add' });
-    expect(app.store.getState().count).toEqual(1);
+    expect(app._store.getState().count).toEqual(0);
+    app._store.dispatch({ type: 'add' });
+    expect(app._store.getState().count).toEqual(1);
   });
 
   it('extraReducers: throw error if conflicts', () => {
@@ -32,7 +32,7 @@ describe('app.use', () => {
     app.router(({ history }) => <div />);
     expect(() => {
       app.start(document.getElementById('root'));
-    }).toThrow(/Reducers should not be conflict with namespace in model/);
+    }).toThrow(/app.start: extraReducers is conflict with other reducers/);
   });
 
   it('onAction', () => {
@@ -48,7 +48,7 @@ describe('app.use', () => {
     app.start();
 
     count = 0;
-    app.store.dispatch({ type: 'test' });
+    app._store.dispatch({ type: 'test' });
     expect(count).toEqual(1);
   });
 
@@ -69,6 +69,6 @@ describe('app.use', () => {
     app.router(({ history }) => <div />);
     app.start();
 
-    expect(app.store.getState().present.count).toEqual(0);
+    expect(app._store.getState().present.count).toEqual(0);
   });
 });
