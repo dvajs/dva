@@ -1,4 +1,5 @@
-import { is, check, warn } from './utils';
+import isPlainObject from 'is-plain-object';
+import assert from 'assert';
 
 class Plugin {
 
@@ -14,20 +15,18 @@ class Plugin {
   }
 
   use(plugin) {
-    check(plugin, is.object, 'Plugin must be plain object.');
+    assert.ok(isPlainObject(plugin), 'plugin.use: plugin should be plain object');
     const hooks = this.hooks;
     for (const key in plugin) {
-      if (plugin.hasOwnProperty(key)) {
-        check(key, key => key in hooks, `Unknown plugin property: ${key}.`);
-        hooks[key].push(plugin[key]);
-      }
+      assert(hooks[key], `plugin.use: unknown plugin property: ${key}`);
+      hooks[key].push(plugin[key]);
     }
   }
 
   apply(key, defaultHandler) {
     const hooks = this.hooks;
     const validApplyHooks = ['onError', 'onHmr'];
-    check(key, key => validApplyHooks.indexOf(key) > -1, `Hook ${key} should not be applied.`);
+    assert(validApplyHooks.indexOf(key) > -1, `plugin.apply: hook ${key} cannot be applied`);
     const fns = hooks[key];
 
     return (...args) => {
@@ -43,7 +42,7 @@ class Plugin {
 
   get(key) {
     const hooks = this.hooks;
-    check(key, key => key in hooks, `Hook ${key} should not be got.`);
+    assert(key in hooks, `plugin.get: hook ${key} cannot be got`);
     if (key === 'extraReducers') {
       let ret = {};
       for (const reducerObj of hooks[key]) {
