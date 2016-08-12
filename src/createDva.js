@@ -167,26 +167,26 @@ export default function createDva(createOpts) {
 
       // If has container, render; else, return react component
       if (container) {
-        render(container, store, router, this);
+        render(container, store, this);
         plugin.apply('onHmr')(render);
       } else {
-        return getProvider(store, router, this);
+        return getProvider(store, this);
       }
     }
 
     ////////////////////////////////////
     // Helpers
 
-    function getProvider(store, router, app) {
+    function getProvider(store, app) {
       return () => (
         <Provider store={store}>
-          <router app={app} history={app._history} />
+          { app._router({ app, history: app._history, }) }
         </Provider>
       );
     }
 
-    function render(container, store, router, app) {
-      ReactDOM.render(React.createElement(getProvider(store, router, app)), container);
+    function render(container, store, app) {
+      ReactDOM.render(React.createElement(getProvider(store, app)), container);
     }
 
     function checkModel(model, mobile) {

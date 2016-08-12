@@ -11,6 +11,8 @@
     "dva",
     "ant",
     "react",
+    "react-native",
+    "mobile",
     "redux",
     "redux-saga",
     "elm",
