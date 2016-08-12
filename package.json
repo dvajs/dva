@@ -93,6 +93,7 @@
     "effects.js",
     "router.js",
     "fetch.js",
+    "mobile.js",
     "index.js"
   ]
 }
