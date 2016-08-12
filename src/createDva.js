@@ -154,7 +154,7 @@ export default function createDva(createOpts) {
       sagas.forEach(sagaMiddleware.run);
 
       // setup history
-      if (setupHistory) setupHistory.bind(this, history);
+      if (setupHistory) setupHistory.call(this, history);
 
       // run subscriptions
       const subs = this._models.reduce((ret, { subscriptions }) => {
@@ -167,26 +167,26 @@ export default function createDva(createOpts) {
 
       // If has container, render; else, return react component
       if (container) {
-        render(container, store, this);
-        plugin.apply('onHmr')(render);
+        render(container, store, this, this._router);
+        plugin.apply('onHmr')(render.bind(this, container, store, this));
       } else {
-        return getProvider(store, this);
+        return getProvider(store, this, this._router);
       }
     }
 
     ////////////////////////////////////
     // Helpers
 
-    function getProvider(store, app) {
+    function getProvider(store, app, router) {
       return () => (
         <Provider store={store}>
-          { app._router({ app, history: app._history, }) }
+          { router({ app, history: app._history, }) }
         </Provider>
       );
     }
 
-    function render(container, store, app) {
-      ReactDOM.render(React.createElement(getProvider(store, app)), container);
+    function render(container, store, app, router) {
+      ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
     }
 
     function checkModel(model, mobile) {
