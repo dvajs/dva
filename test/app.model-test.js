@@ -25,7 +25,7 @@ describe('app.model', () => {
       }, enhancer ]
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
     app._store.dispatch({ type: 'square' });
     app._store.dispatch({ type: 'add' });
@@ -46,7 +46,7 @@ describe('app.model', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
     app._store.dispatch({ type: 'add' });
     app._store.dispatch({ type: 'add' });
@@ -74,7 +74,7 @@ describe('app.model', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
     // Only catch the last one.
     app._store.dispatch({ type: 'add' });
@@ -111,7 +111,7 @@ describe('app.model', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
     // Only catch the first one.
     app._store.dispatch({ type: 'add' });
@@ -142,7 +142,7 @@ describe('app.model', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
     app._store.dispatch({ type: 'add' });
 
     expect(errors).toEqual([ 'effect error' ]);
@@ -175,7 +175,7 @@ describe('app.model', () => {
       ]
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
     setTimeout(() => {
       expect(errors).toEqual([ 'effect error', 'subscription error' ]);
@@ -197,7 +197,7 @@ describe('app.model', () => {
       },
     });
     app.router(_ => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
     // inject model
     app.model({

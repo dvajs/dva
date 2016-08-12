@@ -18,7 +18,7 @@ describe('app.use', () => {
       extraReducers: reducers,
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
     expect(app._store.getState().count).toEqual(0);
     app._store.dispatch({ type: 'add' });
@@ -31,7 +31,7 @@ describe('app.use', () => {
     });
     app.router(({ history }) => <div />);
     expect(() => {
-      app.start(document.getElementById('root'));
+      app.start('#root');
     }).toThrow(/app.start: extraReducers is conflict with other reducers/);
   });
 

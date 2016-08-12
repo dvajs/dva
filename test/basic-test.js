@@ -24,7 +24,7 @@ describe('basic', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
     app._store.dispatch({ type: 'add', payload: 1 });
     expect(app._store.getState().count).toEqual(1);
