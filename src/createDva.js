@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
@@ -186,6 +185,7 @@ export default function createDva(createOpts) {
     }
 
     function render(container, store, app, router) {
+      const ReactDOM = require('react-dom');
       ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
     }
 
