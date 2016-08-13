@@ -30,6 +30,7 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "global": "^4.3.0",
     "is-plain-object": "^2.0.1",
     "react-redux": "4.4.x",
