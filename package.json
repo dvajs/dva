@@ -71,17 +71,6 @@
     "rimraf": "^2.5.4",
     "uglifyjs": "^2.4.10"
   },
-  "babel": {
-    "presets": [
-      "es2015",
-      "react",
-      "stage-0"
-    ],
-    "plugins": [
-      "add-module-exports",
-      "transform-runtime"
-    ]
-  },
   "pre-commit": [
     "lint"
   ],
