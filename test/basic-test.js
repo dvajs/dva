@@ -24,10 +24,10 @@ describe('basic', () => {
       }
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'));
+    app.start('#root');
 
-    app.store.dispatch({ type: 'add', payload: 1 });
-    expect(app.store.getState().count).toEqual(1);
+    app._store.dispatch({ type: 'add', payload: 1 });
+    expect(app._store.getState().count).toEqual(1);
     expect(sagaCount).toEqual(1);
   });
 });

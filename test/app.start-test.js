@@ -7,8 +7,8 @@ describe('app.start', () => {
   it('throw error if no routes defined', () => {
     const app = dva();
     expect(() => {
-      app.start(document.getElementById('root'));
-    }).toThrow(/Routes is not defined/);
+      app.start('#root');
+    }).toThrow(/app.start: router should be defined/);
   });
 
   it('opts.initialState', () => {
@@ -18,12 +18,12 @@ describe('app.start', () => {
       state: 0
     });
     app.router(({ history }) => <div />);
-    app.start(document.getElementById('root'), {
+    app.start('#root', {
       initialState: {
         count: 1
       }
     });
-    expect(app.store.getState().count).toEqual(1);
+    expect(app._store.getState().count).toEqual(1);
   });
 
 });
