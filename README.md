@@ -11,7 +11,7 @@ Lightweight elm-style framework based on react and redux.
 
 ## Documents
 
-- [dva 入门：手把手教你用写应用](https://github.com/sorrycc/blog/issues/8)
+- [dva 入门：手把手教你写应用](https://github.com/sorrycc/blog/issues/8)
 - [dva 简介](https://github.com/dvajs/dva/issues/1)
 - [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1) (dva 基于此封装)
 - [subscription 及其适用场景](https://github.com/dvajs/dva/issues/3#issuecomment-229250708)
