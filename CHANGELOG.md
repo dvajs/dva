@@ -1,4 +1,10 @@
 
+## `0.0.15`
+
+- **Break Change:** rename `app.store` to `app._store`
+- Support mobile and react-native ([example](https://github.com/sorrycc/dva-example-react-native))
+- More at [37](https://github.com/dvajs/dva/pull/37)
+
 ## `0.0.14`
 
 - [34](https://github.com/dvajs/dva/pull/34) - Support dynamic load
