@@ -1,4 +1,8 @@
 
+## `0.0.16`
+
+- Fix renderProps undefined when redirecting
+
 ## `0.0.15`
 
 - **Break Change:** rename `app.store` to `app._store`

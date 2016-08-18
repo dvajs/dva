@@ -21,9 +21,10 @@ export default createDva({
     const routes = this._router({ history:h });
     h.listen = callback => {
       listen.call(h, location => {
-        match({ location, routes }, (error, _, state) => {
+        match({ location, routes }, (error, _, renderProps) => {
           if (error) throw new Error(error);
-          callback(location, state);
+          // renderProps is undefined if redirect
+          callback(location, renderProps || {});
         });
       });
     };
