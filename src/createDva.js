@@ -57,7 +57,7 @@ export default function createDva(createOpts) {
       store.replaceReducer(createReducer(store.asyncReducers));
       // effects
       if (m.effects) {
-        store.runSaga(getSaga(m.effects));
+        store.runSaga(getSaga(m.effects, onError));
       }
       // subscriptions
       if (m.subscriptions) {
@@ -207,12 +207,8 @@ export default function createDva(createOpts) {
 
     function namespaceReducer(reducers, namespace) {
       return Object.keys(reducers).reduce((memo, key) => {
-        const hasNamespace = key.indexOf(`${namespace}${SEP}`) === 0;
-        warning(!hasNamespace, `app.model: reducer ${key} should not be defined with namespace ${namespace}`);
-        if (!hasNamespace) {
-          key = `${namespace}${SEP}${key}`;
-        }
-        memo[key] = reducers[key];
+        warning(key.indexOf(`${namespace}${SEP}`) !== 0, `app.model: reducer ${key} should not be defined with namespace ${namespace}`);
+        memo[`${namespace}${SEP}${key}`] = reducers[key];
         return memo;
       }, {});
     }
