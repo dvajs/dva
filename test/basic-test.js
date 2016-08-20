@@ -4,7 +4,7 @@ import dva from '../src/index';
 
 describe('basic', () => {
 
-  it('basic', () => {
+  it.only('basic', () => {
     let sagaCount = 0;
 
     const app = dva();
@@ -12,12 +12,12 @@ describe('basic', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        ['add'](state) {
+        ['count/add'](state) {
           return state + 1;
         }
       },
       effects: {
-        ['add']: function*({ payload }) {
+        ['count/add']: function*({ payload }) {
           yield 1;
           sagaCount = sagaCount + payload;
         }
@@ -26,7 +26,7 @@ describe('basic', () => {
     app.router(({ history }) => <div />);
     app.start('#root');
 
-    app._store.dispatch({ type: 'add', payload: 1 });
+    app._store.dispatch({ type: 'count/add', payload: 1 });
     expect(app._store.getState().count).toEqual(1);
     expect(sagaCount).toEqual(1);
   });

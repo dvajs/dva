@@ -39,6 +39,7 @@
     "redux": "^3.5.2",
     "redux-actions": "^0.10.1",
     "redux-saga": "^0.11.0",
+    "warning": "^3.0.0",
     "whatwg-fetch": "^1.0.0"
   },
   "peerDependencies": {

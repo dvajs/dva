@@ -6,7 +6,10 @@ import { handleActions } from 'redux-actions';
 import { fork } from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
 import assert from 'assert';
+import warning from 'warning';
 import Plugin from './plugin';
+
+const SEP = '/';
 
 export default function createDva(createOpts) {
   const {
@@ -101,7 +104,7 @@ export default function createDva(createOpts) {
       let sagas = [];
       let reducers = { ...initialReducer };
       for (const m of this._models) {
-        reducers[m.namespace] = getReducer(m.reducers, m.state);
+        reducers[m.namespace] = getReducer(m.reducers, m.state, m.namespace);
         if (m.effects) sagas.push(getSaga(m.effects, onErrorWrapper));
       }
 
@@ -202,11 +205,23 @@ export default function createDva(createOpts) {
       return typeof node === 'object' && node !== null && node.nodeType && node.nodeName;
     }
 
-    function getReducer(reducers, state) {
+    function namespaceReducer(reducers, namespace) {
+      return Object.keys(reducers).reduce((memo, key) => {
+        const hasNamespace = key.indexOf(`${namespace}${SEP}`) === 0;
+        warning(!hasNamespace, `app.model: reducer ${key} should not be defined with namespace ${namespace}`);
+        if (!hasNamespace) {
+          key = `${namespace}${SEP}${key}`;
+        }
+        memo[key] = reducers[key];
+        return memo;
+      }, {});
+    }
+
+    function getReducer(reducers, state, namespace) {
       if (Array.isArray(reducers)) {
-        return reducers[1](handleActions(reducers[0], state));
+        return reducers[1](handleActions(namespaceReducer(reducers[0], namespace), state));
       } else {
-        return handleActions(reducers || {}, state);
+        return handleActions(namespaceReducer(reducers || {}, namespace), state);
       }
     }
 
