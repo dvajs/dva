@@ -43,13 +43,12 @@ export default function createDva(createOpts) {
     // Methods
 
     function model(m) {
-      checkModel(m, mobile);
-      this._models.push(m);
+      this._models.push(checkModel(m, mobile));
     }
 
     // inject model dynamically
     function injectModel(createReducer, onError, m) {
-      checkModel(m, mobile);
+      m = checkModel(m, mobile);
       const store = this._store;
 
       // reducers
@@ -104,7 +103,7 @@ export default function createDva(createOpts) {
       let sagas = [];
       let reducers = { ...initialReducer };
       for (const m of this._models) {
-        reducers[m.namespace] = getReducer(m.reducers, m.state, m.namespace);
+        reducers[m.namespace] = getReducer(m.reducers, m.state);
         if (m.effects) sagas.push(getSaga(m.effects, onErrorWrapper));
       }
 
@@ -193,12 +192,37 @@ export default function createDva(createOpts) {
     }
 
     function checkModel(model, mobile) {
-      assert.ok(model.namespace, 'app.model: namespace should be defined');
-      assert.ok(mobile || model.namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
+      const { namespace, reducers, effects } = model;
+
+      assert.ok(namespace, 'app.model: namespace should be defined');
+      assert.ok(mobile || namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
       assert.ok(!model.subscriptions || Array.isArray(model.subscriptions), 'app.model: subscriptions should be Array');
-      assert.ok(!model.reducers || typeof model.reducers === 'object' || Array.isArray(model.reducers), 'app.model: reducers should be Object or array');
-      assert.ok(!Array.isArray(model.reducers) || (typeof model.reducers[0] === 'object' && typeof model.reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
-      assert.ok(!model.effects || typeof model.effects === 'object', 'app.model: effects should be Object');
+      assert.ok(!reducers || typeof reducers === 'object' || Array.isArray(reducers), 'app.model: reducers should be Object or array');
+      assert.ok(!Array.isArray(reducers) || (typeof reducers[0] === 'object' && typeof reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
+      assert.ok(!effects || typeof effects === 'object', 'app.model: effects should be Object');
+
+      function applyNamespace(type) {
+        function getNamespacedReducers(reducers) {
+          return Object.keys(reducers).reduce((memo, key) => {
+            warning(key.indexOf(`${namespace}${SEP}`) !== 0, `app.model: ${type.slice(0, -1)} ${key} should not be defined with namespace ${namespace}`);
+            memo[`${namespace}${SEP}${key}`] = reducers[key];
+            return memo;
+          }, {});
+        }
+
+        if (model[type]) {
+          if (type === 'reducers' && Array.isArray(model[type])) {
+            model[type][0] = getNamespacedReducers(model[type][0]);
+          } else {
+            model[type] = getNamespacedReducers(model[type]);
+          }
+        }
+      }
+
+      applyNamespace('reducers');
+      applyNamespace('effects');
+
+      return model;
     }
 
     function isHTMLElement(node) {
@@ -207,17 +231,16 @@ export default function createDva(createOpts) {
 
     function namespaceReducer(reducers, namespace) {
       return Object.keys(reducers).reduce((memo, key) => {
-        warning(key.indexOf(`${namespace}${SEP}`) !== 0, `app.model: reducer ${key} should not be defined with namespace ${namespace}`);
         memo[`${namespace}${SEP}${key}`] = reducers[key];
         return memo;
       }, {});
     }
 
-    function getReducer(reducers, state, namespace) {
+    function getReducer(reducers, state) {
       if (Array.isArray(reducers)) {
-        return reducers[1](handleActions(namespaceReducer(reducers[0], namespace), state));
+        return reducers[1](handleActions(reducers[0], state));
       } else {
-        return handleActions(namespaceReducer(reducers || {}, namespace), state);
+        return handleActions(reducers || {}, state);
       }
     }
 

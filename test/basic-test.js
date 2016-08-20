@@ -4,7 +4,7 @@ import dva from '../src/index';
 
 describe('basic', () => {
 
-  it.only('basic', () => {
+  it('basic', () => {
     let sagaCount = 0;
 
     const app = dva();
@@ -12,12 +12,12 @@ describe('basic', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        ['count/add'](state) {
+        ['add'](state) {
           return state + 1;
         }
       },
       effects: {
-        ['count/add']: function*({ payload }) {
+        ['add']: function*({ payload }) {
           yield 1;
           sagaCount = sagaCount + payload;
         }

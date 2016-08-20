@@ -28,7 +28,7 @@ describe('app.model', () => {
     app.start('#root');
 
     app._store.dispatch({ type: 'square' });
-    app._store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'count/add' });
     expect(app._store.getState().count).toEqual(10);
   });
 
@@ -48,8 +48,8 @@ describe('app.model', () => {
     app.router(({ history }) => <div />);
     app.start('#root');
 
-    app._store.dispatch({ type: 'add' });
-    app._store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'count/add' });
+    app._store.dispatch({ type: 'count/add' });
     expect(count).toEqual(2);
   });
 
@@ -77,8 +77,8 @@ describe('app.model', () => {
     app.start('#root');
 
     // Only catch the last one.
-    app._store.dispatch({ type: 'add' });
-    app._store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'count/add' });
+    app._store.dispatch({ type: 'count/add' });
 
     setTimeout(() => {
       expect(count).toEqual(1);
@@ -143,7 +143,7 @@ describe('app.model', () => {
     });
     app.router(({ history }) => <div />);
     app.start('#root');
-    app._store.dispatch({ type: 'add' });
+    app._store.dispatch({ type: 'count/add' });
 
     expect(errors).toEqual([ 'effect error' ]);
   });
@@ -167,7 +167,7 @@ describe('app.model', () => {
       },
       subscriptions: [
         function ({ dispatch }, done) {
-          dispatch({ type: 'add' });
+          dispatch({ type: 'count/add' });
           setTimeout(() => {
             done('subscription error');
           }, 100);
@@ -225,7 +225,8 @@ describe('app.model', () => {
     expect(count).toEqual(1);
 
     // reducers
-    app._store.dispatch({ type: 'add', payload: 'foo' });
+    app._store.dispatch({ type: 'tasks/add', payload: 'foo' });
+    app._store.dispatch({ type: 'users/add', payload: 'foo' });
     const state = app._store.getState();
     expect(state.users).toEqual(['foo']);
     expect(state.tasks).toEqual(['foo']);
