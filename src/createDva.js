@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
 import { handleActions } from 'redux-actions';
-import effects, { fork } from 'redux-saga/effects';
+import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
 import assert from 'assert';
 import warning from 'warning';
@@ -197,7 +197,7 @@ export default function createDva(createOpts) {
 
       assert.ok(namespace, 'app.model: namespace should be defined');
       assert.ok(mobile || namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
-      assert.ok(!model.subscriptions || Array.isArray(model.subscriptions), 'app.model: subscriptions should be Array');
+      assert.ok(!model.subscriptions || isPlainObject(model.subscriptions), 'app.model: subscriptions should be Object');
       assert.ok(!reducers || typeof reducers === 'object' || Array.isArray(reducers), 'app.model: reducers should be Object or array');
       assert.ok(!Array.isArray(reducers) || (typeof reducers[0] === 'object' && typeof reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
       assert.ok(!effects || typeof effects === 'object', 'app.model: effects should be Object');
@@ -249,7 +249,7 @@ export default function createDva(createOpts) {
       return function *() {
         for (const key in effects) {
           const watcher = getWatcher(key, effects[key], model, onError);
-          yield fork(watcher);
+          yield sagaEffects.fork(watcher);
         }
       }
     }
@@ -266,9 +266,10 @@ export default function createDva(createOpts) {
         assert.ok(['watcher', 'takeEvery', 'takeLatest'].indexOf(type) > -1, 'app.start: effect type should be takeEvery, takeLatest or watcher')
       }
 
-      function *sagaWithCatch(action) {
+      function *sagaWithCatch(...args) {
+        //const args = (action ? [action] : []).concat(createEffects(model));
         try {
-          yield effect(action, createEffects(model));
+          yield effect(...args.concat(createEffects(model)));
         } catch(e) {
           onError(e);
         }
@@ -291,7 +292,8 @@ export default function createDva(createOpts) {
     }
 
     function runSubscriptions(subs, model, app, onError) {
-      for (const sub of subs) {
+      for (const key in subs) {
+        const sub = subs[key];
         assert.ok(typeof sub === 'function', 'app.start: subscription should be function');
         sub({
           dispatch: createDispach(app._store.dispatch, model),
@@ -313,9 +315,9 @@ export default function createDva(createOpts) {
       function put(action) {
         let { type } = action;
         warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `effects.put: ${type} should not be prefixed with namespace ${model.namespace}`);
-        return effects.put({ ...action, type: prefixType(type, model) });
+        return sagaEffects.put({ ...action, type: prefixType(type, model) });
       }
-      return { ...effects, put };
+      return { ...sagaEffects, put };
     }
 
     function createDispach(dispatch, model) {

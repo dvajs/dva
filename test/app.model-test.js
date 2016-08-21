@@ -1,7 +1,6 @@
 import expect from 'expect';
 import React from 'react';
 import dva from '../src/index';
-import { take, call } from '../effects';
 
 describe('app.model', () => {
   it('reducer enhancer', () => {
@@ -65,13 +64,13 @@ describe('app.model', () => {
       namespace: 'count',
       state: 0,
       effects: {
-        ['add']: [ function*() {
+        ['add']: [ function*(action, { call }) {
           yield call(delay, 1);
           count = count + 1;
         }, {
           type: 'takeLatest'
         } ]
-      }
+      },
     });
     app.router(({ history }) => <div />);
     app.start('#root');
@@ -98,7 +97,7 @@ describe('app.model', () => {
       namespace: 'count',
       state: 0,
       effects: {
-        ['addWatcher']: [ function*() {
+        ['addWatcher']: [ function*({ take }) {
           /*eslint-disable no-constant-condition*/
           while(true) {
             yield take('add');
@@ -165,14 +164,14 @@ describe('app.model', () => {
           throw new Error('effect error');
         },
       },
-      subscriptions: [
-        function ({ dispatch }, done) {
-          dispatch({ type: 'add' });
+      subscriptions: {
+        setup({ dispatch }, done) {
+          dispatch({type: 'add'});
           setTimeout(() => {
             done('subscription error');
           }, 100);
-        }
-      ]
+        },
+      }
     });
     app.router(({ history }) => <div />);
     app.start('#root');
@@ -214,11 +213,11 @@ describe('app.model', () => {
           count = count + 1;
         },
       },
-      subscriptions: [
-        function() {
+      subscriptions: {
+        setup() {
           count = count + 1;
-        }
-      ],
+        },
+      },
     });
 
     // subscriptions
