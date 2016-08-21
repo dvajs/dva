@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
 import { handleActions } from 'redux-actions';
-import { fork } from 'redux-saga/effects';
+import effects, { fork } from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
 import assert from 'assert';
 import warning from 'warning';
@@ -56,11 +56,11 @@ export default function createDva(createOpts) {
       store.replaceReducer(createReducer(store.asyncReducers));
       // effects
       if (m.effects) {
-        store.runSaga(getSaga(m.effects, onError));
+        store.runSaga(getSaga(m.effects, m, onError));
       }
       // subscriptions
       if (m.subscriptions) {
-        runSubscriptions(m.subscriptions, this, onError);
+        runSubscriptions(m.subscriptions, m, this, onError);
       }
     }
 
@@ -104,7 +104,7 @@ export default function createDva(createOpts) {
       let reducers = { ...initialReducer };
       for (const m of this._models) {
         reducers[m.namespace] = getReducer(m.reducers, m.state);
-        if (m.effects) sagas.push(getSaga(m.effects, onErrorWrapper));
+        if (m.effects) sagas.push(getSaga(m.effects, m, onErrorWrapper));
       }
 
       // extra reducers
@@ -158,10 +158,11 @@ export default function createDva(createOpts) {
       if (setupHistory) setupHistory.call(this, history);
 
       // run subscriptions
-      const subs = this._models.reduce((ret, { subscriptions }) => {
-        return [ ...ret, ...(subscriptions || [])];
-      }, []);
-      runSubscriptions(subs, this, onErrorWrapper);
+      for (const model of this._models) {
+        if (model.subscriptions) {
+          runSubscriptions(model.subscriptions, model, this, onErrorWrapper);
+        }
+      }
 
       // inject model after start
       this.model = injectModel.bind(this, createReducer, onErrorWrapper);
@@ -204,7 +205,7 @@ export default function createDva(createOpts) {
       function applyNamespace(type) {
         function getNamespacedReducers(reducers) {
           return Object.keys(reducers).reduce((memo, key) => {
-            warning(key.indexOf(`${namespace}${SEP}`) !== 0, `app.model: ${type.slice(0, -1)} ${key} should not be defined with namespace ${namespace}`);
+            warning(key.indexOf(`${namespace}${SEP}`) !== 0, `app.model: ${type.slice(0, -1)} ${key} should not be prefixed with namespace ${namespace}`);
             memo[`${namespace}${SEP}${key}`] = reducers[key];
             return memo;
           }, {});
@@ -244,16 +245,16 @@ export default function createDva(createOpts) {
       }
     }
 
-    function getSaga(effects, onError) {
+    function getSaga(effects, model, onError) {
       return function *() {
         for (const key in effects) {
-          const watcher = getWatcher(key, effects[key], onError);
+          const watcher = getWatcher(key, effects[key], model, onError);
           yield fork(watcher);
         }
       }
     }
 
-    function getWatcher(key, _effect, onError) {
+    function getWatcher(key, _effect, model, onError) {
       let effect = _effect;
       let type = 'takeEvery';
       if (Array.isArray(_effect)) {
@@ -265,9 +266,9 @@ export default function createDva(createOpts) {
         assert.ok(['watcher', 'takeEvery', 'takeLatest'].indexOf(type) > -1, 'app.start: effect type should be takeEvery, takeLatest or watcher')
       }
 
-      function *sagaWithCatch(...args) {
+      function *sagaWithCatch(action) {
         try {
-          yield effect(...args);
+          yield effect(action, createEffects(model));
         } catch(e) {
           onError(e);
         }
@@ -289,11 +290,40 @@ export default function createDva(createOpts) {
       }
     }
 
-    function runSubscriptions(subs, app, onError) {
+    function runSubscriptions(subs, model, app, onError) {
       for (const sub of subs) {
         assert.ok(typeof sub === 'function', 'app.start: subscription should be function');
-        sub({ dispatch: app._store.dispatch, history:app._history }, onError);
+        sub({
+          dispatch: createDispach(app._store.dispatch, model),
+          history:app._history,
+        }, onError);
       }
+    }
+
+    function prefixType(type, model) {
+      const prefixedType = `${model.namespace}${SEP}${type}`;
+      if ((model.reducers && model.reducers[prefixedType])
+        || (model.effects && model.effects[prefixedType])) {
+        return prefixedType;
+      }
+      return type;
+    }
+
+    function createEffects(model) {
+      function put(action) {
+        let { type } = action;
+        warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `effects.put: ${type} should not be prefixed with namespace ${model.namespace}`);
+        return effects.put({ ...action, type: prefixType(type, model) });
+      }
+      return { ...effects, put };
+    }
+
+    function createDispach(dispatch, model) {
+      return action => {
+        let { type } = action;
+        warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `dispatch: ${type} should not be prefixed with namespace ${model.namespace}`);
+        return dispatch({ ...action, type: prefixType(type, model) });
+      };
     }
 
   };

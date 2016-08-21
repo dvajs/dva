@@ -160,14 +160,14 @@ describe('app.model', () => {
       namespace: 'count',
       state: 0,
       effects: {
-        ['add']: function*() {
+        *'add'() {
           yield 1;
           throw new Error('effect error');
-        }
+        },
       },
       subscriptions: [
         function ({ dispatch }, done) {
-          dispatch({ type: 'count/add' });
+          dispatch({ type: 'add' });
           setTimeout(() => {
             done('subscription error');
           }, 100);
