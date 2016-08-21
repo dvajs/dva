@@ -30,7 +30,6 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "assert": "^1.4.1",
     "global": "^4.3.0",
     "invariant": "^2.2.1",
     "is-plain-object": "^2.0.1",
