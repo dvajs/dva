@@ -1,5 +1,5 @@
 import isPlainObject from 'is-plain-object';
-import assert from 'assert';
+import invariant from 'invariant';
 
 class Plugin {
 
@@ -15,10 +15,10 @@ class Plugin {
   }
 
   use(plugin) {
-    assert.ok(isPlainObject(plugin), 'plugin.use: plugin should be plain object');
+    invariant(isPlainObject(plugin), 'plugin.use: plugin should be plain object');
     const hooks = this.hooks;
     for (const key in plugin) {
-      assert.ok(hooks[key], `plugin.use: unknown plugin property: ${key}`);
+      invariant(hooks[key], `plugin.use: unknown plugin property: ${key}`);
       hooks[key].push(plugin[key]);
     }
   }
@@ -26,7 +26,7 @@ class Plugin {
   apply(key, defaultHandler) {
     const hooks = this.hooks;
     const validApplyHooks = ['onError', 'onHmr'];
-    assert.ok(validApplyHooks.indexOf(key) > -1, `plugin.apply: hook ${key} cannot be applied`);
+    invariant(validApplyHooks.indexOf(key) > -1, `plugin.apply: hook ${key} cannot be applied`);
     const fns = hooks[key];
 
     return (...args) => {
@@ -42,7 +42,7 @@ class Plugin {
 
   get(key) {
     const hooks = this.hooks;
-    assert.ok(key in hooks, `plugin.get: hook ${key} cannot be got`);
+    invariant(key in hooks, `plugin.get: hook ${key} cannot be got`);
     if (key === 'extraReducers') {
       let ret = {};
       for (const reducerObj of hooks[key]) {

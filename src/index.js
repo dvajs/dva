@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { hashHistory, match } from 'react-router';
 import {
   routerMiddleware,

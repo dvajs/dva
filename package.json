@@ -32,6 +32,7 @@
   "dependencies": {
     "assert": "^1.4.1",
     "global": "^4.3.0",
+    "invariant": "^2.2.1",
     "is-plain-object": "^2.0.1",
     "react-redux": "4.4.x",
     "react-router": "^2.6.1",

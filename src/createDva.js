@@ -5,7 +5,7 @@ import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
 import { handleActions } from 'redux-actions';
 import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
-import assert from 'assert';
+import invariant from 'invariant';
 import warning from 'warning';
 import Plugin from './plugin';
 
@@ -65,7 +65,7 @@ export default function createDva(createOpts) {
     }
 
     function router(router) {
-      assert.equal(typeof router, 'function', 'app.router: router should be function');
+      invariant(typeof router === 'function', 'app.router: router should be function');
       this._router = router;
     }
 
@@ -79,11 +79,11 @@ export default function createDva(createOpts) {
       // support selector
       if (typeof container === 'string') {
         container = document.querySelector(container);
-        assert.ok(container, 'app.start: could not query selector: ' + container);
+        invariant(container, 'app.start: could not query selector: ' + container);
       }
 
-      assert.ok(!container || isHTMLElement(container), 'app.start: container should be HTMLElement');
-      assert.ok(this._router, 'app.start: router should be defined');
+      invariant(!container || isHTMLElement(container), 'app.start: container should be HTMLElement');
+      invariant(this._router, 'app.start: router should be defined');
 
       // set history
       const history = opts.history || defaultHistory;
@@ -109,7 +109,7 @@ export default function createDva(createOpts) {
 
       // extra reducers
       const extraReducers = plugin.get('extraReducers');
-      assert.ok(Object.keys(extraReducers).every(key => !(key in reducers)), 'app.start: extraReducers is conflict with other reducers');
+      invariant(Object.keys(extraReducers).every(key => !(key in reducers)), 'app.start: extraReducers is conflict with other reducers');
 
       // create store
       const extraMiddlewares = plugin.get('onAction');
@@ -195,12 +195,12 @@ export default function createDva(createOpts) {
     function checkModel(model, mobile) {
       const { namespace, reducers, effects } = model;
 
-      assert.ok(namespace, 'app.model: namespace should be defined');
-      assert.ok(mobile || namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
-      assert.ok(!model.subscriptions || isPlainObject(model.subscriptions), 'app.model: subscriptions should be Object');
-      assert.ok(!reducers || typeof reducers === 'object' || Array.isArray(reducers), 'app.model: reducers should be Object or array');
-      assert.ok(!Array.isArray(reducers) || (typeof reducers[0] === 'object' && typeof reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
-      assert.ok(!effects || typeof effects === 'object', 'app.model: effects should be Object');
+      invariant(namespace, 'app.model: namespace should be defined');
+      invariant(mobile || namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
+      invariant(!model.subscriptions || isPlainObject(model.subscriptions), 'app.model: subscriptions should be Object');
+      invariant(!reducers || typeof reducers === 'object' || Array.isArray(reducers), 'app.model: reducers should be Object or array');
+      invariant(!Array.isArray(reducers) || (typeof reducers[0] === 'object' && typeof reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
+      invariant(!effects || typeof effects === 'object', 'app.model: effects should be Object');
 
       function applyNamespace(type) {
         function getNamespacedReducers(reducers) {
@@ -263,7 +263,7 @@ export default function createDva(createOpts) {
         if (opts && opts.type) {
           type = opts.type;
         }
-        assert.ok(['watcher', 'takeEvery', 'takeLatest'].indexOf(type) > -1, 'app.start: effect type should be takeEvery, takeLatest or watcher')
+        invariant(['watcher', 'takeEvery', 'takeLatest'].indexOf(type) > -1, 'app.start: effect type should be takeEvery, takeLatest or watcher')
       }
 
       function *sagaWithCatch(...args) {
@@ -294,7 +294,7 @@ export default function createDva(createOpts) {
     function runSubscriptions(subs, model, app, onError) {
       for (const key in subs) {
         const sub = subs[key];
-        assert.ok(typeof sub === 'function', 'app.start: subscription should be function');
+        invariant(typeof sub === 'function', 'app.start: subscription should be function');
         sub({
           dispatch: createDispach(app._store.dispatch, model),
           history:app._history,
