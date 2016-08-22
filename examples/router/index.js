@@ -1,6 +1,6 @@
 import dva from '../../src/index';
 import { connect } from '../../index';
-import { Router, Route, Link } from 'dva/router';
+import { Router, Route, Link } from '../../router';
 import React from 'react';
 import pathToRegexp from 'path-to-regexp';
 
@@ -20,15 +20,15 @@ app.model({
       name: 'bar',
     },
   ],
-  subscriptions: [
-    ({ dispatch, history }) => {
+  subscriptions: {
+    setup({ dispatch, history }){
       history.listen(({ pathname }, state) => {
         if (pathToRegexp('/users/:id').test(pathname)) {
           console.log(`user: ${state.params.id}`);
         }
       });
     },
-  ]
+  },
 });
 
 // 3. Router
@@ -85,4 +85,4 @@ app.router(({ history }) =>
 );
 
 // 4. Start
-app.start(document.getElementById('root'));
+app.start('#root');

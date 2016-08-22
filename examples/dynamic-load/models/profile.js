@@ -6,7 +6,7 @@ export default {
     age: 1,
   },
   reducers: {
-    'profile/changeAge'(state, { payload }) {
+    'changeAge'(state, { payload }) {
       return { ...state, age: payload };
     },
   },

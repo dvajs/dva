@@ -83,7 +83,6 @@
     "lib",
     "src",
     "dist",
-    "effects.js",
     "router.js",
     "fetch.js",
     "mobile.js",

@@ -289,7 +289,7 @@ export default function createDva(createOpts) {
         invariant(typeof sub === 'function', 'app.start: subscription should be function');
         sub({
           dispatch: createDispach(app._store.dispatch, model),
-          history:app._history,
+          history: app._history,
         }, onError);
       }
     }
