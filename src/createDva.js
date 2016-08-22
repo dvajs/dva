@@ -230,13 +230,6 @@ export default function createDva(createOpts) {
       return typeof node === 'object' && node !== null && node.nodeType && node.nodeName;
     }
 
-    function namespaceReducer(reducers, namespace) {
-      return Object.keys(reducers).reduce((memo, key) => {
-        memo[`${namespace}${SEP}${key}`] = reducers[key];
-        return memo;
-      }, {});
-    }
-
     function getReducer(reducers, state) {
       if (Array.isArray(reducers)) {
         return reducers[1](handleActions(reducers[0], state));
@@ -267,7 +260,6 @@ export default function createDva(createOpts) {
       }
 
       function *sagaWithCatch(...args) {
-        //const args = (action ? [action] : []).concat(createEffects(model));
         try {
           yield effect(...args.concat(createEffects(model)));
         } catch(e) {
@@ -313,7 +305,8 @@ export default function createDva(createOpts) {
 
     function createEffects(model) {
       function put(action) {
-        let { type } = action;
+        const { type } = action;
+        invariant(type, 'dispatch: action should be a plain Object with type');
         warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `effects.put: ${type} should not be prefixed with namespace ${model.namespace}`);
         return sagaEffects.put({ ...action, type: prefixType(type, model) });
       }
@@ -322,7 +315,8 @@ export default function createDva(createOpts) {
 
     function createDispach(dispatch, model) {
       return action => {
-        let { type } = action;
+        const { type } = action;
+        invariant(type, 'dispatch: action should be a plain Object with type');
         warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `dispatch: ${type} should not be prefixed with namespace ${model.namespace}`);
         return dispatch({ ...action, type: prefixType(type, model) });
       };

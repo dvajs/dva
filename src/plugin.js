@@ -9,8 +9,8 @@ class Plugin {
       onStateChange: [],
       onAction: [],
       onHmr: [],
-      extraReducers: [],
       onReducer: [],
+      extraReducers: [],
     };
   }
 
