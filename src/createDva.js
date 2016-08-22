@@ -190,7 +190,9 @@ export default function createDva(createOpts) {
       ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
     }
 
-    function checkModel(model, mobile) {
+    function checkModel(m, mobile) {
+      // Clone model to avoid prefixing namespace multiple times
+      const model = { ...m };
       const { namespace, reducers, effects } = model;
 
       invariant(namespace, 'app.model: namespace should be defined');
