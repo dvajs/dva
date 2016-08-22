@@ -6,7 +6,7 @@ function delay(timeout) {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-describe('basic', () => {
+describe('dva', () => {
 
   it('basic', (done) => {
     const app = dva();
@@ -50,7 +50,7 @@ describe('basic', () => {
       },
     });
     app.router(({ history }) => <div />);
-    app.start('#root');
+    app.start();
 
     expect(app._store.getState().count).toEqual(1);
     expect(app._store.getState().loading).toEqual(false);
@@ -62,5 +62,35 @@ describe('basic', () => {
       expect(app._store.getState().loading).toEqual(false);
       done();
     }, 500);
+  });
+
+  it('opts.initialState', () => {
+    const app = dva({
+      initialState: { count: 1 },
+    });
+    app.model({
+      namespace: 'count',
+      state: 0
+    });
+    app.router(({ history }) => <div />);
+    app.start();
+    expect(app._store.getState().count).toEqual(1);
+  });
+
+  it('opts.onAction', () => {
+    let count;
+    const countMiddleware = ({ dispatch, getState }) => next => action => {
+      count = count + 1;
+    };
+
+    const app = dva({
+      onAction: countMiddleware,
+    });
+    app.router(({ history }) => <div />);
+    app.start();
+
+    count = 0;
+    app._store.dispatch({ type: 'test' });
+    expect(count).toEqual(1);
   });
 });

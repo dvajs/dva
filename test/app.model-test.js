@@ -1,185 +1,27 @@
 import expect from 'expect';
 import React from 'react';
 import dva from '../src/index';
+import dvaM from '../src/mobile';
 
 describe('app.model', () => {
-  it('reducer enhancer', () => {
-    function enhancer(reducer) {
-      return (state, action) => {
-        if (action.type === 'square') {
-          return state * state;
-        }
-        return reducer(state, action);
-      };
-    }
 
+  it('namespace: type error', () => {
     const app = dva();
-    app.model({
-      namespace: 'count',
-      state: 3,
-      reducers: [ {
-        ['add'](state) {
-          return state + 1;
-        }
-      }, enhancer ]
-    });
-    app.router(({ history }) => <div />);
-    app.start('#root');
-
-    app._store.dispatch({ type: 'square' });
-    app._store.dispatch({ type: 'count/add' });
-    expect(app._store.getState().count).toEqual(10);
-  });
-
-  it('effects: type takeEvery', () => {
-    let count = 0;
-    const app = dva();
-    app.model({
-      namespace: 'count',
-      state: 0,
-      effects: {
-        ['add']: function*() {
-          yield 1;
-          count = count + 1;
-        }
-      }
-    });
-    app.router(({ history }) => <div />);
-    app.start('#root');
-
-    app._store.dispatch({ type: 'count/add' });
-    app._store.dispatch({ type: 'count/add' });
-    expect(count).toEqual(2);
-  });
-
-  it('effects: type takeLatest', (done) => {
-    let count = 0;
-    const app = dva();
-    const delay = (timeout) => {
-      return new Promise(resolve => {
-        setTimeout(resolve, timeout);
+    expect(_ => {
+      app.model({});
+    }).toThrow(/app.model: namespace should be defined/);
+    expect(_ => {
+      app.model({
+        namespace: 'routing',
       });
-    };
-    app.model({
-      namespace: 'count',
-      state: 0,
-      effects: {
-        ['add']: [ function*(action, { call }) {
-          yield call(delay, 1);
-          count = count + 1;
-        }, {
-          type: 'takeLatest'
-        } ]
-      },
-    });
-    app.router(({ history }) => <div />);
-    app.start('#root');
+    }).toThrow(/app.model: namespace should not be routing/);
 
-    // Only catch the last one.
-    app._store.dispatch({ type: 'count/add' });
-    app._store.dispatch({ type: 'count/add' });
-
-    setTimeout(() => {
-      expect(count).toEqual(1);
-      done();
-    }, 100);
-  });
-
-  it('effects: type watcher', (done) => {
-    let count = 0;
-    const app = dva();
-    const delay = (timeout) => {
-      return new Promise(resolve => {
-        setTimeout(resolve, timeout);
+    const appM = dvaM();
+    expect(_ => {
+      appM.model({
+        namespace: 'routing',
       });
-    };
-    app.model({
-      namespace: 'count',
-      state: 0,
-      effects: {
-        ['addWatcher']: [ function*({ take }) {
-          /*eslint-disable no-constant-condition*/
-          while(true) {
-            yield take('add');
-            yield delay(1);
-            count = count + 1;
-          }
-        }, {
-          type: 'watcher'
-        } ]
-      }
-    });
-    app.router(({ history }) => <div />);
-    app.start('#root');
-
-    // Only catch the first one.
-    app._store.dispatch({ type: 'add' });
-    app._store.dispatch({ type: 'add' });
-
-    setTimeout(() => {
-      expect(count).toEqual(1);
-      done();
-    }, 100);
-  });
-
-  it('effects: onError', () => {
-    const errors = [];
-    const app = dva({
-      onError: (error) => {
-        errors.push(error.message);
-      }
-    });
-
-    app.model({
-      namespace: 'count',
-      state: 0,
-      effects: {
-        ['add']: function*() {
-          yield 1;
-          throw new Error('effect error');
-        }
-      }
-    });
-    app.router(({ history }) => <div />);
-    app.start('#root');
-    app._store.dispatch({ type: 'count/add' });
-
-    expect(errors).toEqual([ 'effect error' ]);
-  });
-
-  it('subscriptions: onError', (done) => {
-    const errors = [];
-    const app = dva({
-      onError: (error) => {
-        errors.push(error.message);
-      }
-    });
-
-    app.model({
-      namespace: 'count',
-      state: 0,
-      effects: {
-        *'add'() {
-          yield 1;
-          throw new Error('effect error');
-        },
-      },
-      subscriptions: {
-        setup({ dispatch }, done) {
-          dispatch({type: 'add'});
-          setTimeout(() => {
-            done('subscription error');
-          }, 100);
-        },
-      }
-    });
-    app.router(({ history }) => <div />);
-    app.start('#root');
-
-    setTimeout(() => {
-      expect(errors).toEqual([ 'effect error', 'subscription error' ]);
-      done();
-    }, 500);
+    }).toNotThrow();
   });
 
   it('dynamic model', () => {
@@ -196,7 +38,7 @@ describe('app.model', () => {
       },
     });
     app.router(_ => <div />);
-    app.start('#root');
+    app.start();
 
     // inject model
     app.model({

@@ -21,6 +21,7 @@ export default function createDva(createOpts) {
   } = createOpts;
 
   return function dva(hooks = {}) {
+    // history and initialState does not pass to plugin
     const history = hooks.history || defaultHistory;
     const initialState = hooks.initialState || {};
     delete hooks.history;
@@ -74,13 +75,7 @@ export default function createDva(createOpts) {
       this._router = router;
     }
 
-    function start(container, opts = {}) {
-      // support: app.start(opts);
-      if (isPlainObject(container)) {
-        opts = container;
-        container = null;
-      }
-
+    function start(container) {
       // support selector
       if (typeof container === 'string') {
         container = document.querySelector(container);
@@ -200,9 +195,9 @@ export default function createDva(createOpts) {
       invariant(namespace, 'app.model: namespace should be defined');
       invariant(mobile || namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
       invariant(!model.subscriptions || isPlainObject(model.subscriptions), 'app.model: subscriptions should be Object');
-      invariant(!reducers || typeof reducers === 'object' || Array.isArray(reducers), 'app.model: reducers should be Object or array');
-      invariant(!Array.isArray(reducers) || (typeof reducers[0] === 'object' && typeof reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
-      invariant(!effects || typeof effects === 'object', 'app.model: effects should be Object');
+      invariant(!reducers || isPlainObject(reducers) || Array.isArray(reducers), 'app.model: reducers should be Object or array');
+      invariant(!Array.isArray(reducers) || (isPlainObject(reducers[0]) && typeof reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
+      invariant(!effects || isPlainObject(effects), 'app.model: effects should be Object');
 
       function applyNamespace(type) {
         function getNamespacedReducers(reducers) {
