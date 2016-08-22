@@ -21,6 +21,11 @@ export default function createDva(createOpts) {
   } = createOpts;
 
   return function dva(hooks = {}) {
+    const history = hooks.history || defaultHistory;
+    const initialState = hooks.initialState || {};
+    delete hooks.history;
+    delete hooks.initialState;
+
     const plugin = new Plugin();
     plugin.use(hooks);
 
@@ -85,9 +90,6 @@ export default function createDva(createOpts) {
       invariant(!container || isHTMLElement(container), 'app.start: container should be HTMLElement');
       invariant(this._router, 'app.start: router should be defined');
 
-      // set history
-      const history = opts.history || defaultHistory;
-
       // error wrapper
       const onError = plugin.apply('onError', function(err) {
         throw new Error(err.stack || err);
@@ -129,7 +131,7 @@ export default function createDva(createOpts) {
       ];
       const store = this._store = createStore(
         createReducer(),
-        opts.initialState || {},
+        initialState,
         compose(...enhancers)
       );
 

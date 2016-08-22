@@ -4,6 +4,19 @@ import dva from '../src/index';
 
 describe('app.use', () => {
 
+  it('initialState', () => {
+    const app = dva({
+      initialState: { count: 1 },
+    });
+    app.model({
+      namespace: 'count',
+      state: 0
+    });
+    app.router(({ history }) => <div />);
+    app.start('#root');
+    expect(app._store.getState().count).toEqual(1);
+  });
+
   it('extraReducers', () => {
     const reducers = {
       count: (state, { type }) => {
