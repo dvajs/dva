@@ -5,15 +5,17 @@ import { Router, Route, useRouterHistory } from '../../router';
 import { createHashHistory } from 'history';
 
 // 1. Initialize
-const app = dva();
+const app = dva({
+  history: useRouterHistory(createHashHistory)({ queryKey: false }),
+});
 
 // 2. Model
 app.model({
   namespace: 'count',
   state: 0,
   reducers: {
-    ['count/add'  ](count) { return count + 1 },
-    ['count/minus'](count) { return count - 1 },
+    add  (count) { return count + 1 },
+    minus(count) { return count - 1 },
   },
 });
 
@@ -38,6 +40,4 @@ app.router(({ history }) =>
 );
 
 // 5. Start
-app.start(document.getElementById('root'), {
-  history: useRouterHistory(createHashHistory)({ queryKey: false }),
-});
+app.start('#root');

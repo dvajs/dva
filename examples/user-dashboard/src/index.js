@@ -16,4 +16,4 @@ app.model(require('./models/users'));
 app.router(require('./router'));
 
 // 4. Start
-app.start(document.getElementById('root'));
+app.start('#root');

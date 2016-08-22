@@ -1,4 +1,3 @@
-import { call, put, select } from 'dva/effects';
 import { hashHistory, routerRedux } from 'dva/router';
 import { message } from 'antd';
 import { create, remove, update, query } from '../services/users';
@@ -17,21 +16,21 @@ export default {
     modalType: 'create'
   },
 
-  subscriptions: [
-    function ({ dispatch, history }) {
+  subscriptions: {
+    setup({ dispatch, history }) {
       history.listen(location => {
         if (location.pathname === '/users') {
           dispatch({
-            type: 'users/query',
+            type: 'query',
             payload: location.query
           });
         }
       });
-    }
-  ],
+    },
+  },
 
   effects: {
-    *['users/query']({ payload }) {
+    *query({ payload }, { select, call, put }) {
       const route = yield select(({ routing }) => routing);
       let routerQuery = {};
       if (route && route.locationBeforeTransitions && route.locationBeforeTransitions.query) {
@@ -54,11 +53,11 @@ export default {
         query: newQuery
       });
 
-      yield put({ type: 'users/showLoading' });
+      yield put({ type: 'showLoading' });
       const { data } = yield call(query, newQuery);
       if (data) {
         yield put({
-          type: 'users/query/success',
+          type: 'querySuccess',
           payload: {
             list: data.data,
             total: data.page.total,
@@ -67,36 +66,36 @@ export default {
         });
       }
     },
-    *['users/delete']({ payload }) {
-      yield put({ type: 'users/showLoading' });
+    *'delete'({ payload }, { call, put }) {
+      yield put({ type: 'showLoading' });
       const { data } = yield call(remove, { id: payload });
       if (data && data.success) {
         yield put({
-          type: 'users/delete/success',
+          type: 'deleteSuccess',
           payload
         });
       }
     },
-    *['users/create']({ payload }) {
-      yield put({ type: 'users/hideModal' });
-      yield put({ type: 'users/showLoading' });
+    *create({ payload }, { call, put }) {
+      yield put({ type: 'hideModal' });
+      yield put({ type: 'showLoading' });
       const { data } = yield call(create, payload);
       if (data && data.success) {
         yield put({
-          type: 'users/create/success',
+          type: 'createSuccess',
           payload
         });
       }
     },
-    *['users/update']({ payload }) {
-      yield put({ type: 'users/hideModal' });
-      yield put({ type: 'users/showLoading' });
+    *update({ payload }, { select, call, put }) {
+      yield put({ type: 'hideModal' });
+      yield put({ type: 'showLoading' });
       const id = yield select(({ users }) => users.currentItem.id);
       const newUser = { ...payload, id };
       const { data } = yield call(update, newUser);
       if (data && data.success) {
         yield put({
-          type: 'users/update/success',
+          type: 'updateSuccess',
           payload: newUser
         });
       }
@@ -104,19 +103,19 @@ export default {
   },
 
   reducers: {
-    ['users/showLoading'](state) {
+    showLoading(state) {
       return { ...state, loading: true };
     },
-    ['users/create/success'](state, action) {
+    createSuccess(state, action) {
       const newUser = action.payload;
       return { ...state, list: [newUser, ...state.list], loading: false };
     },
-    ['users/delete/success'](state, action) {
+    deleteSuccess(state, action) {
       const id = action.payload;
       const newList = state.list.filter(user => user.id !== id);
       return { ...state, list: newList, loading: false };
     },
-    ['users/update/success'](state, action) {
+    updateSuccess(state, action) {
       const updateUser = action.payload;
       const newList = state.list.map(user => {
         if (user.id === updateUser.id) {
@@ -126,15 +125,15 @@ export default {
       });
       return { ...state, list: newList, loading: false };
     },
-    ['users/query/success'](state, action) {
+    querySuccess(state, action) {
       return { ...state, ...action.payload, loading: false };
     },
-    ['users/showModal'](state, action) {
+    showModal(state, action) {
       return { ...state, ...action.payload, modalVisible: true };
     },
-    ['users/hideModal'](state) {
+    hideModal(state) {
       return { ...state, modalVisible: false };
-    }
+    },
   }
 
 };

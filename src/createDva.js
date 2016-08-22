@@ -3,10 +3,14 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
 import { handleActions } from 'redux-actions';
-import { fork } from 'redux-saga/effects';
+import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
-import assert from 'assert';
+import invariant from 'invariant';
+import warning from 'warning';
+import flatten from 'flatten';
 import Plugin from './plugin';
+
+const SEP = '/';
 
 export default function createDva(createOpts) {
   const {
@@ -18,6 +22,12 @@ export default function createDva(createOpts) {
   } = createOpts;
 
   return function dva(hooks = {}) {
+    // history and initialState does not pass to plugin
+    const history = hooks.history || defaultHistory;
+    const initialState = hooks.initialState || {};
+    delete hooks.history;
+    delete hooks.initialState;
+
     const plugin = new Plugin();
     plugin.use(hooks);
 
@@ -40,13 +50,12 @@ export default function createDva(createOpts) {
     // Methods
 
     function model(m) {
-      checkModel(m, mobile);
-      this._models.push(m);
+      this._models.push(checkModel(m, mobile));
     }
 
     // inject model dynamically
     function injectModel(createReducer, onError, m) {
-      checkModel(m, mobile);
+      m = checkModel(m, mobile);
       const store = this._store;
 
       // reducers
@@ -54,37 +63,28 @@ export default function createDva(createOpts) {
       store.replaceReducer(createReducer(store.asyncReducers));
       // effects
       if (m.effects) {
-        store.runSaga(getSaga(m.effects));
+        store.runSaga(getSaga(m.effects, m, onError));
       }
       // subscriptions
       if (m.subscriptions) {
-        runSubscriptions(m.subscriptions, this, onError);
+        runSubscriptions(m.subscriptions, m, this, onError);
       }
     }
 
     function router(router) {
-      assert.equal(typeof router, 'function', 'app.router: router should be function');
+      invariant(typeof router === 'function', 'app.router: router should be function');
       this._router = router;
     }
 
-    function start(container, opts = {}) {
-      // support: app.start(opts);
-      if (isPlainObject(container)) {
-        opts = container;
-        container = null;
-      }
-
+    function start(container) {
       // support selector
       if (typeof container === 'string') {
         container = document.querySelector(container);
-        assert.ok(container, 'app.start: could not query selector: ' + container);
+        invariant(container, 'app.start: could not query selector: ' + container);
       }
 
-      assert.ok(!container || isHTMLElement(container), 'app.start: container should be HTMLElement');
-      assert.ok(this._router, 'app.start: router should be defined');
-
-      // set history
-      const history = opts.history || defaultHistory;
+      invariant(!container || isHTMLElement(container), 'app.start: container should be HTMLElement');
+      invariant(this._router, 'app.start: router should be defined');
 
       // error wrapper
       const onError = plugin.apply('onError', function(err) {
@@ -102,12 +102,12 @@ export default function createDva(createOpts) {
       let reducers = { ...initialReducer };
       for (const m of this._models) {
         reducers[m.namespace] = getReducer(m.reducers, m.state);
-        if (m.effects) sagas.push(getSaga(m.effects, onErrorWrapper));
+        if (m.effects) sagas.push(getSaga(m.effects, m, onErrorWrapper));
       }
 
       // extra reducers
       const extraReducers = plugin.get('extraReducers');
-      assert.ok(Object.keys(extraReducers).every(key => !(key in reducers)), 'app.start: extraReducers is conflict with other reducers');
+      invariant(Object.keys(extraReducers).every(key => !(key in reducers)), 'app.start: extraReducers is conflict with other reducers');
 
       // create store
       const extraMiddlewares = plugin.get('onAction');
@@ -115,7 +115,7 @@ export default function createDva(createOpts) {
       const sagaMiddleware = createSagaMiddleware();
       let middlewares = [
         sagaMiddleware,
-        ...extraMiddlewares,
+        ...flatten(extraMiddlewares),
       ];
       if (routerMiddleware) {
         middlewares = [routerMiddleware(history), ...middlewares];
@@ -127,7 +127,7 @@ export default function createDva(createOpts) {
       ];
       const store = this._store = createStore(
         createReducer(),
-        opts.initialState || {},
+        initialState,
         compose(...enhancers)
       );
 
@@ -156,10 +156,11 @@ export default function createDva(createOpts) {
       if (setupHistory) setupHistory.call(this, history);
 
       // run subscriptions
-      const subs = this._models.reduce((ret, { subscriptions }) => {
-        return [ ...ret, ...(subscriptions || [])];
-      }, []);
-      runSubscriptions(subs, this, onErrorWrapper);
+      for (const model of this._models) {
+        if (model.subscriptions) {
+          runSubscriptions(model.subscriptions, model, this, onErrorWrapper);
+        }
+      }
 
       // inject model after start
       this.model = injectModel.bind(this, createReducer, onErrorWrapper);
@@ -189,13 +190,40 @@ export default function createDva(createOpts) {
       ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
     }
 
-    function checkModel(model, mobile) {
-      assert.ok(model.namespace, 'app.model: namespace should be defined');
-      assert.ok(mobile || model.namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
-      assert.ok(!model.subscriptions || Array.isArray(model.subscriptions), 'app.model: subscriptions should be Array');
-      assert.ok(!model.reducers || typeof model.reducers === 'object' || Array.isArray(model.reducers), 'app.model: reducers should be Object or array');
-      assert.ok(!Array.isArray(model.reducers) || (typeof model.reducers[0] === 'object' && typeof model.reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
-      assert.ok(!model.effects || typeof model.effects === 'object', 'app.model: effects should be Object');
+    function checkModel(m, mobile) {
+      // Clone model to avoid prefixing namespace multiple times
+      const model = { ...m };
+      const { namespace, reducers, effects } = model;
+
+      invariant(namespace, 'app.model: namespace should be defined');
+      invariant(mobile || namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
+      invariant(!model.subscriptions || isPlainObject(model.subscriptions), 'app.model: subscriptions should be Object');
+      invariant(!reducers || isPlainObject(reducers) || Array.isArray(reducers), 'app.model: reducers should be Object or array');
+      invariant(!Array.isArray(reducers) || (isPlainObject(reducers[0]) && typeof reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
+      invariant(!effects || isPlainObject(effects), 'app.model: effects should be Object');
+
+      function applyNamespace(type) {
+        function getNamespacedReducers(reducers) {
+          return Object.keys(reducers).reduce((memo, key) => {
+            warning(key.indexOf(`${namespace}${SEP}`) !== 0, `app.model: ${type.slice(0, -1)} ${key} should not be prefixed with namespace ${namespace}`);
+            memo[`${namespace}${SEP}${key}`] = reducers[key];
+            return memo;
+          }, {});
+        }
+
+        if (model[type]) {
+          if (type === 'reducers' && Array.isArray(model[type])) {
+            model[type][0] = getNamespacedReducers(model[type][0]);
+          } else {
+            model[type] = getNamespacedReducers(model[type]);
+          }
+        }
+      }
+
+      applyNamespace('reducers');
+      applyNamespace('effects');
+
+      return model;
     }
 
     function isHTMLElement(node) {
@@ -210,16 +238,16 @@ export default function createDva(createOpts) {
       }
     }
 
-    function getSaga(effects, onError) {
+    function getSaga(effects, model, onError) {
       return function *() {
         for (const key in effects) {
-          const watcher = getWatcher(key, effects[key], onError);
-          yield fork(watcher);
+          const watcher = getWatcher(key, effects[key], model, onError);
+          yield sagaEffects.fork(watcher);
         }
       }
     }
 
-    function getWatcher(key, _effect, onError) {
+    function getWatcher(key, _effect, model, onError) {
       let effect = _effect;
       let type = 'takeEvery';
       if (Array.isArray(_effect)) {
@@ -228,12 +256,12 @@ export default function createDva(createOpts) {
         if (opts && opts.type) {
           type = opts.type;
         }
-        assert.ok(['watcher', 'takeEvery', 'takeLatest'].indexOf(type) > -1, 'app.start: effect type should be takeEvery, takeLatest or watcher')
+        invariant(['watcher', 'takeEvery', 'takeLatest'].indexOf(type) > -1, 'app.start: effect type should be takeEvery, takeLatest or watcher')
       }
 
       function *sagaWithCatch(...args) {
         try {
-          yield effect(...args);
+          yield effect(...args.concat(createEffects(model)));
         } catch(e) {
           onError(e);
         }
@@ -255,11 +283,43 @@ export default function createDva(createOpts) {
       }
     }
 
-    function runSubscriptions(subs, app, onError) {
-      for (const sub of subs) {
-        assert.ok(typeof sub === 'function', 'app.start: subscription should be function');
-        sub({ dispatch: app._store.dispatch, history:app._history }, onError);
+    function runSubscriptions(subs, model, app, onError) {
+      for (const key in subs) {
+        const sub = subs[key];
+        invariant(typeof sub === 'function', 'app.start: subscription should be function');
+        sub({
+          dispatch: createDispach(app._store.dispatch, model),
+          history: app._history,
+        }, onError);
       }
+    }
+
+    function prefixType(type, model) {
+      const prefixedType = `${model.namespace}${SEP}${type}`;
+      if ((model.reducers && model.reducers[prefixedType])
+        || (model.effects && model.effects[prefixedType])) {
+        return prefixedType;
+      }
+      return type;
+    }
+
+    function createEffects(model) {
+      function put(action) {
+        const { type } = action;
+        invariant(type, 'dispatch: action should be a plain Object with type');
+        warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `effects.put: ${type} should not be prefixed with namespace ${model.namespace}`);
+        return sagaEffects.put({ ...action, type: prefixType(type, model) });
+      }
+      return { ...sagaEffects, put };
+    }
+
+    function createDispach(dispatch, model) {
+      return action => {
+        const { type } = action;
+        invariant(type, 'dispatch: action should be a plain Object with type');
+        warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `dispatch: ${type} should not be prefixed with namespace ${model.namespace}`);
+        return dispatch({ ...action, type: prefixType(type, model) });
+      };
     }
 
   };

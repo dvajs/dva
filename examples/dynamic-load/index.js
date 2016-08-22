@@ -7,4 +7,4 @@ const app = dva();
 app.router(require('./router'));
 
 // 5. Start
-app.start(document.getElementById('root'));
+app.start('#root');

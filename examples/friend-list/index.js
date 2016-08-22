@@ -2,57 +2,55 @@ import './index.html';
 import React from 'react';
 import dva from '../../src/index';
 import { connect } from '../../index';
-import { Router, Route, useRouterHistory } from '../../router';
-import { put, call } from '../../effects';
+import { Router, Route, useRouterHistory, routerRedux } from '../../router';
 import fetch from '../../fetch';
 import styles from './index.less';
 import SearchInput from './components/SearchInput';
 import FriendList from './components/FriendList';
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 // 1. Initialize
 const app = dva();
 
 // 2. Model
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 app.model({
   namespace: 'friends',
   state: {
     query: '',
     friends: [],
   },
-  subscriptions: [
-    function(dispatch) {
-      hashHistory.listen(location => {
-        if (location.action === 'POP') {
-          dispatch({
-            type: 'friends/setQuery',
-            payload: location.query.q,
-          });
-        }
+  subscriptions: {
+    setup({ dispatch, history }) {
+      history.listen(location => {
+        dispatch({
+          type: 'setQuery',
+          payload: location.query.q,
+        });
       });
-    }
-  ],
+    },
+  },
   effects: {
-    ['friends/setQuery']: [function*({ payload }) {
+    setQuery: [function*({ payload }, { put, call }) {
       yield delay(300);
-      yield call(hashHistory.push, {
+      yield call(routerRedux.push, {
         query: { q: payload || '' },
       });
       const { success, data } = yield fetch(`/api/search?q=${payload}`)
         .then(res => res.json());
       if (success) {
         yield put({
-          type: 'friends/setFriends',
+          type: 'setFriends',
           payload: data,
         });
       }
     }, { type: 'takeLatest' }],
   },
   reducers: {
-    ['friends/setQuery'](state, { payload }) {
+    setQuery(state, { payload }) {
       return { ...state, query: payload };
     },
-    ['friends/setFriends'](state, { payload }) {
+    setFriends(state, { payload }) {
       return { ...state, friends: payload };
     },
   },
@@ -89,4 +87,4 @@ app.router(({ history }) =>
 );
 
 // 5. Start
-app.start(document.getElementById('root'));
+app.start('#root');

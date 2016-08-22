@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './Product.less';
-import { Icon } from 'antd';
+import Icon from 'antd/lib/icon';
+import 'antd/lib/icon/style/css.js';
 
 function Product(props) {
   const { id, thumb_url, vote, title, description, submitter } = props.data;

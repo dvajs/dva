@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "0.0.16",
+  "version": "1.0.0-beta1",
   "description": "Front-end framework based on react, redux, react-redux, react-router and redux-saga, inspired by elm and choo.",
   "repository": {
     "type": "git",
@@ -30,8 +30,8 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "assert": "^1.4.1",
-    "global": "^4.3.0",
+    "flatten": "^1.0.2",
+    "invariant": "^2.2.1",
     "is-plain-object": "^2.0.1",
     "react-redux": "4.4.x",
     "react-router": "^2.6.1",
@@ -39,6 +39,7 @@
     "redux": "^3.5.2",
     "redux-actions": "^0.10.1",
     "redux-saga": "^0.11.0",
+    "warning": "^3.0.0",
     "whatwg-fetch": "^1.0.0"
   },
   "peerDependencies": {
@@ -82,7 +83,6 @@
     "lib",
     "src",
     "dist",
-    "effects.js",
     "router.js",
     "fetch.js",
     "mobile.js",

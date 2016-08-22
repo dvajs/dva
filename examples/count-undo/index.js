@@ -21,8 +21,8 @@ app.model({
   namespace: 'count',
   state: 0,
   reducers: {
-    ['count/add'  ](count) { return count + 1 },
-    ['count/minus'](count) { return count - 1 },
+    add  (count) { return count + 1 },
+    minus(count) { return count - 1 },
   },
 });
 
@@ -48,6 +48,4 @@ app.router(({ history }) =>
 );
 
 // 5. Start
-app.start(document.getElementById('root'), {
-  history: useRouterHistory(createHashHistory)({ queryKey: false }),
-});
+app.start('#root');
