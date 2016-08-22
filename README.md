@@ -11,15 +11,25 @@ Lightweight elm-style framework based on react and redux.
 
 ## Documents
 
-- [dva 入门：手把手教你写应用](https://github.com/sorrycc/blog/issues/8)
-- [dva 简介](https://github.com/dvajs/dva/issues/1)
+基础：
+
+- [快速上手](https://github.com/dvajs/dva-docs/blob/master/zh/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.md)
+- [基本概念](https://github.com/dvajs/dva-docs/blob/master/zh/concepts/01-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.md)
+- [API](#api)
+- [Demos](#demos)
+- [dva 简介：Why dva and What's dva](https://github.com/dvajs/dva/issues/1)
+- [教程：教你如何一步步完成一个中型应用](https://github.com/dvajs/dva-docs/blob/master/zh/tutorial/01-%E6%A6%82%E8%A6%81.md)
+
+扩展阅读：
+
 - [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1) (dva 基于此封装)
 - [subscription 及其适用场景](https://github.com/dvajs/dva/issues/3#issuecomment-229250708)
 - [支付宝前端应用架构的发展和选择: 从 roof 到 redux 再到 dva](https://github.com/sorrycc/blog/issues/6)
+- [从 0 开始实现 react 版本的 hackernews (基于 dva)](https://github.com/sorrycc/blog/issues/9)
 
 ## Features
 
-- based on redux, redux-saga and react-router
+- **based on redux, redux-saga and react-router**
 - **small api:** only 5 methods
 - **transparent side effects:** using effects and subscriptions brings clarity to IO
 - **mobile and react-native support:** don't need router
@@ -132,9 +142,40 @@ Create a new model. Takes the following arguments:
 - **effects:** 异步操作，处理各种业务逻辑，不直接更新数据，由 `action` 触发，可以 dispatch `action`
 - **subscriptions:** 异步只读操作，不直接更新数据，可以 dispatch `action`
 
+一个典型的 model ：
+
+```javascript
+app.model({
+  namespace: 'count',
+  state: 0,
+  reducers: {
+    add(state) { return state + 1; },
+    minus(state) { return state - 1; },
+  },
+  effects: {
+    *addDelay(action, { call, put }) {
+      yield call(delay, 1000);
+      yield put({ type: 'add' });
+    },
+  },
+  subscriptions: {
+    // 监听键盘事件，在点击 ctrl + up 时，触发 addDelay action
+    keyboard({ dispatch }) {
+      return key('ctrl+up', () => { dispatch({ type: 'addDelay'}); });
+    },
+  },
+});
+```
+
+`reducers` 来自 redux，格式为 `(state, action) => state`，详见 [Reducers@redux.js.org](http://redux.js.org/docs/basics/Reducers.html)，但不支持 combineReducer 。
+
+`effects` 是 side effects，用于存放异步逻辑，底层引入了 [redux-sagas](https://github.com/yelouafi/redux-saga) 做异步流程控制，通过 [generator](http://www.ruanyifeng.com/blog/2015/04/generator.html) 把异步转换成同步写法。格式为 `*(action, effects) => {}`。
+
+`subscriptions` 是订阅，用于订阅一个数据源，然后根据需要 dispatch 相应的 action。数据源可以是当前的时间、服务器的 websocket 连接、keyboard 输入、geolocation 变化、history 路由变化等等。格式为 `({ dispatch, history }) => unsubscribe` 。
+
 ### `app.router(({ history }) => routes)`
 
-创建路由。使用和 react-router 相同的配置，不做封装，可用 jsx 格式，也可用 javascript object 的格式支持动态路由。
+创建路由。不做封装，使用和 react-router 相同的配置，可用 jsx 格式，也可用 javascript object 的格式支持动态路由。
 
 详见：[react-router/docs](https://github.com/reactjs/react-router/tree/master/docs)
 
@@ -146,7 +187,7 @@ Start the application. 如果没有传入 `selector`，则返回 React Element�
 
 ### Why is it called dva?
 
-dva is a hero from [overwatch](http://ow.blizzard.cn/heroes/dva). She is cute, and `dva` is the shortest one that is available on npm.
+dva is a [hero](http://ow.blizzard.cn/heroes/dva) from overwatch. She is cute, and `dva` is the shortest one that is available on npm.
 
 ### Is it production ready?
 
