@@ -93,4 +93,26 @@ describe('dva', () => {
     app._store.dispatch({ type: 'test' });
     expect(count).toEqual(1);
   });
+
+  it('opts.onAction with array', () => {
+    let count;
+    const countMiddleware = ({ dispatch, getState }) => next => action => {
+      count = count + 1;
+      next(action);
+    };
+    const count2Middleware = ({ dispatch, getState }) => next => action => {
+      count = count + 2;
+      next(action);
+    };
+
+    const app = dva({
+      onAction: [countMiddleware, count2Middleware],
+    });
+    app.router(({ history }) => <div />);
+    app.start();
+
+    count = 0;
+    app._store.dispatch({ type: 'test' });
+    expect(count).toEqual(3);
+  });
 });

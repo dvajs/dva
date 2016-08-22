@@ -7,6 +7,7 @@ import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
 import invariant from 'invariant';
 import warning from 'warning';
+import flatten from 'flatten';
 import Plugin from './plugin';
 
 const SEP = '/';
@@ -114,7 +115,7 @@ export default function createDva(createOpts) {
       const sagaMiddleware = createSagaMiddleware();
       let middlewares = [
         sagaMiddleware,
-        ...extraMiddlewares,
+        ...flatten(extraMiddlewares),
       ];
       if (routerMiddleware) {
         middlewares = [routerMiddleware(history), ...middlewares];
