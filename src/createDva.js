@@ -132,11 +132,24 @@ export default function createDva(createOpts) {
       );
 
       function createReducer(asyncReducers) {
-        return reducerEnhancer(combineReducers({
+        const prevAllReducers = {
           ...reducers,
           ...extraReducers,
           ...asyncReducers,
-        }));
+        };
+        const errorWrapReducers = {};
+
+        Object.keys(prevAllReducers).map((key)=> {
+          errorWrapReducers[key] = (...args)=> {
+            try {
+              return prevAllReducers[key](...args);
+            } catch(e) {
+              onError(e);
+            }
+          }
+        });
+
+        return reducerEnhancer(combineReducers(errorWrapReducers));
       }
 
       // extend store
