@@ -7,5 +7,10 @@
   "plugins": [
     "add-module-exports",
     "transform-runtime"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [ "istanbul" ]
+    }
+  }
 }
