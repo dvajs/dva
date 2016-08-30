@@ -23,22 +23,33 @@
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "nyc mocha --compilers js:babel-register --require ./test/setup.js --no-timeouts",
-    "debug": "mocha --compilers js:babel-register --require ./test/setup.js --no-timeouts",
+    "test": "cross-env NODE_ENV=test nyc mocha --require ./test/setup.js --no-timeouts",
     "build": "rimraf lib && babel src --out-dir lib",
     "lint": "eslint --ext .js src test",
+    "report": "nyc report --reporter=html",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
   "dependencies": {
+    "babel-runtime": "^6.11.6",
     "flatten": "^1.0.2",
     "invariant": "^2.2.1",
     "is-plain-object": "^2.0.1",
     "react-redux": "4.4.x",
-    "react-router": "^2.6.1",
+    "react-router": "^2.7.0",
     "react-router-redux": "^4.0.5",
     "redux": "^3.5.2",
-    "redux-actions": "^0.10.1",
-    "redux-saga": "^0.11.0",
+    "redux-actions": "^0.11.0",
+    "redux-saga": "^0.11.1",
     "warning": "^3.0.0",
     "whatwg-fetch": "^1.0.0"
   },
@@ -47,28 +58,29 @@
     "react-dom": "15.x"
   },
   "devDependencies": {
-    "babel-cli": "^6.11.4",
+    "babel-cli": "^6.14.0",
     "babel-eslint": "^6.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-istanbul": "^2.0.0",
     "babel-plugin-transform-runtime": "^6.9.0",
-    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "~6.5.0",
-    "babel-register": "^6.11.5",
-    "babel-runtime": "^6.9.2",
+    "babel-register": "^6.14.0",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
     "coveralls": "^2.11.11",
+    "cross-env": "^2.0.1",
     "envify": "^3.4.1",
-    "eslint": "^3.0.1",
+    "eslint": "^3.4.0",
     "eslint-config-rackt": "^1.1.1",
     "eslint-plugin-react": "^6.0.0",
     "expect": "^1.20.2",
     "jsdom": "^9.4.2",
     "mocha": "^3.0.2",
-    "nyc": "^7.1.0",
-    "react": "^15.2.1",
-    "react-dom": "^15.2.1",
+    "nyc": "^8.1.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
     "rimraf": "^2.5.4",
     "uglifyjs": "^2.4.10"
   },
