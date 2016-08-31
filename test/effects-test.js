@@ -203,7 +203,7 @@ describe('effects', () => {
     }).toThrow(/app.start: effect type should be takeEvery, takeLatest or watcher/);
   });
 
-  it('onEffect', done => {
+  it.only('onEffect', done => {
     const SHOW = '@@LOADING/SHOW';
     const HIDE = '@@LOADING/HIDE';
 
@@ -229,10 +229,10 @@ describe('effects', () => {
       },
       onEffect(effect, { put }, model) {
         modelNamespace = model.namespace;
-        return function*() {
+        return function*(...args) {
           count = count * 2;
           yield put({ type: SHOW });
-          yield effect();
+          yield effect(...args);
           yield put({ type: HIDE });
         };
       },
@@ -240,9 +240,9 @@ describe('effects', () => {
 
     app.use({
       onEffect(effect) {
-        return function*() {
+        return function*(...args) {
           count = count + 2;
-          yield effect();
+          yield effect(...args);
           count = count + 1;
         };
       },
@@ -251,9 +251,13 @@ describe('effects', () => {
     app.model({
       namespace: 'count',
       state: 0,
+      reducers: {
+        add(state) { return state + 1; },
+      },
       effects: {
-        *addRemote() {
+        *addRemote(action, { put }) {
           yield delay(100);
+          yield put({ type: 'add' });
         },
       },
     });
@@ -269,6 +273,7 @@ describe('effects', () => {
 
     setTimeout(_ => {
       expect(app._store.getState().loading).toEqual(false);
+      expect(app._store.getState().count).toEqual(1);
       expect(count).toEqual(5);
       done();
     }, 200);

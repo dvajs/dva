@@ -23,7 +23,8 @@
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "cross-env NODE_ENV=test nyc mocha --require ./test/setup.js --no-timeouts",
+    "test": "cross-env NODE_ENV=test nyc mocha --no-timeouts",
+    "debug": "mocha --require babel-register --require ./test/setup.js --no-timeouts",
     "build": "rimraf lib && babel src --out-dir lib",
     "lint": "eslint --ext .js src test",
     "report": "nyc report --reporter=html",
@@ -34,7 +35,8 @@
       "src/**/*.js"
     ],
     "require": [
-      "babel-register"
+      "babel-register",
+      "./test/setup.js"
     ],
     "sourceMap": false,
     "instrument": false
