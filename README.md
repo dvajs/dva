@@ -1,8 +1,8 @@
 # dva
 
 [![NPM version](https://img.shields.io/npm/v/dva.svg?style=flat)](https://npmjs.org/package/dva)
-[![Build Status](https://img.shields.io/travis/sorrycc/dva.svg?style=flat)](https://travis-ci.org/sorrycc/dva)
-[![Coverage Status](https://img.shields.io/coveralls/sorrycc/dva.svg?style=flat)](https://coveralls.io/r/sorrycc/dva)
+[![Build Status](https://img.shields.io/travis/dvajs/dva.svg?style=flat)](https://travis-ci.org/dvajs/dva)
+[![Coverage Status](https://img.shields.io/coveralls/dvajs/dva.svg?style=flat)](https://coveralls.io/r/dvajs/dva)
 [![NPM downloads](http://img.shields.io/npm/dm/dva.svg?style=flat)](https://npmjs.org/package/dva)
 
 Lightweight elm-style framework based on react and redux.
