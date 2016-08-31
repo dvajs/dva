@@ -203,11 +203,18 @@ describe('effects', () => {
     }).toThrow(/app.start: effect type should be takeEvery, takeLatest or watcher/);
   });
 
-  it.only('onEffect', done => {
+  it('onEffect', done => {
     const SHOW = '@@LOADING/SHOW';
     const HIDE = '@@LOADING/HIDE';
 
-    const app = dva({
+    const app = dva();
+
+    // Test model should be accessible
+    let modelNamespace = null;
+    // Test onEffect should be run orderly
+    let count = 0;
+
+    app.use({
       extraReducers: {
         loading(state, action) {
           switch (action.type) {
@@ -221,10 +228,22 @@ describe('effects', () => {
         },
       },
       onEffect(effect, { put }, model) {
+        modelNamespace = model.namespace;
         return function*() {
+          count = count * 2;
           yield put({ type: SHOW });
           yield effect();
           yield put({ type: HIDE });
+        };
+      },
+    });
+
+    app.use({
+      onEffect(effect) {
+        return function*() {
+          count = count + 2;
+          yield effect();
+          count = count + 1;
         };
       },
     });
@@ -243,10 +262,14 @@ describe('effects', () => {
     app.start();
 
     expect(app._store.getState().loading).toEqual(false);
+
     app._store.dispatch({ type: 'count/addRemote' });
     expect(app._store.getState().loading).toEqual(true);
+    expect(modelNamespace).toEqual('count');
+
     setTimeout(_ => {
       expect(app._store.getState().loading).toEqual(false);
+      expect(count).toEqual(5);
       done();
     }, 200);
   });
