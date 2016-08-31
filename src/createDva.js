@@ -270,16 +270,15 @@ export default function createDva(createOpts) {
       switch (type) {
         case 'watcher':
           return sagaWithCatch;
-        case 'takeEvery':
-          return function*() {
-            yield takeEvery(key, sagaWithCatch);
-          };
         case 'takeLatest':
           return function*() {
             yield takeLatest(key, sagaWithCatch);
           };
+        // takeEvery
         default:
-          throw new Error(`app.start: unsupport effect type ${type}`);
+          return function*() {
+            yield takeEvery(key, sagaWithCatch);
+          };
       }
     }
 
