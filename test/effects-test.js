@@ -203,5 +203,53 @@ describe('effects', () => {
     }).toThrow(/app.start: effect type should be takeEvery, takeLatest or watcher/);
   });
 
+  it.only('onEffect', done => {
+    const SHOW = '@@LOADING/SHOW';
+    const HIDE = '@@LOADING/HIDE';
+
+    const app = dva({
+      extraReducers: {
+        loading(state, action) {
+          switch (action.type) {
+            case SHOW:
+              return true;
+            case HIDE:
+              return false;
+            default:
+              return false;
+          }
+        },
+      },
+      onEffect(effect, { put }, model) {
+        return function*() {
+          yield put({ type: SHOW });
+          yield effect();
+          yield put({ type: HIDE });
+        };
+      },
+    });
+
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        *addRemote() {
+          yield delay(100);
+        },
+      },
+    });
+
+    app.router(_ => <div />);
+    app.start();
+
+    expect(app._store.getState().loading).toEqual(false);
+    app._store.dispatch({ type: 'count/addRemote' });
+    expect(app._store.getState().loading).toEqual(true);
+    setTimeout(_ => {
+      expect(app._store.getState().loading).toEqual(false);
+      done();
+    }, 200);
+  });
+
 });
 
