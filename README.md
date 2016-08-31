@@ -27,6 +27,7 @@ Lightweight elm-style framework based on react and redux.
 - [subscription 及其适用场景](https://github.com/dvajs/dva/issues/3#issuecomment-229250708)
 - [支付宝前端应用架构的发展和选择: 从 roof 到 redux 再到 dva](https://github.com/sorrycc/blog/issues/6)
 - [从 0 开始实现 react 版本的 hackernews (基于 dva)](https://github.com/sorrycc/blog/issues/9)
+- [使用 create-react-app 开发 dva 应用](https://github.com/dvajs/dva/issues/58#issuecomment-243435470)
 
 ## Features
 
