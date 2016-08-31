@@ -10,6 +10,7 @@ class Plugin {
       onAction: [],
       onHmr: [],
       onReducer: [],
+      onEffect: [],
       extraReducers: [],
     };
   }

@@ -267,17 +267,20 @@ export default function createDva(createOpts) {
         }
       }
 
+      const onEffect = plugin.get('onEffect');
+      const sagaWithOnEffect = applyOnEffect(onEffect, sagaWithCatch, model);
+
       switch (type) {
         case 'watcher':
           return sagaWithCatch;
         case 'takeLatest':
           return function*() {
-            yield takeLatest(key, sagaWithCatch);
+            yield takeLatest(key, sagaWithOnEffect);
           };
         // takeEvery
         default:
           return function*() {
-            yield takeEvery(key, sagaWithCatch);
+            yield takeEvery(key, sagaWithOnEffect);
           };
       }
     }
@@ -319,6 +322,13 @@ export default function createDva(createOpts) {
         warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `dispatch: ${type} should not be prefixed with namespace ${model.namespace}`);
         return dispatch({ ...action, type: prefixType(type, model) });
       };
+    }
+
+    function applyOnEffect(fns, effect, model) {
+      for (const fn of fns) {
+        effect = fn(effect, sagaEffects, model);
+      }
+      return effect;
     }
 
   };
