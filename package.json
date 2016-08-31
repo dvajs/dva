@@ -4,9 +4,9 @@
   "description": "Front-end framework based on react, redux, react-redux, react-router and redux-saga, inspired by elm and choo.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sorrycc/dva"
+    "url": "https://github.com/dvajs/dva"
   },
-  "homepage": "https://github.com/sorrycc/dva",
+  "homepage": "https://github.com/dvajs/dva",
   "keywords": [
     "dva",
     "ant",
