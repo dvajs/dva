@@ -132,7 +132,7 @@ export default function createDva(createOpts) {
       );
 
       function createReducer(asyncReducers) {
-        return reducerEnhancer(combineReducers({
+        return combineReducers(reducerEnhancer({
           ...reducers,
           ...extraReducers,
           ...asyncReducers,
