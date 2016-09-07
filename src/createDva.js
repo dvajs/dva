@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
-import { handleActions } from 'redux-actions';
+import handleActions from 'redux-actions/lib/handleActions';
 import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
 import invariant from 'invariant';
