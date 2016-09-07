@@ -101,6 +101,12 @@ app.router(({ history }) =>
 app.start('#root');
 ```
 
+## Concepts
+
+<p>
+  <img src="https://zos.alipayobjects.com/rmsportal/PPrerEAKbIoDZYr.png" width="807" />
+</p>
+
 ## API
 
 ### `app = dva(opts)`
