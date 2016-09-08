@@ -1,4 +1,20 @@
 
+## `1.0.0`
+
+- [42](https://github.com/dvajs/dva/pull/42)
+  - Add namespace prefix for reducers and effects automatically
+  - Add namespace prefix for dispatch in subscriptions, and put in effects
+  - Delete api `dva/effects`, it's passed to effect as second argument
+  - Simplify `app.start()`, move config to `dva()`
+  - Change subscriptions format to Object, keep the same with effects and reducers 
+  - Replace assert with [invariant](https://github.com/zertosh/invariant) and [warning](https://github.com/BerkeleyTrue/warning)
+  - Refactor testcase
+- [56](https://github.com/dvajs/dva/pull/56) - Remove router match from history, use [path-to-regexp](https://github.com/pillarjs/path-to-regexp) instead, [example](https://github.com/dvajs/dva-hackernews/commit/3314c7cf0751def7a87b351b87983aba0ba4b100)
+- [59](https://github.com/dvajs/dva/pull/59) - Add onEffect hook, so we can use plugin like [dva-loading](https://github.com/dvajs/dva-loading)
+- [71](https://github.com/dvajs/dva/pull/71) - Use handleActions directly to resize dva size by 46K (minified)
+
+Docs: [Upgrade to 1.0.0](https://github.com/dvajs/dva/pull/42#issuecomment-241323617)
+
 ## `0.0.16`
 
 - Fix renderProps undefined when redirecting

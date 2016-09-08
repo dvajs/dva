@@ -5,7 +5,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/dvajs/dva.svg?style=flat)](https://coveralls.io/r/dvajs/dva)
 [![NPM downloads](http://img.shields.io/npm/dm/dva.svg?style=flat)](https://npmjs.org/package/dva)
 
-Lightweight elm-style framework based on react and redux.
+React and redux based, lightweight and elm-style framework.
 
 ----
 
@@ -19,7 +19,7 @@ Lightweight elm-style framework based on react and redux.
 - [Demos](#demos)
 - [dva 简介：Why dva and What's dva](https://github.com/dvajs/dva/issues/1)
 - [教程：教你如何一步步完成一个中型应用](https://github.com/dvajs/dva-docs/blob/master/zh/tutorial/01-%E6%A6%82%E8%A6%81.md)
-- [升级文档：Upgrade to 1.0.0-beta1](https://github.com/dvajs/dva/pull/42#issuecomment-241323617)
+- [升级文档：Upgrade to 1.0.0](https://github.com/dvajs/dva/pull/42#issuecomment-241323617)
 
 扩展阅读：
 
