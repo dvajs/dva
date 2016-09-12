@@ -86,7 +86,7 @@ But if you like [cra](https://github.com/facebookincubator/create-react-app), fe
 
 ## Concepts
 
-[Concepts](https://github.com/dvajs/dva-docs/blob/master/zh/concepts/01-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.md) on Model, State, Action, dispatch, Reducer, Effect, Subscription, Router and Route Components.
+[Concepts](https://github.com/dvajs/dva-docs/blob/master/en-us/concepts/01-basic.md) on Model, State, Action, dispatch, Reducer, Effect, Subscription, Router and Route Components.
 
 <img src="https://zos.alipayobjects.com/rmsportal/PPrerEAKbIoDZYr.png" width="807" />
 
