@@ -9,114 +9,97 @@ React and redux based, lightweight and elm-style framework.
 
 ----
 
-## Documents
+## Table of Contents
 
-基础：
-
-- [快速上手](https://github.com/dvajs/dva-docs/blob/master/zh/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.md)
-- [基本概念](https://github.com/dvajs/dva-docs/blob/master/zh/concepts/01-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.md)
-- [API](#api)
+- [Features](#features)
 - [Demos](#demos)
-- [dva 简介：Why dva and What's dva](https://github.com/dvajs/dva/issues/1)
-- [教程：教你如何一步步完成一个中型应用](https://github.com/dvajs/dva-docs/blob/master/zh/tutorial/01-%E6%A6%82%E8%A6%81.md)
-- [升级文档：Upgrade to 1.0.0](https://github.com/dvajs/dva/pull/42#issuecomment-241323617)
-
-扩展阅读：
-
-- [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1) (dva 基于此封装)
-- [subscription 及其适用场景](https://github.com/dvajs/dva/issues/3#issuecomment-229250708)
-- [支付宝前端应用架构的发展和选择: 从 roof 到 redux 再到 dva](https://github.com/sorrycc/blog/issues/6)
-- [从 0 开始实现 react 版本的 hackernews (基于 dva)](https://github.com/sorrycc/blog/issues/9)
-- [使用 create-react-app 开发 dva 应用](https://github.com/dvajs/dva/issues/58#issuecomment-243435470)
+- [Getting Started](#getting-started)
+- [Creating an App](#creating-an-app)
+- [Concepts](#concepts)
+- [API](#api)
+- [FAQ](#faq)
+- [Read More](#read-more)
+- [LICENSE](#license)
 
 ## Features
 
-- **based on redux, redux-saga and react-router**
-- **small api:** only 5 methods
-- **transparent side effects:** using effects and subscriptions brings clarity to IO
-- **mobile and react-native support:** don't need router
-- **dynamic model and router:** split large scale app on demand
-- **plugin system:** with hooks
-- **hmr support:** components and routes is ready
+- **based on redux, redux-saga and react-router:** stand on the shoulders of giants
+- **small api:** only [5 methods](#api), there's not a lot to learn
+- **elm cocepts:** organize model with `reducers`, `effects` and `subscriptions`
+- **mobile and react-native support:** cross platform
+- **dynamic model and router:** split large app and load on demand
+- **plugin system:** make dva extendable, e.g. use [dva-loading](https://github.com/dvajs/dva-loading) to avoid write `showLoading` and `hideLoading` hundreds of times
+- **hmr support** with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr)
 
 ## Demos
 
-- [HackerNews](https://dvajs.github.io/dva-hackernews/) ([repo](https://github.com/dvajs/dva-hackernews), [intro](https://github.com/sorrycc/blog/issues/9))
-- [Count](./examples/count) ([jsfiddle](https://jsfiddle.net/puftw0ea/))
-- [Popular Products](./examples/popular-products)
-- [Friend List](./examples/friend-list)
-- [User Dashboard](./examples/user-dashboard)
+- [HackerNews](https://dvajs.github.io/dva-hackernews/) ([repo](https://github.com/dvajs/dva-hackernews), [详解如何一步步实现](https://github.com/sorrycc/blog/issues/9))
+- [Count](examples/count) ([jsfiddle](https://jsfiddle.net/puftw0ea/3/))
+- [Popular Products](examples/popular-products)
+- [Friend List](examples/friend-list)
+- [User Dashboard](examples/user-dashboard)
 
 ## Getting Started
 
-### Install
-
-```bash
-$ npm install --save dva
-```
-
-### Example
-
-Let's create an count app that changes when user click the + or - button. 
+This is how dva app organized, with only 5 api. View [Count Example](examples/count) for more details.
 
 ```javascript
-import React from 'react';
 import dva, { connect } from 'dva';
-import { Router, Route } from 'dva/router';
 
-// 1. Initialize
+// 1. Create app
 const app = dva();
 
-// 2. Model
-app.model({
-  namespace: 'count',
-  state: 0,
-  reducers: {
-    add  (count) { return count + 1 },
-    minus(count) { return count - 1 },
-  },
-});
+// 2. Add plugins (optionally)
+app.use(plugin);
 
-// 3. View
-const App = connect(({ count }) => ({
-  count
-}))(function(props) {
-  return (
-    <div>
-      <h2>{ props.count }</h2>
-      <button key="add" onClick={()   => { props.dispatch({type: 'count/add'})}}>+</button>
-      <button key="minus" onClick={() => { props.dispatch({type: 'count/minus'})}}>-</button>
-    </div>
-  );
-});
+// 3. Register models
+app.model(model);
 
-// 4. Router
-app.router(({ history }) =>
-  <Router history={history}>
-    <Route path="/" component={App} />
-  </Router>
-);
+// 4. Connect components and models
+const App = connect(mapStateToProps)(Component);
 
-// 5. Start
+// 5. Config router with Components
+app.router(routes);
+
+// 6. Start app
 app.start('#root');
 ```
 
+You can follow [Getting Started](https://github.com/dvajs/dva-docs/blob/master/zh/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.md) to make a `Count App` step by step.
+
+## Creating an App
+
+We recommend to use [dva-cli]() for creating boilerplate.
+
+```bash
+// Install dva-cli
+$ npm install dva-cli -g
+
+// Create app and start
+$ dva new myapp
+$ cd myapp
+$ npm install
+$ npm start
+```
+
+But if you like [cra](https://github.com/facebookincubator/create-react-app), feel free to read [Creating dva app with create-react-app](https://github.com/dvajs/dva/issues/58#issuecomment-243435470).
+
 ## Concepts
 
-<p>
-  <img src="https://zos.alipayobjects.com/rmsportal/PPrerEAKbIoDZYr.png" width="807" />
-</p>
+[Concepts](https://github.com/dvajs/dva-docs/blob/master/zh/concepts/01-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.md) on Model, State, Action, dispatch, Reducer, Effect, Subscription, Router and Route Components.
+
+<img src="https://zos.alipayobjects.com/rmsportal/PPrerEAKbIoDZYr.png" width="807" />
 
 ## API
 
 ### `app = dva(opts)`
 
-Initialize a new `dva` app. opts 里除 `history` 和 `initialState` 外会被传递给 [app.use](#appusehooks) .
+Initialize a new `dva` app. Takes an optional object of handlers that is passed to [app.use](#appusehooks). Besides, you can config `history` 和 `initialState` here.
 
-- `opts.history:` default: `hashHistory`
-- `opts.initialState:` default: `{}`
+- `opts.history:` the history for router, default: `hashHistory`
+- `opts.initialState:` initialState of the app, default: `{}`
 
-`opts.history` 是给路由用的 history，支持 hashHistory 和 browserHistory 。默认 hashHistory，要换成 browserHistory 可以这样：
+If you want to use `browserHistory` instead of `hashHistory`:
 
 ```javascript
 import { browserHistory } from 'dva/router';
@@ -125,33 +108,77 @@ const app = dva({
 });
 ```
 
-`opts.initialState` 是给 store 的初始值，优先级高于 model 里的 state 。
-
 ### `app.use(hooks)`
 
-dva 的插件机制是通过 hooks 实现的，用于添加自定义行为和监听器。
+Register an object of hooks on the application. 
 
-目前支持以下 hooks :
+Support these `hooks`:
 
-- `onError(err => {}):` effects 和 subscriptions 出错时触发
-- `onAction(Array|Function):` 等同于 redux middleware，支持数组
-- `onStateChange(listener):` 绑定 listner，state 变化时触发
-- `onReducer(reducerEnhancer):` 应用全局的 reducer enhancer，比如 [redux-undo](https://github.com/omnidan/redux-undo)
-- `onEffect(Function):` 封装 effect 方法的处理，比如可以实现自动切换 loading 状态
-- `onHmr(render => {}):` 提供 render 方法用于重新渲染 routes 和 components，暂还不支持 model
-- `extraReducers(Object):` 提供额外的 reducers，比如 [redux-form](https://github.com/erikras/redux-form) 需要全局 reducer `form`
+- `onError(fn):` called when an `effect` or `subscription` emit an error
+- `onAction(array|fn):` called when an `action` is dispatched, used for registering redux middleware, support `Array` for convenience
+- `onStateChange(fn):` called after a reducer changes the `state`
+- `onReducer(fn):` used for apply reducer enhancer
+- `onEffect(fn):` used for wrapping effect to add custom behavior, e.g. [dva-loading](https://github.com/dvajs/dva-loading) for automatical loading state
+- `onHmr(fn):` used for hot module replacement
+- `extraReducers(object):` used for adding extra reducers, e.g. [redux-form](https://github.com/erikras/redux-form) needs extra `form` reducer
 
 ### `app.model(obj)`
 
 Create a new model. Takes the following arguments:
 
-- **namespace:** 通过 namespace 访问其他 model 上的属性，不能为空
-- **state:** 初始值
-- **reducers:** 同步操作，用于更新数据，由 `action` 触发
-- **effects:** 异步操作，处理各种业务逻辑，不直接更新数据，由 `action` 触发，可以 dispatch `action`
-- **subscriptions:** 异步只读操作，不直接更新数据，可以 dispatch `action`
+- **namespace:** namespace the model
+- **state:** initial value
+- **reducers:** synchronous operations that modify state. Triggered by `actions`. Signature of `(state, action) => state`, same as Redux.
+- **effects:** asynchronous operations that don't modify state directly. Triggered by `actions`, can call `actions`. Signature of `(action, { put, call, select  })`,
+- **subscriptions:** asynchronous read-only operations that don't modify state directly. Can call `actions`. Signature of `({ dispatch, history })`.
 
-一个典型的 model ：
+**put(action)** in effects, and **dispatch(action)** in subscriptions
+
+Send a new action to the models. `put` in effects is the same as `dispatch` in subscriptions.
+
+e.g.
+
+```javascript
+yield put({
+  type: actionType,
+  payload: attachedData,
+  error: errorIfHave
+});
+```
+
+or 
+
+```javascript
+dispatch({
+  type: actionType,
+  payload: attachedData,
+  error: errorIfHave
+});
+```
+
+When dispatch action inside a `model`, we don't need to add namespace prefix. And if ouside a `model`, we should add namespace separated with a `/`, e.g. `namespace/actionType`.
+
+**call(asyncFunction)**
+
+Call async function. Support promise.
+
+e.g.
+
+```javascript
+const result = yield call(api.fetch, { page: 1 });
+```
+
+**select(function)**
+
+Select data from global state.
+
+e.g.
+
+```javascript
+const count = yield select(state => state.count);
+```
+
+A typical model example:
 
 ```javascript
 app.model({
@@ -168,7 +195,7 @@ app.model({
     },
   },
   subscriptions: {
-    // 监听键盘事件，在点击 ctrl + up 时，触发 addDelay action
+    // Monitor keyboard input
     keyboard({ dispatch }) {
       return key('ctrl+up', () => { dispatch({ type: 'addDelay'}); });
     },
@@ -176,32 +203,68 @@ app.model({
 });
 ```
 
-`reducers` 来自 redux，格式为 `(state, action) => state`，详见 [Reducers@redux.js.org](http://redux.js.org/docs/basics/Reducers.html)，但不支持 combineReducer 。
-
-`effects` 是 side effects，用于存放异步逻辑，底层引入了 [redux-sagas](https://github.com/yelouafi/redux-saga) 做异步流程控制，通过 [generator](http://www.ruanyifeng.com/blog/2015/04/generator.html) 把异步转换成同步写法。格式为 `*(action, effects) => {}`。
-
-`subscriptions` 是订阅，用于订阅一个数据源，然后根据需要 dispatch 相应的 action。数据源可以是当前的时间、服务器的 websocket 连接、keyboard 输入、geolocation 变化、history 路由变化等等。格式为 `({ dispatch, history }) => unsubscribe` 。
+And [Another complex model example](https://github.com/dvajs/dva-hackernews/blob/master/src/models/item/index.js) from dva-hackernews.
 
 ### `app.router(({ history }) => routes)`
 
-创建路由。不做封装，使用和 react-router 相同的配置，可用 jsx 格式，也可用 javascript object 的格式支持动态路由。
+Config router. Takes a function with arguments `{ history }`, and expects `router` config. It use the same api with react-router, can return jsx elements, or JavaScript Object for dynamic routing.
 
-详见：[react-router/docs](https://github.com/reactjs/react-router/tree/master/docs)
+e.g.
+
+```javascript
+import { Router, Route } from 'dva/routes';
+app.router(({ history } => ({
+  <Router history={ history }>
+    <Route path="/" component={App} />
+  </Router>
+});
+```
+
+More on [react-router/docs](https://github.com/reactjs/react-router/tree/master/docs).
 
 ### `app.start(selector?)`
 
-Start the application. 如果没有传入 `selector`，则返回 React Element，可用于 SSR，react-native, 国际化等等。
+Start the application. `selector` is optional. If no `selector` arguments, it will return a function that return JSX elements.
+
+## Installation
+
+```bash
+$ npm install dva
+```
 
 ## FAQ
 
 ### Why is it called dva?
 
-dva is a [hero](http://ow.blizzard.cn/heroes/dva) from overwatch. She is beautiful and cute, and `dva` is the shortest one that is available on npm.
+dva is a [hero](http://ow.blizzard.cn/heroes/dva) from overwatch. She is beautiful and cute, and `dva` is the shortest and available one on npm when creating it.
+
+### Which packages was dva built on?
+
+- views: [react](https://github.com/facebook/react)
+- models: [redux](https://github.com/reactjs/redux), [react-redux](https://github.com/reactjs/react-redux)
+- router: [react-router](https://github.com/reactjs/react-router)
+- http: [whatwg-fetch](https://github.com/github/fetch)
 
 ### Is it production ready?
 
-Yes.
+Sure.
+
+### Is it support IE8?
+
+No.
+
+## Read More
+
+- [dva knowledge map](https://github.com/dvajs/dva-knowledgemap) - All knowledge points needed to create a dva app.
+- [dva 简介：Why dva and What's dva](https://github.com/dvajs/dva/issues/1)
+- [教程：教你如何一步步完成一个中型应用](https://github.com/dvajs/dva-docs/blob/master/zh/tutorial/01-%E6%A6%82%E8%A6%81.md)
+- [subscription 及其适用场景](https://github.com/dvajs/dva/issues/3#issuecomment-229250708)
+- [升级文档：Upgrade to 1.0.0](https://github.com/dvajs/dva/pull/42#issuecomment-241323617)
+- [支付宝前端应用架构的发展和选择: 从 roof 到 redux 再到 dva](https://github.com/sorrycc/blog/issues/6)
+- [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1)
+- [从 0 开始实现 react 版本的 hackernews (基于 dva)](https://github.com/sorrycc/blog/issues/9)
 
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license)
+
