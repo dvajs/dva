@@ -207,7 +207,7 @@ And [another complex model example](https://github.com/dvajs/dva-hackernews/blob
 
 ### `app.router(({ history }) => routes)`
 
-Config router. Takes a function with arguments `{ history }`, and expects `router` config. It use the same api with react-router, can return jsx elements, or JavaScript Object for dynamic routing.
+Config router. Takes a function with arguments `{ history }`, and expects `router` config. It use the same api as react-router, return jsx elements or JavaScript Object for dynamic routing.
 
 e.g.
 
