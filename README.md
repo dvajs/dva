@@ -203,7 +203,7 @@ app.model({
 });
 ```
 
-And [Another complex model example](https://github.com/dvajs/dva-hackernews/blob/master/src/models/item/index.js) from dva-hackernews.
+And [another complex model example](https://github.com/dvajs/dva-hackernews/blob/master/src/models/item/index.js) from dva-hackernews.
 
 ### `app.router(({ history }) => routes)`
 
@@ -249,7 +249,7 @@ dva is a [hero](http://ow.blizzard.cn/heroes/dva) from overwatch. She is beautif
 
 Sure.
 
-### Is it support IE8?
+### Does it support IE8?
 
 No.
 
