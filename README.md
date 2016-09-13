@@ -65,11 +65,11 @@ app.router(routes);
 app.start('#root');
 ```
 
-You can follow [Getting Started](https://github.com/dvajs/dva-docs/blob/master/zh/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.md) to make a `Count App` step by step.
+You can follow [Getting Started](https://github.com/dvajs/dva-docs/blob/master/v1/en-us/getting-started.md) to make a `Count App` step by step.
 
 ## Creating an App
 
-We recommend to use [dva-cli]() for creating boilerplate.
+We recommend to use [dva-cli](https://github.com/dvajs/dva-cli) for boilerplating your app.
 
 ```bash
 // Install dva-cli
@@ -82,11 +82,11 @@ $ npm install
 $ npm start
 ```
 
-But if you like [cra](https://github.com/facebookincubator/create-react-app), feel free to read [Creating dva app with create-react-app](https://github.com/dvajs/dva/issues/58#issuecomment-243435470).
+But if you like [create-react-app](https://github.com/facebookincubator/create-react-app), feel free to read [Creating dva app with create-react-app](https://github.com/dvajs/dva/issues/58#issuecomment-243435470).
 
 ## Concepts
 
-[Concepts](https://github.com/dvajs/dva-docs/blob/master/en-us/concepts/01-basic.md) on Model, State, Action, dispatch, Reducer, Effect, Subscription, Router and Route Components.
+View [Concepts](https://github.com/dvajs/dva-docs/blob/master/v1/en-us/concepts.md) for detail explain on Model, State, Action, dispatch, Reducer, Effect, Subscription, Router and Route Components.
 
 <img src="https://zos.alipayobjects.com/rmsportal/PPrerEAKbIoDZYr.png" width="807" />
 
@@ -255,10 +255,9 @@ No.
 
 ## Read More
 
-- [dva knowledge map](https://github.com/dvajs/dva-knowledgemap) - All knowledge points needed to create a dva app.
+- [dva Knowledgemap](https://github.com/dvajs/dva-knowledgemap) - All knowledge points needed to create a dva app.
 - [dva 简介：Why dva and What's dva](https://github.com/dvajs/dva/issues/1)
-- [教程：教你如何一步步完成一个中型应用](https://github.com/dvajs/dva-docs/blob/master/zh/tutorial/01-%E6%A6%82%E8%A6%81.md)
-- [subscription 及其适用场景](https://github.com/dvajs/dva/issues/3#issuecomment-229250708)
+- [教程：教你如何一步步完成一个中型应用](https://github.com/dvajs/dva-docs/blob/master/v1/zh-cn/tutorial/01-%E6%A6%82%E8%A6%81.md)
 - [升级文档：Upgrade to 1.0.0](https://github.com/dvajs/dva/pull/42#issuecomment-241323617)
 - [支付宝前端应用架构的发展和选择: 从 roof 到 redux 再到 dva](https://github.com/sorrycc/blog/issues/6)
 - [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1)
@@ -267,4 +266,3 @@ No.
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license)
-
