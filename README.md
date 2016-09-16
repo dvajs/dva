@@ -95,7 +95,7 @@ View [Concepts](https://github.com/dvajs/dva-docs/blob/master/v1/en-us/concepts.
 
 ### `app = dva(opts)`
 
-Initialize a new `dva` app. Takes an optional object of handlers that is passed to [app.use](#appusehooks). Besides, you can config `history` 和 `initialState` here.
+Initialize a new `dva` app. Takes an optional object of handlers that is passed to [app.use](#appusehooks). Besides, you can config `history` and `initialState` here.
 
 - `opts.history:` the history for router, default: `hashHistory`
 - `opts.initialState:` initialState of the app, default: `{}`
