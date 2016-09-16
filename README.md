@@ -6,7 +6,7 @@
 [![NPM downloads](http://img.shields.io/npm/dm/dva.svg?style=flat)](https://npmjs.org/package/dva)
 [![Dependencies](https://david-dm.org/dvajs/dva/status.svg)](https://david-dm.org/dvajs/dva)
 
-React and redux based, lightweight and elm-style framework.
+React and redux based, lightweight and elm-style framework. (Inspired by [choo](https://github.com/yoshuawuyts/choo))
 
 ----
 
@@ -242,7 +242,7 @@ dva is a [hero](http://ow.blizzard.cn/heroes/dva) from overwatch. She is beautif
 ### Which packages was dva built on?
 
 - views: [react](https://github.com/facebook/react)
-- models: [redux](https://github.com/reactjs/redux), [react-redux](https://github.com/reactjs/react-redux)
+- models: [redux](https://github.com/reactjs/redux), [react-redux](https://github.com/reactjs/react-redux), [redux-saga](https://github.com/yelouafi/redux-saga)
 - router: [react-router](https://github.com/reactjs/react-router)
 - http: [whatwg-fetch](https://github.com/github/fetch)
 
