@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import MainLayout from '../components/MainLayout/MainLayout';
 import styles from './Users.less';
@@ -37,10 +38,10 @@ function Users({ location, dispatch, users }) {
     total,
     current,
     onPageChange(page) {
-      dispatch({
-        type: 'users/query',
-        payload: {page}
-      });
+      dispatch(routerRedux.push({
+        pathname: '/users',
+        query: { page },
+      }));
     },
     onDeleteItem(id) {
       dispatch({

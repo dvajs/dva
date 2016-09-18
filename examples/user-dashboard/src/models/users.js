@@ -1,6 +1,7 @@
-import { hashHistory, routerRedux } from 'dva/router';
+import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import { create, remove, update, query } from '../services/users';
+import { parse } from 'qs';
 
 export default {
 
@@ -31,30 +32,8 @@ export default {
 
   effects: {
     *query({ payload }, { select, call, put }) {
-      const route = yield select(({ routing }) => routing);
-      let routerQuery = {};
-      if (route && route.locationBeforeTransitions && route.locationBeforeTransitions.query) {
-        routerQuery = {...route.locationBeforeTransitions.query};
-      }
-
-      if (!routerQuery.keyword) {
-        delete routerQuery.keyword;
-        delete routerQuery.field;
-      }
-
-      const newQuery = {
-        ...routerQuery,
-        page: 1,
-        ...payload
-      };
-
-      yield call(hashHistory.push, {
-        pathname: '/users',
-        query: newQuery
-      });
-
       yield put({ type: 'showLoading' });
-      const { data } = yield call(query, newQuery);
+      const { data } = yield call(query, parse(payload));
       if (data) {
         yield put({
           type: 'querySuccess',
