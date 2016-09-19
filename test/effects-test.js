@@ -203,7 +203,7 @@ describe('effects', () => {
     }).toThrow(/app.start: effect type should be takeEvery, takeLatest or watcher/);
   });
 
-  it.only('onEffect', done => {
+  it('onEffect', done => {
     const SHOW = '@@LOADING/SHOW';
     const HIDE = '@@LOADING/HIDE';
 
@@ -213,6 +213,7 @@ describe('effects', () => {
     let modelNamespace = null;
     // Test onEffect should be run orderly
     let count = 0;
+    let expectedKey = null;
 
     app.use({
       extraReducers: {
@@ -227,7 +228,8 @@ describe('effects', () => {
           }
         },
       },
-      onEffect(effect, { put }, model) {
+      onEffect(effect, { put }, model, key) {
+        expectedKey = key;
         modelNamespace = model.namespace;
         return function*(...args) {
           count = count * 2;
@@ -239,7 +241,7 @@ describe('effects', () => {
     });
 
     app.use({
-      onEffect(effect) {
+      onEffect(effect, { put }, model, key) {
         return function*(...args) {
           count = count + 2;
           yield effect(...args);
@@ -270,6 +272,7 @@ describe('effects', () => {
     app._store.dispatch({ type: 'count/addRemote' });
     expect(app._store.getState().loading).toEqual(true);
     expect(modelNamespace).toEqual('count');
+    expect(expectedKey).toEqual('count/addRemote');
 
     setTimeout(_ => {
       expect(app._store.getState().loading).toEqual(false);
