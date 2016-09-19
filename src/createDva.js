@@ -268,7 +268,7 @@ export default function createDva(createOpts) {
       }
 
       const onEffect = plugin.get('onEffect');
-      const sagaWithOnEffect = applyOnEffect(onEffect, sagaWithCatch, model);
+      const sagaWithOnEffect = applyOnEffect(onEffect, sagaWithCatch, model, key);
 
       switch (type) {
         case 'watcher':
@@ -324,9 +324,9 @@ export default function createDva(createOpts) {
       };
     }
 
-    function applyOnEffect(fns, effect, model) {
+    function applyOnEffect(fns, effect, model, key) {
       for (const fn of fns) {
-        effect = fn(effect, sagaEffects, model);
+        effect = fn(effect, sagaEffects, model, key);
       }
       return effect;
     }
