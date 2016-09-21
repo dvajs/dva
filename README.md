@@ -254,6 +254,10 @@ Sure.
 
 No.
 
+### Does it support react-native?
+
+Yes. Try to get started with [dva-example-react-native](https://github.com/sorrycc/dva-example-react-native).
+
 ## Read More
 
 - [dva Knowledgemap](https://github.com/dvajs/dva-knowledgemap) - All knowledge points needed to create a dva app.
