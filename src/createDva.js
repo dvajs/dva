@@ -8,6 +8,7 @@ import isPlainObject from 'is-plain-object';
 import invariant from 'invariant';
 import warning from 'warning';
 import flatten from 'flatten';
+import window from 'global/window';
 import Plugin from './plugin';
 
 const SEP = '/';
