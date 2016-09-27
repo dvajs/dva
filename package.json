@@ -43,6 +43,7 @@
   "dependencies": {
     "babel-runtime": "^6.11.6",
     "flatten": "^1.0.2",
+    "global": "^4.3.1",
     "invariant": "^2.2.1",
     "is-plain-object": "^2.0.1",
     "react-redux": "4.4.x",
