@@ -95,7 +95,7 @@ export default function createDva(createOpts) {
       const onErrorWrapper = (err) => {
         if (err) {
           if (typeof err === 'string') err = new Error(err);
-          onError(err);
+          onError(err, app._store.dispatch);
         }
       };
 
