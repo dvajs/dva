@@ -105,13 +105,17 @@ describe('effects', () => {
   it('onError', () => {
     const errors = [];
     const app = dva({
-      onError: (error) => {
+      onError: (error, dispatch) => {
         errors.push(error.message);
+        dispatch({ type: 'count/add' });
       }
     });
     app.model({
       namespace: 'count',
       state: 0,
+      reducers: {
+        add(state) { return state + 1; },
+      },
       effects: {
         *addDelay() {
           throw new Error('effect error');
@@ -122,6 +126,7 @@ describe('effects', () => {
     app.start();
     app._store.dispatch({ type: 'count/addDelay' });
     expect(errors).toEqual(['effect error']);
+    expect(app._store.getState().count).toEqual(1);
   });
 
   it('type: takeLatest', (done) => {

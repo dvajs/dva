@@ -95,7 +95,7 @@ export default function createDva(createOpts) {
       const onErrorWrapper = (err) => {
         if (err) {
           if (typeof err === 'string') err = new Error(err);
-          onError(err);
+          onError(err, app._store.dispatch);
         }
       };
 
@@ -109,7 +109,10 @@ export default function createDva(createOpts) {
 
       // extra reducers
       const extraReducers = plugin.get('extraReducers');
-      invariant(Object.keys(extraReducers).every(key => !(key in reducers)), 'app.start: extraReducers is conflict with other reducers');
+      invariant(
+        Object.keys(extraReducers).every(key => !(key in reducers)),
+        'app.start: extraReducers is conflict with other reducers'
+      );
 
       // create store
       const extraMiddlewares = plugin.get('onAction');
@@ -197,17 +200,38 @@ export default function createDva(createOpts) {
       const model = { ...m };
       const { namespace, reducers, effects } = model;
 
-      invariant(namespace, 'app.model: namespace should be defined');
-      invariant(mobile || namespace !== 'routing', 'app.model: namespace should not be routing, it\'s used by react-redux-router');
-      invariant(!model.subscriptions || isPlainObject(model.subscriptions), 'app.model: subscriptions should be Object');
-      invariant(!reducers || isPlainObject(reducers) || Array.isArray(reducers), 'app.model: reducers should be Object or array');
-      invariant(!Array.isArray(reducers) || (isPlainObject(reducers[0]) && typeof reducers[1] === 'function'), 'app.model: reducers with array should be app.model({ reducers: [object, function] })')
-      invariant(!effects || isPlainObject(effects), 'app.model: effects should be Object');
+      invariant(
+        namespace,
+        'app.model: namespace should be defined'
+      );
+      invariant(
+        mobile || namespace !== 'routing',
+        'app.model: namespace should not be routing, it\'s used by react-redux-router'
+      );
+      invariant(
+        !model.subscriptions || isPlainObject(model.subscriptions),
+        'app.model: subscriptions should be Object'
+      );
+      invariant(
+        !reducers || isPlainObject(reducers) || Array.isArray(reducers),
+        'app.model: reducers should be Object or array'
+      );
+      invariant(
+        !Array.isArray(reducers) || (isPlainObject(reducers[0]) && typeof reducers[1] === 'function'),
+        'app.model: reducers with array should be app.model({ reducers: [object, function] })'
+      );
+      invariant(
+        !effects || isPlainObject(effects),
+        'app.model: effects should be Object'
+      );
 
       function applyNamespace(type) {
         function getNamespacedReducers(reducers) {
           return Object.keys(reducers).reduce((memo, key) => {
-            warning(key.indexOf(`${namespace}${SEP}`) !== 0, `app.model: ${type.slice(0, -1)} ${key} should not be prefixed with namespace ${namespace}`);
+            warning(
+              key.indexOf(`${namespace}${SEP}`) !== 0,
+              `app.model: ${type.slice(0, -1)} ${key} should not be prefixed with namespace ${namespace}`
+            );
             memo[`${namespace}${SEP}${key}`] = reducers[key];
             return memo;
           }, {});
@@ -327,7 +351,10 @@ export default function createDva(createOpts) {
       function put(action) {
         const { type } = action;
         invariant(type, 'dispatch: action should be a plain Object with type');
-        warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `effects.put: ${type} should not be prefixed with namespace ${model.namespace}`);
+        warning(
+          type.indexOf(`${model.namespace}${SEP}`) !== 0,
+          `effects.put: ${type} should not be prefixed with namespace ${model.namespace}`
+        );
         return sagaEffects.put({ ...action, type: prefixType(type, model) });
       }
       return { ...sagaEffects, put };
@@ -337,7 +364,10 @@ export default function createDva(createOpts) {
       return action => {
         const { type } = action;
         invariant(type, 'dispatch: action should be a plain Object with type');
-        warning(type.indexOf(`${model.namespace}${SEP}`) !== 0, `dispatch: ${type} should not be prefixed with namespace ${model.namespace}`);
+        warning(
+          type.indexOf(`${model.namespace}${SEP}`) !== 0,
+          `dispatch: ${type} should not be prefixed with namespace ${model.namespace}`
+        );
         return dispatch({ ...action, type: prefixType(type, model) });
       };
     }
