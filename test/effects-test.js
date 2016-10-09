@@ -153,6 +153,49 @@ describe('effects', () => {
     }, 200);
   });
 
+  xit('type: throttle throw error if no ms', () => {
+    const app = dva();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        addDelay: [function*() {}, { type: 'throttle' }],
+      },
+    });
+    app.router(_ => 1);
+    expect(() => {
+      app.start();
+    }).toThrow(/app.start: opts.ms should be defined if type is throttle/);
+  });
+
+  it('type: throttle', (done) => {
+    const app = dva();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) { return state + payload || 1 },
+      },
+      effects: {
+        addDelay: [function*({ payload }, { call, put }) {
+          yield call(delay, 100);
+          yield put({ type: 'add', payload });
+        }, { type: 'throttle', ms: 100 }],
+      },
+    });
+    app.router(_ => 1);
+    app.start();
+
+    // Only catch the last one.
+    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    app._store.dispatch({ type: 'count/addDelay', payload: 3 });
+
+    setTimeout(() => {
+      expect(app._store.getState().count).toEqual(2);
+      done();
+    }, 200);
+  });
+
 
   it('type: watcher', (done) => {
     const watcher = { type: 'watcher' };
