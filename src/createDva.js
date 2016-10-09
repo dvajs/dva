@@ -1,7 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import createSagaMiddleware, { takeEvery, takeLatest, throttle } from 'redux-saga';
+import createSagaMiddleware from 'redux-saga/lib/internal/middleware';
+import { takeEvery, takeLatest, throttle } from 'redux-saga/lib/internal/sagaHelpers';
 import handleActions from 'redux-actions/lib/handleActions';
 import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
