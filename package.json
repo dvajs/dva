@@ -51,7 +51,7 @@
     "react-router-redux": "^4.0.5",
     "redux": "^3.6.0",
     "redux-actions": "^0.12.0",
-    "redux-saga": "^0.11.1",
+    "redux-saga": "^0.12.0",
     "warning": "^3.0.0",
     "whatwg-fetch": "^1.0.0"
   },
