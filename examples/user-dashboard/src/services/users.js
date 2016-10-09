@@ -8,20 +8,20 @@ export async function query(params) {
 export async function create(params) {
   return request('/api/users', {
     method: 'post',
-    body: qs.stringify(params)
+    body: qs.stringify(params),
   });
 }
 
 export async function remove(params) {
   return request('/api/users', {
     method: 'delete',
-    body: qs.stringify(params)
+    body: qs.stringify(params),
   });
 }
 
 export async function update(params) {
   return request('/api/users', {
     method: 'put',
-    body: qs.stringify(params)
+    body: qs.stringify(params),
   });
 }

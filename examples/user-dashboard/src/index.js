@@ -3,11 +3,7 @@ import './index.less';
 import dva from 'dva';
 
 // 1. Initialize
-const app = dva({
-  onError(error) {
-    console.error(error.stack);
-  },
-});
+const app = dva();
 
 // 2. Model
 app.model(require('./models/users'));

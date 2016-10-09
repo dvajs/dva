@@ -10,7 +10,7 @@ import UserModal from '../components/Users/UserModal';
 function Users({ location, dispatch, users }) {
   const {
     loading, list, total, current,
-    currentItem, modalVisible, modalType
+    currentItem, modalVisible, modalType,
     } = users;
 
   const { field, keyword } = location.query;
@@ -22,12 +22,12 @@ function Users({ location, dispatch, users }) {
     onOk(data) {
       dispatch({
         type: `users/${modalType}`,
-        payload: data
+        payload: data,
       });
     },
     onCancel() {
       dispatch({
-        type: 'users/hideModal'
+        type: 'users/hideModal',
       });
     },
   };
@@ -46,7 +46,7 @@ function Users({ location, dispatch, users }) {
     onDeleteItem(id) {
       dispatch({
         type: 'users/delete',
-        payload: id
+        payload: id,
       });
     },
     onEditItem(item) {
@@ -55,9 +55,9 @@ function Users({ location, dispatch, users }) {
         payload: {
           modalType: 'update',
           currentItem: item,
-        }
+        },
       });
-    }
+    },
   };
 
   const userSearchProps = {
@@ -66,19 +66,18 @@ function Users({ location, dispatch, users }) {
     onSearch(fieldsValue) {
       dispatch({
         type: 'users/query',
-        payload: fieldsValue
+        payload: fieldsValue,
       });
     },
     onAdd() {
       dispatch({
         type: 'users/showModal',
         payload: {
-          modalType: 'create'
-        }
+          modalType: 'create',
+        },
       });
-    }
+    },
   };
-
 
   // 解决 Form.create initialValue 的问题
   // 每次创建一个全新的组件, 而不做diff
@@ -104,7 +103,7 @@ Users.propTypes = {
 };
 
 function mapStateToProps({ users }) {
-  return {users};
+  return { users };
 }
 
 export default connect(mapStateToProps)(Users);

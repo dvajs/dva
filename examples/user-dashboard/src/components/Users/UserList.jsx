@@ -5,21 +5,21 @@ function UserList({
   total, current, loading, dataSource,
   onPageChange,
   onDeleteItem,
-  onEditItem
+  onEditItem,
   }) {
   const columns = [{
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
-    render: (text) => <a href="#">{text}</a>
+    render: (text) => <a href="#">{text}</a>,
   }, {
     title: '年龄',
     dataIndex: 'age',
-    key: 'age'
+    key: 'age',
   }, {
     title: '住址',
     dataIndex: 'address',
-    key: 'address'
+    key: 'address',
   }, {
     title: '操作',
     key: 'operation',
@@ -31,7 +31,7 @@ function UserList({
           <a>删除</a>
         </Popconfirm>
       </p>
-    )
+    ),
   }];
 
   return (
@@ -61,7 +61,7 @@ UserList.propTypes = {
   dataSource: PropTypes.array,
   loading: PropTypes.any,
   total: PropTypes.any,
-  current: PropTypes.any
+  current: PropTypes.any,
 };
 
 export default UserList;
