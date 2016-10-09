@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import createSagaMiddleware, { takeEvery, takeLatest } from 'redux-saga';
+import createSagaMiddleware, { takeEvery, takeLatest, throttle } from 'redux-saga';
 import handleActions from 'redux-actions/lib/handleActions';
 import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
@@ -251,13 +251,25 @@ export default function createDva(createOpts) {
     function getWatcher(key, _effect, model, onError) {
       let effect = _effect;
       let type = 'takeEvery';
+      let ms;
+
       if (Array.isArray(_effect)) {
         effect = _effect[0];
         const opts = _effect[1];
         if (opts && opts.type) {
           type = opts.type;
+          if (type === 'throttle') {
+            invariant(
+              opts.ms,
+              'app.start: opts.ms should be defined if type is throttle'
+            );
+            ms = opts.ms;
+          }
         }
-        invariant(['watcher', 'takeEvery', 'takeLatest'].indexOf(type) > -1, 'app.start: effect type should be takeEvery, takeLatest or watcher')
+        invariant(
+          ['watcher', 'takeEvery', 'takeLatest', 'throttle'].indexOf(type) > -1,
+          'app.start: effect type should be takeEvery, takeLatest, throttle or watcher'
+        );
       }
 
       function *sagaWithCatch(...args) {
@@ -277,6 +289,10 @@ export default function createDva(createOpts) {
         case 'takeLatest':
           return function*() {
             yield takeLatest(key, sagaWithOnEffect);
+          };
+        case 'throttle':
+          return function*() {
+            yield throttle(ms, key, sagaWithOnEffect);
           };
         // takeEvery
         default:
