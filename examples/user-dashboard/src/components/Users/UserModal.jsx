@@ -4,29 +4,30 @@ const FormItem = Form.Item;
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 6,
   },
   wrapperCol: {
-    span: 14
-  }
+    span: 14,
+  },
 };
 
-function UserModal({
-  visible, form, item = {},
+const UserModal = ({
+  visible,
+  item = {},
   onOk,
   onCancel,
-  }) {
-
-  const { getFieldProps } = form;
-
+  form: {
+    getFieldDecorator,
+    validateFields,
+    getFieldsValue,
+    },
+  }) => {
   function handleOk() {
-    form.validateFields((errors) => {
+    validateFields((errors) => {
       if (errors) {
         return;
       }
-
-      const data = { ...form.getFieldsValue(), key: item.key };
-
+      const data = { ...getFieldsValue(), key: item.key };
       onOk(data);
     });
   }
@@ -37,15 +38,6 @@ function UserModal({
     } else {
       callback();
     }
-  }
-
-  function getFieldPropsBy(key, message, validator) {
-    const rules = [{
-      required: true,
-      message,
-      validator
-    }];
-    return getFieldProps(key, { rules, initialValue: item[key] || '' });
   }
 
   const modalOpts = {
@@ -63,26 +55,48 @@ function UserModal({
           hasFeedback
           {...formItemLayout}
         >
-          <Input {...getFieldPropsBy('name', '不能为空')} />
+          {getFieldDecorator('name', {
+            initialValue: item.name,
+            rules: [
+              { required: true, message: '名称未填写' },
+            ],
+          })(
+            <Input type="text" />
+          )}
         </FormItem>
         <FormItem
           label="年龄："
           hasFeedback
           {...formItemLayout}
         >
-          <Input type="age" {...getFieldPropsBy('age', '年龄不合法', checkNumber)} />
+          {getFieldDecorator('age', {
+            initialValue: item.age,
+            rules: [
+              { required: true, message: '年龄未填写' },
+              { validator: checkNumber },
+            ],
+          })(
+            <Input type="text" />
+          )}
         </FormItem>
         <FormItem
           label="住址："
           hasFeedback
           {...formItemLayout}
         >
-          <Input type="address" {...getFieldPropsBy('address', '不能为空')} />
+          {getFieldDecorator('address', {
+            initialValue: item.address,
+            rules: [
+              { required: true, message: '不能为空' },
+            ],
+          })(
+            <Input type="address" />
+          )}
         </FormItem>
       </Form>
     </Modal>
   );
-}
+};
 
 UserModal.propTypes = {
   visible: PropTypes.any,

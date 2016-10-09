@@ -1,5 +1,3 @@
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
 import { create, remove, update, query } from '../services/users';
 import { parse } from 'qs';
 
@@ -14,7 +12,7 @@ export default {
     current: 1,
     currentItem: {},
     modalVisible: false,
-    modalType: 'create'
+    modalType: 'create',
   },
 
   subscriptions: {
@@ -23,7 +21,7 @@ export default {
         if (location.pathname === '/users') {
           dispatch({
             type: 'query',
-            payload: location.query
+            payload: location.query,
           });
         }
       });
@@ -31,7 +29,7 @@ export default {
   },
 
   effects: {
-    *query({ payload }, { select, call, put }) {
+    *query({ payload }, { call, put }) {
       yield put({ type: 'showLoading' });
       const { data } = yield call(query, parse(payload));
       if (data) {
@@ -40,8 +38,8 @@ export default {
           payload: {
             list: data.data,
             total: data.page.total,
-            current: data.page.current
-          }
+            current: data.page.current,
+          },
         });
       }
     },
@@ -51,7 +49,7 @@ export default {
       if (data && data.success) {
         yield put({
           type: 'deleteSuccess',
-          payload
+          payload,
         });
       }
     },
@@ -62,7 +60,7 @@ export default {
       if (data && data.success) {
         yield put({
           type: 'createSuccess',
-          payload
+          payload,
         });
       }
     },
@@ -75,10 +73,10 @@ export default {
       if (data && data.success) {
         yield put({
           type: 'updateSuccess',
-          payload: newUser
+          payload: newUser,
         });
       }
-    }
+    },
   },
 
   reducers: {
@@ -113,6 +111,6 @@ export default {
     hideModal(state) {
       return { ...state, modalVisible: false };
     },
-  }
+  },
 
 };

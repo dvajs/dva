@@ -4,7 +4,7 @@
     "index": "./src/index.js"
   },
   "dependencies": {
-    "antd": "^1.6.1",
+    "antd": "^2.0.1",
     "dva": "1.0.0",
     "qs": "^6.2.0",
     "react": "^15.1.0",
