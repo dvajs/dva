@@ -102,7 +102,7 @@ export default function createDva(createOpts) {
       // get reducers and sagas from model
       let sagas = [];
       let reducers = { ...initialReducer };
-      for (const m of this._models) {
+      for (let m of this._models) {
         reducers[m.namespace] = getReducer(m.reducers, m.state);
         if (m.effects) sagas.push(getSaga(m.effects, m, onErrorWrapper));
       }
@@ -150,7 +150,7 @@ export default function createDva(createOpts) {
 
       // store change
       const listeners = plugin.get('onStateChange');
-      for (const listener of listeners) {
+      for (let listener of listeners) {
         store.subscribe(listener);
       }
 
@@ -161,7 +161,7 @@ export default function createDva(createOpts) {
       if (setupHistory) setupHistory.call(this, history);
 
       // run subscriptions
-      for (const model of this._models) {
+      for (let model of this._models) {
         if (model.subscriptions) {
           runSubscriptions(model.subscriptions, model, this, onErrorWrapper);
         }
@@ -266,7 +266,7 @@ export default function createDva(createOpts) {
 
     function getSaga(effects, model, onError) {
       return function *() {
-        for (const key in effects) {
+        for (let key in effects) {
           const watcher = getWatcher(key, effects[key], model, onError);
           yield sagaEffects.fork(watcher);
         }
@@ -328,7 +328,7 @@ export default function createDva(createOpts) {
     }
 
     function runSubscriptions(subs, model, app, onError) {
-      for (const key in subs) {
+      for (let key in subs) {
         const sub = subs[key];
         invariant(typeof sub === 'function', 'app.start: subscription should be function');
         sub({
@@ -373,7 +373,7 @@ export default function createDva(createOpts) {
     }
 
     function applyOnEffect(fns, effect, model, key) {
-      for (const fn of fns) {
+      for (let fn of fns) {
         effect = fn(effect, sagaEffects, model, key);
       }
       return effect;
