@@ -101,6 +101,7 @@
     "router.js",
     "fetch.js",
     "mobile.js",
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ]
 }
