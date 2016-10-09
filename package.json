@@ -21,6 +21,7 @@
   ],
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
+  "typings": "./index.d.ts",
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc mocha --no-timeouts",
     "debug": "mocha --require babel-register --require ./test/setup.js --no-timeouts",
