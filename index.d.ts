@@ -11,7 +11,7 @@ export interface Action {
 }
 export type Reducer<S> = <A extends Action>(state: S, action: A) => S;
 export type Effect<S> = <A extends Action>(action: A, saga:{ call?:Function, put?:Function, select?:Function }) => S;
-export type Subscription<any> = <any>(signature: {dispatch?:Function, history:Function})=>void;
+export type Subscription<Function> = <Function>(signature: {dispatch?:Function, history:Function})=>void;
 
 interface Reducers {
   Reducer: Reducer
