@@ -11,16 +11,27 @@ import { RouterRedux } from 'dva/router';
 // 1. Initialize
 const app = dva();
 
+const delay = ()=>{};
+const key = (x,y)=>{};
+
 // 2. Model
 app.model({
   namespace: 'count',
   state: 0,
   reducers: {
-    add  (count) {
-      return count + 1
+    add(state) { return state + 1; },
+    minus(state) { return state - 1; },
+  },
+  effects: {
+    *addDelay(action, { call, put }) {
+      yield call(delay, 1000);
+      yield put({ type: 'add' });
     },
-    minus(count) {
-      return count - 1
+  },
+  subscriptions: {
+    // Monitor keyboard input
+    keyboard({ dispatch }) {
+      return key('ctrl+up', () => { dispatch({ type: 'addDelay'}); });
     },
   },
 });

@@ -2,10 +2,28 @@
 // Project: dva
 // Definitions by: dva <https://github.com/dvajs/dva>
 
-declare namespace 'dva' {
+/*
+ * @refer https://github.com/reactjs/redux/blob/master/index.d.ts
+ * @template S State object type.
+ */
+export interface Action {
+  type: any;
+}
+export type Reducer<S> = <A extends Action>(state: S, action: A) => S;
+export type Effect<S> = <A extends Action>(action: A, saga:{ call?:Function, put?:Function, select?:Function }) => S;
+export type Subscription<any> = <any>(signature: {dispatch?:Function, history:Function})=>void;
 
-  /** connecting Container Components */
-  export function connect(maps:Object):Function;
+interface Reducers {
+  Reducer: Reducer
+}
+interface Effects {
+  Effect: Effect
+}
+interface Subscriptions {
+  Subscription: Subscription
+}
+
+declare namespace 'dva' {
 
   export default function dva(opts?:Object):{
 
@@ -54,11 +72,11 @@ declare namespace 'dva' {
      *
      */
     model: (model:{
-      namespace: String,
-      state: Object,
-      reducers?: Object,
-      effects?: Object,
-      subscriptions?: Object,
+      namespace: string,
+      state: any,
+      reducers?: Reducers,
+      effects?: Effects,
+      subscriptions?: Subscriptions,
     })=>void,
 
     /**
@@ -73,11 +91,11 @@ declare namespace 'dva' {
    *
    * To Connect Models on Components
    *
-   * @example
-   * `export default connect(state => state)(Components)`
+   * @refer
+   * https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options
    *
    */
-  export function connect(map:Function):Function;
+  export function connect(mapStateToProps?:Object, mapDispatchToProps?:Object, mergeProps?:Object, options?:Object):Function;
 }
 
 /**
