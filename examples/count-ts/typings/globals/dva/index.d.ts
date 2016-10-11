@@ -3,15 +3,12 @@
 // Definitions by: dva <https://github.com/dvajs/dva>
 
 import { effects } from 'redux-saga';
+import { Reducer, Action } from 'redux';
 
 /*
  * @refer https://github.com/reactjs/redux/blob/master/index.d.ts
  * @template S State object type.
  */
-export interface Action {
-  type: any;
-}
-export type Reducer<S> = <A extends Action>(state: S, action: A) => S;
 export type Effect<S> = <A extends Action>(action: A, saga:effects) => S;
 export type Subscription<Function> = <Function>(signature: {dispatch?:Function, history:Function})=>void;
 
