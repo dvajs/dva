@@ -10,7 +10,6 @@ import { Reducer, Action } from 'redux';
  * @template S State object type.
  */
 export type Effect<S> = <A extends Action>(action: A, saga:effects) => S;
-export type Subscription<Function> = <Function>(signature: {dispatch?:Function, history:Function})=>void;
 
 interface Reducers {
   Reducer?: Reducer
@@ -19,7 +18,7 @@ interface Effects {
   Effect?: Effect
 }
 interface Subscriptions {
-  Subscription?: Subscription
+  Subscription?(signature: {dispatch?:Function, history:Function}):void;
 }
 
 declare namespace 'dva' {
