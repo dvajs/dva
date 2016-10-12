@@ -2,25 +2,23 @@
 // Project: dva
 // Definitions by: dva <https://github.com/dvajs/dva>
 
+import { effects } from 'redux-saga';
+import { Reducer, Action } from 'redux';
+
 /*
  * @refer https://github.com/reactjs/redux/blob/master/index.d.ts
  * @template S State object type.
  */
-export interface Action {
-  type: any;
-}
-export type Reducer<S> = <A extends Action>(state: S, action: A) => S;
-export type Effect<S> = <A extends Action>(action: A, saga:{ call?:Function, put?:Function, select?:Function }) => S;
-export type Subscription<Function> = <Function>(signature: {dispatch?:Function, history:Function})=>void;
+export type Effect<S> = <A extends Action>(action: A, saga:effects) => S;
 
 interface Reducers {
-  Reducer: Reducer
+  Reducer?: Reducer
 }
 interface Effects {
-  Effect: Effect
+  Effect?: Effect
 }
 interface Subscriptions {
-  Subscription: Subscription
+  Subscription?(signature: {dispatch?:Function, history:Function}):void;
 }
 
 declare namespace 'dva' {

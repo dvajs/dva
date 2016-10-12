@@ -9,7 +9,7 @@
     "react-dom": "^15.1.0"
   },
   "devDependencies": {
-    "atool-build": "^0.7.6",
+    "atool-build": "^0.8.1",
     "babel-eslint": "^6.0.4",
     "babel-plugin-antd": "^0.4.0",
     "babel-plugin-dva-hmr": "^0.1.0",
