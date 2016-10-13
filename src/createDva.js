@@ -23,6 +23,9 @@ export default function createDva(createOpts) {
     setupHistory,
   } = createOpts;
 
+  /**
+   * Create a dva instance.
+   */
   return function dva(hooks = {}) {
     // history and initialState does not pass to plugin
     const history = hooks.history || defaultHistory;
@@ -41,7 +44,7 @@ export default function createDva(createOpts) {
       _history: null,
       _plugin: plugin,
       // methods
-      use: plugin.use.bind(plugin),
+      use,
       model,
       router,
       start,
@@ -51,8 +54,22 @@ export default function createDva(createOpts) {
     ////////////////////////////////////
     // Methods
 
-    function model(m) {
-      this._models.push(checkModel(m, mobile));
+    /**
+     * Register an object of hooks on the application.
+     *
+     * @param hooks
+     */
+    function use(hooks) {
+      plugin.use(hooks);
+    }
+
+    /**
+     * Register a model.
+     *
+     * @param model
+     */
+    function model(model) {
+      this._models.push(checkModel(model, mobile));
     }
 
     // inject model dynamically
@@ -73,11 +90,24 @@ export default function createDva(createOpts) {
       }
     }
 
+    /**
+     * Config router. Takes a function with arguments { history, dispatch },
+     * and expects router config. It use the same api as react-router,
+     * return jsx elements or JavaScript Object for dynamic routing.
+     *
+     * @param router
+     */
     function router(router) {
       invariant(typeof router === 'function', 'app.router: router should be function');
       this._router = router;
     }
 
+    /**
+     * Start the application. Selector is optional. If no selector
+     * arguments, it will return a function that return JSX elements.
+     *
+     * @param container selector | HTMLElement
+     */
     function start(container) {
       // support selector
       if (typeof container === 'string') {
