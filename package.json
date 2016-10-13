@@ -90,6 +90,8 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "rimraf": "^2.5.4",
+    "typescript": "^2.0.3",
+    "typescript-definition-tester": "^0.0.4",
     "uglifyjs": "^2.4.10"
   },
   "pre-commit": [

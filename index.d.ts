@@ -60,17 +60,21 @@ export interface SubscriptionsMapObject {
 export interface Model {
   namespace: string,
   state?: any,
-  reducers?: ReducersMapObject,
+  reducers?: ReducersMapObject | ReducersMapObjectWithEnhancer,
   effects?: EffectsMapObject,
   subscriptions?: SubscriptionsMapObject,
 }
 
-export interface Router {
-  (api?: { history: HistoryModule.History }): JSX.Element | Object;
+export interface RouterAPI {
+  history: HistoryModule.History;
+  app: DvaInstance;
 }
 
-export default function dva(opts?: DvaOption): {
+export interface Router {
+  (api?: RouterAPI): JSX.Element | Object;
+}
 
+export interface DvaInstance {
   /**
    * Register an object of hooks on the application.
    *
@@ -102,6 +106,8 @@ export default function dva(opts?: DvaOption): {
    */
   start: (selector?: HTMLElement | string) => any,
 }
+
+export default function dva(opts?: DvaOption): DvaInstance;
 
 /**
  * Connects a React component to Dva.
