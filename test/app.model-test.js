@@ -75,4 +75,26 @@ describe('app.model', () => {
     // effects
     expect(count).toEqual(2);
   });
+
+  it('don\'t inject if exists', () => {
+    const app = dva();
+    let count = 0;
+
+    const model = {
+      namespace: 'count',
+      state: 0,
+      subscriptions: {
+        setup() {
+          count += 1;
+        },
+      },
+    };
+
+    app.model(model);
+    app.router(() => 1);
+    app.start();
+    app.model(model);
+
+    expect(count).toEqual(1);
+  });
 });
