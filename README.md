@@ -31,6 +31,7 @@ React and redux based, lightweight and elm-style framework. (Inspired by [choo](
 - **dynamic model and router:** split large app and load on demand
 - **plugin system:** make dva extendable, e.g. use [dva-loading](https://github.com/dvajs/dva-loading) to avoid write `showLoading` and `hideLoading` hundreds of times
 - **hmr support** with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr)
+- **support typescript:** use [dva-boilerplate-typescript](https://github.com/sorrycc/dva-boilerplate-typescript) for quicking start
 
 ## Demos
 
