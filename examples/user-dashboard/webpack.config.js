@@ -5,7 +5,8 @@ const glob = require('glob');
 module.exports = function (webpackConfig, env) {
   webpackConfig.babel.babelrc = false;
   webpackConfig.babel.plugins.push('transform-runtime');
-  webpackConfig.babel.plugins.push(['antd', {
+  webpackConfig.babel.plugins.push(['import', {
+    libraryName: 'antd',
     style: 'css'  // if true, use less
   }]);
 
