@@ -7,6 +7,7 @@
     "url": "https://github.com/dvajs/dva"
   },
   "homepage": "https://github.com/dvajs/dva",
+  "typings": "./index.d.ts",
   "keywords": [
     "dva",
     "ant",
@@ -19,8 +20,13 @@
     "framework",
     "frontend"
   ],
-  "author": "chencheng <sorrycc@gmail.com>",
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+  ],
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvajs/dva/issues"
+  },
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc mocha --no-timeouts",
     "debug": "mocha --require babel-register --require ./test/setup.js --no-timeouts",
@@ -100,6 +106,10 @@
     "router.js",
     "fetch.js",
     "mobile.js",
-    "index.js"
+    "index.js",
+    "index.d.ts",
+    "router.d.ts",
+    "fetch.d.ts",
+    "mobile.d.ts"
   ]
 }
