@@ -1,4 +1,6 @@
 
+> The latest CHANGELOG is written in https://github.com/dvajs/dva/releases .
+
 ## `1.0.0`
 
 - [42](https://github.com/dvajs/dva/pull/42)
