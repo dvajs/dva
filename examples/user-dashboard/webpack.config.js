@@ -12,11 +12,7 @@ module.exports = function (webpackConfig, env) {
 
   // Enable hmr for development.
   if (env === 'development') {
-    webpackConfig.babel.plugins.push(['dva-hmr', {
-      entries: [
-        './src/index.js',
-      ],
-    }]);
+    webpackConfig.babel.plugins.push('dva-hmr');
   }
 
   // Parse all less files as css module.
