@@ -1,4 +1,4 @@
-import { hashHistory, match } from 'react-router';
+import hashHistory from 'react-router/lib/hashHistory';
 import {
   routerMiddleware,
   syncHistoryWithStore,
