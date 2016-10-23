@@ -236,6 +236,8 @@ $ npm install dva
 
 ## FAQ
 
+[More FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)
+
 ### Why is it called dva?
 
 dva is a [hero](http://ow.blizzard.cn/heroes/dva) from overwatch. She is beautiful and cute, and `dva` is the shortest and available one on npm when creating it.
