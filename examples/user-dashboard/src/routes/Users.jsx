@@ -9,11 +9,9 @@ import UserModal from '../components/Users/UserModal';
 
 function Users({ location, dispatch, users }) {
   const {
-    loading, list, total, current,
+    loading, list, total, current, field, keyword,
     currentItem, modalVisible, modalType,
     } = users;
-
-  const { field, keyword } = location.query;
 
   const userModalProps = {
     item: modalType === 'create' ? {} : currentItem,
@@ -40,7 +38,7 @@ function Users({ location, dispatch, users }) {
     onPageChange(page) {
       dispatch(routerRedux.push({
         pathname: '/users',
-        query: { page },
+        query: { field, keyword, page },
       }));
     },
     onDeleteItem(id) {
