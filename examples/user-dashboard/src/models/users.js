@@ -7,6 +7,8 @@ export default {
 
   state: {
     list: [],
+    field: '',
+    keyword: '',
     loading: false,
     total: null,
     current: 1,
@@ -31,6 +33,7 @@ export default {
   effects: {
     *query({ payload }, { call, put }) {
       yield put({ type: 'showLoading' });
+      yield put({ type: 'updateQueryKey', payload });
       const { data } = yield call(query, parse(payload));
       if (data) {
         yield put({
@@ -60,7 +63,13 @@ export default {
       if (data && data.success) {
         yield put({
           type: 'createSuccess',
-          payload,
+          payload: {
+            list: data.data,
+            total: data.page.total,
+            current: data.page.current,
+            field: '',
+            keyword: '',
+          },
         });
       }
     },
@@ -84,8 +93,8 @@ export default {
       return { ...state, loading: true };
     },
     createSuccess(state, action) {
-      const newUser = action.payload;
-      return { ...state, list: [newUser, ...state.list], loading: false };
+      // const newUser = action.payload;
+      return { ...state, ...action.payload, loading: false };
     },
     deleteSuccess(state, action) {
       const id = action.payload;
@@ -110,6 +119,9 @@ export default {
     },
     hideModal(state) {
       return { ...state, modalVisible: false };
+    },
+    updateQueryKey(state, action) {
+      return { ...state, ...action.payload };
     },
   },
 
