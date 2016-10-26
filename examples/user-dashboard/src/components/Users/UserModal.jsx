@@ -33,6 +33,9 @@ const UserModal = ({
   }
 
   function checkNumber(rule, value, callback) {
+    if (!value) {
+      callback(new Error('年龄未填写'));
+    }
     if (!/^[\d]{1,2}$/.test(value)) {
       callback(new Error('年龄不合法'));
     } else {
@@ -72,7 +75,6 @@ const UserModal = ({
           {getFieldDecorator('age', {
             initialValue: item.age,
             rules: [
-              { required: true, message: '年龄未填写' },
               { validator: checkNumber },
             ],
           })(
