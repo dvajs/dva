@@ -371,7 +371,7 @@ export default function createDva(createOpts) {
         const sub = subs[key];
         invariant(typeof sub === 'function', 'app.start: subscription should be function');
         sub({
-          dispatch: createDispach(app._store.dispatch, model),
+          dispatch: createDispatch(app._store.dispatch, model),
           history: app._history,
         }, onError);
       }
@@ -399,7 +399,7 @@ export default function createDva(createOpts) {
       return { ...sagaEffects, put };
     }
 
-    function createDispach(dispatch, model) {
+    function createDispatch(dispatch, model) {
       return action => {
         const { type } = action;
         invariant(type, 'dispatch: action should be a plain Object with type');
