@@ -26,7 +26,7 @@ React and redux based, lightweight and elm-style framework. (Inspired by [choo](
 
 - **based on redux, redux-saga and react-router:** stand on the shoulders of giants
 - **small api:** only [5 methods](#api), there's not a lot to learn
-- **elm cocepts:** organize model with `reducers`, `effects` and `subscriptions`
+- **elm concepts:** organize model with `reducers`, `effects` and `subscriptions`
 - **mobile and react-native support:** cross platform
 - **dynamic model and router:** split large app and load on demand
 - **plugin system:** make dva extendable, e.g. use [dva-loading](https://github.com/dvajs/dva-loading) to avoid write `showLoading` and `hideLoading` hundreds of times
