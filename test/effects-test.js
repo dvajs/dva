@@ -114,11 +114,15 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        add(state) { return state + 1; },
+        add(state, { payload }) { return state + payload || 1; },
       },
       effects: {
-        *addDelay() {
-          throw new Error('effect error');
+        *addDelay({ payload }, { put }) {
+          if (!payload) {
+            throw new Error('effect error');
+          } else {
+            yield put({ type: 'add', payload});
+          }
         },
       },
     });
@@ -127,6 +131,8 @@ describe('effects', () => {
     app._store.dispatch({ type: 'count/addDelay' });
     expect(errors).toEqual(['effect error']);
     expect(app._store.getState().count).toEqual(1);
+    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    expect(app._store.getState().count).toEqual(3);
   });
 
   it('type: takeLatest', (done) => {
