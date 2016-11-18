@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "antd": "^2.0.1",
+    "dora-plugin-browser-history": "^0.2.0",
     "dva": "^1.1.0",
     "qs": "^6.2.0",
     "react": "^15.1.0",
@@ -31,7 +32,7 @@
     "redbox-react": "^1.2.10"
   },
   "scripts": {
-    "start": "dora --plugins \"proxy,webpack,webpack-hmr\"",
+    "start": "dora --plugins \"proxy,webpack,webpack-hmr,browser-history?index=/src/index.html\"",
     "lint": "eslint --fix --ext .js,.jsx .",
     "build": "atool-build"
   }
