@@ -109,6 +109,7 @@ const app = dva({
   history: browserHistory,
 });
 ```
+See [user-dashboard](https://github.com/dvajs/dva/tree/master/examples/user-dashboard) example as a concrete usage of `browserHistory`.
 
 ### `app.use(hooks)`
 
