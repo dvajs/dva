@@ -214,7 +214,7 @@ Config router. Takes a function with arguments `{ history }`, and expects `route
 e.g.
 
 ```javascript
-import { Router, Route } from 'dva/routes';
+import { Router, Route } from 'dva/router';
 app.router(({ history } => ({
   <Router history={ history }>
     <Route path="/" component={App} />
