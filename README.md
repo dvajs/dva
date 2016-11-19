@@ -109,6 +109,7 @@ const app = dva({
   history: browserHistory,
 });
 ```
+See [user-dashboard](https://github.com/dvajs/dva/tree/master/examples/user-dashboard) example as a concrete usage of `browserHistory`.
 
 ### `app.use(hooks)`
 
@@ -214,7 +215,7 @@ Config router. Takes a function with arguments `{ history }`, and expects `route
 e.g.
 
 ```javascript
-import { Router, Route } from 'dva/routes';
+import { Router, Route } from 'dva/router';
 app.router(({ history } => ({
   <Router history={ history }>
     <Route path="/" component={App} />
