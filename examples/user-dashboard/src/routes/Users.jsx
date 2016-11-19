@@ -62,10 +62,10 @@ function Users({ location, dispatch, users }) {
     field,
     keyword,
     onSearch(fieldsValue) {
-      dispatch({
-        type: 'users/query',
-        payload: fieldsValue,
-      });
+      dispatch(routerRedux.push({
+        pathname: '/users',
+        query: { ...fieldsValue, page: 1 },
+      }));
     },
     onAdd() {
       dispatch({

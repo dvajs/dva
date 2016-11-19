@@ -33,7 +33,10 @@ export default {
   effects: {
     *query({ payload }, { call, put }) {
       yield put({ type: 'showLoading' });
-      yield put({ type: 'updateQueryKey', payload });
+      yield put({
+        type: 'updateQueryKey',
+        payload: { page: 1, field: '', keyword: '', ...payload },
+      });
       const { data } = yield call(query, parse(payload));
       if (data) {
         yield put({
