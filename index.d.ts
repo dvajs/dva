@@ -1,3 +1,5 @@
+import History from "react-router/lib/History"
+
 import {
   Reducer,
   Action,
@@ -49,7 +51,7 @@ export interface EffectsMapObject {
 }
 
 export interface SubscriptionAPI {
-  history: HistoryModule.History;
+  history: History;
   dispatch: Dispatch<any>;
 }
 
@@ -66,7 +68,7 @@ export interface Model {
 }
 
 export interface RouterAPI {
-  history: HistoryModule.History;
+  history: History;
   app: DvaInstance;
 }
 
