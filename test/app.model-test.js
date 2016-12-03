@@ -24,6 +24,19 @@ describe('app.model', () => {
     }).toNotThrow();
   });
 
+  it('namespace: unique error', () => {
+    const app = dva();
+     expect(_ => {
+      app.model({
+        namespace: 'repeat'
+      });
+      app.model({
+        namespace: 'repeat'
+      });
+    }).toThrow(/app.model: namespace should be unique/);
+
+  });
+
   it('dynamic model', () => {
     let count = 0;
 

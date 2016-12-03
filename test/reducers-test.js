@@ -8,25 +8,25 @@ describe('reducers', () => {
     const app = dva();
     expect(_ => {
       app.model({
-        namespace: '_',
+        namespace: '_array',
         reducers: [{}, () => {}],
       });
     }).toNotThrow();
     expect(_ => {
       app.model({
-        namespace: '_',
+        namespace: '_object',
         reducers: {},
       });
     }).toNotThrow();
     expect(_ => {
       app.model({
-        namespace: '_',
+        namespace: '_neither',
         reducers: '_',
       });
     }).toThrow(/app.model: reducers should be Object or array/);
     expect(_ => {
       app.model({
-        namespace: '_',
+        namespace: '_none',
         reducers: [],
       });
     }).toThrow(/app.model: reducers with array should be app.model\({ reducers: \[object, function\] }\)/);
