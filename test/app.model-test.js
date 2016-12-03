@@ -34,7 +34,6 @@ describe('app.model', () => {
         namespace: 'repeat'
       });
     }).toThrow(/app.model: namespace should be unique/);
-
   });
 
   it('dynamic model', () => {
