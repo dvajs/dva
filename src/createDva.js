@@ -74,14 +74,6 @@ export default function createDva(createOpts) {
 
     // inject model dynamically
     function injectModel(createReducer, onError, m) {
-      if (m.namespace) {
-        const hasExisted = this._models.some(model =>
-          model.namespace === m.namespace
-        );
-        if (hasExisted) {
-          return;
-        }
-      }
       m = checkModel(m, mobile);
       this._models.push(m);
       const store = this._store;

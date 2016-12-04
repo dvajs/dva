@@ -105,8 +105,9 @@ describe('app.model', () => {
     app.model(model);
     app.router(() => 1);
     app.start();
-    app.model(model);
-
-    expect(count).toEqual(1);
+    expect(_ => {
+      app.model(model);
+    }).toThrow(/app.model: namespace should be unique/);
   });
+  
 });
