@@ -74,14 +74,6 @@ export default function createDva(createOpts) {
 
     // inject model dynamically
     function injectModel(createReducer, onError, m) {
-      if (m.namespace) {
-        const hasExisted = this._models.some(model =>
-          model.namespace === m.namespace
-        );
-        if (hasExisted) {
-          return;
-        }
-      }
       m = checkModel(m, mobile);
       this._models.push(m);
       const store = this._store;
@@ -243,6 +235,12 @@ export default function createDva(createOpts) {
         namespace,
         'app.model: namespace should be defined'
       );
+
+      invariant(
+        !app._models.some(model => model.namespace === namespace),
+        'app.model: namespace should be unique'
+      );
+
       invariant(
         mobile || namespace !== 'routing',
         'app.model: namespace should not be routing, it\'s used by react-redux-router'
