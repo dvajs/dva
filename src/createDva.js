@@ -214,9 +214,9 @@ export default function createDva(createOpts) {
     // Helpers
 
     function getProvider(store, app, router) {
-      return () => (
+      return (extraProps) => (
         <Provider store={store}>
-          { router({ app, history: app._history, }) }
+          { router({ app, history: app._history, ...extraProps }) }
         </Provider>
       );
     }
