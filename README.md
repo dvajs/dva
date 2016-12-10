@@ -113,7 +113,7 @@ See [user-dashboard](https://github.com/dvajs/dva/tree/master/examples/user-dash
 
 ### `app.use(hooks)`
 
-Register an object of hooks on the application. 
+Register an object of hooks on the application.
 
 Support these `hooks`:
 
@@ -149,7 +149,7 @@ yield put({
 });
 ```
 
-or 
+or
 
 ```javascript
 dispatch({
@@ -247,8 +247,8 @@ dva is a [hero](http://ow.blizzard.cn/heroes/dva) from overwatch. She is beautif
 
 - views: [react](https://github.com/facebook/react)
 - models: [redux](https://github.com/reactjs/redux), [react-redux](https://github.com/reactjs/react-redux), [redux-saga](https://github.com/yelouafi/redux-saga)
-- router: [react-router](https://github.com/reactjs/react-router)
-- http: [whatwg-fetch](https://github.com/github/fetch)
+- router: [react-router](https://github.com/reactjs/react-router), [react-router-redux](https://github.com/reactjs/react-router-redux)
+- http: [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)
 
 ### Is it production ready?
 
