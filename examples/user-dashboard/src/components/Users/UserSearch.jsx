@@ -40,7 +40,7 @@ const UserSearch = ({
             hasFeedback
           >
             {getFieldDecorator('keyword', {
-              initialValue: keyword || '',
+              initialValue: keyword || null,
             })(
               <Input type="text" />
             )}
