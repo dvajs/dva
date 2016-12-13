@@ -216,11 +216,11 @@ e.g.
 
 ```javascript
 import { Router, Route } from 'dva/router';
-app.router(({ history } => ({
+app.router(({ history }) => (
   <Router history={ history }>
     <Route path="/" component={App} />
   </Router>
-});
+));
 ```
 
 More on [react-router/docs](https://github.com/reactjs/react-router/tree/master/docs).
