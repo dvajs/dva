@@ -39,7 +39,7 @@ React and redux based, lightweight and elm-style framework. (Inspired by [choo](
 - [Count](examples/count) ([jsfiddle](https://jsfiddle.net/puftw0ea/3/))
 - [Popular Products](examples/popular-products)
 - [Friend List](examples/friend-list)
-- [User Dashboard](examples/user-dashboard)
+- [User Dashboard](https://github.com/dvajs/dva-example-user-dashboard)
 
 ## Getting Started
 
