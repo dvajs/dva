@@ -54,7 +54,7 @@
     "is-plain-object": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "react-redux": "4.4.x",
-    "react-router": "^2.7.0",
+    "react-router": "^2.8.1",
     "react-router-redux": "^4.0.5",
     "redux": "^3.6.0",
     "redux-actions": "^0.12.0",
