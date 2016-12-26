@@ -28,7 +28,7 @@
     "url": "https://github.com/dvajs/dva/issues"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test nyc mocha --no-timeouts",
+    "test": "npm run lint && cross-env NODE_ENV=test nyc mocha --no-timeouts",
     "debug": "mocha --require babel-register --require ./test/setup.js --no-timeouts",
     "build": "rimraf lib && babel src --out-dir lib",
     "lint": "eslint --ext .js src test",
