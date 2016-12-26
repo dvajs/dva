@@ -8,6 +8,7 @@ import invariant from 'invariant';
 import warning from 'warning';
 import flatten from 'flatten';
 import window from 'global/window';
+import document from 'global/document';
 import {
   takeEveryHelper as takeEvery,
   takeLatestHelper as takeLatest,

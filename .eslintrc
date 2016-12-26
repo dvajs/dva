@@ -30,9 +30,6 @@
     "no-shadow": [0],
     "no-underscore-dangle": [0]
   },
-  "globals": {
-    "document": true
-  },
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
