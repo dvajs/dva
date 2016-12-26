@@ -90,9 +90,9 @@ describe('reducers', () => {
   });
 
   it('onReducer', () => {
-    const undo = r => state => {
-      const newState = r(state);
-      return { present: newState, routing: newState.routing };
+    const undo = state => {
+      const newState = {...state};
+      return { ...newState, count: ()=>{ return {present: newState.count()} } };
     };
     const app = dva({
       onReducer: undo,
@@ -104,7 +104,7 @@ describe('reducers', () => {
     app.router(({ history }) => <div />);
     app.start();
 
-    expect(app._store.getState().present.count).toEqual(0);
+    expect(app._store.getState().count.present).toEqual(0);
   });
 
 });
