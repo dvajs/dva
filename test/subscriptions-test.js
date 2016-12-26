@@ -2,28 +2,25 @@ import expect from 'expect';
 import React from 'react';
 import dva from '../src/index';
 
-const delay = (timeout) => new Promise(resolve => setTimeout(resolve, timeout));
-
 describe('subscriptions', () => {
-
   it('type error', () => {
     const app = dva();
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_',
         subscriptions: [],
-      })
+      });
     }).toThrow(/app.model: subscriptions should be Object/);
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_',
         subscriptions: '_',
-      })
+      });
     }).toThrow(/app.model: subscriptions should be Object/);
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_',
-      })
+      });
     }).toNotThrow();
   });
 
@@ -33,15 +30,15 @@ describe('subscriptions', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1 },
+        add(state, { payload }) { return state + payload || 1; },
       },
       subscriptions: {
         setup({ dispatch }) {
-          dispatch({ type: 'add', payload: 2});
+          dispatch({ type: 'add', payload: 2 });
         },
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
     expect(app._store.getState().count).toEqual(2);
   });
@@ -52,15 +49,15 @@ describe('subscriptions', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1 },
+        add(state, { payload }) { return state + payload || 1; },
       },
       subscriptions: {
         setup({ dispatch }) {
-          dispatch({ type: 'count/add', payload: 2});
+          dispatch({ type: 'count/add', payload: 2 });
         },
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
     expect(app._store.getState().count).toEqual(2);
   });
@@ -76,7 +73,7 @@ describe('subscriptions', () => {
         },
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     expect(() => {
       app.start();
     }).toThrow(/dispatch: action should be a plain Object with type/);
@@ -100,7 +97,7 @@ describe('subscriptions', () => {
         },
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
     expect(app._store.getState().loading).toEqual(true);
   });
@@ -110,7 +107,7 @@ describe('subscriptions', () => {
     const app = dva({
       onError: (error) => {
         errors.push(error.message);
-      }
+      },
     });
     app.model({
       namespace: '-',
@@ -121,7 +118,7 @@ describe('subscriptions', () => {
         },
       },
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
     expect(errors).toEqual(['subscription error']);
   });
@@ -131,7 +128,7 @@ describe('subscriptions', () => {
     const app = dva({
       onError: (error) => {
         errors.push(error.message);
-      }
+      },
     });
     app.model({
       namespace: '-',
@@ -144,7 +141,7 @@ describe('subscriptions', () => {
         },
       },
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
     expect(errors).toEqual([]);
     setTimeout(() => {

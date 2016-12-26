@@ -2,25 +2,24 @@ import expect from 'expect';
 import React from 'react';
 import dva from '../src/index';
 
-const delay = (timeout) => new Promise(resolve => setTimeout(resolve, timeout));
+const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
 describe('effects', () => {
-
   it('type error', () => {
     const app = dva();
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_',
         effects: [],
       });
     }).toThrow(/app.model: effects should be Object/);
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_',
         effects: '_',
       });
     }).toThrow(/app.model: effects should be Object/);
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_',
         effects: {},
@@ -34,7 +33,7 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1 },
+        add(state, { payload }) { return state + payload || 1; },
       },
       effects: {
         *addDelay({ payload }, { put, call }) {
@@ -43,11 +42,11 @@ describe('effects', () => {
         },
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
-    app._store.dispatch({ type: 'count/addDelay', payload: 2});
+    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
     expect(app._store.getState().count).toEqual(0);
-    setTimeout(_ => {
+    setTimeout(() => {
       expect(app._store.getState().count).toEqual(2);
       done();
     }, 200);
@@ -59,7 +58,7 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1 },
+        add(state, { payload }) { return state + payload || 1; },
       },
       effects: {
         *addDelay({ payload }, { put, call }) {
@@ -68,11 +67,11 @@ describe('effects', () => {
         },
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
-    app._store.dispatch({ type: 'count/addDelay', payload: 2});
+    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
     expect(app._store.getState().count).toEqual(0);
-    setTimeout(_ => {
+    setTimeout(() => {
       expect(app._store.getState().count).toEqual(2);
       done();
     }, 200);
@@ -91,14 +90,14 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       effects: {
-        *addDelay(_, { put, call }) {
+        *addDelay(_, { put }) {
           yield put({ type: 'loading/show' });
         },
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
-    app._store.dispatch({ type: 'count/addDelay'});
+    app._store.dispatch({ type: 'count/addDelay' });
     expect(app._store.getState().loading).toEqual(true);
   });
 
@@ -108,7 +107,7 @@ describe('effects', () => {
       onError: (error, dispatch) => {
         errors.push(error.message);
         dispatch({ type: 'count/add' });
-      }
+      },
     });
     app.model({
       namespace: 'count',
@@ -121,12 +120,12 @@ describe('effects', () => {
           if (!payload) {
             throw new Error('effect error');
           } else {
-            yield put({ type: 'add', payload});
+            yield put({ type: 'add', payload });
           }
         },
       },
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
     app._store.dispatch({ type: 'count/addDelay' });
     expect(errors).toEqual(['effect error']);
@@ -142,7 +141,7 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1 },
+        add(state, { payload }) { return state + payload || 1; },
       },
       effects: {
         addDelay: [function*({ payload }, { call, put }) {
@@ -151,7 +150,7 @@ describe('effects', () => {
         }, takeLatest],
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
 
     // Only catch the last one.
@@ -170,10 +169,10 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       effects: {
-        addDelay: [function*() {}, { type: 'throttle' }],
+        addDelay: [function*() { console.log(1); }, { type: 'throttle' }],
       },
     });
-    app.router(_ => 1);
+    app.router(() => 1);
     expect(() => {
       app.start();
     }).toThrow(/app.start: opts.ms should be defined if type is throttle/);
@@ -185,7 +184,7 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1 },
+        add(state, { payload }) { return state + payload || 1; },
       },
       effects: {
         addDelay: [function*({ payload }, { call, put }) {
@@ -194,7 +193,7 @@ describe('effects', () => {
         }, { type: 'throttle', ms: 100 }],
       },
     });
-    app.router(_ => 1);
+    app.router(() => 1);
     app.start();
 
     // Only catch the last one.
@@ -215,20 +214,19 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1 },
+        add(state, { payload }) { return state + payload || 1; },
       },
       effects: {
         addWatcher: [function*({ take, put, call }) {
-          /*eslint-disable no-constant-condition*/
           while (true) {
             const { payload } = yield take('add');
             yield call(delay, 100);
             yield put({ type: 'add', payload });
           }
         }, watcher],
-      }
+      },
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
 
     // Only catch the first one.
@@ -247,17 +245,17 @@ describe('effects', () => {
       namespace: 'count',
       state: 0,
       effects: {
-        addDelay: [function*() {}, { type: 'nonvalid' }],
+        addDelay: [function*() { console.log(1); }, { type: 'nonvalid' }],
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
 
-    expect(_ => {
+    expect(() => {
       app.start();
     }).toThrow(/app.start: effect type should be takeEvery, takeLatest or watcher/);
   });
 
-  it('onEffect', done => {
+  it('onEffect', (done) => {
     const SHOW = '@@LOADING/SHOW';
     const HIDE = '@@LOADING/HIDE';
 
@@ -286,7 +284,7 @@ describe('effects', () => {
         expectedKey = key;
         modelNamespace = model.namespace;
         return function*(...args) {
-          count = count * 2;
+          count *= 2;
           yield put({ type: SHOW });
           yield effect(...args);
           yield put({ type: HIDE });
@@ -295,11 +293,11 @@ describe('effects', () => {
     });
 
     app.use({
-      onEffect(effect, { put }, model, key) {
+      onEffect(effect) {
         return function*(...args) {
-          count = count + 2;
+          count += 2;
           yield effect(...args);
-          count = count + 1;
+          count += 1;
         };
       },
     });
@@ -318,7 +316,7 @@ describe('effects', () => {
       },
     });
 
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
 
     expect(app._store.getState().loading).toEqual(false);
@@ -328,13 +326,12 @@ describe('effects', () => {
     expect(modelNamespace).toEqual('count');
     expect(expectedKey).toEqual('count/addRemote');
 
-    setTimeout(_ => {
+    setTimeout(() => {
       expect(app._store.getState().loading).toEqual(false);
       expect(app._store.getState().count).toEqual(1);
       expect(count).toEqual(5);
       done();
     }, 200);
   });
-
 });
 

@@ -19,8 +19,10 @@ class Plugin {
     invariant(isPlainObject(plugin), 'plugin.use: plugin should be plain object');
     const hooks = this.hooks;
     for (const key in plugin) {
-      invariant(hooks[key], `plugin.use: unknown plugin property: ${key}`);
-      hooks[key].push(plugin[key]);
+      if (Object.prototype.hasOwnProperty.call(plugin, key)) {
+        invariant(hooks[key], `plugin.use: unknown plugin property: ${key}`);
+        hooks[key].push(plugin[key]);
+      }
     }
   }
 
@@ -33,10 +35,10 @@ class Plugin {
     return (...args) => {
       if (fns.length) {
         for (const fn of fns) {
-          fn.apply(null, args);
+          fn(...args);
         }
       } else if (defaultHandler) {
-        defaultHandler.apply(null, args);
+        defaultHandler(...args);
       }
     };
   }
@@ -51,12 +53,12 @@ class Plugin {
       }
       return ret;
     } else if (key === 'onReducer') {
-      return function(reducer) {
+      return function (reducer) {
         for (const reducerEnhancer of hooks[key]) {
           reducer = reducerEnhancer(reducer);
         }
         return reducer;
-      }
+      };
     } else {
       return hooks[key];
     }

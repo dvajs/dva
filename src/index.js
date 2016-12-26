@@ -2,7 +2,7 @@ import hashHistory from 'react-router/lib/hashHistory';
 import {
   routerMiddleware,
   syncHistoryWithStore,
-  routerReducer as routing
+  routerReducer as routing,
 } from 'react-router-redux';
 import createDva from './createDva';
 
@@ -12,7 +12,7 @@ export default createDva({
     routing,
   },
   defaultHistory: hashHistory,
-  routerMiddleware: routerMiddleware,
+  routerMiddleware,
 
   setupHistory(history) {
     this._history = syncHistoryWithStore(history, this._store);

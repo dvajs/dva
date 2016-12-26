@@ -7,7 +7,6 @@ function delay(timeout) {
 }
 
 describe('dva', () => {
-
   it('basic', (done) => {
     const app = dva();
 
@@ -49,7 +48,7 @@ describe('dva', () => {
         },
       },
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
 
     expect(app._store.getState().count).toEqual(1);
@@ -70,23 +69,23 @@ describe('dva', () => {
     });
     app.model({
       namespace: 'count',
-      state: 0
+      state: 0,
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
     expect(app._store.getState().count).toEqual(1);
   });
 
   it('opts.onAction', () => {
     let count;
-    const countMiddleware = ({ dispatch, getState }) => next => action => {
-      count = count + 1;
+    const countMiddleware = () => () => () => {
+      count += 1;
     };
 
     const app = dva({
       onAction: countMiddleware,
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
 
     count = 0;
@@ -96,19 +95,19 @@ describe('dva', () => {
 
   it('opts.onAction with array', () => {
     let count;
-    const countMiddleware = ({ dispatch, getState }) => next => action => {
-      count = count + 1;
+    const countMiddleware = () => next => (action) => {
+      count += 1;
       next(action);
     };
-    const count2Middleware = ({ dispatch, getState }) => next => action => {
-      count = count + 2;
+    const count2Middleware = () => next => (action) => {
+      count += 2;
       next(action);
     };
 
     const app = dva({
       onAction: [countMiddleware, count2Middleware],
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
 
     count = 0;

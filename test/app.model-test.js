@@ -4,20 +4,19 @@ import dva from '../src/index';
 import dvaM from '../src/mobile';
 
 describe('app.model', () => {
-
   it('namespace: type error', () => {
     const app = dva();
-    expect(_ => {
+    expect(() => {
       app.model({});
     }).toThrow(/app.model: namespace should be defined/);
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: 'routing',
       });
     }).toThrow(/app.model: namespace should not be routing/);
 
     const appM = dvaM();
-    expect(_ => {
+    expect(() => {
       appM.model({
         namespace: 'routing',
       });
@@ -26,12 +25,12 @@ describe('app.model', () => {
 
   it('namespace: unique error', () => {
     const app = dva();
-     expect(_ => {
+    expect(() => {
       app.model({
-        namespace: 'repeat'
+        namespace: 'repeat',
       });
       app.model({
-        namespace: 'repeat'
+        namespace: 'repeat',
       });
     }).toThrow(/app.model: namespace should be unique/);
   });
@@ -44,12 +43,12 @@ describe('app.model', () => {
       namespace: 'users',
       state: [],
       reducers: {
-        'add'(state, { payload }) {
+        add(state, { payload }) {
           return [...state, payload];
         },
       },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
 
     // inject model
@@ -57,19 +56,19 @@ describe('app.model', () => {
       namespace: 'tasks',
       state: [],
       reducers: {
-        'add'(state, { payload }) {
+        add(state, { payload }) {
           return [...state, payload];
         },
       },
       effects: {
-        *'add'() {
+        *add() {
           yield 1;
-          count = count + 1;
+          count += 1;
         },
       },
       subscriptions: {
         setup() {
-          count = count + 1;
+          count += 1;
         },
       },
     });
@@ -90,24 +89,20 @@ describe('app.model', () => {
 
   it('don\'t inject if exists', () => {
     const app = dva();
-    let count = 0;
 
     const model = {
       namespace: 'count',
       state: 0,
       subscriptions: {
-        setup() {
-          count += 1;
-        },
+        setup() {},
       },
     };
 
     app.model(model);
     app.router(() => 1);
     app.start();
-    expect(_ => {
+    expect(() => {
       app.model(model);
     }).toThrow(/app.model: namespace should be unique/);
   });
-
 });

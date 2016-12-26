@@ -3,33 +3,32 @@ import React from 'react';
 import dva from '../src/index';
 
 describe('reducers', () => {
-
   it('type error', () => {
     const app = dva();
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_array',
         reducers: [{}, () => {}],
       });
     }).toNotThrow();
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_object',
         reducers: {},
       });
     }).toNotThrow();
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_neither',
         reducers: '_',
       });
     }).toThrow(/app.model: reducers should be Object or array/);
-    expect(_ => {
+    expect(() => {
       app.model({
         namespace: '_none',
         reducers: [],
       });
-    }).toThrow(/app.model: reducers with array should be app.model\({ reducers: \[object, function\] }\)/);
+    }).toThrow(/app.model: reducers with array should be app.model\({ reducers: \[object, function] }\)/);
   });
 
   it('enhancer', () => {
@@ -50,7 +49,7 @@ describe('reducers', () => {
         add(state, { payload }) { return state + (payload || 1); },
       }, enhancer],
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
 
     app._store.dispatch({ type: 'square' });
@@ -66,12 +65,12 @@ describe('reducers', () => {
         }
         // default state
         return 0;
-      }
+      },
     };
     const app = dva({
       extraReducers: reducers,
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     app.start();
 
     expect(app._store.getState().count).toEqual(0);
@@ -81,16 +80,16 @@ describe('reducers', () => {
 
   it('extraReducers: throw error if conflicts', () => {
     const app = dva({
-      extraReducers: { routing: function () {} }
+      extraReducers: { routing() {} },
     });
-    app.router(_ => <div />);
+    app.router(() => <div />);
     expect(() => {
       app.start();
     }).toThrow(/app.start: extraReducers is conflict with other reducers/);
   });
 
   it('onReducer', () => {
-    const undo = r => state => {
+    const undo = r => (state) => {
       const newState = r(state);
       return { present: newState, routing: newState.routing };
     };
@@ -101,10 +100,9 @@ describe('reducers', () => {
       namespace: 'count',
       state: 0,
     });
-    app.router(({ history }) => <div />);
+    app.router(() => <div />);
     app.start();
 
     expect(app._store.getState().present.count).toEqual(0);
   });
-
 });
