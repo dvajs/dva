@@ -109,5 +109,5 @@ describe('app.model', () => {
       app.model(model);
     }).toThrow(/app.model: namespace should be unique/);
   });
-  
+
 });

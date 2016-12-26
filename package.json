@@ -57,7 +57,6 @@
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.5",
     "redux": "^3.6.0",
-    "redux-actions": "^0.12.0",
     "redux-saga": "^0.14.0",
     "warning": "^3.0.0"
   },

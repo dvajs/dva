@@ -7,7 +7,7 @@ import {
   takeLatestHelper as takeLatest,
   throttleHelper as throttle
 } from 'redux-saga/lib/internal/sagaHelpers';
-import handleActions from 'redux-actions/lib/handleActions';
+import handleActions from './handleActions';
 import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
 import invariant from 'invariant';
@@ -298,6 +298,8 @@ export default function createDva(createOpts) {
     }
 
     function getReducer(reducers, state) {
+      // Support reducer enhancer
+      // e.g. reducers: [realReducers, enhancer]
       if (Array.isArray(reducers)) {
         return reducers[1](handleActions(reducers[0], state));
       } else {
