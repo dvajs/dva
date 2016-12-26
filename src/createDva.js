@@ -240,12 +240,10 @@ export default function createDva(createOpts) {
         namespace,
         'app.model: namespace should be defined',
       );
-
       invariant(
         !app._models.some(model => model.namespace === namespace),
         'app.model: namespace should be unique',
       );
-
       invariant(
         mobile || namespace !== 'routing',
         'app.model: namespace should not be routing, it\'s used by react-redux-router',
@@ -365,7 +363,6 @@ export default function createDva(createOpts) {
           return function*() {
             yield throttle(ms, key, sagaWithOnEffect);
           };
-        // takeEvery
         default:
           return function*() {
             yield takeEvery(key, sagaWithOnEffect);
