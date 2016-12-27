@@ -3,7 +3,8 @@ import {
   Action,
   ReducersMapObject,
   Dispatch,
-  MiddlewareAPI
+  MiddlewareAPI,
+  StoreEnhancer
 } from 'redux';
 
 export interface onActionFunc {
@@ -22,6 +23,7 @@ export interface Hooks {
   onEffect?: () => void;
   onHmr?: () => void;
   extraReducers?: ReducersMapObject;
+  extraEnhancers?: StoreEnhancer<any>[];
 }
 
 export type DvaOption = Hooks & {
@@ -88,6 +90,13 @@ export interface DvaInstance {
    * @param model
    */
   model: (model: Model) => void,
+
+  /**
+   * Unregister a model.
+   *
+   * @param namespace
+   */
+  unmodel: (namespace: string) => void,
 
   /**
    * Config router. Takes a function with arguments { history, dispatch },
