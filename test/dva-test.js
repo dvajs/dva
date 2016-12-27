@@ -114,4 +114,25 @@ describe('dva', () => {
     app._store.dispatch({ type: 'test' });
     expect(count).toEqual(3);
   });
+
+  it('opts.extraEnhancers', () => {
+    let count = 0;
+    const countEnhancer = storeCreator => (reducer, preloadedState, enhancer) => {
+      const store = storeCreator(reducer, preloadedState, enhancer);
+      const oldDispatch = store.dispatch;
+      store.dispatch = (action) => {
+        count += 1;
+        oldDispatch(action);
+      };
+      return store;
+    };
+    const app = dva({
+      extraEnhancers: [countEnhancer],
+    });
+    app.router(() => 1);
+    app.start();
+
+    // @@router/LOCATION_CHANGE
+    expect(count).toEqual(1);
+  });
 });

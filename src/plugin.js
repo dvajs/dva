@@ -12,6 +12,7 @@ class Plugin {
       onReducer: [],
       onEffect: [],
       extraReducers: [],
+      extraEnhancers: [],
     };
   }
 
@@ -21,7 +22,11 @@ class Plugin {
     for (const key in plugin) {
       if (Object.prototype.hasOwnProperty.call(plugin, key)) {
         invariant(hooks[key], `plugin.use: unknown plugin property: ${key}`);
-        hooks[key].push(plugin[key]);
+        if (key === 'extraEnhancers') {
+          hooks[key] = plugin[key];
+        } else {
+          hooks[key].push(plugin[key]);
+        }
       }
     }
   }
