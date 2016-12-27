@@ -114,9 +114,10 @@ export default function createDva(createOpts) {
       // unlisten subscrioptions
       if (_unlisteners[namespace]) {
         const { unlisteners, noneFunctionSubscriptions } = _unlisteners[namespace];
-        if (noneFunctionSubscriptions.length) {
-          console.warn(`none functions subscriptions: ${noneFunctionSubscriptions.join(', ')}`);
-        }
+        warning(
+          noneFunctionSubscriptions.length === 0,
+          `app.unmodel: subscription should return unlistener function, check these subscriptions ${noneFunctionSubscriptions.join(', ')}`,
+        );
         for (const unlistener of unlisteners) {
           unlistener();
         }

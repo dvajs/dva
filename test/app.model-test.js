@@ -107,7 +107,7 @@ describe('app.model', () => {
     }).toThrow(/app.model: namespace should be unique/);
   });
 
-  it('support unmodel', () => {
+  it('unmodel', () => {
     const emitter = new EventEmitter();
     let emitterCount = 0;
 
@@ -128,7 +128,7 @@ describe('app.model', () => {
       effects: {
         *addBoth(action, { put }) {
           yield put({ type: 'a/add' });
-          yield put({ type: 'b/add' });
+          yield put({ type: 'add' });
         },
       },
       subscriptions: {
@@ -152,5 +152,52 @@ describe('app.model', () => {
     const { a, b } = app._store.getState();
     expect(emitterCount).toEqual(1);
     expect({ a, b }).toEqual({ a: 0, b: undefined });
+  });
+
+  it('unmodel with asyncReducers', () => {
+    const app = dva();
+    app.model({
+      namespace: 'a',
+      state: 0,
+      reducers: {
+        add(state) { return state + 1; },
+      },
+    });
+    app.router(() => 1);
+    app.start();
+
+    app.model({
+      namespace: 'b',
+      state: 0,
+      reducers: {
+        add(state) { return state + 1; },
+      },
+      effects: {
+        *addBoth(action, { put }) {
+          yield put({ type: 'a/add' });
+          yield put({ type: 'add' });
+        },
+      },
+    });
+
+    app._store.dispatch({ type: 'b/addBoth' });
+    app.unmodel('b');
+    app._store.dispatch({ type: 'b/addBoth' });
+    const { a, b } = app._store.getState();
+    expect({ a, b }).toEqual({ a: 1, b: undefined });
+  });
+
+  it('unmodel, warn user if subscription don\'t return function', () => {
+    const app = dva();
+    app.model({
+      namespace: 'a',
+      state: 0,
+      subscriptions: {
+        a() {},
+      },
+    });
+    app.router(() => 1);
+    app.start();
+    app.unmodel('a');
   });
 });
