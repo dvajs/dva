@@ -14,6 +14,7 @@ import {
   takeLatestHelper as takeLatest,
   throttleHelper as throttle,
 } from 'redux-saga/lib/internal/sagaHelpers';
+import isFunction from 'lodash.isfunction';
 import handleActions from './handleActions';
 import Plugin from './plugin';
 
@@ -78,7 +79,7 @@ export default function createDva(createOpts) {
     }
 
     // inject model dynamically
-    function injectModel(createReducer, onError, m) {
+    function injectModel(createReducer, onError, unlisteners, m) {
       m = checkModel(m, mobile);
       this._models.push(m);
       const store = this._store;
@@ -92,8 +93,38 @@ export default function createDva(createOpts) {
       }
       // subscriptions
       if (m.subscriptions) {
-        runSubscriptions(m.subscriptions, m, this, onError);
+        unlisteners[m.namespace] = runSubscriptions(m.subscriptions, m, this, onError);
       }
+    }
+
+    // Unexpected key warn problem:
+    // https://github.com/reactjs/redux/issues/1636
+    function unmodel(createReducer, reducers, _unlisteners, namespace) {
+      const store = this._store;
+
+      // Delete reducers
+      delete store.asyncReducers[namespace];
+      delete reducers[namespace];
+      store.replaceReducer(createReducer(store.asyncReducers));
+      store.dispatch({ type: '@@dva/UPDATE' });
+
+      // Cancel effects
+      store.dispatch({ type: `${namespace}/@@CANCEL_EFFECTS` });
+
+      // unlisten subscrioptions
+      if (_unlisteners[namespace]) {
+        const { unlisteners, noneFunctionSubscriptions } = _unlisteners[namespace];
+        if (noneFunctionSubscriptions.length) {
+          console.warn(`none functions subscriptions: ${noneFunctionSubscriptions.join(', ')}`);
+        }
+        for (const unlistener of unlisteners) {
+          unlistener();
+        }
+        delete _unlisteners[namespace];
+      }
+
+      // delete model from this._models
+      this._models = this._models.filter(model => model.namespace !== namespace);
     }
 
     /**
@@ -134,6 +165,15 @@ export default function createDva(createOpts) {
           onError(err, app._store.dispatch);
         }
       };
+
+      // internal model for destroy
+      model.call(this, {
+        namespace: '@@dva',
+        state: 0,
+        reducers: {
+          UPDATE(state) { return state + 1; },
+        },
+      });
 
       // get reducers and sagas from model
       const sagas = [];
@@ -197,14 +237,18 @@ export default function createDva(createOpts) {
       if (setupHistory) setupHistory.call(this, history);
 
       // run subscriptions
+      const unlisteners = {};
       for (const model of this._models) {
         if (model.subscriptions) {
-          runSubscriptions(model.subscriptions, model, this, onErrorWrapper);
+          unlisteners[model.namespace] = runSubscriptions(model.subscriptions, model, this,
+            onErrorWrapper);
         }
       }
 
       // inject model after start
-      this.model = injectModel.bind(this, createReducer, onErrorWrapper);
+      this.model = injectModel.bind(this, createReducer, onErrorWrapper, unlisteners);
+
+      this.unmodel = unmodel.bind(this, createReducer, reducers, unlisteners);
 
       // If has container, render; else, return react component
       if (container) {
@@ -311,7 +355,9 @@ export default function createDva(createOpts) {
         for (const key in effects) {
           if (Object.prototype.hasOwnProperty.call(effects, key)) {
             const watcher = getWatcher(key, effects[key], model, onError);
-            yield sagaEffects.fork(watcher);
+            const task = yield sagaEffects.fork(watcher);
+            yield sagaEffects.take(`${model.namespace}/@@CANCEL_EFFECTS`);
+            yield sagaEffects.cancel(task);
           }
         }
       };
@@ -371,16 +417,24 @@ export default function createDva(createOpts) {
     }
 
     function runSubscriptions(subs, model, app, onError) {
+      const unlisteners = [];
+      const noneFunctionSubscriptions = [];
       for (const key in subs) {
         if (Object.prototype.hasOwnProperty.call(subs, key)) {
           const sub = subs[key];
           invariant(typeof sub === 'function', 'app.start: subscription should be function');
-          sub({
+          const unlistener = sub({
             dispatch: createDispatch(app._store.dispatch, model),
             history: app._history,
           }, onError);
+          if (isFunction(unlistener)) {
+            unlisteners.push(unlistener);
+          } else {
+            noneFunctionSubscriptions.push(key);
+          }
         }
       }
+      return { unlisteners, noneFunctionSubscriptions };
     }
 
     function prefixType(type, model) {
