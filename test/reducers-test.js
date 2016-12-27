@@ -88,9 +88,9 @@ describe('reducers', () => {
     }).toThrow(/app.start: extraReducers is conflict with other reducers/);
   });
 
-  xit('onReducer', () => {
-    const undo = r => (state) => {
-      const newState = r(state);
+  it('onReducer', () => {
+    const undo = r => (state, action) => {
+      const newState = r(state, action);
       return { present: newState, routing: newState.routing };
     };
     const app = dva({
