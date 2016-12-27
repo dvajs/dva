@@ -191,6 +191,13 @@ export default function createDva(createOpts) {
         'app.start: extraReducers is conflict with other reducers',
       );
 
+      // extra enhancers
+      const extraEnhancers = plugin.get('extraEnhancers');
+      invariant(
+        Array.isArray(extraEnhancers),
+        'app.start: extraEnhancers should be array',
+      );
+
       // create store
       const extraMiddlewares = plugin.get('onAction');
       const reducerEnhancer = plugin.get('onReducer');
@@ -206,6 +213,7 @@ export default function createDva(createOpts) {
       const enhancers = [
         applyMiddleware(...middlewares),
         devtools(),
+        ...extraEnhancers,
       ];
       const store = this._store = createStore(
         createReducer(),
