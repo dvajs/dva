@@ -89,8 +89,8 @@ describe('reducers', () => {
   });
 
   it('onReducer', () => {
-    const undo = r => (state) => {
-      const newState = r(state);
+    const undo = r => (state, action) => {
+      const newState = r(state, action);
       return { present: newState, routing: newState.routing };
     };
     const app = dva({
@@ -99,6 +99,9 @@ describe('reducers', () => {
     app.model({
       namespace: 'count',
       state: 0,
+      reducers: {
+        update(state) { return state + 1; },
+      },
     });
     app.router(() => <div />);
     app.start();

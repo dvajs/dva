@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "1.2.0-beta1",
+  "version": "1.2.0-beta2",
   "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
@@ -54,6 +54,7 @@
     "invariant": "^2.2.1",
     "is-plain-object": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
+    "lodash.isfunction": "^3.0.8",
     "react-redux": "4.4.x",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.5",
