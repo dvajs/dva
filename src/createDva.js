@@ -209,7 +209,7 @@ export default function createDva(createOpts) {
       if (routerMiddleware) {
         middlewares = [routerMiddleware(history), ...middlewares];
       }
-      const devtools = window.devToolsExtension || (() => noop => noop);
+      const devtools = window.__REDUX_DEVTOOLS_EXTENSION__ || (() => noop => noop);
       const enhancers = [
         applyMiddleware(...middlewares),
         devtools(),
