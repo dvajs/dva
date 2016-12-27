@@ -357,8 +357,10 @@ export default function createDva(createOpts) {
           if (Object.prototype.hasOwnProperty.call(effects, key)) {
             const watcher = getWatcher(key, effects[key], model, onError);
             const task = yield sagaEffects.fork(watcher);
-            yield sagaEffects.take(`${model.namespace}/@@CANCEL_EFFECTS`);
-            yield sagaEffects.cancel(task);
+            yield sagaEffects.fork(function *() {
+              yield sagaEffects.take(`${model.namespace}/@@CANCEL_EFFECTS`);
+              yield sagaEffects.cancel(task);
+            });
           }
         }
       };

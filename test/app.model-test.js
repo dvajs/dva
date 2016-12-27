@@ -200,4 +200,46 @@ describe('app.model', () => {
     app.start();
     app.unmodel('a');
   });
+
+  it('unmodel with other type of effects', () => {
+    const app = dva();
+    let countA = 0;
+    let countB = 0;
+    let countC = 0;
+    let countD = 0;
+
+    app.model({
+      namespace: 'a',
+      state: 0,
+      effects: {
+        a: [function*() { countA += 1; }, { type: 'throttle', ms: 100 }],
+        b: [function*() { countB += 1; }, { type: 'takeEvery' }],
+        c: [function*() { countC += 1; }, { type: 'takeLatest' }],
+        d: [function*({ take }) {
+          while (true) {
+            yield take('a/d');
+            countD += 1;
+          }
+        }, { type: 'watcher' }],
+      },
+    });
+
+    app.router(() => 1);
+    app.start();
+
+    app._store.dispatch({ type: 'a/a' });
+    app._store.dispatch({ type: 'a/b' });
+    app._store.dispatch({ type: 'a/c' });
+    app._store.dispatch({ type: 'a/d' });
+
+    expect([countA, countB, countC, countD]).toEqual([1, 1, 1, 1]);
+
+    app.unmodel('a');
+
+    app._store.dispatch({ type: 'a/b' });
+    app._store.dispatch({ type: 'a/c' });
+    app._store.dispatch({ type: 'a/d' });
+
+    expect([countA, countB, countC, countD]).toEqual([1, 1, 1, 1]);
+  });
 });
