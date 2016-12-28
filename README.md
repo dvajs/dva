@@ -37,7 +37,8 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 
 ## Quick Start
 
-[12 步 30 分钟，完成用户管理的 CURD 应用 (react+dva+antd)](https://github.com/sorrycc/blog/issues/18)
+- [Getting Started](https://github.com/dvajs/dva/blob/master/docs/GettingStarted.md)
+- [12 步 30 分钟，完成用户管理的 CURD 应用 (react+dva+antd)](https://github.com/sorrycc/blog/issues/18)
 
 ## FAQ
 
