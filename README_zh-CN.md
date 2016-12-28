@@ -15,10 +15,10 @@
 
 ## 特性
 
-* **易学易用**：仅有 5 个 api，对 redux 用户尤其友好
+* **易学易用**：仅有 6 个 api，对 redux 用户尤其友好
 * **elm 概念**：通过 `reducers`, `effects` 和 `subscriptions` 组织 model
 * **支持 mobile 和 react-native**：跨平台 ([react-native 例子](https://github.com/sorrycc/dva-example-react-native))
-* **支持 HMR**：目前基于 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 支持 components 和 routes 的 HMR
+* **支持 HMR**：目前基于 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 支持 components、routes 和 models 的 HMR
 * **动态加载 Model 和路由**：按需加载加快访问速度 ([例子](https://github.com/dvajs/dva/tree/master/examples/dynamic-load))
 * **插件机制**：比如 [dva-loading](https://github.com/dvajs/dva-loading) 可以自动处理 loading 状态，不用一遍遍地写 showLoading 和 hideLoading
 * **完善的语法分析库 [dva-ast](https://github.com/dvajs/dva-ast)**：[dva-cli](https://github.com/dvajs/dva-cli) 基于此实现了智能创建 model, router 等
