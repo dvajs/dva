@@ -60,11 +60,19 @@ No.
 
 ## Next
 
+Some basic articles.
+
 * Familiar with the [8 Conpects](https://github.com/dvajs/dva/blob/master/docs/Concepts.md), and know how they are connected together
 * Know all [dva APIs](https://github.com/dvajs/dva/blob/master/docs/API.md)
 * Checkout [dva knowledgemap](https://github.com/dvajs/dva-knowledgemap), including all the basic knowledge with ES6, React, dva
 * Checkout [more FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)
 * If your project is created with [dva-cli](https://github.com/dvajs/dva-cli) , checkout how to [Configure it](https://github.com/sorrycc/roadhog#配置)
+
+Want more?
+
+* 看看 dva 的前身 [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1)，知道 dva 是怎么来的
+* 在 gitc 分享 dva 的 PPT ：[React 应用框架在蚂蚁金服的实践](http://slides.com/sorrycc/dva)
+* 如果还在用 dva@0.x，请尽快 [升级到 1.x](https://github.com/dvajs/dva/pull/42#issuecomment-241323617)
 
 ## License
 
