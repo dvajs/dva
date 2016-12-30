@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
@@ -111,6 +111,7 @@
     "fetch.js",
     "mobile.js",
     "index.js",
+    "saga.js",
     "index.d.ts",
     "router.d.ts",
     "fetch.d.ts",
