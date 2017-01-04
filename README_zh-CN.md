@@ -35,6 +35,7 @@
 * [User Dashboard](https://github.com/dvajs/dva-example-user-dashboard)，用户管理
 * [HackerNews](https://github.com/dvajs/dva-hackernews)  ([Demo](https://dvajs.github.io/dva-hackernews/))，HackerNews Clone
 * [antd-admin](https://github.com/zuiidea/antd-admin) ([Demo](http://zuiidea.github.io/antd-admin/))，基于 antd 和 dva 的后台管理应用
+* [github-stars](https://github.com/sorrycc/github-stars) ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star 管理应用
 
 ## 快速上手
 

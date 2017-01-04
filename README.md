@@ -34,6 +34,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 * [User Dashboard](https://github.com/dvajs/dva-example-user-dashboard): User management dashboard
 * [HackerNews](https://github.com/dvajs/dva-hackernews)  ([Demo](https://dvajs.github.io/dva-hackernews/)): HackerNews Clone
 * [antd-admin](https://github.com/zuiidea/antd-admin) ([Demo](http://zuiidea.github.io/antd-admin/)): Admin dashboard based on antd and dva
+* [github-stars](https://github.com/sorrycc/github-stars) ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star management tool
 
 ## Quick Start
 
