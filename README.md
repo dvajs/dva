@@ -53,9 +53,9 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 
 ### Is it production ready?
 
-Sure! We have 100+ projects used with dva, both in Alibaba and out.
+Sure! We have 100+ projects using dva, both in Alibaba and out.
 
-### Is it support IE8?
+### Does it support IE8?
 
 No.
 
@@ -63,11 +63,11 @@ No.
 
 Some basic articles.
 
-* Familiar with the [8 Conpects](https://github.com/dvajs/dva/blob/master/docs/Concepts.md), and know how they are connected together
-* Know all [dva APIs](https://github.com/dvajs/dva/blob/master/docs/API.md)
+* The [8 Conpects](https://github.com/dvajs/dva/blob/master/docs/Concepts.md), and know how they are connected together
+* [dva APIs](https://github.com/dvajs/dva/blob/master/docs/API.md)
 * Checkout [dva knowledgemap](https://github.com/dvajs/dva-knowledgemap), including all the basic knowledge with ES6, React, dva
 * Checkout [more FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)
-* If your project is created with [dva-cli](https://github.com/dvajs/dva-cli) , checkout how to [Configure it](https://github.com/sorrycc/roadhog/blob/master/README_en-us.md#configuration)
+* If your project is created with [dva-cli](https://github.com/dvajs/dva-cli), checkout how to [Configure it](https://github.com/sorrycc/roadhog/blob/master/README_en-us.md#configuration)
 
 Want more?
 
