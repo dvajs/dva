@@ -49,6 +49,7 @@ export default function createDva(createOpts) {
       _store: null,
       _history: null,
       _plugin: plugin,
+      _getProvider: null,
       // methods
       use,
       model,
@@ -261,6 +262,10 @@ export default function createDva(createOpts) {
       this.model = injectModel.bind(this, createReducer, onErrorWrapper, unlisteners);
 
       this.unmodel = unmodel.bind(this, createReducer, reducers, unlisteners);
+
+      // export _getProvider for HMR
+      // ref: https://github.com/dvajs/dva/issues/469
+      this._getProvider = getProvider.bind(null, app._store, app);
 
       // If has container, render; else, return react component
       if (container) {
