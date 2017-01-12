@@ -21,3 +21,10 @@ publish: build
 publish-sync: publish
 	cnpm sync dva
 	tnpm sync dva
+
+publish-beta: build
+	npm publish --tag beta
+
+publish-sync-beta: publish-beta
+	cnpm sync dva
+	tnpm sync dva
