@@ -246,7 +246,7 @@ export default function createDva(createOpts) {
       sagas.forEach(sagaMiddleware.run);
 
       // setup history
-      if (setupHistory) setupHistory.call(this, history);
+      if (setupHistory && window.document) setupHistory.call(this, history);
 
       // run subscriptions
       const unlisteners = {};
