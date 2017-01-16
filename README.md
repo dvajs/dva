@@ -63,7 +63,7 @@ No.
 
 Some basic articles.
 
-* The [8 Conpects](https://github.com/dvajs/dva/blob/master/docs/Concepts.md), and know how they are connected together
+* The [8 Concepts](https://github.com/dvajs/dva/blob/master/docs/Concepts.md), and know how they are connected together
 * [dva APIs](https://github.com/dvajs/dva/blob/master/docs/API.md)
 * Checkout [dva knowledgemap](https://github.com/dvajs/dva-knowledgemap), including all the basic knowledge with ES6, React, dva
 * Checkout [more FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)
