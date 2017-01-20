@@ -159,7 +159,7 @@ HMR(Hot Module Replacement) related, currently used in [babel-plugin-dva-hmr](ht
 
 Specify extra reducers.
 
-e.g. [redux-form](https://github.com/erikras/redux-form) nedd extra `form` reducer:
+e.g. [redux-form](https://github.com/erikras/redux-form) needs extra `form` reducer:
 
 ```js
 import { reducer as formReducer } from 'redux-form'
