@@ -7,6 +7,10 @@ import {
   StoreEnhancer
 } from 'redux';
 
+
+import {History} from "history";
+import React from "react";
+
 export interface onActionFunc {
   (api: MiddlewareAPI<any>): void;
 }
@@ -51,7 +55,7 @@ export interface EffectsMapObject {
 }
 
 export interface SubscriptionAPI {
-  history: HistoryModule.History;
+  history: History;
   dispatch: Dispatch<any>;
 }
 
@@ -68,7 +72,7 @@ export interface Model {
 }
 
 export interface RouterAPI {
-  history: HistoryModule.History;
+  history: History;
   app: DvaInstance;
 }
 
