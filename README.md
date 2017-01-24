@@ -16,7 +16,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 ## Features
 
 * **Easy to learn, easy to use**: only 6 apis, very friendly to redux users
-* **Elm concepts**: organize models with `reducers`, `effects` 和 `subscriptions`
+* **Elm concepts**: organize models with `reducers`, `effects` and `subscriptions`
 * **Support mobile and react-native**: cross platform ([ReactNative Example](https://github.com/sorrycc/dva-example-react-native))
 * **Support HMR**: support HMR for components, routes and models with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr)
 * **Support load model and routes dynamically**: Improve performance ([Example](https://github.com/dvajs/dva/tree/master/examples/dynamic-load))
