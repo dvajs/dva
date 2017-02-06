@@ -9,7 +9,6 @@ import {
 
 
 import {History} from "history";
-import React from "react";
 
 export interface onActionFunc {
   (api: MiddlewareAPI<any>): void;
