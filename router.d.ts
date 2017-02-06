@@ -20,6 +20,7 @@ import useRouterHistory from "react-router/lib/useRouterHistory";
 import createMemoryHistory from "react-router/lib/createMemoryHistory";
 import withRouter from "react-router/lib/withRouter";
 import applyRouterMiddleware from "react-router/lib/applyRouterMiddleware";
+import ReactRouter from "react-router";
 
 // PlainRoute is defined in the API documented at:
 // https://github.com/rackt/react-router/blob/master/docs/API.md
