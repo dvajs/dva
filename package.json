@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@types/react-router-redux": "^4.0.40",
+    "@types/react-router": "2.x",
     "babel-runtime": "^6.11.6",
     "flatten": "^1.0.2",
     "global": "^4.3.1",
@@ -64,7 +65,6 @@
     "warning": "^3.0.0"
   },
   "peerDependencies": {
-    "@types/react-router": "2.x",
     "react": "15.x",
     "react-dom": "15.x"
   },
