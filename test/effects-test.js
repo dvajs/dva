@@ -252,7 +252,7 @@ describe('effects', () => {
 
     expect(() => {
       app.start();
-    }).toThrow(/app.start: effect type should be takeEvery, takeLatest or watcher/);
+    }).toThrow(/app.start: effect type should be takeEvery, takeLatest, throttle or watcher/);
   });
 
   it('onEffect', (done) => {
