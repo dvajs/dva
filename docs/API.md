@@ -56,7 +56,7 @@ const app = dva({
   initialState,
   onError,
   onAction,
-  onChange,
+  onStateChange,
   onReducer,
   onEffect,
   onHmr,
