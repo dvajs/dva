@@ -79,7 +79,7 @@ app.use(createLoading(opts));
 
 `hooks` includes:
 
-#### `onError(fn)`
+#### `onError(fn, dispatch)`
 
 Triggered when `effect` has error or `subscription` throw error with `done`. Used for managing global error.
 
