@@ -79,7 +79,7 @@ app.use(createLoading(opts));
 
 `hooks` 包含：
 
-#### `onError(fn)`
+#### `onError(fn, dispatch)`
 
  `effect` 执行错误或 `subscription` 通过 `done` 主动抛错时触发，可用于管理全局出错状态。
 
