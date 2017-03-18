@@ -169,14 +169,15 @@ export default function createDva(createOpts) {
       };
 
       // internal model for destroy
-      model.call(this, {
-        namespace: '@@dva',
-        state: 0,
-        reducers: {
-          UPDATE(state) { return state + 1; },
-        },
-      });
-
+      if (!app._models.some(model => model.namespace === '@@dva')) {
+        model.call(this, {
+          namespace: '@@dva',
+          state: 0,
+          reducers: {
+            UPDATE(state) { return state + 1; },
+          },
+        });
+      }
       // get reducers and sagas from model
       const sagas = [];
       const reducers = { ...initialReducer };
