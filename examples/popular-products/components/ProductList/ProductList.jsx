@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './ProductList.less';
 import Product from './Product';
-import { Spin } from 'antd';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style/css.js';
 
 function ProductList(props) {
   return (

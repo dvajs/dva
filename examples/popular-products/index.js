@@ -1,9 +1,9 @@
 import './index.html';
 import React from 'react';
-import dva, { connect } from 'dva';
-import { put, call } from 'dva/effects';
-import { Router, Route } from 'dva/router';
-import fetch from 'dva/fetch';
+import dva from '../../src/index';
+import { connect } from '../../index';
+import { Router, Route, useRouterHistory } from '../../router';
+import fetch from '../../fetch';
 import ProductList from './components/ProductList/ProductList';
 import styles from './index.less';
 
@@ -17,42 +17,42 @@ app.model({
     list: [],
     loading: false,
   },
-  subscriptions: [
-    function(dispatch) {
-      dispatch({type: 'products/query'});
+  subscriptions: {
+    setup({ dispatch }) {
+      dispatch({ type: 'query' });
     },
-  ],
+  },
   effects: {
-    ['products/query']: function*() {
+    *query(_, { put }) {
       const { success, data } = yield fetch(`/api/products`).then(res => res.json());
       if (success) {
         yield put({
-          type: 'products/query/success',
+          type: 'querySuccess',
           payload: data,
         });
       }
     },
-    ['products/vote']: function*({ payload }) {
+    *vote({ payload }, { put}) {
       const { success } = yield fetch(`/api/products/vote?id=${payload}`).then(res => res.json());
       if (success) {
         yield put({
-          type: 'products/vote/success',
+          type: 'voteSuccess',
           payload,
         });
       }
     },
   },
   reducers: {
-    ['products/query'](state) {
+    query(state) {
       return { ...state, loading: true, };
     },
-    ['products/query/success'](state, { payload }) {
+    querySuccess(state, { payload }) {
       return { ...state, loading: false, list: payload };
     },
-    ['products/vote'](state) {
+    vote(state) {
       return { ...state, loading: true };
     },
-    ['products/vote/success'](state, { payload }) {
+    voteSuccess(state, { payload }) {
       const newList = state.list.map(product => {
         if (product.id === payload) {
           return { ...product, vote:product.vote + 1 };
@@ -89,4 +89,4 @@ app.router(({ history }) =>
 );
 
 // 5. Start
-app.start(document.getElementById('root'));
+app.start('#root');

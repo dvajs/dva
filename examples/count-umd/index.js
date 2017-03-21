@@ -1,14 +1,7 @@
 const { connect } = dva;
 const { Router, Route } = dva.router;
-const { put, call } = dva.effects;
 
-const delay = timeout => {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-};
-
-console.log(dva.fetch);
+const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
 // 1. Initialize
 const app = dva();
@@ -18,8 +11,7 @@ app.model({
   namespace: 'count',
   state: 0,
   effects: {
-    ['count/add']: function*() {
-      console.log('count/add');
+    add: function*(_, { call, put }) {
       yield call(delay, 1000);
       yield put({
         type: 'count/minus',
@@ -27,8 +19,8 @@ app.model({
     },
   },
   reducers: {
-    ['count/add'  ](count) { return count + 1 },
-    ['count/minus'](count) { return count - 1 },
+    add  (count) { return count + 1 },
+    minus(count) { return count - 1 },
   },
 });
 
@@ -39,7 +31,7 @@ const App = connect(({ count }) => ({
   return (
     <div>
       <h2>{ props.count }</h2>
-      <button key="add" onClick={() => { props.dispatch({type: 'count/add'})}}>+</button>
+      <button key="add" onClick={() =>   { props.dispatch({type: 'count/add'})}}>+</button>
       <button key="minus" onClick={() => { props.dispatch({type: 'count/minus'})}}>-</button>
     </div>
   );
@@ -53,4 +45,4 @@ app.router(({ history }) =>
 );
 
 // 5. Start
-app.start(document.getElementById('root'));
+app.start('#root');
