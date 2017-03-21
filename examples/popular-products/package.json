@@ -3,14 +3,12 @@
     "index": "./index.js"
   },
   "dependencies": {
-    "antd": "^1.6.1",
-    "dva": "^0.0.6",
+    "antd": "^1.10.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   },
   "devDependencies": {
     "atool-build": "^0.7.6",
-    "babel-plugin-antd": "^0.4.0",
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-runtime": "^6.9.2",
     "dora": "0.3.x",
@@ -19,7 +17,7 @@
     "dora-plugin-webpack-hmr": "^0.1.0"
   },
   "scripts": {
-    "start": "dora --plugins \"proxy,webpack,webpack-hmr\"",
+    "start": "dora --plugins \"proxy,webpack?disableNpmInstall,webpack-hmr\"",
     "build": "atool-build"
   }
 }

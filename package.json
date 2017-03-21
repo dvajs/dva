@@ -1,68 +1,101 @@
 {
   "name": "dva",
-  "version": "0.0.6",
-  "description": "Front-end framework based on react, redux, react-redux, react-router and redux-saga, inspired by elm and choo.",
+  "version": "1.3.0-beta1",
+  "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sorrycc/dva"
+    "url": "https://github.com/dvajs/dva"
   },
-  "homepage": "https://github.com/sorrycc/dva",
+  "homepage": "https://github.com/dvajs/dva",
+  "typings": "./index.d.ts",
   "keywords": [
     "dva",
     "ant",
     "react",
+    "react-native",
+    "mobile",
     "redux",
     "redux-saga",
     "elm",
-    "choo",
     "framework",
     "frontend"
   ],
-  "author": "chencheng <sorrycc@gmail.com>",
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+  ],
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvajs/dva/issues"
+  },
   "scripts": {
-    "build": "rm -rf lib && babel src --out-dir lib --ignore __tests__",
-    "lint": "eslint --ext .js src"
+    "test": "npm run lint && cross-env NODE_ENV=test nyc mocha --no-timeouts",
+    "debug": "mocha --require babel-register --require ./test/setup.js --no-timeouts",
+    "build": "rimraf lib && babel src --out-dir lib",
+    "lint": "eslint --ext .js src test",
+    "report": "nyc report --reporter=html",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "precommit": "npm run lint"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "require": [
+      "babel-register",
+      "./test/setup.js"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "dependencies": {
+    "@types/react-router-redux": "^4.0.40",
+    "@types/react-router": "2.x",
+    "babel-runtime": "^6.11.6",
+    "flatten": "^1.0.2",
+    "global": "^4.3.1",
+    "invariant": "^2.2.1",
+    "is-plain-object": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
+    "lodash.isfunction": "^3.0.8",
     "react-redux": "4.4.x",
-    "react-router": "^2.5.1",
+    "react-router": "^2.8.1",
     "react-router-redux": "^4.0.5",
-    "redux": "^3.5.2",
-    "redux-actions": "^0.10.0",
-    "redux-saga": "^0.10.5"
+    "redux": "^3.6.0",
+    "redux-saga": "^0.14.0",
+    "warning": "^3.0.0"
   },
   "peerDependencies": {
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react": "15.x"
   },
   "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-eslint": "^6.0.4",
+    "babel-cli": "^6.14.0",
+    "babel-eslint": "^6.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-runtime": "^6.9.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.5.0",
+    "babel-plugin-istanbul": "^2.0.1",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "~6.5.0",
-    "babel-runtime": "^6.9.2",
-    "browserify": "^13.0.1",
+    "babel-register": "^6.14.0",
+    "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
+    "coveralls": "^2.11.11",
+    "cross-env": "^2.0.1",
     "envify": "^3.4.1",
-    "eslint": "^2.7.0",
-    "eslint-config-airbnb": "^9.0.1",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.8.0",
+    "expect": "^1.20.2",
+    "husky": "^0.12.0",
+    "jsdom": "^9.5.0",
+    "mocha": "^3.0.2",
+    "nyc": "^8.1.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "rimraf": "^2.5.4",
     "uglifyjs": "^2.4.10"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "react",
-      "stage-0"
-    ],
-    "plugins": [
-      "add-module-exports",
-      "transform-runtime"
-    ]
   },
   "pre-commit": [
     "lint"
@@ -71,13 +104,21 @@
     "react": "global:React",
     "react-dom": "global:ReactDOM"
   },
+  "react-native" : {
+    "react-dom": false
+  },
   "files": [
     "lib",
     "src",
     "dist",
-    "effects.js",
     "router.js",
     "fetch.js",
-    "index.js"
+    "mobile.js",
+    "index.js",
+    "saga.js",
+    "index.d.ts",
+    "router.d.ts",
+    "fetch.d.ts",
+    "mobile.d.ts"
   ]
 }

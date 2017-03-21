@@ -3,3 +3,8 @@ tmp
 node_modules
 lib
 dist
+coverage
+.nyc_output
+npm-debug.log*
+test/typescript/*.map
+test/typescript/*.jsx

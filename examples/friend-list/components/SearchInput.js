@@ -28,8 +28,8 @@ class SearchInput extends Component {
   render() {
     return (
       <input
-        {...this.props}
         value={this.props.value || ''}
+        placeholder={this.props.placeholder}
         onChange={this.handleValueChange}
         onKeyDown={this.handleEnterKeyDown}
         id="search-input"
