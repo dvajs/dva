@@ -36,6 +36,7 @@
 * [HackerNews](https://github.com/dvajs/dva-hackernews)  ([Demo](https://dvajs.github.io/dva-hackernews/))，HackerNews Clone
 * [antd-admin](https://github.com/zuiidea/antd-admin) ([Demo](http://zuiidea.github.io/antd-admin/))，基于 antd 和 dva 的后台管理应用
 * [github-stars](https://github.com/sorrycc/github-stars) ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star 管理应用
+* [react-native-dva-starter](https://github.com/nihgwu/react-native-dva-starter) 一个集成了 dva 和 react-navigation 典型应用场景的 React Native 实例
 
 ## 快速上手
 
