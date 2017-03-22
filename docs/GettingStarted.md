@@ -63,15 +63,19 @@ $ npm start
 After a few seconds, you will get these outputs:
 
 ```bash
-          proxy: listened on 8989
-     livereload: listening on 35729
-📦  173/173 build modules
-webpack: bundle build is now finished.
+Compiled successfully!
+
+The app is running at:
+
+  http://localhost:8000/
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
 ```
 
 (Press `Ctrl-C` if you want to close server)
 
-Open http://localhost:8989/ in browser. If success, you will see a page with "Hello Dva".
+Open http://localhost:8000/ in browser. If success, you will see a page with "Hello Dva".
 
 ## Define models
 
