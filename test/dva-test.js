@@ -135,4 +135,28 @@ describe('dva', () => {
     // @@router/LOCATION_CHANGE
     expect(count).toEqual(1);
   });
+
+  it('opts.onStateChange', () => {
+    let savedState = null;
+
+    const app = dva({
+      onStateChange(state) {
+        savedState = state;
+      },
+    });
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state) {
+          return state + 1;
+        },
+      },
+    });
+    app.router(() => <div />);
+    app.start();
+
+    app._store.dispatch({ type: 'count/add' });
+    expect(savedState.count).toEqual(1);
+  });
 });

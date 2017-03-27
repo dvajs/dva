@@ -240,7 +240,9 @@ export default function createDva(createOpts) {
       // store change
       const listeners = plugin.get('onStateChange');
       for (const listener of listeners) {
-        store.subscribe(listener);
+        store.subscribe(() => {
+          listener(store.getState());
+        });
       }
 
       // start saga
