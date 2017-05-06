@@ -219,11 +219,12 @@ export default function createDva(createOpts) {
         devtools(),
         ...extraEnhancers,
       ];
-      const store = this._store = createStore(
+      const store = createStore(
         createReducer(),
         initialState,
         compose(...enhancers),
       );
+      this._store = store;
 
       function createReducer(asyncReducers) {
         return reducerEnhancer(combineReducers({
