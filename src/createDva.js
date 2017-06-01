@@ -219,7 +219,7 @@ export default function createDva(createOpts) {
         devtools(),
         ...extraEnhancers,
       ];
-      const store = this._store = createStore(
+      const store = this._store = createStore(  // eslint-disable-line
         createReducer(),
         initialState,
         compose(...enhancers),
