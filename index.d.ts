@@ -6,6 +6,7 @@ import {
   MiddlewareAPI,
   StoreEnhancer
 } from 'redux';
+import * as HistoryModule from 'history';
 
 
 import {History} from "history";
