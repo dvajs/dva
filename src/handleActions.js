@@ -7,18 +7,21 @@ function handleAction(actionType, reducer = identify) {
   return (state, action) => {
     const { type } = action;
     if (type && actionType !== type) {
-      return state;
+      return { state, end: false };
     }
-    return reducer(state, action);
+    return { state: reducer(state, action), end: true };
   };
 }
 
 function reduceReducers(...reducers) {
-  return (previous, current) =>
-    reducers.reduce(
-      (p, r) => r(p, current),
-      previous,
-    );
+  return (prevState, action) => {
+    reducers.some((r) => {
+      const { state, end } = r(prevState, action);
+      prevState = state;
+      return end;
+    });
+    return prevState;
+  };
 }
 
 function handleActions(handlers, defaultState) {
