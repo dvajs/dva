@@ -48,7 +48,7 @@
     "instrument": false
   },
   "dependencies": {
-    "@types/react-router": "2.x",
+    "@types/react-router": "3.x",
     "@types/react-router-redux": "^4.0.40",
     "babel-runtime": "^6.23.0",
     "flatten": "^1.0.2",
@@ -58,7 +58,7 @@
     "isomorphic-fetch": "^2.2.1",
     "lodash.isfunction": "^3.0.8",
     "react-redux": "^5.0.5",
-    "react-router": "^2.8.1",
+    "react-router": "^3.0.5",
     "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",
     "redux-saga": "^0.15.3",
