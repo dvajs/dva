@@ -60,6 +60,7 @@ const app = dva({
   onReducer,
   onEffect,
   onHmr,
+  combineReducers,
   extraReducers,
   extraEnhancers,
 });
@@ -150,6 +151,10 @@ const app = dva({
 #### `onHmr(fn)`
 
 热替换相关，目前用于 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 。
+
+#### `combineReducers`
+
+指定第三方的 `combineReducers`， 比如 [redux-immutable](https://github.com/gajus/redux-immutable) 。
 
 #### `extraReducers`
 
