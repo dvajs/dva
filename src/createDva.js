@@ -468,15 +468,23 @@ export default function createDva(createOpts) {
     }
 
     function createEffects(model) {
-      function put(action) {
-        const { type } = action;
+      function checkActionType(type) {
         invariant(type, 'dispatch: action should be a plain Object with type');
         warning(
           type.indexOf(`${model.namespace}${SEP}`) !== 0,
           `effects.put: ${type} should not be prefixed with namespace ${model.namespace}`,
         );
+      }
+      function put(action) {
+        const { type } = action;
+        checkActionType(type);
         return sagaEffects.put({ ...action, type: prefixType(type, model) });
       }
+      put.resolve = (action) => {
+        const { type } = action;
+        checkActionType(type);
+        return sagaEffects.put.resolve({ ...action, type: prefixType(type, model) });
+      };
       return { ...sagaEffects, put };
     }
 
