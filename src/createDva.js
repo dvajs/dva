@@ -331,10 +331,6 @@ export default function createDva(createOpts) {
       function applyNamespace(type) {
         function getNamespacedReducers(reducers) {
           return Object.keys(reducers).reduce((memo, key) => {
-            warning(
-              key.indexOf(`${namespace}${SEP}`) !== 0,
-              `app.model: ${type.slice(0, -1)} ${key} should not be prefixed with namespace ${namespace}`,
-            );
             memo[`${namespace}${SEP}${key}`] = reducers[key];
             return memo;
           }, {});
@@ -471,10 +467,6 @@ export default function createDva(createOpts) {
       function put(action) {
         const { type } = action;
         invariant(type, 'dispatch: action should be a plain Object with type');
-        warning(
-          type.indexOf(`${model.namespace}${SEP}`) !== 0,
-          `effects.put: ${type} should not be prefixed with namespace ${model.namespace}`,
-        );
         return sagaEffects.put({ ...action, type: prefixType(type, model) });
       }
       return { ...sagaEffects, put };
@@ -484,10 +476,6 @@ export default function createDva(createOpts) {
       return (action) => {
         const { type } = action;
         invariant(type, 'dispatch: action should be a plain Object with type');
-        warning(
-          type.indexOf(`${model.namespace}${SEP}`) !== 0,
-          `dispatch: ${type} should not be prefixed with namespace ${model.namespace}`,
-        );
         return dispatch({ ...action, type: prefixType(type, model) });
       };
     }
