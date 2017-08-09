@@ -1,0 +1,59 @@
+{
+  "name": "dva-core",
+  "version": "0.1.3",
+  "description": "The core lightweight library for dva, based on redux and redux-saga.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvajs/dva"
+  },
+  "homepage": "https://github.com/dvajs/dva",
+  "keywords": [
+    "dva",
+    "dva-core",
+    "redux",
+    "redux-saga",
+    "elm",
+    "framework",
+    "react",
+    "react-native",
+    "frontend"
+  ],
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvajs/dva/issues"
+  },
+  "scripts": {
+    "build": "ruban build",
+    "test": "ruban lint && ruban test",
+    "debug": "ruban debug",
+    "coveralls": "ruban coveralls",
+    "lint": "ruban lint",
+    "pub": "ruban pub"
+  },
+  "dependencies": {
+    "flatten": "^1.0.2",
+    "global": "^4.3.2",
+    "invariant": "^2.2.1",
+    "is-plain-object": "^2.0.3",
+    "redux": "^3.7.1",
+    "redux-saga": "^0.15.4",
+    "warning": "^3.0.0"
+  },
+  "peerDependencies": {
+    "redux": "3.x"
+  },
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "redux": "^3.7.2",
+    "ruban": "^0.1.0"
+  },
+  "files": [
+    "lib",
+    "src",
+    "index.js",
+    "saga.js"
+  ]
+}
