@@ -1,7 +1,7 @@
 {
   "name": "dva",
   "version": "2.0.0-beta.1",
-  "description": "Official React bindings for dva, with react-router2.",
+  "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
     "url": "https://github.com/dvajs/dva"
@@ -9,12 +9,14 @@
   "homepage": "https://github.com/dvajs/dva",
   "keywords": [
     "dva",
-    "dva-react",
+    "ant",
+    "react",
+    "react-native",
+    "mobile",
     "redux",
     "redux-saga",
     "elm",
     "framework",
-    "react",
     "frontend"
   ],
   "authors": [
