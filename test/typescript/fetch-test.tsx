@@ -1,4 +1,4 @@
-import fetch from '../../fetch';
+import * as fetch from '../../fetch';
 
 fetch('', {
   headers: {},
