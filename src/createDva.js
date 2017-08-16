@@ -158,6 +158,7 @@ export default function createDva(createOpts) {
       invariant(this._router, 'app.start: router should be defined');
 
       // error wrapper
+      /* istanbul ignore next untestable in mocha*/
       const onError = plugin.apply('onError', (err) => {
         throw new Error(err.stack || err);
       });
@@ -211,6 +212,7 @@ export default function createDva(createOpts) {
         middlewares = [routerMiddleware(history), ...middlewares];
       }
       let devtools = () => noop => noop;
+      /* istanbul ignore next no need for test this */
       if (process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION__) {
         devtools = window.__REDUX_DEVTOOLS_EXTENSION__;
       }

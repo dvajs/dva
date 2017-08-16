@@ -160,3 +160,45 @@ describe('dva', () => {
     expect(savedState.count).toEqual(1);
   });
 });
+
+describe.skip('test uncaught error', () => {
+  let listeners;
+  beforeEach(() => {
+    listeners = process.listeners('uncaughtException');
+
+    process.removeAllListeners('uncaughtException');
+  });
+
+  afterEach(() => {
+    listeners.forEach((listener) => {
+      process.on('uncaughtException', listener);
+    });
+  });
+
+  it('onError', (done) => {
+    process.once('uncaughtException', (err) => {
+      expect(err.message).toEqual('too young too simple');
+
+      done();
+    });
+    const app = dva();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) { return state + payload || 1; },
+      },
+      effects: {
+        *add({ payload }, { put }) {
+          if (!payload) {
+            throw new Error('too young too simple');
+          }
+          yield put({ type: 'count/add', payload });
+        },
+      },
+    });
+    app.router(() => <div />);
+    app.start();
+    app._store.dispatch({ type: 'count/add' });
+  });
+});
