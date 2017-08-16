@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers as defaultCombineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga/lib/internal/middleware';
 import * as sagaEffects from 'redux-saga/effects';
 import isPlainObject from 'is-plain-object';
@@ -33,9 +33,11 @@ export default function createDva(createOpts) {
    * Create a dva instance.
    */
   return function dva(hooks = {}) {
-    // history and initialState does not pass to plugin
+    // combineReducers, history and initialState does not pass to plugin
+    const combineReducers = hooks.combineReducers || defaultCombineReducers;
     const history = hooks.history || defaultHistory;
     const initialState = hooks.initialState || {};
+    delete hooks.combineReducers;
     delete hooks.history;
     delete hooks.initialState;
 

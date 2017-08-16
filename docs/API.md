@@ -155,6 +155,10 @@ e.g. [dva-loading](https://github.com/dvajs/dva-loading) has implement auto load
 
 HMR(Hot Module Replacement) related, currently used in [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr).
 
+#### `combineReducers`
+
+Specify other `combineReducers`， e.g. [redux-immutable](https://github.com/gajus/redux-immutable).
+
 #### `extraReducers`
 
 Specify extra reducers.

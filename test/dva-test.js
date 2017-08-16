@@ -1,6 +1,15 @@
 import expect from 'expect';
 import React from 'react';
+import hashHistory from 'react-router/lib/hashHistory';
+import Immutable from 'immutable';
+import { combineReducers } from 'redux-immutable';
+import {
+  routerMiddleware,
+  syncHistoryWithStore,
+  LOCATION_CHANGE,
+} from 'react-router-redux';
 import dva from '../src/index';
+import createDva from '../src/createDva';
 
 function delay(timeout) {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -158,5 +167,44 @@ describe('dva', () => {
 
     app._store.dispatch({ type: 'count/add' });
     expect(savedState.count).toEqual(1);
+  });
+
+  it('opts.combineReducers', () => {
+    // Routing
+    const routing = (state = new Immutable.Map({ locationBeforeTransitions: null }), action) => {
+      if (action.type === LOCATION_CHANGE) {
+        return state.set('locationBeforeTransitions', action.payload);
+      }
+      return state;
+    };
+    // create
+    const withImmutableDva = createDva({
+      mobile: false,
+      initialReducer: {
+        routing,
+      },
+      defaultHistory: hashHistory,
+      routerMiddleware,
+
+      setupHistory(history) {
+        this._history = syncHistoryWithStore(history, this._store, {
+          selectLocationState(state) {
+            return state.get('routing').toJS();
+          },
+        });
+      },
+    });
+
+    const app = withImmutableDva({
+      combineReducers,
+      initialState: new Immutable.Map(),
+    });
+    app.model({
+      namespace: 'immutable',
+      state: new Immutable.Map({ message: 'hello world' }),
+    });
+    app.router(() => <div />);
+    app.start();
+    expect(app._store.getState().getIn(['immutable', 'message'])).toEqual('hello world');
   });
 });

@@ -90,11 +90,13 @@
     "eslint-plugin-react": "^7.0.1",
     "expect": "^1.20.2",
     "husky": "^0.13.4",
+    "immutable": "^3.8.1",
     "jsdom": "^9.5.0",
     "mocha": "^3.4.2",
     "nyc": "^11.0.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "redux-immutable": "^4.0.0",
     "rimraf": "^2.6.1",
     "uglifyjs": "^2.4.11"
   },
