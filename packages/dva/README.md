@@ -6,7 +6,7 @@
 [![NPM downloads](http://img.shields.io/npm/dm/dva-react.svg?style=flat)](https://npmjs.org/package/dva-react)
 [![Dependencies](https://david-dm.org/dvajs/dva-react/status.svg)](https://david-dm.org/dvajs/dva-react)
 
-Official React bindings for dva, with react-router2.
+Official React bindings for dva, with react-router@4.
 
 ## LICENSE
 
