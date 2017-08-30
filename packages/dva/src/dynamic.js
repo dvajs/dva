@@ -8,7 +8,8 @@ function registerModel(app, model) {
   }
 }
 
-export default function({ app, models, component }) {
+export default function(config) {
+  const { app, models, component } = config;
   return asyncComponent({
     resolve() {
       return new Promise((resolve) => {
@@ -25,5 +26,6 @@ export default function({ app, models, component }) {
         });
       });
     },
+    ...config,
   });
 }
