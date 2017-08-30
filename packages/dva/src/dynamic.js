@@ -11,7 +11,7 @@ function registerModel(app, model) {
 export default function(config) {
   const { app, models, component } = config;
   return asyncComponent({
-    resolve() {
+    resolve: config.resolve || function() {
       return new Promise((resolve) => {
         Promise.all([...(models||[]), component]).then((ret) => {
           if (!models || !models.length) {
