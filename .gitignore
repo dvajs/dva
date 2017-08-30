@@ -7,3 +7,4 @@ coverage
 .nyc_output
 npm-debug.log*
 lerna-debug.log
+packages/dva-example-user-dashboard
