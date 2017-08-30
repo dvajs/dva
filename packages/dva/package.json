@@ -40,6 +40,7 @@
     "history": "^4.6.3",
     "invariant": "^2.2.2",
     "isomorphic-fetch": "^2.2.1",
+    "react-async-component": "^1.0.0-beta.3",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
     "react-router-redux": "^5.0.0-alpha.6",
