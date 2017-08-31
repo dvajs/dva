@@ -1,6 +1,6 @@
 {
   "name": "dva-react",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Official React bindings for dva, with react-router@3.",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "pub": "ruban pub"
   },
   "dependencies": {
-    "dva-core": "^0.1.0",
+    "dva-core": "^0.2.0",
     "global": "^4.3.2",
     "invariant": "^2.2.2",
     "isomorphic-fetch": "^2.2.1",

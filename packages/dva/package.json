@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-rc.1",
   "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
@@ -35,7 +35,7 @@
     "pub": "ruban pub"
   },
   "dependencies": {
-    "dva-core": "^0.1.0",
+    "dva-core": "^0.2.0",
     "global": "^4.3.2",
     "history": "^4.6.3",
     "invariant": "^2.2.2",
