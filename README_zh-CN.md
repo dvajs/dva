@@ -9,7 +9,7 @@
 
 [View README in English](README.md)
 
-基于 [redux](https://github.com/reactjs/redux)、[redux-saga](https://github.com/yelouafi/redux-saga) 和 [react-router@2.x](https://github.com/ReactTraining/react-router/tree/v2.8.1) 的轻量级前端框架。(Inspired by [elm](http://elm-lang.org/) and [choo](https://github.com/yoshuawuyts/choo))
+基于 [redux](https://github.com/reactjs/redux)、[redux-saga](https://github.com/yelouafi/redux-saga) 和 [react-router](https://github.com/ReactTraining/react-router) 的轻量级前端框架。(Inspired by [elm](http://elm-lang.org/) and [choo](https://github.com/yoshuawuyts/choo))
 
 ---
 

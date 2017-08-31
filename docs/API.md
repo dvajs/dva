@@ -7,13 +7,9 @@
 
 Default export file.
 
-### dva/mobile
-
-`dva/mobile` is the dva without router, should be used in multiple-page app, react-native, and so on.
-
 ### dva/router
 
-Export the api of [react-router@2.x](https://github.com/ReactTraining/react-router/tree/v2.8.1), and also export [react-router-redux](https://github.com/reactjs/react-router-redux) with the `routerRedux` key.
+Export the api of [react-router@4.x](https://github.com/ReactTraining/react-router), and also export [react-router-redux](https://github.com/reactjs/react-router-redux) with the `routerRedux` key.
 
 e.g.
 
@@ -28,6 +24,24 @@ Async request library, export the api of [isomorphic-fetch](https://github.com/m
 ### dva/saga
 
 Export the api of [redux-saga](https://github.com/yelouafi/redux-saga).
+
+### dva/dynamic
+
+A util method to load React Component dynamically, based on [react-async-component](https://github.com/ctrlplusb/react-async-component).
+
+e.g.
+
+```js
+import dynamic from 'dva/dynamic';
+
+const UserPageComponent = dynamic({
+  app,
+  models: [
+    import('./models/users'),
+  ],
+  component: import('./routes/UserPage'),
+});
+```
 
 ## dva API
 ### `app = dva(opts)`

@@ -1,0 +1,67 @@
+{
+  "name": "dva",
+  "version": "2.0.0-rc.1",
+  "description": "React and redux based, lightweight and elm-style framework.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvajs/dva"
+  },
+  "homepage": "https://github.com/dvajs/dva",
+  "keywords": [
+    "dva",
+    "ant",
+    "react",
+    "react-native",
+    "mobile",
+    "redux",
+    "redux-saga",
+    "elm",
+    "framework",
+    "frontend"
+  ],
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvajs/dva/issues"
+  },
+  "scripts": {
+    "build": "ruban build",
+    "test": "ruban lint && ruban test",
+    "debug": "ruban debug",
+    "coveralls": "ruban coveralls",
+    "lint": "ruban lint",
+    "pub": "ruban pub"
+  },
+  "dependencies": {
+    "dva-core": "^0.2.0",
+    "global": "^4.3.2",
+    "history": "^4.6.3",
+    "invariant": "^2.2.2",
+    "isomorphic-fetch": "^2.2.1",
+    "react-async-component": "^1.0.0-beta.3",
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.2",
+    "react-router-redux": "^5.0.0-alpha.6",
+    "redux": "^3.7.2"
+  },
+  "peerDependencies": {
+    "react": "15.x || ^16.0.0-0",
+    "react-dom": "15.x || ^16.0.0-0"
+  },
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "ruban": "^0.1.2"
+  },
+  "files": [
+    "lib",
+    "src",
+    "router.js",
+    "fetch.js",
+    "index.js",
+    "saga.js"
+  ]
+}

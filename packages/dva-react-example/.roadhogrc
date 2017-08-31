@@ -1,0 +1,22 @@
+{
+  "entry": "src/index.js",
+  "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr",
+        "transform-runtime",
+        ["module-alias", [
+          { "src": "npm:dva-react", "expose": "dva" }
+        ]]
+      ]
+    },
+    "production": {
+      "extraBabelPlugins": [
+        "transform-runtime",
+        ["module-alias", [
+          { "src": "npm:dva-react", "expose": "dva" }
+        ]]
+      ]
+    }
+  }
+}
