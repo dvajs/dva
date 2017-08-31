@@ -1,4 +1,4 @@
-
 describe('index', () => {
-  it('normal', () => {});
+  it('normal', () => {
+  });
 });

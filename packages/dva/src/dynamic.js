@@ -8,12 +8,12 @@ function registerModel(app, model) {
   }
 }
 
-export default function(config) {
+export default function dynamic(config) {
   const { app, models, component } = config;
   return asyncComponent({
-    resolve: config.resolve || function() {
+    resolve: config.resolve || function () {
       return new Promise((resolve) => {
-        Promise.all([...(models||[]), component]).then((ret) => {
+        Promise.all([...(models || []), component]).then((ret) => {
           if (!models || !models.length) {
             return resolve(ret[0]);
           } else {

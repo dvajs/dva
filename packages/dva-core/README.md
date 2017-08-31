@@ -11,4 +11,3 @@ The core lightweight library for dva, based on redux and redux-saga.
 ## LICENSE
 
 MIT
-
