@@ -16,6 +16,11 @@
       "ignore": [
         "dva-example*"
       ]
+    },
+    "publish": {
+      "ignore": [
+        "dva-example*"
+      ]
     }
   },
   "packages": [
