@@ -50,11 +50,6 @@ export default function (opts = {}) {
       );
     }
 
-    // container 必须有
-    invariant(
-      container,
-      `[app.start] container should be defined`,
-    );
     // 并且是 HTMLElement
     invariant(
       isHTMLElement(container),
