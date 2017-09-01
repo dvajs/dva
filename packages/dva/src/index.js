@@ -29,7 +29,9 @@ export default function (opts = {}) {
 
   const app = core.create(opts, createOpts);
   const oldAppStart = app.start;
-  return { ...app, router, start };
+  app.router = router;
+  app.start = start;
+  return app;
 
   function router(router) {
     invariant(
