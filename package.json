@@ -3,6 +3,7 @@
     "changelog": "lerna-changelog",
     "test": "./tasks/test.sh",
     "debug": "lerna run debug",
+    "coveralls": "cd packages/dva-core && npm run coveralls",
     "lint": "eslint --ext .js packages",
     "precommit": "lint-staged"
   },
