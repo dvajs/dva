@@ -1,4 +1,5 @@
 {
+  "name": "dva-example",
   "private": true,
   "scripts": {
     "start": "roadhog server",

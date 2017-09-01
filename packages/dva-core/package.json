@@ -27,11 +27,9 @@
   },
   "scripts": {
     "build": "ruban build",
-    "test": "ruban lint && ruban test",
+    "test": "ruban test",
     "debug": "ruban debug",
-    "coveralls": "ruban coveralls",
-    "lint": "ruban lint",
-    "pub": "ruban pub"
+    "coveralls": "ruban coveralls"
   },
   "dependencies": {
     "flatten": "^1.0.2",
@@ -46,9 +44,7 @@
     "redux": "3.x"
   },
   "devDependencies": {
-    "expect": "^1.20.2",
-    "redux": "^3.7.2",
-    "ruban": "^0.1.0"
+    "redux": "^3.7.2"
   },
   "files": [
     "lib",

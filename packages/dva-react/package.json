@@ -26,11 +26,9 @@
   },
   "scripts": {
     "build": "ruban build",
-    "test": "ruban lint && ruban test",
+    "test": "ruban test",
     "debug": "ruban debug",
-    "coveralls": "ruban coveralls",
-    "lint": "ruban lint",
-    "pub": "ruban pub"
+    "coveralls": "ruban coveralls"
   },
   "dependencies": {
     "dva-core": "^0.2.0",
@@ -45,12 +43,6 @@
   "peerDependencies": {
     "react": "15.x || ^16.0.0-0",
     "react-dom": "15.x || ^16.0.0-0"
-  },
-  "devDependencies": {
-    "expect": "^1.20.2",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "ruban": "^0.1.2"
   },
   "files": [
     "lib",
