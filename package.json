@@ -1,6 +1,7 @@
 {
   "scripts": {
     "changelog": "lerna-changelog",
+    "test": "./tasks/test.sh",
     "debug": "lerna run debug",
     "lint": "eslint --ext .js packages",
     "precommit": "lint-staged"
