@@ -5,6 +5,7 @@ cd ..
 root_path=$PWD
 ruban="$root_path/node_modules/.bin/ruban"
 umdBundler="$root_path/node_modules/.bin/umd-bundler"
+lerna="$root_path/node_modules/.bin/lerna"
 
 cd "$root_path/packages/dva-core"
 $ruban build
@@ -36,4 +37,4 @@ $umdBundler -g react:React,react-dom:ReactDOM -n dva.saga -i ./saga.js -o dist/s
 echo 'umd-bundler dva-react-router-3'
 
 cd "$root_path"
-./node_modules/.bin/lerna publish "$@"
+$lerna publish "$@"

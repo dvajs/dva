@@ -8,7 +8,7 @@
     "lint": "eslint --ext .js packages",
     "precommit": "lint-staged",
     "publish": "./tasks/publish.sh",
-    "postinstall": "lerna bootstrap"
+    "postinstall": "./tasks/bootstrap.sh"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
