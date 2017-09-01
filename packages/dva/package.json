@@ -50,9 +50,10 @@
   "files": [
     "lib",
     "src",
-    "router.js",
+    "dynamic.js",
     "fetch.js",
     "index.js",
+    "router.js",
     "saga.js"
   ]
 }

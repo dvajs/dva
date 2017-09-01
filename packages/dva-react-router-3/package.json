@@ -48,9 +48,9 @@
   "files": [
     "lib",
     "src",
-    "router.js",
     "fetch.js",
     "index.js",
+    "router.js",
     "saga.js"
   ]
 }
