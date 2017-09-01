@@ -101,7 +101,7 @@ function getProvider(store, app, router) {
 }
 
 function render(container, store, app, router) {
-  const ReactDOM = require('react-dom');
+  const ReactDOM = require('react-dom');  // eslint-disable-line
   ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
 }
 

@@ -1,9 +1,31 @@
 {
+  "scripts": {
+    "changelog": "lerna-changelog",
+    "debug": "lerna run debug",
+    "lint": "eslint --ext .js packages",
+    "precommit": "lint-staged"
+  },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.0.1",
     "expect": "^1.20.2",
+    "husky": "^0.14.3",
     "lerna": "^2.0.0",
+    "lerna-changelog": "^0.6.0",
+    "lint-staged": "^4.0.4",
+    "prettier": "^1.6.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "ruban": "^0.1.2"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --trailing-comma es5 --single-quote --write",
+      "git add"
+    ]
   }
 }
