@@ -14,4 +14,4 @@ $ruban build
 cd "$root_path/packages/dva-react-router-3"
 $ruban build
 
-# ./node_modules/.bin/lerna publish
+# ./node_modules/.bin/lerna publish "$@"
