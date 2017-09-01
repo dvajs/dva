@@ -52,7 +52,7 @@ export default function (opts = {}) {
 
     // 并且是 HTMLElement
     invariant(
-      isHTMLElement(container),
+      !container || isHTMLElement(container),
       `[app.start] container should be HTMLElement`,
     );
 

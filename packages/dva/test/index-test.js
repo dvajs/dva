@@ -14,14 +14,14 @@ const countModel = {
 describe('index', () => {
   it('normal', () => {
     const app = dva();
-    app.model(countModel);
+    app.model({ ...countModel });
     app.router(() => <div />);
     app.start('#root');
   });
 
   it('start without container', () => {
     const app = dva();
-    app.model(countModel);
+    app.model({ ...countModel });
     app.router(() => <div />);
     app.start();
   });
