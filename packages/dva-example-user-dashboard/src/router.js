@@ -1,38 +1,29 @@
 import React from 'react';
-import { Router } from 'dva/router';
-
-const cached = {};
-function registerModel(app, model) {
-  if (!cached[model.namespace]) {
-    app.model(model);
-    cached[model.namespace] = 1;
-  }
-}
+import { Router, Switch, Route } from 'dva/router';
+import dynamic from 'dva/dynamic';
 
 function RouterConfig({ history, app }) {
-  const routes = [
-    {
-      path: '/',
-      name: 'IndexPage',
-      getComponent(nextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, require('./routes/IndexPage'));
-        });
-      },
-    },
-    {
-      path: '/users',
-      name: 'UsersPage',
-      getComponent(nextState, cb) {
-        require.ensure([], (require) => {
-          registerModel(app, require('./models/users'));
-          cb(null, require('./routes/Users'));
-        });
-      },
-    },
-  ];
+  const IndexPage = dynamic({
+    app,
+    component: import('./routes/IndexPage'),
+  });
 
-  return <Router history={history} routes={routes} />;
+  const Users = dynamic({
+    app,
+    models: [
+      import('./models/users'),
+    ],
+    component: import('./routes/Users'),
+  });
+
+  return (
+    <Router history={history}>
+      <Switch>
+        <Route exact path="/" component={IndexPage} />
+        <Route exact path="/users" component={Users} />
+      </Switch>
+    </Router>
+  );
 }
 
 export default RouterConfig;
