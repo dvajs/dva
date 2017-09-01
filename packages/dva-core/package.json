@@ -9,13 +9,11 @@
   "homepage": "https://github.com/dvajs/dva",
   "keywords": [
     "dva",
-    "dva-core",
+    "alibaba",
     "redux",
     "redux-saga",
     "elm",
     "framework",
-    "react",
-    "react-native",
     "frontend"
   ],
   "authors": [

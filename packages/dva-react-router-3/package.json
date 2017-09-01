@@ -1,5 +1,5 @@
 {
-  "name": "dva-react",
+  "name": "dva-react-router-3",
   "version": "0.2.0",
   "description": "Official React bindings for dva, with react-router@3.",
   "repository": {
@@ -9,12 +9,13 @@
   "homepage": "https://github.com/dvajs/dva",
   "keywords": [
     "dva",
-    "dva-react",
+    "alibaba",
+    "react",
+    "react-native",
     "redux",
     "redux-saga",
     "elm",
     "framework",
-    "react",
     "frontend"
   ],
   "authors": [
