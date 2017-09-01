@@ -6,7 +6,8 @@
     "debug": "lerna run debug",
     "coveralls": "cd packages/dva-core && npm run coveralls",
     "lint": "eslint --ext .js packages",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "publish": "./tasks/publish.sh"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
