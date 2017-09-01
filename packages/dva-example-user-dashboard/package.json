@@ -1,0 +1,35 @@
+{
+  "name": "dva-example-user-dashboard",
+  "private": true,
+  "scripts": {
+    "start": "roadhog server",
+    "build": "roadhog build",
+    "build:dll": "roadhog buildDll",
+    "test": "roadhog test",
+    "lint": "eslint --ext .js src test",
+    "precommit": "npm run lint"
+  },
+  "dependencies": {
+    "antd": "^2.6.4",
+    "babel-runtime": "^6.22.0",
+    "dva": "^1.2.0",
+    "dva-loading": "^0.2.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-dva-hmr": "^0.3.2",
+    "babel-plugin-import": "^1.1.0",
+    "babel-plugin-transform-runtime": "^6.22.0",
+    "eslint": "^3.14.0",
+    "eslint-config-airbnb": "^14.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-react": "^6.9.0",
+    "expect": "^1.20.2",
+    "husky": "^0.13.0",
+    "redbox-react": "^1.3.2",
+    "roadhog": "^0.6.0"
+  }
+}

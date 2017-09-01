@@ -8,4 +8,4 @@ coverage
 npm-debug.log*
 lerna-debug.log
 .changelog
-packages/dva-example-user-dashboard
+
