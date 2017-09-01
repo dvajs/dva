@@ -1,16 +1,17 @@
 
 cd "$(dirname "$0")"
 
-# Go to root
 cd ..
 root_path=$PWD
 ruban="$root_path/node_modules/.bin/ruban"
 
 cd "$root_path/packages/dva-core"
-$ruban test
+$ruban build
 
 cd "$root_path/packages/dva"
-$ruban test
+$ruban build
 
 cd "$root_path/packages/dva-react-router-3"
-$ruban test
+$ruban build
+
+# ./node_modules/.bin/lerna publish
