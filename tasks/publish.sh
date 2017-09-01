@@ -35,4 +35,5 @@ umd-bundler -g react:React,react-dom:ReactDOM -n dva.router -i ./router.js -o di
 umd-bundler -g react:React,react-dom:ReactDOM -n dva.saga -i ./saga.js -o dist/saga.js
 echo 'umd-bundler dva-react-router-3'
 
+cd "$root_path"
 ./node_modules/.bin/lerna publish "$@"
