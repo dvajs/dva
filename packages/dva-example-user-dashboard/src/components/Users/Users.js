@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Pagination, Popconfirm, Button } from 'antd';
 import { routerRedux } from 'dva/router';
+import queryString from 'query-string';
 import styles from './Users.css';
 import { PAGE_SIZE } from '../../constants';
 import UserModal from './UserModal';
@@ -17,7 +18,7 @@ function Users({ dispatch, list: dataSource, loading, total, page: current }) {
   function pageChangeHandler(page) {
     dispatch(routerRedux.push({
       pathname: '/users',
-      query: { page },
+      search: queryString.stringify({ page }),
     }));
   }
 
