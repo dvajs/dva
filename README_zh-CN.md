@@ -31,12 +31,13 @@
 
 ## Demos
 
-* [Count](https://github.com/dvajs/dva/blob/master/examples/count) ([jsfiddle](https://jsfiddle.net/puftw0ea/3/))，简单计数器
-* [User Dashboard](https://github.com/dvajs/dva-example-user-dashboard)，用户管理
+* [Count](https://stackblitz.com/edit/dva-example-count)，简单计数器
+* [User Dashboard](https://github.com/dvajs/dva/tree/master/packages/dva-example-user-dashboard)，用户管理
 * [HackerNews](https://github.com/dvajs/dva-hackernews)  ([Demo](https://dvajs.github.io/dva-hackernews/))，HackerNews Clone
 * [antd-admin](https://github.com/zuiidea/antd-admin) ([Demo](http://antd-admin.zuiidea.com/))，基于 antd 和 dva 的后台管理应用
 * [github-stars](https://github.com/sorrycc/github-stars) ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star 管理应用
 * [react-native-dva-starter](https://github.com/nihgwu/react-native-dva-starter) 一个集成了 dva 和 react-navigation 典型应用场景的 React Native 实例
+* [dva-example-nextjs](https://github.com/dvajs/dva/tree/master/packages/dva-example-nextjs): 和 next.js 整合使用
 
 ## 快速上手
 
