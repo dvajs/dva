@@ -12,11 +12,6 @@
     "cacheDir": ".changelog"
   },
   "commands": {
-    "exec": {
-      "ignore": [
-        "dva-example*"
-      ]
-    },
     "publish": {
       "ignore": [
         "dva-example*"

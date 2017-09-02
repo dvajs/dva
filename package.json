@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "lerna exec --bail --parallel -- npm run build --",
+    "build": "lerna exec --ignore dva-example* --bail --parallel -- npm run build --",
     "changelog": "lerna-changelog",
     "test": "./tasks/test.sh",
     "debug": "lerna run debug",
