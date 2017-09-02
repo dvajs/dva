@@ -111,6 +111,52 @@ describe('app.model', () => {
     expect({ a, b }).toEqual({ a: 0, b: undefined });
   });
 
+  it('don\'t run saga when effects is not provided', () => {
+    let count = 0;
+
+    const app = create();
+    app.model({
+      namespace: 'users',
+      state: [],
+      reducers: {
+        add(state, { payload }) {
+          return [...state, payload];
+        },
+      },
+    });
+    app.start();
+
+    // inject model
+    app.model({
+      namespace: 'tasks',
+      state: [],
+      reducers: {
+        add(state, { payload }) {
+          return [...state, payload];
+        },
+      },
+      effects: null,
+      subscriptions: {
+        setup() {
+          count += 1;
+        },
+      },
+    });
+
+    // subscriptions
+    expect(count).toEqual(1);
+
+    // reducers
+    app._store.dispatch({ type: 'tasks/add', payload: 'foo' });
+    app._store.dispatch({ type: 'users/add', payload: 'foo' });
+    const state = app._store.getState();
+    expect(state.users).toEqual(['foo']);
+    expect(state.tasks).toEqual(['foo']);
+
+    // effects is not taken
+    expect(count).toEqual(1);
+  });
+
   it('unmodel with asyncReducers', () => {
     const app = create();
     app.model({
