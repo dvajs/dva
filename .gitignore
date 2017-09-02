@@ -8,4 +8,5 @@ coverage
 npm-debug.log*
 lerna-debug.log
 .changelog
+.next/
 

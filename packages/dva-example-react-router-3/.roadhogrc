@@ -6,7 +6,7 @@
         "dva-hmr",
         "transform-runtime",
         ["module-alias", [
-          { "src": "npm:dva-react", "expose": "dva" }
+          { "src": "npm:dva-react-router-3", "expose": "dva" }
         ]]
       ]
     },
@@ -14,7 +14,7 @@
       "extraBabelPlugins": [
         "transform-runtime",
         ["module-alias", [
-          { "src": "npm:dva-react", "expose": "dva" }
+          { "src": "npm:dva-react-router-3", "expose": "dva" }
         ]]
       ]
     }
