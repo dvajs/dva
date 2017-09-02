@@ -33,7 +33,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 * [Count](https://github.com/dvajs/dva/blob/master/examples/count) ([jsfiddle](https://jsfiddle.net/puftw0ea/3/)): Simple count example
 * [User Dashboard](https://github.com/dvajs/dva-example-user-dashboard): User management dashboard
 * [HackerNews](https://github.com/dvajs/dva-hackernews)  ([Demo](https://dvajs.github.io/dva-hackernews/)): HackerNews Clone
-* [antd-admin](https://github.com/zuiidea/antd-admin) ([Demo](http://zuiidea.github.io/antd-admin/)): Admin dashboard based on antd and dva
+* [antd-admin](https://github.com/zuiidea/antd-admin) ([Demo](http://antd-admin.zuiidea.com/)): Admin dashboard based on antd and dva
 * [github-stars](https://github.com/sorrycc/github-stars) ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star management tool
 * [react-native-dva-starter](https://github.com/nihgwu/react-native-dva-starter) a React Native starter powered by dva and react-navigation
 
