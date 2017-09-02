@@ -48,6 +48,7 @@
   "files": [
     "lib",
     "src",
+    "dist",
     "fetch.js",
     "index.js",
     "router.js",

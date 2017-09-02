@@ -50,6 +50,7 @@
   "files": [
     "lib",
     "src",
+    "dist",
     "dynamic.js",
     "fetch.js",
     "index.js",

@@ -36,5 +36,13 @@ $umdBundler -g react:React,react-dom:ReactDOM -n dva.router -i ./router.js -o di
 $umdBundler -g react:React,react-dom:ReactDOM -n dva.saga -i ./saga.js -o dist/saga.js
 echo 'umd-bundler dva-react-router-3'
 
+cd "$root_path/packages/dva-no-router"
+rm -rf dist
+$umdBundler -g react:React,react-dom:ReactDOM -n dva -i ./index.js -o dist/dva.js
+$umdBundler -g react:React,react-dom:ReactDOM -n dva.fetch -i ./fetch.js -o dist/fetch.js
+$umdBundler -g react:React,react-dom:ReactDOM -n dva.router -i ./router.js -o dist/router.js
+$umdBundler -g react:React,react-dom:ReactDOM -n dva.saga -i ./saga.js -o dist/saga.js
+echo 'umd-bundler dva-no-router'
+
 cd "$root_path"
 $lerna publish "$@"

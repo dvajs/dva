@@ -14,3 +14,6 @@ $ruban test
 
 cd "$root_path/packages/dva-react-router-3"
 $ruban test
+
+cd "$root_path/packages/dva-no-router"
+$ruban test
