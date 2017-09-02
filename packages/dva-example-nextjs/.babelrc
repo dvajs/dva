@@ -1,11 +1,12 @@
 {
   "presets": [
-    "next/babel",
-    "stage-0"
+    "next/babel"
   ],
   "plugins": [
-    ["module-alias", [
-      { "src": "npm:dva-no-router", "expose": "dva" }
-    ]]
+    ["module-resolver", {
+      "alias": {
+        "dva": "dva-no-router"
+      }
+    }]
   ]
 }

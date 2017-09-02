@@ -18,7 +18,7 @@
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "babel-plugin-dva-hmr": "^0.3.2",
-    "babel-plugin-module-alias": "^1.6.0",
+    "babel-plugin-module-resolver": "^2.7.1",
     "babel-plugin-transform-runtime": "^6.9.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",

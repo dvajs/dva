@@ -17,6 +17,6 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
-    "babel-plugin-module-alias": "^1.6.0"
+    "babel-plugin-module-resolver": "^2.7.1"
   }
 }
