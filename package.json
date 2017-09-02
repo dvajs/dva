@@ -26,6 +26,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "ruban": "^0.1.2",
+    "uglify-js": "^3.0.28",
     "umd-bundler": "^1.0.0"
   },
   "lint-staged": {
