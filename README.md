@@ -55,7 +55,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 
 ### Is it production ready?
 
-Sure! We have 100+ projects using dva, both in Alibaba and out.
+Sure! We have 200+ projects using dva in Alibaba.
 
 ### Does it support IE8?
 
