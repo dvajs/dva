@@ -1,4 +1,4 @@
-# dva-react
+# dva-react-router-3
 
 [![NPM version](https://img.shields.io/npm/v/dva-react-router-3.svg?style=flat)](https://npmjs.org/package/dva-react-router-3)
 [![Build Status](https://img.shields.io/travis/dvajs/dva-react-router-3.svg?style=flat)](https://travis-ci.org/dvajs/dva-react-router-3)

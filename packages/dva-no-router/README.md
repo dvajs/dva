@@ -1,4 +1,4 @@
-# dva-react
+# dva-no-router
 
 [![NPM version](https://img.shields.io/npm/v/dva-no-router.svg?style=flat)](https://npmjs.org/package/dva-no-router)
 [![Build Status](https://img.shields.io/travis/dvajs/dva-no-router.svg?style=flat)](https://travis-ci.org/dvajs/dva-no-router)
