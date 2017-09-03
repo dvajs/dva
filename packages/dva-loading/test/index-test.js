@@ -109,4 +109,36 @@ describe('dva-loading', () => {
       done();
     }, 200);
   });
+
+  it.only('multiple effects', (done) => {
+    const app = dva();
+    app.use(createLoading({ effects: true }));
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        *a(action, { call }) {
+          yield call(delay, 100);
+          console.log('a done');
+        },
+        *b(action, { call }) {
+          yield call(delay, 500);
+          console.log('b done');
+        },
+      },
+    });
+    app.router(() => 1);
+    app.start();
+    console.log(app._store.getState().loading);
+    app._store.dispatch({ type: 'count/a' });
+    app._store.dispatch({ type: 'count/b' });
+    console.log(app._store.getState().loading);
+    setTimeout(() => {
+      console.log(app._store.getState().loading);
+    }, 200);
+    setTimeout(() => {
+      console.log(app._store.getState().loading);
+      done();
+    }, 1000);
+  });
 });
