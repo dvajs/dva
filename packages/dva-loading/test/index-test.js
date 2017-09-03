@@ -2,11 +2,10 @@ import expect from 'expect';
 import dva from 'dva';
 import createLoading from '../src/index';
 
-const delay = (timeout) => new Promise(resolve => setTimeout(resolve, timeout));
+const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
 describe('dva-loading', () => {
-
-  it('normal', done => {
+  it('normal', (done) => {
     const app = dva();
     app.use(createLoading());
     app.model({
@@ -30,13 +29,13 @@ describe('dva-loading', () => {
     expect(app._store.getState().loading).toEqual({ global: false, models: {} });
     app._store.dispatch({ type: 'count/addRemote' });
     expect(app._store.getState().loading).toEqual({ global: true, models: { count: true } });
-    setTimeout(_ => {
+    setTimeout(() => {
       expect(app._store.getState().loading).toEqual({ global: false, models: { count: false } });
       done();
     }, 200);
   });
 
-  it('opts.effects', done => {
+  it('opts.effects', (done) => {
     const app = dva();
     app.use(createLoading({
       effects: true,
@@ -62,7 +61,7 @@ describe('dva-loading', () => {
     expect(app._store.getState().loading).toEqual({ global: false, models: {}, effects: {} });
     app._store.dispatch({ type: 'count/addRemote' });
     expect(app._store.getState().loading).toEqual({ global: true, models: { count: true }, effects: { 'count/addRemote': true } });
-    setTimeout(_ => {
+    setTimeout(() => {
       expect(app._store.getState().loading).toEqual({ global: false, models: { count: false }, effects: { 'count/addRemote': false } });
       done();
     }, 200);
@@ -82,7 +81,7 @@ describe('dva-loading', () => {
     expect(app._store.getState().fooLoading).toEqual({ global: false, models: {} });
   });
 
-  it('takeLatest', done => {
+  it('takeLatest', (done) => {
     const app = dva();
     app.use(createLoading());
     app.model({
@@ -105,7 +104,7 @@ describe('dva-loading', () => {
     app._store.dispatch({ type: 'count/addRemote' });
     app._store.dispatch({ type: 'count/addRemote' });
     expect(app._store.getState().loading).toEqual({ global: true, models: { count: true } });
-    setTimeout(_ => {
+    setTimeout(() => {
       expect(app._store.getState().loading).toEqual({ global: false, models: { count: false } });
       done();
     }, 200);

@@ -4,7 +4,7 @@ const NAMESPACE = 'loading';
 
 function createLoading(opts = {}) {
   const namespace = opts.namespace || NAMESPACE;
-  let initialState = {
+  const initialState = {
     global: false,
     models: {},
   };
@@ -21,15 +21,15 @@ function createLoading(opts = {}) {
           ret = {
             ...state,
             global: true,
-            models: { ...state.models, [namespace]:true },
+            models: { ...state.models, [namespace]: true },
           };
           if (opts.effects) {
             ret.effects = { ...state.effects, [actionType]: true };
           }
           break;
-        case HIDE:
-          const models = { ...state.models, [namespace]:false };
-          const global = Object.keys(models).some(namespace => {
+        case HIDE: // eslint-disable-line
+          const models = { ...state.models, [namespace]: false };
+          const global = Object.keys(models).some((namespace) => {
             return models[namespace];
           });
           ret = {
