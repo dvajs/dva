@@ -6,5 +6,7 @@ dist
 coverage
 .nyc_output
 npm-debug.log*
-test/typescript/*.map
-test/typescript/*.jsx
+lerna-debug.log
+.changelog
+.next/
+

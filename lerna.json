@@ -1,0 +1,25 @@
+{
+  "lerna": "2.0.0",
+  "changelog": {
+    "repo": "dvajs/dva",
+    "labels": {
+      "tag: new feature": ":rocket: New Feature",
+      "tag: breaking change": ":boom: Breaking Change",
+      "tag: bug fix": ":bug: Bug Fix",
+      "tag: enhancement": ":nail_care: Enhancement",
+      "tag: documentation": ":memo: Documentation"
+    },
+    "cacheDir": ".changelog"
+  },
+  "commands": {
+    "publish": {
+      "ignore": [
+        "dva-example*"
+      ]
+    }
+  },
+  "packages": [
+    "packages/*"
+  ],
+  "version": "independent"
+}

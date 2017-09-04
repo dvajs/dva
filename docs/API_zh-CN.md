@@ -7,13 +7,9 @@
 
 默认输出文件。
 
-### dva/mobile
-
-`dva/mobile` 是无 router 版的 dva，可用于多页应用，react-native 等。叫 `dva/mobile` 有点欠考虑，可能在下个大版本中改名。
-
 ### dva/router
 
-默认输出 [react-router@2.x](https://github.com/ReactTraining/react-router/tree/v2.8.1) 接口， [react-router-redux](https://github.com/reactjs/react-router-redux) 的接口通过属性 routerRedux 输出。
+默认输出 [react-router](https://github.com/ReactTraining/react-router) 接口， [react-router-redux](https://github.com/reactjs/react-router-redux) 的接口通过属性 routerRedux 输出。
 
 比如：
 
@@ -28,6 +24,24 @@ import { Router, Route, routerRedux } from 'dva/router';
 ### dva/saga
 
 输出 [redux-saga](https://github.com/yelouafi/redux-saga) 的接口，主要用于用例的编写。（用例中需要用到 effects）
+
+### dva/dynamic
+
+解决组件动态加载问题的 util 方法，基于 [react-async-component](https://github.com/ctrlplusb/react-async-component) 实现。
+
+比如：
+
+```js
+import dynamic from 'dva/dynamic';
+
+const UserPageComponent = dynamic({
+  app,
+  models: [
+    import('./models/users'),
+  ],
+  component: import('./routes/UserPage'),
+});
+```
 
 ## dva API
 ### `app = dva(opts)`

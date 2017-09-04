@@ -1,0 +1,56 @@
+{
+  "name": "dva-no-router",
+  "version": "0.1.0-rc.1",
+  "description": "Official React bindings for dva, no router.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvajs/dva"
+  },
+  "homepage": "https://github.com/dvajs/dva",
+  "keywords": [
+    "dva",
+    "alibaba",
+    "react",
+    "react-native",
+    "redux",
+    "redux-saga",
+    "elm",
+    "framework",
+    "frontend"
+  ],
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvajs/dva/issues"
+  },
+  "scripts": {
+    "build": "ruban build",
+    "test": "ruban test",
+    "debug": "ruban debug",
+    "coveralls": "ruban coveralls"
+  },
+  "dependencies": {
+    "dva-core": "^0.3.0",
+    "global": "^4.3.2",
+    "history": "^4.6.3",
+    "invariant": "^2.2.2",
+    "isomorphic-fetch": "^2.2.1",
+    "react-async-component": "^1.0.0-beta.3",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.2"
+  },
+  "peerDependencies": {
+    "react": "15.x || ^16.0.0-0",
+    "react-dom": "15.x || ^16.0.0-0"
+  },
+  "files": [
+    "lib",
+    "src",
+    "dist",
+    "fetch.js",
+    "index.js",
+    "saga.js"
+  ]
+}
