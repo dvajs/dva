@@ -20,6 +20,10 @@ cd "$root_path/packages/dva-react-router-3"
 $ruban build
 echo 'build dva-react-router-3'
 
+cd "$root_path/packages/dva-loading"
+$ruban build
+echo 'build dva-loading'
+
 cd "$root_path/packages/dva"
 rm -rf dist
 $umdBundler -g react:React,react-dom:ReactDOM -n dva -i ./index.js -o dist/dva.js
