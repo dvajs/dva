@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "dva-core": "^1.0.0",
+    "dva-core": "^1.0.1",
     "global": "^4.3.2",
     "history": "^4.6.3",
     "invariant": "^2.2.2",
