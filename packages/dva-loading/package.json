@@ -25,7 +25,7 @@
     "dva": "^2.0.0"
   },
   "peerDependencies": {
-    "dva": "^2.0.0"
+    "dva": "^1.0.0 || ^2.0.0"
   },
   "files": [
     "lib",
