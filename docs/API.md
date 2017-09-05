@@ -36,10 +36,10 @@ import dynamic from 'dva/dynamic';
 
 const UserPageComponent = dynamic({
   app,
-  models: [
+  models: () => [
     import('./models/users'),
   ],
-  component: import('./routes/UserPage'),
+  component: () => import('./routes/UserPage'),
 });
 ```
 
