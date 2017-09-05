@@ -1,5 +1,5 @@
 import dva from 'dva';
-import { browserHistory } from 'dva/router';
+import createHistory from 'history/createBrowserHistory';
 import createLoading from 'dva-loading';
 import { message } from 'antd';
 import './index.css';
@@ -8,7 +8,7 @@ const ERROR_MSG_DURATION = 3; // 3 秒
 
 // 1. Initialize
 const app = dva({
-  history: browserHistory,
+  history: createHistory(),
   onError(e) {
     message.error(e.message, ERROR_MSG_DURATION);
   },
