@@ -7,10 +7,8 @@ function createLoading(opts = {}) {
   const initialState = {
     global: false,
     models: {},
+    effects: {},
   };
-  if (opts.effects) {
-    initialState.effects = {};
-  }
 
   const extraReducers = {
     [namespace](state = initialState, { type, payload }) {
@@ -22,13 +20,19 @@ function createLoading(opts = {}) {
             ...state,
             global: true,
             models: { ...state.models, [namespace]: true },
+            effects: { ...state.effects, [actionType]: true },
           };
-          if (opts.effects) {
-            ret.effects = { ...state.effects, [actionType]: true };
-          }
           break;
         case HIDE: // eslint-disable-line
-          const models = { ...state.models, [namespace]: false };
+          const effects = { ...state.effects, [actionType]: false };
+          const models = {
+            ...state.models,
+            [namespace]: Object.keys(effects).some((actionType) => {
+              const _namespace = actionType.split('/')[0];
+              if (_namespace !== namespace) return false;
+              return effects[actionType];
+            }),
+          };
           const global = Object.keys(models).some((namespace) => {
             return models[namespace];
           });
@@ -36,10 +40,8 @@ function createLoading(opts = {}) {
             ...state,
             global,
             models,
+            effects,
           };
-          if (opts.effects) {
-            ret.effects = { ...state.effects, [actionType]: false };
-          }
           break;
         default:
           ret = state;
