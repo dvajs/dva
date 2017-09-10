@@ -1,6 +1,6 @@
 {
   "name": "dva-loading",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Auto loading plugin for dva.",
   "repository": {
     "type": "git",
