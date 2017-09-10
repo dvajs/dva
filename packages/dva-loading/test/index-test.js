@@ -26,11 +26,19 @@ describe('dva-loading', () => {
     app.router(() => 1);
     app.start();
 
-    expect(app._store.getState().loading).toEqual({ global: false, models: {} });
+    expect(app._store.getState().loading).toEqual({ global: false, models: {}, effects: {} });
     app._store.dispatch({ type: 'count/addRemote' });
-    expect(app._store.getState().loading).toEqual({ global: true, models: { count: true } });
+    expect(app._store.getState().loading).toEqual({
+      global: true,
+      models: { count: true },
+      effects: { 'count/addRemote': true },
+    });
     setTimeout(() => {
-      expect(app._store.getState().loading).toEqual({ global: false, models: { count: false } });
+      expect(app._store.getState().loading).toEqual({
+        global: false,
+        models: { count: false },
+        effects: { 'count/addRemote': false },
+      });
       done();
     }, 200);
   });
@@ -78,7 +86,7 @@ describe('dva-loading', () => {
     });
     app.router(() => 1);
     app.start();
-    expect(app._store.getState().fooLoading).toEqual({ global: false, models: {} });
+    expect(app._store.getState().fooLoading).toEqual({ global: false, models: {}, effects: {} });
   });
 
   it('takeLatest', (done) => {
@@ -100,17 +108,25 @@ describe('dva-loading', () => {
     app.router(() => 1);
     app.start();
 
-    expect(app._store.getState().loading).toEqual({ global: false, models: {} });
+    expect(app._store.getState().loading).toEqual({ global: false, models: {}, effects: {} });
     app._store.dispatch({ type: 'count/addRemote' });
     app._store.dispatch({ type: 'count/addRemote' });
-    expect(app._store.getState().loading).toEqual({ global: true, models: { count: true } });
+    expect(app._store.getState().loading).toEqual({
+      global: true,
+      models: { count: true },
+      effects: { 'count/addRemote': true },
+    });
     setTimeout(() => {
-      expect(app._store.getState().loading).toEqual({ global: false, models: { count: false } });
+      expect(app._store.getState().loading).toEqual({
+        global: false,
+        models: { count: false },
+        effects: { 'count/addRemote': false },
+      });
       done();
     }, 200);
   });
 
-  it.only('multiple effects', (done) => {
+  it('multiple effects', (done) => {
     const app = dva();
     app.use(createLoading({ effects: true }));
     app.model({
@@ -119,26 +135,22 @@ describe('dva-loading', () => {
       effects: {
         *a(action, { call }) {
           yield call(delay, 100);
-          console.log('a done');
         },
         *b(action, { call }) {
           yield call(delay, 500);
-          console.log('b done');
         },
       },
     });
     app.router(() => 1);
     app.start();
-    console.log(app._store.getState().loading);
     app._store.dispatch({ type: 'count/a' });
     app._store.dispatch({ type: 'count/b' });
-    console.log(app._store.getState().loading);
     setTimeout(() => {
-      console.log(app._store.getState().loading);
+      expect(app._store.getState().loading.models.count).toEqual(true);
     }, 200);
     setTimeout(() => {
-      console.log(app._store.getState().loading);
+      expect(app._store.getState().loading.models.count).toEqual(false);
       done();
-    }, 1000);
+    }, 800);
   });
 });
