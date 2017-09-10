@@ -128,7 +128,7 @@ describe('dva-loading', () => {
 
   it('multiple effects', (done) => {
     const app = dva();
-    app.use(createLoading({ effects: true }));
+    app.use(createLoading());
     app.model({
       namespace: 'count',
       state: 0,
@@ -152,5 +152,33 @@ describe('dva-loading', () => {
       expect(app._store.getState().loading.models.count).toEqual(false);
       done();
     }, 800);
+  });
+
+  it('error catch', (done) => {
+    const app = dva({
+      onError(err) {
+        console.log('failed', err.message);
+      },
+    });
+    app.use(createLoading());
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        *throwError(action, { call }) {
+          yield call(delay, 100);
+          throw new Error('haha');
+        },
+      },
+    });
+    app.router(() => 1);
+    app.start();
+
+    app._store.dispatch({ type: 'count/throwError' });
+    expect(app._store.getState().loading.global).toEqual(true);
+    setTimeout(() => {
+      expect(app._store.getState().loading.global).toEqual(false);
+      done();
+    }, 200);
   });
 });
