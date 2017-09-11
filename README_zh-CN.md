@@ -76,7 +76,7 @@
 
 * 看看 dva 的前身 [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1)，知道 dva 是怎么来的
 * 在 gitc 分享 dva 的 PPT ：[React 应用框架在蚂蚁金服的实践](http://slides.com/sorrycc/dva)
-* 如果还在用 dva@0.x，请尽快 [升级到 1.x](https://github.com/dvajs/dva/pull/42#issuecomment-241323617)
+* 如果还在用 dva@1.x，请尽快 [升级到 2.x](https://github.com/sorrycc/blog/issues/48)
 
 ## License
 
