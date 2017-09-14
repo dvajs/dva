@@ -198,7 +198,7 @@ persistStore(app._store);
 
 取消 model 注册，清理 reducers, effects 和 subscriptions。subscription 如果没有返回 unlisten 函数，使用 `app.unmodel` 会给予警告⚠️。
 
-### `app.router(({ history, app } => RouterConfig)`
+### `app.router(({ history, app }) => RouterConfig)`
 
 注册路由表。
 
