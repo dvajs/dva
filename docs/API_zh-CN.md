@@ -93,9 +93,9 @@ app.use(createLoading(opts));
 
 `hooks` 包含：
 
-#### `onError(fn, dispatch)`
+#### `onError((err, dispatch) => {})`
 
- `effect` 执行错误或 `subscription` 通过 `done` 主动抛错时触发，可用于管理全局出错状态。
+`effect` 执行错误或 `subscription` 通过 `done` 主动抛错时触发，可用于管理全局出错状态。
 
 注意：`subscription` 并没有加 `try...catch`，所以有错误时需通过第二个参数 `done` 主动抛错。例子：
 
