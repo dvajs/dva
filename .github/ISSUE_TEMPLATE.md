@@ -5,7 +5,7 @@ Give enough details and be polite when writing in text. Thanks!
 -->
 
 <!--
-有问题？请在 https://segmentfault.com/ 上提问或者[加微信群互助](https://github.com/dvajs/dva/issues/1150)。
+有问题？请在 [SegmentFault](https://segmentfault.com/t/dva.js) 上提问或者[加微信群互助](https://github.com/dvajs/dva/issues/1150)。
 发现 bug？请填写以下内容，尽量详细。
 -->
 
