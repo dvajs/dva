@@ -35,10 +35,8 @@
     "babel-runtime": "^6.26.0",
     "dva-core": "^1.1.0",
     "global": "^4.3.2",
-    "history": "^4.6.3",
     "invariant": "^2.2.2",
     "isomorphic-fetch": "^2.2.1",
-    "react-async-component": "^1.0.0-beta.3",
     "react-redux": "^5.0.5",
     "redux": "^3.7.2"
   },
