@@ -126,6 +126,9 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     const onError = (err) => {
       if (err) {
         if (typeof err === 'string') err = new Error(err);
+        err.preventDefault = () => {
+          err._dontReject = true;
+        };
         plugin.apply('onError', (err) => {
           throw new Error(err.stack || err);
         })(err, app._store.dispatch);

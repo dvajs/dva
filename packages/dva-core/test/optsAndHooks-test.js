@@ -61,6 +61,35 @@ describe('opts and hooks', () => {
     }, 500);
   });
 
+  it('opts.onError prevent reject error', (done) => {
+    let rejectCount = 0;
+    const app = create({
+      onError(e) {
+        e.preventDefault();
+      },
+    });
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        *add() {
+          throw new Error('add failed');
+        },
+      },
+    });
+    app.start();
+    app._store.dispatch({
+      type: 'count/add',
+    }).catch(() => {
+      rejectCount += 1;
+    });
+
+    setTimeout(() => {
+      expect(rejectCount).toEqual(0);
+      done();
+    }, 200);
+  });
+
   it('opts.initialState', () => {
     const app = create({
       initialState: { count: 1 },

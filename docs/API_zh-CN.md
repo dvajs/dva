@@ -93,9 +93,9 @@ app.use(createLoading(opts));
 
 `hooks` 包含：
 
-#### `onError(fn, dispatch)`
+#### `onError((err, dispatch) => {})`
 
- `effect` 执行错误或 `subscription` 通过 `done` 主动抛错时触发，可用于管理全局出错状态。
+`effect` 执行错误或 `subscription` 通过 `done` 主动抛错时触发，可用于管理全局出错状态。
 
 注意：`subscription` 并没有加 `try...catch`，所以有错误时需通过第二个参数 `done` 主动抛错。例子：
 
@@ -198,7 +198,7 @@ persistStore(app._store);
 
 取消 model 注册，清理 reducers, effects 和 subscriptions。subscription 如果没有返回 unlisten 函数，使用 `app.unmodel` 会给予警告⚠️。
 
-### `app.router(({ history, app } => RouterConfig)`
+### `app.router(({ history, app }) => RouterConfig)`
 
 注册路由表。
 

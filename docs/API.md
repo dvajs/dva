@@ -93,7 +93,7 @@ app.use(createLoading(opts));
 
 `hooks` includes:
 
-#### `onError(fn, dispatch)`
+#### `onError((err, dispatch) => {})`
 
 Triggered when `effect` has error or `subscription` throw error with `done`. Used for managing global error.
 
@@ -206,7 +206,7 @@ Register model, view [#Model](#model)  for details.
 
 Unregister model.
 
-### `app.router(({ history, app } => RouterConfig)`
+### `app.router(({ history, app }) => RouterConfig)`
 
 Register router config.
 

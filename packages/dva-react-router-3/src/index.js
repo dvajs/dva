@@ -106,7 +106,7 @@ function patchHistory(history) {
   const oldListen = history.listen;
   history.listen = (callback) => {
     callback(history.getCurrentLocation());
-    oldListen.call(history, callback);
+    return oldListen.call(history, callback);
   };
   return history;
 }

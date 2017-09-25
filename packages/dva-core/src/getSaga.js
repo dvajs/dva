@@ -56,7 +56,9 @@ function getWatcher(resolve, reject, key, _effect, model, onError, onEffect) {
       resolve(key, ret);
     } catch (e) {
       onError(e);
-      reject(key, e);
+      if (!e._dontReject) {
+        reject(key, e);
+      }
     }
   }
 

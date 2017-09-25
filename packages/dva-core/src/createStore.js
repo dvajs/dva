@@ -35,7 +35,7 @@ export default function ({
 
   const enhancers = [
     applyMiddleware(...middlewares),
-    devtools(),
+    devtools(window.__REDUX_DEVTOOLS_EXTENSION__OPTIONS),
     ...extraEnhancers,
   ];
 
