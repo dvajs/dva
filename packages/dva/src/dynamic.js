@@ -1,4 +1,4 @@
-import { asyncComponent } from 'react-async-component';
+import React, { Component } from 'react';
 
 const cached = {};
 function registerModel(app, model) {
@@ -6,6 +6,42 @@ function registerModel(app, model) {
     app.model(model);
     cached[model.namespace] = 1;
   }
+}
+
+function asyncComponent(config) {
+  const { resolve } = config;
+
+  return class DynamicComponent extends Component {
+    constructor(...args) {
+      super(...args);
+      this.LoadingComponent =
+        config.LoadingComponent || (() => <p>loading...</p>);
+      this.load();
+    }
+
+    componentDidMount() {
+      this.mounted = true;
+    }
+
+    load() {
+      resolve().then(m => {
+        const AsyncComponent = m.default || m;
+        if (this.mounted) {
+          this.setState({ AsyncComponent });
+        } else {
+          this.state.AsyncComponent = AsyncComponent; // eslint-disable-line
+        }
+      });
+    }
+
+    render() {
+      const { AsyncComponent } = this.state;
+      const { LoadingComponent } = this;
+      if (AsyncComponent) return <AsyncComponent {...this.props} />;
+
+      return <LoadingComponent {...this.props} />;
+    }
+  };
 }
 
 export default function dynamic(config) {
