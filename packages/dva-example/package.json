@@ -12,8 +12,8 @@
   "dependencies": {
     "babel-runtime": "^6.9.2",
     "dva": "^2.0.0-0",
-    "react": "^15.4.0",
-    "react-dom": "^15.4.0"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
