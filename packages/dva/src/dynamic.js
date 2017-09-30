@@ -15,7 +15,10 @@ function asyncComponent(config) {
     constructor(...args) {
       super(...args);
       this.LoadingComponent =
-        config.LoadingComponent || (() => <p>loading...</p>);
+        config.LoadingComponent || (() => null);
+      this.state = {
+        AsyncComponent: null,
+      };
       this.load();
     }
 
