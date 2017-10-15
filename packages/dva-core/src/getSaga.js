@@ -1,5 +1,5 @@
 import invariant from 'invariant';
-import * as sagaEffects from 'redux-saga/effects';
+import * as sagaEffects from 'redux-saga/lib/effects';
 import warning from 'warning';
 import {
   takeEveryHelper as takeEvery,
