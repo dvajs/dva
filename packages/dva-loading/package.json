@@ -1,6 +1,6 @@
 {
   "name": "dva-loading",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Auto loading plugin for dva.",
   "repository": {
     "type": "git",
@@ -22,10 +22,10 @@
     "coveralls": "ruban coveralls"
   },
   "devDependencies": {
-    "dva": "^2.0.3"
+    "dva": "^2.0.4"
   },
   "peerDependencies": {
-    "dva": "^2.0.3"
+    "dva": "^2.0.4"
   },
   "files": [
     "lib",
