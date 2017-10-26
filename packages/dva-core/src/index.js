@@ -59,7 +59,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
-    app._models.push(prefixNamespace(m));
+    app._models.push(prefixNamespace({...m}));
   }
 
   /**
