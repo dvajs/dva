@@ -32,8 +32,6 @@ Then we can access loading state from store.
 
 [See real project usage on dva-hackernews](https://github.com/dvajs/dva-hackernews/blob/2c3330b1c8ae728c94ebe1399b72486ad5a1a7a0/src/index.js#L4-L7).
 
-- `opts.effects`: enable effects level loading state
-
 ## State Structure
 
 ```
