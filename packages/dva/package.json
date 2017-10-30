@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "2.0.4",
+  "version": "2.1.0-beta.1",
   "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
