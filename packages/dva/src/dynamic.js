@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 const cached = {};
 function registerModel(app, model) {
   if (!cached[model.namespace]) {
-    app.model(model);
+    app.model(model.default || model);
     cached[model.namespace] = 1;
   }
 }
