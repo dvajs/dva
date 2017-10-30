@@ -27,7 +27,7 @@ function asyncComponent(config) {
     }
 
     load() {
-      resolve().then(m => {
+      resolve().then((m) => {
         const AsyncComponent = m.default || m;
         if (this.mounted) {
           this.setState({ AsyncComponent });
