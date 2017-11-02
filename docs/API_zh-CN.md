@@ -19,7 +19,7 @@ import { Router, Route, routerRedux } from 'dva/router';
 
 ### dva/fetch
 
-异步请求库，输出 [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch) 的接口。不和 dva 强绑定，可以选择任意的请求库。
+异步请求库，输出 [lquixada-fetch](https://github.com/lquixada/cross-fetch) 的接口。不和 dva 强绑定，可以选择任意的请求库。
 
 ### dva/saga
 

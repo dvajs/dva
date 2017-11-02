@@ -19,7 +19,7 @@ import { Router, Route, routerRedux } from 'dva/router';
 
 ### dva/fetch
 
-Async request library, export the api of [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch). It's just for convenience, you can choose other libraries for free.
+Async request library, export the api of [cross-fetch](https://github.com/lquixada/cross-fetch). It's just for convenience, you can choose other libraries for free.
 
 ### dva/saga
 
