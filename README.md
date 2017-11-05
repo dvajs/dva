@@ -20,7 +20,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 * **Support mobile and react-native**: cross platform ([ReactNative Example](https://github.com/sorrycc/dva-example-react-native))
 * **Support HMR**: support HMR for components, routes and models with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr)
 * **Support load model and routes dynamically**: Improve performance ([Example](https://github.com/dvajs/dva/blob/master/packages/dva-example-user-dashboard/src/router.js))
-* **Plugin system**: e.g. we have [dva-loading](https://github.com/dvajs/dva-loading) plugin to handle loading state automatically
+* **Plugin system**: e.g. we have [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading) plugin to handle loading state automatically
 * **Support TypeScript**：with d.ts ([Example](https://github.com/sorrycc/dva-boilerplate-typescript))
 
 ## Why dva ?
