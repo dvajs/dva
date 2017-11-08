@@ -35,8 +35,8 @@ export default function ({
 
   const enhancers = [
     applyMiddleware(...middlewares),
-    devtools(window.__REDUX_DEVTOOLS_EXTENSION__OPTIONS),
     ...extraEnhancers,
+    devtools(window.__REDUX_DEVTOOLS_EXTENSION__OPTIONS),
   ];
 
   return createStore(reducers, initialState, compose(...enhancers));
