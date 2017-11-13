@@ -9,6 +9,8 @@ function registerModel(app, model) {
   }
 }
 
+let defaultLoadingComponent = () => null;
+
 function asyncComponent(config) {
   const { resolve } = config;
 
@@ -16,7 +18,7 @@ function asyncComponent(config) {
     constructor(...args) {
       super(...args);
       this.LoadingComponent =
-        config.LoadingComponent || (() => null);
+        config.LoadingComponent || defaultLoadingComponent;
       this.state = {
         AsyncComponent: null,
       };
@@ -71,3 +73,7 @@ export default function dynamic(config) {
     ...config,
   });
 }
+
+dynamic.setDefaultLoadingComponent = (LoadingComponent) => {
+  defaultLoadingComponent = LoadingComponent;
+};
