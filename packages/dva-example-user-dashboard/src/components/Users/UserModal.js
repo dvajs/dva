@@ -4,7 +4,6 @@ import { Modal, Form, Input } from 'antd';
 const FormItem = Form.Item;
 
 class UserEditModal extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
