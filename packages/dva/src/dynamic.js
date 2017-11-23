@@ -63,7 +63,10 @@ export default function dynamic(config) {
           } else {
             const len = models.length;
             ret.slice(0, len).forEach((m) => {
-              registerModel(app, m);
+              if (!Array.isArray(m)) {
+                m = [m];
+              }
+              m.map(_ => registerModel(app, _));
             });
             resolve(ret[len]);
           }
