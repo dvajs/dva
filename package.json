@@ -97,7 +97,7 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "rimraf": "^2.6.1",
-    "uglifyjs": "^2.4.11"
+    "uglify-js": "^3.1.10"
   },
   "pre-commit": [
     "lint"
