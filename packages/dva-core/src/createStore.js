@@ -23,8 +23,8 @@ export default function ({
 
   const extraMiddlewares = plugin.get('onAction');
   const middlewares = setupMiddlewares([
-    sagaMiddleware,
     promiseMiddleware,
+    sagaMiddleware,
     ...flatten(extraMiddlewares),
   ]);
 

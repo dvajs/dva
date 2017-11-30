@@ -1,26 +1,28 @@
-import expect from 'expect';
-import { create } from '../src/index';
+import expect from "expect";
+import { create } from "../src/index";
 
 const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
-describe('effects', () => {
-  it('put action', (done) => {
+describe("effects", () => {
+  it("put action", done => {
     const app = create();
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1; },
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
       },
       effects: {
         *addDelay({ payload }, { put, call }) {
           yield call(delay, 100);
-          yield put({ type: 'add', payload });
-        },
-      },
+          yield put({ type: "add", payload });
+        }
+      }
     });
     app.start();
-    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    app._store.dispatch({ type: "count/addDelay", payload: 2 });
     expect(app._store.getState().count).toEqual(0);
     setTimeout(() => {
       expect(app._store.getState().count).toEqual(2);
@@ -28,23 +30,25 @@ describe('effects', () => {
     }, 200);
   });
 
-  it('put action with namespace will get a warning', (done) => {
+  it("put action with namespace will get a warning", done => {
     const app = create();
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1; },
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
       },
       effects: {
         *addDelay({ payload }, { put, call }) {
           yield call(delay, 100);
-          yield put({ type: 'add', payload });
-        },
-      },
+          yield put({ type: "add", payload });
+        }
+      }
     });
     app.start();
-    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    app._store.dispatch({ type: "count/addDelay", payload: 2 });
     expect(app._store.getState().count).toEqual(0);
     setTimeout(() => {
       expect(app._store.getState().count).toEqual(2);
@@ -52,111 +56,122 @@ describe('effects', () => {
     }, 200);
   });
 
-  it('take', (done) => {
+  it("take", done => {
     const app = create();
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1; },
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
       },
       effects: {
         *addDelay({ payload }, { put, call }) {
           yield call(delay, payload.delay || 100);
-          yield put({ type: 'add', payload: payload.amount });
+          yield put({ type: "add", payload: payload.amount });
         },
         *test(action, { put, select, take }) {
-          yield put({ type: 'addDelay', payload: { amount: 2 } });
-          yield take('addDelay/@@end');
+          yield put({ type: "addDelay", payload: { amount: 2 } });
+          yield take("addDelay/@@end");
           const count = yield select(state => state.count);
-          yield put({ type: 'addDelay', payload: { amount: count, delay: 0 } });
-        },
-      },
+          yield put({ type: "addDelay", payload: { amount: count, delay: 0 } });
+        }
+      }
     });
     app.start();
-    app._store.dispatch({ type: 'count/test' });
+    app._store.dispatch({ type: "count/test" });
     setTimeout(() => {
       expect(app._store.getState().count).toEqual(4);
       done();
     }, 300);
   });
 
-  it('dispatch action for other models', () => {
+  it("dispatch action for other models", () => {
     const app = create();
     app.model({
-      namespace: 'loading',
+      namespace: "loading",
       state: false,
       reducers: {
-        show() { return true; },
-      },
+        show() {
+          return true;
+        }
+      }
     });
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       effects: {
         *addDelay(_, { put }) {
-          yield put({ type: 'loading/show' });
-        },
-      },
+          yield put({ type: "loading/show" });
+        }
+      }
     });
     app.start();
-    app._store.dispatch({ type: 'count/addDelay' });
+    app._store.dispatch({ type: "count/addDelay" });
     expect(app._store.getState().loading).toEqual(true);
   });
 
-  it('onError', () => {
+  it("onError", () => {
     const errors = [];
     const app = create({
       onError: (error, dispatch) => {
         errors.push(error.message);
-        dispatch({ type: 'count/add' });
-      },
+        dispatch({ type: "count/add" });
+      }
     });
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1; },
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
       },
       effects: {
         *addDelay({ payload }, { put }) {
           if (!payload) {
-            throw new Error('effect error');
+            throw new Error("effect error");
           } else {
-            yield put({ type: 'add', payload });
+            yield put({ type: "add", payload });
           }
-        },
-      },
+        }
+      }
     });
     app.start();
-    app._store.dispatch({ type: 'count/addDelay' });
-    expect(errors).toEqual(['effect error']);
+    app._store.dispatch({ type: "count/addDelay" });
+    expect(errors).toEqual(["effect error"]);
     expect(app._store.getState().count).toEqual(1);
-    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    app._store.dispatch({ type: "count/addDelay", payload: 2 });
     expect(app._store.getState().count).toEqual(3);
   });
 
-  it('type: takeLatest', (done) => {
+  it("type: takeLatest", done => {
     const app = create();
-    const takeLatest = { type: 'takeLatest' };
+    const takeLatest = { type: "takeLatest" };
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1; },
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
       },
       effects: {
-        addDelay: [function*({ payload }, { call, put }) {
-          yield call(delay, 100);
-          yield put({ type: 'add', payload });
-        }, takeLatest],
-      },
+        addDelay: [
+          function*({ payload }, { call, put }) {
+            yield call(delay, 100);
+            yield put({ type: "add", payload });
+          },
+          takeLatest
+        ]
+      }
     });
     app.start();
 
     // Only catch the last one.
-    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
-    app._store.dispatch({ type: 'count/addDelay', payload: 3 });
+    app._store.dispatch({ type: "count/addDelay", payload: 2 });
+    app._store.dispatch({ type: "count/addDelay", payload: 3 });
 
     setTimeout(() => {
       expect(app._store.getState().count).toEqual(3);
@@ -164,40 +179,50 @@ describe('effects', () => {
     }, 200);
   });
 
-  xit('type: throttle throw error if no ms', () => {
+  xit("type: throttle throw error if no ms", () => {
     const app = create();
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       effects: {
-        addDelay: [function*() { console.log(1); }, { type: 'throttle' }],
-      },
+        addDelay: [
+          function*() {
+            console.log(1);
+          },
+          { type: "throttle" }
+        ]
+      }
     });
     expect(() => {
       app.start();
     }).toThrow(/app.start: opts.ms should be defined if type is throttle/);
   });
 
-  it('type: throttle', (done) => {
+  it("type: throttle", done => {
     const app = create();
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1; },
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
       },
       effects: {
-        addDelay: [function*({ payload }, { call, put }) {
-          yield call(delay, 100);
-          yield put({ type: 'add', payload });
-        }, { type: 'throttle', ms: 100 }],
-      },
+        addDelay: [
+          function*({ payload }, { call, put }) {
+            yield call(delay, 100);
+            yield put({ type: "add", payload });
+          },
+          { type: "throttle", ms: 100 }
+        ]
+      }
     });
     app.start();
 
     // Only catch the last one.
-    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
-    app._store.dispatch({ type: 'count/addDelay', payload: 3 });
+    app._store.dispatch({ type: "count/addDelay", payload: 2 });
+    app._store.dispatch({ type: "count/addDelay", payload: 3 });
 
     setTimeout(() => {
       expect(app._store.getState().count).toEqual(2);
@@ -205,30 +230,35 @@ describe('effects', () => {
     }, 200);
   });
 
-  it('type: watcher', (done) => {
-    const watcher = { type: 'watcher' };
+  it("type: watcher", done => {
+    const watcher = { type: "watcher" };
     const app = create();
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1; },
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
       },
       effects: {
-        addWatcher: [function*({ take, put, call }) {
-          while (true) {
-            const { payload } = yield take('addWatcher');
-            yield call(delay, 100);
-            yield put({ type: 'add', payload });
-          }
-        }, watcher],
-      },
+        addWatcher: [
+          function*({ take, put, call }) {
+            while (true) {
+              const { payload } = yield take("addWatcher");
+              yield call(delay, 100);
+              yield put({ type: "add", payload });
+            }
+          },
+          watcher
+        ]
+      }
     });
     app.start();
 
     // Only catch the first one.
-    app._store.dispatch({ type: 'count/addWatcher', payload: 2 });
-    app._store.dispatch({ type: 'count/addWatcher', payload: 3 });
+    app._store.dispatch({ type: "count/addWatcher", payload: 2 });
+    app._store.dispatch({ type: "count/addWatcher", payload: 3 });
 
     setTimeout(() => {
       expect(app._store.getState().count).toEqual(2);
@@ -236,14 +266,19 @@ describe('effects', () => {
     }, 200);
   });
 
-  xit('nonvalid type', () => {
+  xit("nonvalid type", () => {
     const app = create();
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       effects: {
-        addDelay: [function*() { console.log(1); }, { type: 'nonvalid' }],
-      },
+        addDelay: [
+          function*() {
+            console.log(1);
+          },
+          { type: "nonvalid" }
+        ]
+      }
     });
 
     expect(() => {
@@ -251,9 +286,9 @@ describe('effects', () => {
     }).toThrow(/app.start: effect type should be takeEvery, takeLatest, throttle or watcher/);
   });
 
-  it('onEffect', (done) => {
-    const SHOW = '@@LOADING/SHOW';
-    const HIDE = '@@LOADING/HIDE';
+  it("onEffect", done => {
+    const SHOW = "@@LOADING/SHOW";
+    const HIDE = "@@LOADING/HIDE";
 
     const app = create();
 
@@ -274,7 +309,7 @@ describe('effects', () => {
             default:
               return state;
           }
-        },
+        }
       },
       onEffect(effect, { put }, model, key) {
         expectedKey = key;
@@ -285,7 +320,7 @@ describe('effects', () => {
           yield effect(...args);
           yield put({ type: HIDE });
         };
-      },
+      }
     });
 
     app.use({
@@ -295,31 +330,33 @@ describe('effects', () => {
           yield effect(...args);
           count += 1;
         };
-      },
+      }
     });
 
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state) { return state + 1; },
+        add(state) {
+          return state + 1;
+        }
       },
       effects: {
         *addRemote(action, { put }) {
           yield delay(100);
-          yield put({ type: 'add' });
-        },
-      },
+          yield put({ type: "add" });
+        }
+      }
     });
 
     app.start();
 
     expect(app._store.getState().loading).toEqual(false);
 
-    app._store.dispatch({ type: 'count/addRemote' });
+    app._store.dispatch({ type: "count/addRemote" });
     expect(app._store.getState().loading).toEqual(true);
-    expect(modelNamespace).toEqual('count');
-    expect(expectedKey).toEqual('count/addRemote');
+    expect(modelNamespace).toEqual("count");
+    expect(expectedKey).toEqual("count/addRemote");
 
     setTimeout(() => {
       expect(app._store.getState().loading).toEqual(false);
@@ -329,39 +366,84 @@ describe('effects', () => {
     }, 200);
   });
 
-  it('return Promise', (done) => {
+  it("return Promise", done => {
     const app = create();
     app.model({
-      namespace: 'count',
+      namespace: "count",
       state: 0,
       reducers: {
-        add(state, { payload }) { return state + payload || 1; },
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
       },
       effects: {
         *addDelay({ payload }, { put, call, select }) {
           yield call(delay, payload.delay || 100);
-          yield put({ type: 'add', payload: payload.amount });
+          yield put({ type: "add", payload: payload.amount });
           return yield select(state => state.count);
-        },
-      },
+        }
+      }
     });
     app.start();
     const p1 = app._store.dispatch({
-      type: 'count/addDelay',
-      payload: { amount: 2 },
+      type: "count/addDelay",
+      payload: { amount: 2 }
     });
     const p2 = app._store.dispatch({
-      type: 'count/add',
-      payload: 2,
+      type: "count/add",
+      payload: 2
     });
     expect(p1 instanceof Promise).toEqual(true);
-    expect(p2).toEqual({ type: 'count/add', payload: 2 });
+    expect(p2).toEqual({ type: "count/add", payload: 2 });
     expect(app._store.getState().count).toEqual(2);
-    p1.then((count) => {
+    p1.then(count => {
       expect(count).toEqual(4);
       expect(app._store.getState().count).toEqual(4);
       done();
     });
   });
+  it("handling the same effects' concurrent return promises", done => {
+    const app = create();
+    app.model({
+      namespace: "count",
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        }
+      },
+      effects: {
+        *addDelay({ payload }, { put, call, select }) {
+          yield call(delay, payload.delay || 100);
+          yield put({ type: "add", payload: payload.amount });
+          return yield select(state => state.count);
+        }
+      }
+    });
+    app.start();
+    const p1 = app._store.dispatch({
+      type: "count/addDelay",
+      payload: { delay: 100, amount: 1 }
+    });
+    const p2 = app._store.dispatch({
+      type: "count/add",
+      payload: 2
+    });
+    const p3 = app._store.dispatch({
+      type: "count/addDelay",
+      payload: { delay: 200, amount: 3 }
+    });
+    expect(p1 instanceof Promise).toEqual(true);
+    expect(p2).toEqual({ type: "count/add", payload: 2 });
+    expect(app._store.getState().count).toEqual(2);
+    p1.then(count => {
+      expect(count).toEqual(3);
+      expect(app._store.getState().count).toEqual(3);
+      p3.then(count => {
+        expect(count).toEqual(6);
+        expect(app._store.getState().count).toEqual(6);
+        done();
+      });
+    });
+  });
 });
-
