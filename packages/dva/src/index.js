@@ -18,8 +18,8 @@ export default function (opts = {}) {
     },
     setupMiddlewares(middlewares) {
       return [
-        routerMiddleware(history),
         ...middlewares,
+        routerMiddleware(history),
       ];
     },
     setupApp(app) {
