@@ -250,7 +250,7 @@ Result.
 
 Prior to this, all of our operations are synchronous. When clicking on the + button, the value is incremented by 1.
 
-Now we have to dealing with async logic. dva process side effect( async logic ) with effects on model, which is executed based on [redux-saga](https://github.com/yelouafi/redux-saga), with generator syntax.
+Now we have to dealing with async logic. dva process side effect( async logic ) with effects on model, which is executed based on [redux-saga](https://github.com/redux-saga/redux-saga), with generator syntax.
 
 In this app, when user clicked the + button, value will plus 1, and trigger a side effect, that is, minus 1 after 1 second.
 
@@ -274,7 +274,7 @@ app.model({
 Notice:
 
 1. `*add() {}` is equal to `add: function*(){}`
-2. `call` and `put` are effect commands from redux-saga. `call` is for async logic, and `put` is for dispatching actions. Besides, there are commands like `select`, `take`, `fork`, `cancel`, and so on. View more on [redux-saga documatation](http://yelouafi.github.io/redux-saga/docs/basics/DeclarativeEffects.html)
+2. `call` and `put` are effect commands from redux-saga. `call` is for async logic, and `put` is for dispatching actions. Besides, there are commands like `select`, `take`, `fork`, `cancel`, and so on. View more on [redux-saga documatation](https://redux-saga.js.org/docs/basics/DeclarativeEffects.html)
 
 Refresh you browser, if success, it should have all the effects of beginning gif.
 
