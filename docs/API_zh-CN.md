@@ -309,7 +309,7 @@ app.model({
 
 格式为 `(state, action) => newState` 或 `[(state, action) => newState, enhancer]`。
 
-详见： https://github.com/dvajs/dva/blob/master/test/reducers-test.js
+详见 [reducers-test](https://github.com/dvajs/dva/blob/master/packages/dva-core/test/reducers-test.js)
 
 ### effects
 
@@ -324,7 +324,7 @@ type 类型有：
 * `throttle`
 * `watcher`
 
-详见：https://github.com/dvajs/dva/blob/master/test/effects-test.js
+详见 [effects-test](https://github.com/dvajs/dva/blob/master/packages/dva-core/test/effects-test.js)
 
 ### subscriptions
 
