@@ -1,2 +1,2 @@
 
-module.exports = require('isomorphic-fetch');
+module.exports = require('cross-fetch');
