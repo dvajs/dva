@@ -32,10 +32,10 @@
     "coveralls": "ruban coveralls"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.34",
     "@types/isomorphic-fetch": "^0.0.34",
     "@types/react-router": "2.x",
     "@types/react-router-redux": "^4.0.40",
-    "babel-runtime": "^6.26.0",
     "dva-core": "^1.1.0",
     "global": "^4.3.2",
     "history": "^4.6.3",
