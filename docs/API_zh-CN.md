@@ -62,9 +62,9 @@ const UserPageComponent = dynamic({
 如果要配置 history 为 `browserHistory`，可以这样：
 
 ```js
-import { browserHistory } from 'dva/router';
+import createHistory from 'history/createBrowserHistory';
 const app = dva({
-  history: browserHistory,
+  history: createHistory(),
 });
 ```
 

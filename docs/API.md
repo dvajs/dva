@@ -62,9 +62,9 @@ Create app, and return dva instance. (Notice: dva support multiple instances.)
 e.g. use `browserHistory`:
 
 ```js
-import { browserHistory } from 'dva/router';
+import createHistory from 'history/createBrowserHistory';
 const app = dva({
-  history: browserHistory,
+  history: createHistory(),
 });
 ```
 
