@@ -29,6 +29,10 @@ function asyncComponent(config) {
       this.mounted = true;
     }
 
+    componentWillUnmount() {
+      this.mounted = false;
+    }
+
     load() {
       resolve().then((m) => {
         const AsyncComponent = m.default || m;
