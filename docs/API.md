@@ -323,7 +323,7 @@ Store reducers in key/value Object. reducer is the only place to modify `state`.
 
 `(state, action) => newState` or `[(state, action) => newState, enhancer]`
 
-View https://github.com/dvajs/dva/blob/master/test/reducers-test.js for details.
+View https://github.com/dvajs/dva/blob/master/packages/dva-core/test/reducers-test.js for details.
 
 ### effects
 
@@ -338,7 +338,7 @@ type includes:
 * `throttle`
 * `watcher`
 
-View https://github.com/dvajs/dva/blob/master/test/effects-test.js for details.
+View https://github.com/dvajs/dva/blob/master/packages/dva-core/test/effects-test.js for details.
 
 ### subscriptions
 
