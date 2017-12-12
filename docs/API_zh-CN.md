@@ -27,7 +27,7 @@ import { Router, Route, routerRedux } from 'dva/router';
 
 ### dva/dynamic
 
-解决组件动态加载问题的 util 方法，基于 [react-async-component](https://github.com/ctrlplusb/react-async-component) 实现。
+解决组件动态加载问题的 util 方法。
 
 比如：
 
@@ -42,6 +42,12 @@ const UserPageComponent = dynamic({
   component: () => import('./routes/UserPage'),
 });
 ```
+
+`opts` 包含：
+
+* app: dva 实例，加载 models 时需要
+* models: 返回 Promise 数组的函数，Promise 返回 dva model
+* component：返回 Promise 的函数，Promise 返回 React Component
 
 ## dva API
 ### `app = dva(opts)`

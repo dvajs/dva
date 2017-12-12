@@ -27,7 +27,7 @@ Export the api of [redux-saga](https://github.com/yelouafi/redux-saga).
 
 ### dva/dynamic
 
-A util method to load React Component dynamically, based on [react-async-component](https://github.com/ctrlplusb/react-async-component).
+Util method to load React Component and dva model dynamically.
 
 e.g.
 
@@ -42,6 +42,12 @@ const UserPageComponent = dynamic({
   component: () => import('./routes/UserPage'),
 });
 ```
+
+`opts` include:
+
+* app: dva instance
+* models: function which return promise, and the promise return dva model
+* component：function which return promise, and the promise return React Component
 
 ## dva API
 ### `app = dva(opts)`
