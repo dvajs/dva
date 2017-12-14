@@ -92,7 +92,7 @@ describe('dva-loading', () => {
   it('opts.only', () => {
     const app = dva();
     app.use(createLoading({
-      only: 'count/a',
+      only: [ 'count/a' ],
     }));
     app.model({
       namespace: 'count',
@@ -125,13 +125,13 @@ describe('dva-loading', () => {
           effects: { 'count/a': false },
         });
       }, 300);
-    }, 200);
+    }, 300);
   });
 
   it('opts.except', () => {
     const app = dva();
     app.use(createLoading({
-      except: 'count/a',
+      except: [ 'count/a' ],
     }));
     app.model({
       namespace: 'count',
@@ -160,7 +160,23 @@ describe('dva-loading', () => {
           effects: { 'count/b': true },
         });
       }, 300);
-    }, 200);
+    }, 300);
+  });
+
+  it('intersection between opts.only and opts.except', () => {
+    expect(() => {
+      const app = dva();
+      app.use(createLoading({
+        only: [
+          'count/a',
+          'count/c',
+        ],
+        except: [
+          'count/b',
+          'count/c',
+        ]
+      }));
+    }).toThrow('intersection');
   });
 
   it('takeLatest', (done) => {
