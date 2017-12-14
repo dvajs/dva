@@ -6,8 +6,8 @@ function createLoading(opts = {}) {
   const namespace = opts.namespace || NAMESPACE;
   
   const { only = [], except = [] } = opts;
-  if (only.length > 0 && except.length > 0 && only.filter(_o => except.includes(_o)).length > 0) {
-    throw Error('Check out [only] & [except] configurations of dva-loading, make sure there is no intersection.');
+  if (only.length > 0 && except.length > 0) {
+    throw Error('It is ambiguous to configurate `only` and `except` items at the same time.');
   }
 
   const initialState = {

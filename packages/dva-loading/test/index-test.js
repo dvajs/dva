@@ -163,20 +163,18 @@ describe('dva-loading', () => {
     }, 300);
   });
 
-  it('intersection between opts.only and opts.except', () => {
+  it('opts.only and opts.except ambiguous', () => {
     expect(() => {
       const app = dva();
       app.use(createLoading({
         only: [
           'count/a',
-          'count/c',
         ],
         except: [
           'count/b',
-          'count/c',
         ]
       }));
-    }).toThrow('intersection');
+    }).toThrow('ambiguous');
   });
 
   it('takeLatest', (done) => {
