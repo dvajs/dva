@@ -89,6 +89,94 @@ describe('dva-loading', () => {
     expect(app._store.getState().fooLoading).toEqual({ global: false, models: {}, effects: {} });
   });
 
+  it('opts.only', () => {
+    const app = dva();
+    app.use(createLoading({
+      only: [ 'count/a' ],
+    }));
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        *a(action, { call }) {
+          yield call(delay, 500);
+        },
+        *b(action, { call }) {
+          yield call(delay, 500);
+        },
+      },
+    });
+    app.router(() => 1);
+    app.start();
+
+    expect(app._store.getState().loading).toEqual({ global: false, models: {}, effects: {} });
+    app._store.dispatch({ type: 'count/a' });
+    setTimeout(() => {
+      expect(app._store.getState().loading).toEqual({
+        global: true,
+        models: { count: true },
+        effects: { 'count/a': true },
+      });
+      app._store.dispatch({ type: 'count/b' });
+      setTimeout(() => {
+        expect(app._store.getState().loading).toEqual({
+          global: false,
+          models: { count: false },
+          effects: { 'count/a': false },
+        });
+      }, 300);
+    }, 300);
+  });
+
+  it('opts.except', () => {
+    const app = dva();
+    app.use(createLoading({
+      except: [ 'count/a' ],
+    }));
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        *a(action, { call }) {
+          yield call(delay, 500);
+        },
+        *b(action, { call }) {
+          yield call(delay, 500);
+        },
+      },
+    });
+    app.router(() => 1);
+    app.start();
+
+    expect(app._store.getState().loading).toEqual({ global: false, models: {}, effects: {} });
+    app._store.dispatch({ type: 'count/a' });
+    setTimeout(() => {
+      expect(app._store.getState().loading).toEqual({ global: false, models: {}, effects: {} });
+      app._store.dispatch({ type: 'count/b' });
+      setTimeout(() => {
+        expect(app._store.getState().loading).toEqual({
+          global: true,
+          models: { count: true },
+          effects: { 'count/b': true },
+        });
+      }, 300);
+    }, 300);
+  });
+
+  it('opts.only and opts.except ambiguous', () => {
+    expect(() => {
+      const app = dva();
+      app.use(createLoading({
+        only: [
+          'count/a',
+        ],
+        except: [
+          'count/b',
+        ]
+      }));
+    }).toThrow('ambiguous');
+  });
+
   it('takeLatest', (done) => {
     const app = dva();
     app.use(createLoading());
