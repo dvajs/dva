@@ -48,10 +48,10 @@ After installed, you can check version with `dva -v`, and view help info with `d
 After installed dva-cli, we can create a new app with it, called `myapp`.
 
 ```bash
-$ dva new myapp --demo
+$ dva new myapp
 ```
 
-Notice: `--demo` option is only used for creating demo level app. If you want to create normal project, don't add this option.
+Notice: you can add `--demo` option to create a demo level app. The demo project will disable CSS module by default.
 
 `cd` myapp, and start it.
 
