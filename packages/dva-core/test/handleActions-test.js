@@ -44,4 +44,9 @@ describe('handleActions', () => {
     expect(reducers(initialState, { type: LOGIN_SAVE }))
       .toBe(initialState);
   });
+
+  it('dispatch not valid action', () => {
+    expect(reducers(initialState, { type: '' }))
+      .toThrow(/dispatch: action should be a plain Object with type/);
+  });
 });
