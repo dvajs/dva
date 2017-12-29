@@ -363,5 +363,153 @@ describe('effects', () => {
       done();
     });
   });
+
+  it('same effects with saga "takeEvery" should all be resolved', (done) => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) { return state + payload || 1; },
+      },
+      effects: {
+        *addDelay({ payload }, { put, call, select }) {
+          yield call(delay, payload.delay || 100);
+          yield put({ type: 'add', payload: payload.amount });
+          return yield select(state => state.count);
+        },
+      },
+    });
+    app.start();
+    const p1 = app._store.dispatch({
+      type: 'count/addDelay',
+      payload: { amount: 1 },
+    });
+    const p2 = app._store.dispatch({
+      type: 'count/add',
+      payload: 2,
+    });
+    const p3 = app._store.dispatch({
+      type: 'count/addDelay',
+      payload: { amount: 3 },
+    });
+    expect(p1 instanceof Promise).toEqual(true);
+    expect(p2).toEqual({ type: 'count/add', payload: 2 });
+    expect(p3 instanceof Promise).toEqual(true);
+    expect(app._store.getState().count).toEqual(2);
+    p1.then((count) => {
+      expect(count).toEqual(3);
+      expect(app._store.getState().count).toEqual(3);
+      p3.then((count) => {
+        expect(count).toEqual(6);
+        expect(app._store.getState().count).toEqual(6);
+        done();
+      });
+    });
+  });
+
+  it('same effects with saga "watcher", first one should be resolved, second one should be rejected', (done) => {
+    const watcher = { type: 'watcher' };
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) { return state + payload || 1; },
+      },
+      effects: {
+        addWatcher: [function*({ take, put, call }) {
+          while (true) {
+            const { payload } = yield take('addWatcher');
+            yield call(delay, 100);
+            yield put({ type: 'add', payload });
+          }
+        }, watcher],
+      },
+    });
+    app.start();
+
+    // Only catch the first one.
+    const p1 = app._store.dispatch({ type: 'count/addWatcher', payload: 2 });
+    const p2 = app._store.dispatch({ type: 'count/addWatcher', payload: 3 });
+
+    setTimeout(() => {
+      p1.then((count)=> {
+        expect(count).toEqual(2);
+        expect(app._store.getState().count).toEqual(2);
+        p2.catch((err) => {
+          expect(err).toEqual('timeout');
+          done();
+        });
+      });
+    }, 2000);
+  });
+
+  it('same effects with saga "throttle", first one should be resolved, second one should be rejected', (done) => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) { return state + payload || 1; },
+      },
+      effects: {
+        addDelay: [function*({ payload }, { call, put }) {
+          yield call(delay, 100);
+          yield put({ type: 'add', payload });
+        }, { type: 'throttle', ms: 100 }],
+      },
+    });
+    app.start();
+
+    // Only catch the first one.
+    const p1 = app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    const p2 = app._store.dispatch({ type: 'count/addDelay', payload: 3 });
+
+    setTimeout(() => {
+      p1.then((count)=> {
+        expect(count).toEqual(2);
+        expect(app._store.getState().count).toEqual(2);
+        p2.catch((err) => {
+          expect(err).toEqual('timeout');
+          done();
+        });
+      });
+    }, 2000);
+  });
+
+  it('same effects with saga "takeLatest", first one should be rejected, second one should be resolved', (done) => {
+    const app = create();
+    const takeLatest = { type: 'takeLatest' };
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) { return state + payload || 1; },
+      },
+      effects: {
+        addDelay: [function*({ payload }, { call, put }) {
+          yield call(delay, 100);
+          yield put({ type: 'add', payload });
+        }, takeLatest],
+      },
+    });
+    app.start();
+
+    // Only catch the last one.
+    const p1 = app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    const p2 = app._store.dispatch({ type: 'count/addDelay', payload: 3 });
+
+    setTimeout(() => {
+      p2.then((count)=> {
+        expect(count).toEqual(3);
+        expect(app._store.getState().count).toEqual(3);
+        p1.catch((err) => {
+          expect(err).toEqual('timeout');
+          done();
+        });
+      });
+    }, 2000);
+  });
 });
 
