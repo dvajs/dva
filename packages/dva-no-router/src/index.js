@@ -42,7 +42,9 @@ export default function (opts = {}) {
       `[app.start] router must be registered before app.start()`,
     );
 
-    oldAppStart.call(app);
+    if (!app._store) {
+      oldAppStart.call(app);
+    }
     const store = app._store;
 
     // export _getProvider for HMR
