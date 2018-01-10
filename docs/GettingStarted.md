@@ -258,7 +258,8 @@ In this app, when user clicked the + button, value will plus 1, and trigger a si
 app.model({
   namespace: 'count',
 + effects: {
-+   *add(action, { call, put }) {
++   *addAsync(action, { call, put }) {
++     yield put({ type: 'add' });
 +     yield call(delay, 1000);
 +     yield put({ type: 'minus' });
 +   },
@@ -273,7 +274,7 @@ app.model({
 
 Notice:
 
-1. `*add() {}` is equal to `add: function*(){}`
+1. `*addAsync() {}` is equal to `addAsync: function*(){}`
 2. `call` and `put` are effect commands from redux-saga. `call` is for async logic, and `put` is for dispatching actions. Besides, there are commands like `select`, `take`, `fork`, `cancel`, and so on. View more on [redux-saga documatation](http://redux-saga.github.io/redux-saga/docs/basics/DeclarativeEffects.html)
 
 Refresh you browser, if success, it should have all the effects of beginning gif.
@@ -295,7 +296,7 @@ app.model({
   namespace: 'count',
 + subscriptions: {
 +   keyboardWatcher({ dispatch }) {
-+     key('⌘+up, ctrl+up', () => { dispatch({type:'add'}) });
++     key('⌘+up, ctrl+up', () => { dispatch({type:'addAsync'}) });
 +   },
 + },
 });
@@ -344,14 +345,15 @@ app.model({
     },
   },
   effects: {
-    *add(action, { call, put }) {
+    *addAsync(action, { call, put }) {
+      yield put({ type: 'add' });
       yield call(delay, 1000);
       yield put({ type: 'minus' });
     },
   },
   subscriptions: {
     keyboardWatcher({ dispatch }) {
-      key('⌘+up, ctrl+up', () => { dispatch({type:'add'}) });
+      key('⌘+up, ctrl+up', () => { dispatch({type:'addAsync'}) });
     },
   },
 });
@@ -362,7 +364,7 @@ const CountApp = ({count, dispatch}) => {
       <div className={styles.record}>Highest Record: {count.record}</div>
       <div className={styles.current}>{count.current}</div>
       <div className={styles.button}>
-        <button onClick={() => { dispatch({type: 'count/add'}); }}>+</button>
+        <button onClick={() => { dispatch({type: 'count/addAsync'}); }}>+</button>
       </div>
     </div>
   );
