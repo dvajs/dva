@@ -48,10 +48,10 @@ After installed, you can check version with `dva -v`, and view help info with `d
 After installed dva-cli, we can create a new app with it, called `myapp`.
 
 ```bash
-$ dva new myapp --demo
+$ dva new myapp
 ```
 
-Notice: `--demo` option is only used for creating demo level app. If you want to create normal project, don't add this option.
+Notice: you can add `--demo` option to create a demo level app. The demo project will disable CSS module by default.
 
 `cd` myapp, and start it.
 
@@ -258,7 +258,8 @@ In this app, when user clicked the + button, value will plus 1, and trigger a si
 app.model({
   namespace: 'count',
 + effects: {
-+   *add(action, { call, put }) {
++   *add2(action, { call, put }) {
++     yield put({ type: 'add' });
 +     yield call(delay, 1000);
 +     yield put({ type: 'minus' });
 +   },
@@ -269,12 +270,17 @@ app.model({
 +    setTimeout(resolve, timeout);
 +  });
 +}
+
+...
+      <div className={styles.button}>
+-        <button onClick={() => { dispatch({type: 'count/add'}); }}>+</button>
++        <button onClick={() => { dispatch({type: 'count/add2'}); }}>+</button>
+      </div>
 ```
-
 Notice:
-
-1. `*add() {}` is equal to `add: function*(){}`
-2. `call` and `put` are effect commands from redux-saga. `call` is for async logic, and `put` is for dispatching actions. Besides, there are commands like `select`, `take`, `fork`, `cancel`, and so on. View more on [redux-saga documatation](http://redux-saga.github.io/redux-saga/docs/basics/DeclarativeEffects.html)
+1. Reducer and effect sharing same name will only call effect function since dva verison 2.0, so we can't use `add` as effect name here.
+2. `*add2() {}` is equal to `add2: function*(){}`
+3. `call` and `put` are effect commands from redux-saga. `call` is for async logic, and `put` is for dispatching actions. Besides, there are commands like `select`, `take`, `fork`, `cancel`, and so on. View more on [redux-saga documatation](http://redux-saga.github.io/redux-saga/docs/basics/DeclarativeEffects.html)
 
 Refresh you browser, if success, it should have all the effects of beginning gif.
 
@@ -301,16 +307,11 @@ app.model({
 });
 ```
 
-Here, we don't need to install `keymaster` dependency manually. When we write `import key from 'keymaster';` and save, dva-cli will install `keymaster` and save to `package.json`. Output like this:
-
+Here, we need to install `keymaster` dependency manually. 
 ```bash
-use npm: tnpm
-Installing `keymaster`...
-[keymaster@*] installed at node_modules/.npminstall/keymaster/1.6.2/keymaster (1 packages, use 745ms, speed 24.06kB/s, json 2.98kB, tarball 15.08kB)
-All packages installed (1 packages installed from npm registry, use 755ms, speed 23.93kB/s, json 1(2.98kB), tarball 15.08kB)
-📦  2/2 build modules
-webpack: bundle build is now finished.
+$ cnpm install keymaster --save
 ```
+
 
 ## All Code Together
 
@@ -344,14 +345,15 @@ app.model({
     },
   },
   effects: {
-    *add(action, { call, put }) {
+    *add2(action, { call, put }) {
+      yield put({ type: 'add' });
       yield call(delay, 1000);
       yield put({ type: 'minus' });
     },
   },
   subscriptions: {
     keyboardWatcher({ dispatch }) {
-      key('⌘+up, ctrl+up', () => { dispatch({type:'add'}) });
+      key('⌘+up, ctrl+up', () => { dispatch({type:'add2'}) });
     },
   },
 });
@@ -362,7 +364,7 @@ const CountApp = ({count, dispatch}) => {
       <div className={styles.record}>Highest Record: {count.record}</div>
       <div className={styles.current}>{count.current}</div>
       <div className={styles.button}>
-        <button onClick={() => { dispatch({type: 'count/add'}); }}>+</button>
+        <button onClick={() => { dispatch({type: 'count/add2'}); }}>+</button>
       </div>
     </div>
   );
