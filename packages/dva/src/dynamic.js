@@ -15,20 +15,19 @@ let defaultLoadingComponent = () => null;
 export default function dynamic(config) {
   const {
     resolve = defaultLoader,
+    app,
+    models: modelsLoader = () => [],
+    component: componentLoader,
   } = config;
 
+  // check config
+  invariant(
+    typeof componentLoader === 'function',
+    `config.component should be a function and return a Promise with Compoennt,
+     but it is ${typeof componentLoader}`,
+  );
+
   async function defaultLoader() {
-    const {
-      app,
-      models: modelsLoader = () => [],
-      component: componentLoader,
-    } = config;
-    // check config
-    invariant(
-      typeof componentLoader === 'function',
-      `config.component should be a function and return a Promise with Compoennt,
-       but it is ${typeof componentLoader}`,
-    );
     // load component & models
     const [
       actualComponent,
