@@ -53,7 +53,7 @@ export default function (opts = {}) {
 
     // 并且是 HTMLElement
     invariant(
-      !container || isHTMLElement(container),
+      isHTMLElement(container),
       `[app.start] container should be HTMLElement`,
     );
 
@@ -83,7 +83,7 @@ export default function (opts = {}) {
 }
 
 function isHTMLElement(node) {
-  return typeof node === 'object' && node !== null && node.nodeType && node.nodeName;
+  return node instanceof HTMLElement;
 }
 
 function isString(str) {
