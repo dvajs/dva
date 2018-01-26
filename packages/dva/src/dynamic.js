@@ -38,7 +38,15 @@ export default function dynamic(config) {
       ...modelsLoader(),
     ]);
     // register models
-    actualModels.forEach(m => registerModel(app, m));
+    actualModels.forEach(
+      (m) => {
+        if (Array.isArray(m)) {
+          m.forEach(sub => registerModel(app, sub));
+        } else {
+          registerModel(app, m);
+        }
+      },
+    );
     // return component
     return actualComponent;
   }
