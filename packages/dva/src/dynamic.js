@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import invariant from 'invariant';
 
 const cached = {};
 function registerModel(app, model) {
@@ -11,8 +12,36 @@ function registerModel(app, model) {
 
 let defaultLoadingComponent = () => null;
 
-function asyncComponent(config) {
-  const { resolve } = config;
+export default function dynamic(config) {
+  const {
+    resolve = defaultLoader,
+  } = config;
+
+  async function defaultLoader() {
+    const {
+      app,
+      models: modelsLoader = () => [],
+      component: componentLoader,
+    } = config;
+    // check config
+    invariant(
+      typeof componentLoader === 'function',
+      `config.component should be a function and return a Promise with Compoennt,
+       but it is ${typeof componentLoader}`,
+    );
+    // load component & models
+    const [
+      actualComponent,
+      ...actualModels,
+    ] = await Promise.all([
+      componentLoader(),
+      ...modelsLoader(),
+    ]);
+    // register models
+    actualModels.forEach(m => registerModel(app, m));
+    // return component
+    return actualComponent;
+  }
 
   return class DynamicComponent extends Component {
     constructor(...args) {
@@ -33,15 +62,14 @@ function asyncComponent(config) {
       this.mounted = false;
     }
 
-    load() {
-      resolve().then((m) => {
-        const AsyncComponent = m.default || m;
-        if (this.mounted) {
-          this.setState({ AsyncComponent });
-        } else {
-          this.state.AsyncComponent = AsyncComponent; // eslint-disable-line
-        }
-      });
+    async load() {
+      const compModule = await resolve();
+      const AsyncComponent = compModule.default || compModule;
+      if (this.mounted) {
+        this.setState({ AsyncComponent });
+      } else {
+        this.state.AsyncComponent = AsyncComponent; // eslint-disable-line
+      }
     }
 
     render() {
@@ -52,33 +80,6 @@ function asyncComponent(config) {
       return <LoadingComponent {...this.props} />;
     }
   };
-}
-
-export default function dynamic(config) {
-  const { app, models: resolveModels, component: resolveComponent } = config;
-  return asyncComponent({
-    resolve: config.resolve || function () {
-      const models = typeof resolveModels === 'function' ? resolveModels() : [];
-      const component = resolveComponent();
-      return new Promise((resolve) => {
-        Promise.all([...models, component]).then((ret) => {
-          if (!models || !models.length) {
-            return resolve(ret[0]);
-          } else {
-            const len = models.length;
-            ret.slice(0, len).forEach((m) => {
-              if (!Array.isArray(m)) {
-                m = [m];
-              }
-              m.map(_ => registerModel(app, _));
-            });
-            resolve(ret[len]);
-          }
-        });
-      });
-    },
-    ...config,
-  });
 }
 
 dynamic.setDefaultLoadingComponent = (LoadingComponent) => {
