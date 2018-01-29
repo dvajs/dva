@@ -1,5 +1,5 @@
 import warning from 'warning';
-import { isArray } from './utils';
+import { isArray, deepClone } from './utils';
 import { NAMESPACE_SEP } from './constants';
 
 function prefix(obj, namespace, type) {
@@ -15,21 +15,22 @@ function prefix(obj, namespace, type) {
 }
 
 export default function prefixNamespace(model) {
+  const dvamodel = deepClone(model);
   const {
     namespace,
     reducers,
     effects,
-  } = model;
+  } = dvamodel;
 
   if (reducers) {
     if (isArray(reducers)) {
-      model.reducers[0] = prefix(reducers[0], namespace, 'reducer');
+      dvamodel.reducers[0] = prefix(reducers[0], namespace, 'reducer');
     } else {
-      model.reducers = prefix(reducers, namespace, 'reducer');
+      dvamodel.reducers = prefix(reducers, namespace, 'reducer');
     }
   }
   if (effects) {
-    model.effects = prefix(effects, namespace, 'effect');
+    dvamodel.effects = prefix(effects, namespace, 'effect');
   }
-  return model;
+  return dvamodel;
 }

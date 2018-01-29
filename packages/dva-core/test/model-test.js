@@ -111,6 +111,46 @@ describe('app.model', () => {
     expect({ a, b }).toEqual({ a: 0, b: undefined });
   });
 
+  it('remodel', (done) => {
+
+    const app = create();
+    let modelA = {
+      namespace: 'a',
+      state: 0,
+      reducers: {
+        add(state) { return state + 1; },
+      },
+      effects: {
+        *addAsync(action, { put }) {
+          yield call(new Promise(resolve => setTimeout(resolve, 100)));
+          yield put({ type: 'add' });
+        },
+      },
+      subscriptions: {
+        setup() {
+          
+        },
+      },
+    };
+    app.model(modelA);
+    app.start();
+    app._store.dispatch({ type: 'a/add' });
+    let { a } = app._store.getState();
+    expect(a).toEqual(1);
+    app.unmodel(modelA);
+    app.model(modelA);
+    app._store.dispatch({ type: 'a/add' });
+    let { a: a1 } = app._store.getState();
+    expect(a1).toEqual(1);
+
+    app._store.dispatch({ type: 'a/addAsync' }).then(()=> {
+      const { a } = app._store.getState();
+      expect(a).toEqual(2);
+      done();
+    });
+
+  });
+
   it('don\'t run saga when effects is not provided', () => {
     let count = 0;
 
