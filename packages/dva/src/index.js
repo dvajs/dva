@@ -50,12 +50,14 @@ export default function (opts = {}) {
         `[app.start] container ${container} not found`,
       );
     }
-
+    // 如果container不为空
     // 并且是 HTMLElement
-    invariant(
-      !container || isHTMLElement(container),
-      `[app.start] container should be HTMLElement`,
-    );
+    if (!container) {
+      invariant(
+        isHTMLElement(container),
+        `[app.start] container should be HTMLElement`,
+      );
+    }
 
     // 路由必须提前注册
     invariant(
@@ -83,7 +85,7 @@ export default function (opts = {}) {
 }
 
 function isHTMLElement(node) {
-  return typeof node === 'object' && node !== null && node.nodeType && node.nodeName;
+  return node instanceof HTMLElement;
 }
 
 function isString(str) {
