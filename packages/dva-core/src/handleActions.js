@@ -1,3 +1,4 @@
+import invariant from 'invariant';
 
 function identify(value) {
   return value;
