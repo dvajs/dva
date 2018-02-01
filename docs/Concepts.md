@@ -67,7 +67,7 @@ In dva, reducers accumulate current model's state. There are some things need to
 
 ### Effect
 
-In dva, we use [redux-sagas](http://yelouafi.github.io/redux-saga/) to control asynchronous flow.
+In dva, we use [redux-sagas](https://redux-saga.js.org/) to control asynchronous flow.
 You can learn more in [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide).
 
 In our applications, the most well-known side effect is asynchronous operation, it comes from the conception of functional programing, it is called side effect because it makes our function impure, and the same input may not result in the same output.

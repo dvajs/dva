@@ -1,6 +1,6 @@
 {
   "name": "dva-no-router",
-  "version": "1.0.3",
+  "version": "1.1.0-beta.1",
   "description": "Official React bindings for dva, no router.",
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
     "coveralls": "ruban coveralls"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
+    "@babel/runtime": "^7.0.0-beta.34",
     "dva-core": "^1.1.0",
     "global": "^4.3.2",
     "invariant": "^2.2.2",

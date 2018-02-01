@@ -32,6 +32,6 @@
     "src"
   ],
   "dependencies": {
-    "babel-runtime": "^6.26.0"
+    "@babel/runtime": "^7.0.0-beta.34"
   }
 }

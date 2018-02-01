@@ -20,7 +20,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 * **Support mobile and react-native**: cross platform ([ReactNative Example](https://github.com/sorrycc/dva-example-react-native))
 * **Support HMR**: support HMR for components, routes and models with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr)
 * **Support load model and routes dynamically**: Improve performance ([Example](https://github.com/dvajs/dva/blob/master/packages/dva-example-user-dashboard/src/router.js))
-* **Plugin system**: e.g. we have [dva-loading](https://github.com/dvajs/dva-loading) plugin to handle loading state automatically
+* **Plugin system**: e.g. we have [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading) plugin to handle loading state automatically
 * **Support TypeScript**：with d.ts ([Example](https://github.com/sorrycc/dva-boilerplate-typescript))
 
 ## Why dva ?
@@ -30,13 +30,14 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 
 ## Demos
 
-* [Count](https://stackblitz.com/edit/dva-example-count) Simple count example
+* [Count](https://stackblitz.com/edit/dva-example-count): Simple count example
 * [User Dashboard](https://github.com/dvajs/dva/tree/master/packages/dva-example-user-dashboard): User management dashboard
-* [HackerNews](https://github.com/dvajs/dva-hackernews)  ([Demo](https://dvajs.github.io/dva-hackernews/)): HackerNews Clone
-* [antd-admin](https://github.com/zuiidea/antd-admin) ([Demo](http://antd-admin.zuiidea.com/)): Admin dashboard based on antd and dva
-* [github-stars](https://github.com/sorrycc/github-stars) ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star management tool
-* [react-native-dva-starter](https://github.com/nihgwu/react-native-dva-starter) a React Native starter powered by dva and react-navigation
-* [dva-example-nextjs](https://github.com/dvajs/dva/tree/master/packages/dva-example-nextjs): How to integrate with next.js
+* [HackerNews](https://github.com/dvajs/dva-hackernews): ([Demo](https://dvajs.github.io/dva-hackernews/)): HackerNews Clone
+* [antd-admin](https://github.com/zuiidea/antd-admin): ([Demo](http://antd-admin.zuiidea.com/)): Admin dashboard based on antd and dva
+* [github-stars](https://github.com/sorrycc/github-stars): ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star management tool
+* [react-native-dva-starter](https://github.com/nihgwu/react-native-dva-starter): A React Native starter powered by dva and react-navigation
+* [dva-example-nextjs](https://github.com/dvajs/dva/tree/master/packages/dva-example-nextjs): Integrate dva with next.js
+* [Account System](https://github.com/yvanwangl/AccountSystem.git): A small inventory management system
 
 ## Quick Start
 

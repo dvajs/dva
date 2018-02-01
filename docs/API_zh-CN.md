@@ -27,7 +27,7 @@ import { Router, Route, routerRedux } from 'dva/router';
 
 ### dva/dynamic
 
-解决组件动态加载问题的 util 方法，基于 [react-async-component](https://github.com/ctrlplusb/react-async-component) 实现。
+解决组件动态加载问题的 util 方法。
 
 比如：
 
@@ -43,6 +43,12 @@ const UserPageComponent = dynamic({
 });
 ```
 
+`opts` 包含：
+
+* app: dva 实例，加载 models 时需要
+* models: 返回 Promise 数组的函数，Promise 返回 dva model
+* component：返回 Promise 的函数，Promise 返回 React Component
+
 ## dva API
 ### `app = dva(opts)`
 
@@ -56,9 +62,9 @@ const UserPageComponent = dynamic({
 如果要配置 history 为 `browserHistory`，可以这样：
 
 ```js
-import { browserHistory } from 'dva/router';
+import createHistory from 'history/createBrowserHistory';
 const app = dva({
-  history: browserHistory,
+  history: createHistory(),
 });
 ```
 
@@ -309,7 +315,7 @@ app.model({
 
 格式为 `(state, action) => newState` 或 `[(state, action) => newState, enhancer]`。
 
-详见： https://github.com/dvajs/dva/blob/master/test/reducers-test.js
+详见： https://github.com/dvajs/dva/blob/master/packages/dva-core/test/reducers-test.js
 
 ### effects
 
@@ -324,7 +330,7 @@ type 类型有：
 * `throttle`
 * `watcher`
 
-详见：https://github.com/dvajs/dva/blob/master/test/effects-test.js
+详见：https://github.com/dvajs/dva/blob/master/packages/dva-core/test/effects-test.js
 
 ### subscriptions
 
