@@ -67,6 +67,7 @@ export default function dynamic(config) {
           } else {
             const len = models.length;
             ret.slice(0, len).forEach((m) => {
+              m = m.default || m;
               if (!Array.isArray(m)) {
                 m = [m];
               }
