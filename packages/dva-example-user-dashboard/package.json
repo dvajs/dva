@@ -2,36 +2,19 @@
   "name": "dva-example-user-dashboard",
   "private": true,
   "scripts": {
-    "start": "roadhog server",
-    "build": "roadhog build",
-    "build:dll": "roadhog buildDll",
-    "test": "roadhog test",
+    "start": "umi dev",
+    "build": "umi build",
+    "test": "umi test",
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint"
   },
-  "dependencies": {
-    "antd": "^2.6.4",
-    "dva": "^2.1.0-0",
-    "dva-loading": "^0.3.0",
-    "history": "^4.7.2",
-    "query-string": "^5.0.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
-  },
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "babel-plugin-dva-hmr": "^0.4.0",
-    "babel-plugin-import": "^1.1.0",
-    "babel-plugin-transform-runtime": "^6.22.0",
-    "eslint": "^4.11.0",
-    "eslint-config-af-react": "^0.3.0",
-    "eslint-plugin-flowtype": "^2.34.1",
-    "eslint-plugin-import": "^2.6.0",
+    "eslint": "^4.17.0",
+    "eslint-config-umi": "^0.1.2",
+    "eslint-plugin-flowtype": "^2.42.0",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.1.0",
-    "expect": "^1.20.2",
-    "husky": "^0.13.0",
-    "redbox-react": "^1.5.0",
-    "roadhog": "^2.0.0-0"
+    "eslint-plugin-react": "^7.6.1",
+    "husky": "^0.13.0"
   }
 }

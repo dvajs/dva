@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
-import { Link } from 'dva/router';
+import Link from 'umi/link';
+import withRouter from 'umi/withRouter';
 
 function Header({ location }) {
   return (
@@ -25,4 +26,4 @@ function Header({ location }) {
   );
 }
 
-export default Header;
+export default withRouter(Header);

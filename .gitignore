@@ -7,6 +7,9 @@ coverage
 .nyc_output
 npm-debug.log*
 lerna-debug.log
+package-lock.json
 .changelog
 .next/
+packages/**/.umi
+packages/**/.umi-production
 
