@@ -8,6 +8,9 @@
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint"
   },
+  "dependencies": {
+    "umi": "^1.0.0-0"
+  },
   "devDependencies": {
     "eslint": "^4.17.0",
     "eslint-config-umi": "^0.1.2",
