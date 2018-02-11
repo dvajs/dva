@@ -12,19 +12,5 @@
       "changeOrigin": true,
       "pathRewrite": { "^/api" : "" }
     }
-  },
-  "externals": {
-    "react": "window.React",
-    "react-dom": "window.ReactDOM"
-  },
-  "extraBabelPlugins": [
-    ["import", { "libraryName": "antd", "style": true }]
-  ],
-  "env": {
-    "development": {
-      "extraBabelPlugins": [
-        "dva-hmr"
-      ]
-    }
   }
 }
