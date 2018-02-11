@@ -1,4 +1,3 @@
-import queryString from 'query-string';
 import * as usersService from '../services/users';
 
 export default {
@@ -44,8 +43,7 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname, search }) => {
-        const query = queryString.parse(search);
+      return history.listen(({ pathname, query }) => {
         if (pathname === '/users') {
           dispatch({ type: 'fetch', payload: query });
         }
