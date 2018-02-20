@@ -13,6 +13,7 @@ import {
   unlisten as unlistenSubscription,
 } from './subscription';
 import { noop } from './utils';
+import { NAMESPACE_SEP } from './constants'
 
 // Internal model to update global state when do unmodel
 const dvaModel = {
@@ -22,6 +23,8 @@ const dvaModel = {
     UPDATE(state) { return state + 1; },
   },
 };
+
+export const isActionMap = Symbol()
 
 /**
  * Create dva-core instance.
@@ -45,6 +48,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     _store: null,
     _plugin: plugin,
     use: plugin.use.bind(plugin),
+    actions: {},
     model,
     start,
   };
@@ -59,6 +63,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
+    comboCreateAction(m)
     app._models.push(prefixNamespace(m));
   }
 
@@ -114,6 +119,56 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
 
     // Delete model from app._models
     app._models = app._models.filter(model => model.namespace !== namespace);
+
+    // Delete createActions
+    removeCreateAction(namespace)
+  }
+
+  function comboCreateAction(model) {
+    let {
+      namespace,
+      effects,
+      reducers
+    } = model
+
+    if (Array.isArray(reducers)) {
+      reducers = reducers[0]
+    }
+
+    const actionMap = {
+      [isActionMap]: true,
+      actions: {}
+    }
+
+    Object.keys(reducers || {}).reduce((actionMap, reducerActionName) => {
+      actionMap[reducerActionName] = payload => {
+        const type = `${namespace}${NAMESPACE_SEP}${reducerActionName}`
+        actionMap.actions[type] = { type }
+        if (payload) {
+          actionMap.actions[type].payload = payload
+        }
+        return actionMap
+      }
+      return actionMap
+    }, actionMap)
+
+    // effects 不会触发同名 reducer
+    Object.keys(effects || {}).reduce((actionMap, effectActionName) => {
+      actionMap[effectActionName] = payload => {
+        const action = { type: `${namespace}${NAMESPACE_SEP}${effectActionName}` }
+        if (payload) {
+          action.payload = payload
+        }
+        return action
+      }
+      return actionMap
+    }, actionMap)
+
+    app.actions[namespace] = actionMap
+  }
+
+  function removeCreateAction(namespace) {
+    delete app.actions[namespace]
   }
 
   /**

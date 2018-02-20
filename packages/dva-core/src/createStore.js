@@ -3,6 +3,20 @@ import flatten from 'flatten';
 import invariant from 'invariant';
 import window from 'global/window';
 import { returnSelf, isArray } from './utils';
+import { isActionMap } from './index'
+import { ACTIONS_NAME, NAMESPACE_SEP } from './constants'
+
+const actionMiddleware = () => next => action => {
+  if (action[isActionMap]) {
+    const cache = action.actions
+    action.actions = {}
+    action = {
+      type: ACTIONS_NAME,
+      payload: cache,
+    }
+  }
+  return next(action)
+}
 
 export default function ({
   reducers,
@@ -26,6 +40,7 @@ export default function ({
     sagaMiddleware,
     promiseMiddleware,
     ...flatten(extraMiddlewares),
+    actionMiddleware,
   ]);
 
   let devtools = () => noop => noop;
