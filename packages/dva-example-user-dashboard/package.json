@@ -9,7 +9,8 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "umi": "^1.0.0-0"
+    "umi": "^1.0.0-0",
+    "umi-plugin-dva": "^1.0.0-0"
   },
   "devDependencies": {
     "eslint": "^4.17.0",
