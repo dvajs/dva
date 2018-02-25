@@ -1,63 +1,72 @@
 import expect from 'expect';
-import { create, namespaceId } from '../src/index';
+import { create } from '../src/index';
+import { ACTIONS_NAME } from '../src/constants';
 
 describe('check actions', () => {
-  it('reducer action should support chain', () => {
-    const app = create();
-    app.model({
-      state: {},
-      namespace: 'n1',
-      reducers: {
-        r1: state => state,
-        r2: state => state,
-      },
-    })
-    const actionMap = app.actions.n1.r1().r2(2)
-    expect(actionMap.r1).toBeA(Function)
-    expect(actionMap.r2).toBeA(Function)
-    expect(actionMap.actions).toEqual({
-      'n1/r1': {
-        type: 'n1/r1',
-      },
-      'n1/r2': {
-        type: 'n1/r2',
-        payload: 2
-      },
-    })
-    app.start()
-    app._store.dispatch(actionMap)
-    expect(actionMap.actions).toEqual({})
-  });
-
-  it('chain reducer call order by definition', () => {
+  it('combineReducer', () => {
     const app = create();
     app.model({
       state: { count: 0 },
       namespace: 'n1',
       reducers: {
-        r1(state, action) {
-          return { ...state, count: action.payload }
-        },
-        r2(state, action) {
-          return { ...state, count: action.payload }
-        }
+        r1: (state, action) => ({ count: action.payload }),
+        r2: (state, action) => ({ count: -action.payload }),
       },
     })
-    const actionMap = app.actions.n1.r1(1).r2(2)
+    expect(app.actions.n1.combineReducer).toBeA(Function)
     app.start()
-    app._store.dispatch(actionMap)
-    expect(app._store.getState().n1).toEqual({ count: 2 })
+    expect(app.actions.n1.combineReducer({
+      r1: 1,
+      r2: 2
+    })).toEqual({
+      type: ACTIONS_NAME,
+      payload: {
+        'n1/r1': {
+          type: 'n1/r1',
+          payload: 1
+        },
+        'n1/r2': {
+          type: 'n1/r2',
+          payload: 2
+        },
+      }
+    })
+    expect(app._store.getState().n1).toEqual({ count: -2 })
   });
 
-  it('effect action should not support chain', () => {
+  it('reducer', () => {
+    const app = create();
+    app.model({
+      state: { count: 0 },
+      namespace: 'n1',
+      reducers: {
+        r1: (state, action) => ({ count: action.payload }),
+      },
+    })
+    app.start()
+    expect(app.actions.n1.r1(1)).toEqual({ type: 'n1/r1', payload: 1 })
+    expect(app._store.getState().n1).toEqual({ count: 1 })
+  });
+
+  it('effect', () => {
     const app = create();
     app.model({
       namespace: 'n1',
+      state: { count: 0 },
+      reducers: {
+        r1: (state, action) => ({ count: action.payload }),
+      },
       effects: {
-        *e1(){},
+        *e1(action, { put }){
+          yield put({
+            type: 'r1',
+            payload: action.payload
+          })
+        },
       },
     })
-    expect(app.actions.n1.e1()).toEqual({ type: 'n1/e1' })
-    expect(app.actions.n1.e1(1)).toEqual({ type: 'n1/e1', payload: 1 })
+    app.start()
+    expect(app.actions.n1.e1(1)).toBeA(Promise)
+    expect(app._store.getState().n1).toEqual({ count: 1 })
   });
 });

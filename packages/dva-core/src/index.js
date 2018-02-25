@@ -13,7 +13,7 @@ import {
   unlisten as unlistenSubscription,
 } from './subscription';
 import { noop } from './utils';
-import { NAMESPACE_SEP } from './constants'
+import { NAMESPACE_SEP, ACTIONS_NAME } from './constants'
 
 // Internal model to update global state when do unmodel
 const dvaModel = {
@@ -136,30 +136,32 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     }
 
     const actionMap = {
-      [isActionMap]: true,
-      actions: {}
+      combineReducer(actions) {
+        const afterActions = {}
+        for (let reducerActionName in actions) {
+          if (Object.prototype.hasOwnProperty.call(actions, reducerActionName)) {
+            const type = `${namespace}${NAMESPACE_SEP}${reducerActionName}`
+            afterActions[type] = {
+              type,
+              payload: actions[reducerActionName]
+            }
+          }
+        }
+        return app._store.dispatch({
+          type: ACTIONS_NAME,
+          payload: afterActions
+        })
+      },
     }
 
-    Object.keys(reducers || {}).reduce((actionMap, reducerActionName) => {
-      actionMap[reducerActionName] = payload => {
-        const type = `${namespace}${NAMESPACE_SEP}${reducerActionName}`
-        actionMap.actions[type] = { type }
-        if (payload) {
-          actionMap.actions[type].payload = payload
-        }
-        return actionMap
-      }
-      return actionMap
-    }, actionMap)
-
     // effects 不会触发同名 reducer
-    Object.keys(effects || {}).reduce((actionMap, effectActionName) => {
-      actionMap[effectActionName] = payload => {
-        const action = { type: `${namespace}${NAMESPACE_SEP}${effectActionName}` }
+    Object.keys({ ...effects, ...reducers }).reduce((actionMap, actionName) => {
+      actionMap[actionName] = payload => {
+        const action = { type: `${namespace}${NAMESPACE_SEP}${actionName}` }
         if (payload) {
           action.payload = payload
         }
-        return action
+        return app._store.dispatch(action)
       }
       return actionMap
     }, actionMap)
