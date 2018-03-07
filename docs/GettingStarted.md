@@ -122,7 +122,7 @@ Notice:
 
 1. `import styles from './index.less';`, and then use `styles.xxx` to define css classname is the solution of [css-modules](https://github.com/css-modules/css-modules)
 2. Two props are passed in，`count` and `dispatch`. `count` is the state in the model, which is bound with [connect](https://redux.js.org/docs/api/bindActionCreators.html). `dispatch` is used to trigger an action.
-3. `dispatch({type: 'count/add'})` means trigger an action `{type: 'count/add'}`. View [Actions@redux.js.org](http://redux.js.org/docs/basics/Actions.html) on what an action is.
+3. `dispatch({type: 'count/add'})` means trigger an action `{type: 'count/add'}`. View [Actions@redux.js.org](http://redux.js.org/basics/Actions.html) on what an action is.
 
 ## Update state
 
