@@ -6,10 +6,11 @@ function identify(value) {
 function handleAction(actionType, reducer = identify) {
   return (state, action) => {
     const { type } = action;
-    if (type && actionType !== type) {
-      return state;
+    invariant(type, 'dispatch: action should be a plain Object with type');
+    if (actionType === type) {
+      return reducer(state, action);
     }
-    return reducer(state, action);
+    return state;
   };
 }
 

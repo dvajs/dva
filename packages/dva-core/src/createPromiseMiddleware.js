@@ -1,17 +1,14 @@
 import { NAMESPACE_SEP } from './constants';
 
 export default function createPromiseMiddleware(app) {
-  const map = {};
 
-  const middleware = () => next => (action) => {
+  return () => next => (action) => {
     const { type } = action;
     if (isEffect(type)) {
-      return new Promise((resolve, reject) => {
-        map[type] = {
-          resolve: wrapped.bind(null, type, resolve),
-          reject: wrapped.bind(null, type, reject),
-        };
-      });
+      return Promise.race([
+        new Promise((resolve, reject) => next({'@@resolve': resolve, '@@reject': reject, ...action})),
+        new Promise((resolve, reject) => setTimeout(()=> reject('timeout'), 1000))
+      ]);
     } else {
       return next(action);
     }
@@ -30,26 +27,4 @@ export default function createPromiseMiddleware(app) {
     return false;
   }
 
-  function wrapped(type, fn, args) {
-    if (map[type]) delete map[type];
-    fn(args);
-  }
-
-  function resolve(type, args) {
-    if (map[type]) {
-      map[type].resolve(args);
-    }
-  }
-
-  function reject(type, args) {
-    if (map[type]) {
-      map[type].reject(args);
-    }
-  }
-
-  return {
-    middleware,
-    resolve,
-    reject,
-  };
 }
