@@ -136,12 +136,8 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     };
 
     const sagaMiddleware = createSagaMiddleware();
-    const {
-      middleware: promiseMiddleware,
-      resolve,
-      reject,
-    } = createPromiseMiddleware(app);
-    app._getSaga = getSaga.bind(null, resolve, reject);
+    const promiseMiddleware = createPromiseMiddleware(app);
+    app._getSaga = getSaga;
 
     const sagas = [];
     const reducers = { ...initialReducer };
