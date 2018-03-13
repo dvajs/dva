@@ -153,7 +153,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     const extraReducers = plugin.get('extraReducers');
     invariant(
       Object.keys(extraReducers).every(key => !(key in reducers)),
-      `[app.start] extitraReducers is conflict with other reducers, reducers list: ${Object.keys(reducers).join(', ')}`,
+      `[app.start] extraReducers is conflict with other reducers, reducers list: ${Object.keys(reducers).join(', ')}`,
     );
 
     // Create store
