@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.9.2",
-    "dva": "^2.0.0-0",
+    "dvajs": "^0.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },

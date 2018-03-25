@@ -14,7 +14,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 ---
 
 ## Features
-
+具体更新说明 查看中文文档
 * **Easy to learn, easy to use**: only 6 apis, very friendly to redux users
 * **Elm concepts**: organize models with `reducers`, `effects` and `subscriptions`
 * **Support mobile and react-native**: cross platform ([ReactNative Example](https://github.com/sorrycc/dva-example-react-native))

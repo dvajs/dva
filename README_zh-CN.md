@@ -12,7 +12,11 @@
 基于 [redux](https://github.com/reactjs/redux)、[redux-saga](https://github.com/redux-saga/redux-saga) 和 [react-router](https://github.com/ReactTraining/react-router) 的轻量级前端框架。(Inspired by [elm](http://elm-lang.org/) and [choo](https://github.com/yoshuawuyts/choo))
 
 ---
+## 新功能
 
+* **完整支持rxjs所有功能**
+* **model中增加epics类型用来存放rxjs数据**
+* [rxjs demo](https://github.com/fangkyi03/dva/tree/master/packages/dva-example) 简单rxjs-demo演示
 ## 特性
 
 * **易学易用**：仅有 6 个 api，对 redux 用户尤其友好
@@ -30,7 +34,7 @@
 * [支付宝前端应用架构的发展和选择](https://www.github.com/sorrycc/blog/issues/6)
 
 ## Demos
-
+* [rxjs demo](https://github.com/fangkyi03/dva/tree/master/packages/dva-example) 简单rxjs-demo演示
 * [Count](https://stackblitz.com/edit/dva-example-count): 简单计数器
 * [User Dashboard](https://github.com/dvajs/dva/tree/master/packages/dva-example-user-dashboard): 用户管理
 * [HackerNews](https://github.com/dvajs/dva-hackernews):  ([Demo](https://dvajs.github.io/dva-hackernews/))，HackerNews Clone

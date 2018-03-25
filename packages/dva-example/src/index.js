@@ -1,6 +1,5 @@
-import dva from 'dva';
+import dva from 'dvajs';
 import './index.css';
-
 // 1. Initialize
 const app = dva();
 

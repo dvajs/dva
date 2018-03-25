@@ -10,6 +10,7 @@ export default function ({
   plugin,
   sagaMiddleware,
   promiseMiddleware,
+  epicMiddleware,
   createOpts: {
     setupMiddlewares = returnSelf,
   },
@@ -23,6 +24,7 @@ export default function ({
 
   const extraMiddlewares = plugin.get('onAction');
   const middlewares = setupMiddlewares([
+    epicMiddleware,
     sagaMiddleware,
     promiseMiddleware,
     ...flatten(extraMiddlewares),
