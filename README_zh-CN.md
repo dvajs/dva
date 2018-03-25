@@ -13,10 +13,16 @@
 
 ---
 ## 新功能
-
 * **完整支持rxjs所有功能**
 * **model中增加epics类型用来存放rxjs数据**
 * [rxjs demo](https://github.com/fangkyi03/dva/tree/master/packages/dva-example) 简单rxjs-demo演示
+
+
+## 安装体验
+>npm i --save dvajs
+## 使用说明
+* **兼容原有的dva项目 想要在当前项目中体验 只需要在model文件中增加epics节点 并且将原有的dva修改成dvajs即可使用 rxjs的所有功能**
+* **引入这个包会带来一定的体积变大 大概有60K左右 自己酌情考虑**
 ## 特性
 
 * **易学易用**：仅有 6 个 api，对 redux 用户尤其友好
