@@ -83,6 +83,10 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
       store.asyncReducers[m.namespace] = getReducer(m.reducers, m.state);
       store.replaceReducer(createReducer(store.asyncReducers));
     }
+    if (m.epics) {
+      app.rootEpic = { ...app.rootEpic, ...m.epics };
+      app.epicMiddleware.replaceEpic(app.rootEpic);
+    }
 
     if (m.effects) {
       store.runSaga(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
