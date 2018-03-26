@@ -7,72 +7,83 @@
 [![Dependencies](https://david-dm.org/dvajs/dva/status.svg)](https://david-dm.org/dvajs/dva)
 [![Join the chat at https://gitter.im/dvajs/Lobby](https://img.shields.io/gitter/room/dvajs/Lobby.svg?style=flat)](https://gitter.im/dvajs/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
-[以中文查看](./README_zh-CN.md)
+[View README in English](README.md)
 
-Lightweight front-end framework based on [redux](https://github.com/reactjs/redux), [redux-saga](https://github.com/redux-saga/redux-saga) and [react-router](https://github.com/ReactTraining/react-router). (Inspired by [elm](http://elm-lang.org/) and [choo](https://github.com/yoshuawuyts/choo))
+基于 [redux](https://github.com/reactjs/redux)、[redux-saga](https://github.com/redux-saga/redux-saga) 和 [react-router](https://github.com/ReactTraining/react-router) 的轻量级前端框架。(Inspired by [elm](http://elm-lang.org/) and [choo](https://github.com/yoshuawuyts/choo))
 
 ---
+## 新功能
+* **完整支持rxjs所有功能**
+* **model中增加epics类型用来存放rxjs数据**
+* [rxjs demo](https://github.com/fangkyi03/dva/tree/master/packages/dva-example) 简单rxjs-demo演示
 
-## Features
-具体更新说明 查看中文文档
-* **Easy to learn, easy to use**: only 6 apis, very friendly to redux users
-* **Elm concepts**: organize models with `reducers`, `effects` and `subscriptions`
-* **Support mobile and react-native**: cross platform ([ReactNative Example](https://github.com/sorrycc/dva-example-react-native))
-* **Support HMR**: support HMR for components, routes and models with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr)
-* **Support load model and routes dynamically**: Improve performance ([Example](https://github.com/dvajs/dva/blob/master/docs/API.md#dvadynamic))
-* **Plugin system**: e.g. we have [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading) plugin to handle loading state automatically
-* **Support TypeScript**：with d.ts ([Example](https://github.com/sorrycc/dva-boilerplate-typescript))
 
-## Why dva ?
+## 安装体验
+>npm i --save dvajs
+## 使用说明
+* **兼容原有的dva项目 想要在当前项目中体验 只需要在model文件中增加epics节点 并且将原有的dva修改成dvajs即可使用 rxjs的所有功能**
+* **引入这个包会带来一定的体积变大 大概有60K左右 自己酌情考虑**
+## 特性
+
+* **易学易用**：仅有 6 个 api，对 redux 用户尤其友好
+* **elm 概念**：通过 `reducers`, `effects` 和 `subscriptions` 组织 model
+* **支持 mobile 和 react-native**：跨平台 ([react-native 例子](https://github.com/sorrycc/dva-example-react-native))
+* **支持 HMR**：目前基于 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 支持 components、routes 和 models 的 HMR
+* **动态加载 Model 和路由**：按需加载加快访问速度 ([例子](https://github.com/dvajs/dva/blob/master/docs/API_zh-CN.md#dvadynamic))
+* **插件机制**：比如 [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading) 可以自动处理 loading 状态，不用一遍遍地写 showLoading 和 hideLoading
+* **完善的语法分析库 [dva-ast](https://github.com/dvajs/dva-ast)**：[dva-cli](https://github.com/dvajs/dva-cli) 基于此实现了智能创建 model, router 等
+* **支持 TypeScript**：通过 d.ts ([例子](https://github.com/sorrycc/dva-boilerplate-typescript))
+
+## 为什么用 dva ?
 
 * [Why dva and what's dva](https://github.com/dvajs/dva/issues/1)
 * [支付宝前端应用架构的发展和选择](https://www.github.com/sorrycc/blog/issues/6)
 
 ## Demos
+* [rxjs demo](https://github.com/fangkyi03/dva/tree/master/packages/dva-example) 简单rxjs-demo演示
+* [Count](https://stackblitz.com/edit/dva-example-count): 简单计数器
+* [User Dashboard](https://github.com/dvajs/dva/tree/master/packages/dva-example-user-dashboard): 用户管理
+* [HackerNews](https://github.com/dvajs/dva-hackernews):  ([Demo](https://dvajs.github.io/dva-hackernews/))，HackerNews Clone
+* [antd-admin](https://github.com/zuiidea/antd-admin): ([Demo](http://antd-admin.zuiidea.com/))，基于 antd 和 dva 的后台管理应用
+* [github-stars](https://github.com/sorrycc/github-stars): ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star 管理应用
+* [react-native-dva-starter](https://github.com/nihgwu/react-native-dva-starter): 集成了 dva 和 react-navigation 典型应用场景的 React Native 实例
+* [dva-example-nextjs](https://github.com/dvajs/dva/tree/master/packages/dva-example-nextjs): 和 next.js 整合使用
+* [Account System](https://github.com/yvanwangl/AccountSystem.git): 小型库存管理系统
 
-* [Count](https://stackblitz.com/edit/dva-example-count): Simple count example
-* [User Dashboard](https://github.com/dvajs/dva/tree/master/packages/dva-example-user-dashboard): User management dashboard
-* [HackerNews](https://github.com/dvajs/dva-hackernews): ([Demo](https://dvajs.github.io/dva-hackernews/)): HackerNews Clone
-* [antd-admin](https://github.com/zuiidea/antd-admin): ([Demo](http://antd-admin.zuiidea.com/)): Admin dashboard based on antd and dva
-* [github-stars](https://github.com/sorrycc/github-stars): ([Demo](http://sorrycc.github.io/github-stars/#/?_k=rmj86f))，Github Star management tool
-* [react-native-dva-starter](https://github.com/nihgwu/react-native-dva-starter): A React Native starter powered by dva and react-navigation
-* [dva-example-nextjs](https://github.com/dvajs/dva/tree/master/packages/dva-example-nextjs): Integrate dva with next.js
-* [Account System](https://github.com/yvanwangl/AccountSystem.git): A small inventory management system
+## 快速上手
 
-## Quick Start
-
-- [Getting Started](https://github.com/dvajs/dva/blob/master/docs/GettingStarted.md)
-- [12 步 30 分钟，完成用户管理的 CURD 应用 (react+dva+antd)](https://github.com/sorrycc/blog/issues/18)
+[12 步 30 分钟，完成用户管理的 CRUD 应用 (react+dva+antd)](https://github.com/sorrycc/blog/issues/18)
 
 ## FAQ
 
-### Why is it called dva?
+### 命名由来？
 
-> D.Va’s mech is nimble and powerful — its twin Fusion Cannons blast away with autofire at short range, and she can use its Boosters to barrel over enemies and obstacles, or deflect attacks with her projectile-dismantling Defense Matrix.
+> D.Va拥有一部强大的机甲，它具有两台全自动的近距离聚变机炮、可以使机甲飞跃敌人或障碍物的推进器、 还有可以抵御来自正面的远程攻击的防御矩阵。
 
-—— From [OverWatch](http://ow.blizzard.cn/heroes/dva)
+—— 来自 [守望先锋](http://ow.blizzard.cn/heroes/dva) 。
 
 <img src="https://zos.alipayobjects.com/rmsportal/psagSCVHOKQVqqNjjMdf.jpg" width="200" height="200" />
 
-### Is it production ready?
+### 是否可用于生产环境？
 
-Sure! We have 200+ projects using dva in Alibaba.
+当然！公司内用于生产环境的项目估计已经有 200+ 。
 
-### Does it support IE8?
+### 是否支持 IE8 ？
 
-No.
+不支持。
 
-## Next
+## 下一步
 
-Some basic articles.
+以下能帮你更好地理解和使用 dva ：
 
-* The [8 Concepts](https://github.com/dvajs/dva/blob/master/docs/Concepts.md), and know how they are connected together
-* [dva APIs](https://github.com/dvajs/dva/blob/master/docs/API.md)
-* Checkout [dva knowledgemap](https://github.com/dvajs/dva-knowledgemap), including all the basic knowledge with ES6, React, dva
-* Checkout [more FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)
-* If your project is created by [dva-cli](https://github.com/dvajs/dva-cli), checkout how to [Configure it](https://github.com/sorrycc/roadhog/blob/master/README_en-us.md#configuration)
+* 理解 dva 的 [8 个概念](https://github.com/dvajs/dva/blob/master/docs/Concepts_zh-CN.md) ，以及他们是如何串起来的
+* 掌握 dva 的[所有 API](https://github.com/dvajs/dva/blob/master/docs/API_zh-CN.md)
+* 查看 [dva 知识地图](https://github.com/dvajs/dva-knowledgemap) ，包含 ES6, React, dva 等所有基础知识
+* 查看 [更多 FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)，看看别人通常会遇到什么问题
+* 如果你基于 dva-cli 创建项目，最好了解他的 [配置方式](https://github.com/sorrycc/roadhog#配置)
 
-Want more?
+
+还要了解更多?
 
 * 看看 dva 的前身 [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1)，知道 dva 是怎么来的
 * 在 gitc 分享 dva 的 PPT ：[React 应用框架在蚂蚁金服的实践](http://slides.com/sorrycc/dva)
