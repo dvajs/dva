@@ -82,6 +82,13 @@ export default function (opts = {}) {
   }
 }
 
+// DvaRoot container
+class DvaRoot extends React.Component {
+  render() {
+    return this.props.children();
+  }
+}
+
 function isHTMLElement(node) {
   return typeof node === 'object' && node !== null && node.nodeType && node.nodeName;
 }
@@ -100,7 +107,7 @@ function getProvider(store, app, router) {
 
 function render(container, store, app, router) {
   const ReactDOM = require('react-dom');  // eslint-disable-line
-  ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
+  ReactDOM.render(<DvaRoot>{getProvider(store, app, router)}</DvaRoot>, container);
 }
 
 function patchHistory(history) {
