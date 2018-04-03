@@ -82,13 +82,6 @@ export default function (opts = {}) {
   }
 }
 
-// DvaRoot container
-class DvaRoot extends React.Component {
-  render() {
-    return this.props.children();
-  }
-}
-
 function isHTMLElement(node) {
   return typeof node === 'object' && node !== null && node.nodeType && node.nodeName;
 }
@@ -98,16 +91,17 @@ function isString(str) {
 }
 
 function getProvider(store, app, router) {
-  return extraProps => (
+  const DvaRoot = extraProps => (
     <Provider store={store}>
       { router({ app, history: app._history, ...extraProps }) }
     </Provider>
   );
+  return DvaRoot;
 }
 
 function render(container, store, app, router) {
   const ReactDOM = require('react-dom');  // eslint-disable-line
-  ReactDOM.render(<DvaRoot>{getProvider(store, app, router)}</DvaRoot>, container);
+  ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
 }
 
 function patchHistory(history) {
