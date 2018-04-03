@@ -82,8 +82,8 @@ export default function (opts = {}) {
   }
 }
 
-// App container
-class App extends React.Component {
+// DvaRoot container
+class DvaRoot extends React.Component {
   render() {
     return this.props.children();
   }
@@ -107,7 +107,7 @@ function getProvider(store, app, router) {
 
 function render(container, store, app, router) {
   const ReactDOM = require('react-dom');  // eslint-disable-line
-  ReactDOM.render(<App>{getProvider(store, app, router)}</App>, container);
+  ReactDOM.render(<DvaRoot>{getProvider(store, app, router)}</DvaRoot>, container);
 }
 
 function patchHistory(history) {
