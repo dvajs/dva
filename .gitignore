@@ -10,6 +10,8 @@ lerna-debug.log
 package-lock.json
 .changelog
 .next/
+.vscode
+**/package-lock.json
 packages/**/.umi
 packages/**/.umi-production
 

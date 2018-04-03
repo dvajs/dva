@@ -2,6 +2,7 @@ import invariant from 'invariant';
 import { isPlainObject } from './utils';
 
 const hooks = [
+  'onStarted',
   'onError',
   'onStateChange',
   'onAction',
@@ -30,7 +31,10 @@ export default class Plugin {
   }
 
   use(plugin) {
-    invariant(isPlainObject(plugin), 'plugin.use: plugin should be plain object');
+    invariant(
+      isPlainObject(plugin),
+      'plugin.use: plugin should be plain object'
+    );
     const hooks = this.hooks;
     for (const key in plugin) {
       if (Object.prototype.hasOwnProperty.call(plugin, key)) {
@@ -47,7 +51,10 @@ export default class Plugin {
   apply(key, defaultHandler) {
     const hooks = this.hooks;
     const validApplyHooks = ['onError', 'onHmr'];
-    invariant(validApplyHooks.indexOf(key) > -1, `plugin.apply: hook ${key} cannot be applied`);
+    invariant(
+      validApplyHooks.indexOf(key) > -1,
+      `plugin.apply: hook ${key} cannot be applied`
+    );
     const fns = hooks[key];
 
     return (...args) => {
@@ -83,7 +90,7 @@ function getExtraReducers(hook) {
 }
 
 function getOnReducer(hook) {
-  return function (reducer) {
+  return function(reducer) {
     for (const reducerEnhancer of hook) {
       reducer = reducerEnhancer(reducer);
     }
