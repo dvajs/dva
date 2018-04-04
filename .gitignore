@@ -11,6 +11,6 @@ lerna-debug.log
 package-lock.json
 .changelog
 .next/
-packages/**/.umi
-packages/**/.umi-production
+examples/**/.umi
+examples/**/.umi-production
 

@@ -19,7 +19,9 @@ const dvaModel = {
   namespace: '@@dva',
   state: 0,
   reducers: {
-    UPDATE(state) { return state + 1; },
+    UPDATE(state) {
+      return state + 1;
+    },
   },
 };
 
@@ -30,18 +32,13 @@ const dvaModel = {
  * @param createOpts
  */
 export function create(hooksAndOpts = {}, createOpts = {}) {
-  const {
-    initialReducer,
-    setupApp = noop,
-  } = createOpts;
+  const { initialReducer, setupApp = noop } = createOpts;
 
   const plugin = new Plugin();
   plugin.use(filterHooks(hooksAndOpts));
 
   const app = {
-    _models: [
-      prefixNamespace({ ...dvaModel }),
-    ],
+    _models: [prefixNamespace({ ...dvaModel })],
     _store: null,
     _plugin: plugin,
     use: plugin.use.bind(plugin),
@@ -75,14 +72,25 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
 
     const store = app._store;
     if (m.reducers) {
-      store.asyncReducers[m.namespace] = getReducer(m.reducers, m.state);
+      store.asyncReducers[m.namespace] = getReducer(
+        m.reducers,
+        m.state,
+        plugin._handleActions
+      );
       store.replaceReducer(createReducer(store.asyncReducers));
     }
     if (m.effects) {
-      store.runSaga(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
+      store.runSaga(
+        app._getSaga(m.effects, m, onError, plugin.get('onEffect'))
+      );
     }
     if (m.subscriptions) {
-      unlisteners[m.namespace] = runSubscription(m.subscriptions, m, app, onError);
+      unlisteners[m.namespace] = runSubscription(
+        m.subscriptions,
+        m,
+        app,
+        onError
+      );
     }
   }
 
@@ -123,13 +131,13 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
    */
   function start() {
     // Global error handler
-    const onError = (err) => {
+    const onError = err => {
       if (err) {
         if (typeof err === 'string') err = new Error(err);
         err.preventDefault = () => {
           err._dontReject = true;
         };
-        plugin.apply('onError', (err) => {
+        plugin.apply('onError', err => {
           throw new Error(err.stack || err);
         })(err, app._store.dispatch);
       }
@@ -146,25 +154,33 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     const sagas = [];
     const reducers = { ...initialReducer };
     for (const m of app._models) {
-      reducers[m.namespace] = getReducer(m.reducers, m.state);
-      if (m.effects) sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
+      reducers[m.namespace] = getReducer(
+        m.reducers,
+        m.state,
+        plugin._handleActions
+      );
+      if (m.effects)
+        sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
     }
     const reducerEnhancer = plugin.get('onReducer');
     const extraReducers = plugin.get('extraReducers');
     invariant(
       Object.keys(extraReducers).every(key => !(key in reducers)),
-      `[app.start] extitraReducers is conflict with other reducers, reducers list: ${Object.keys(reducers).join(', ')}`,
+      `[app.start] extitraReducers is conflict with other reducers, reducers list: ${Object.keys(
+        reducers
+      ).join(', ')}`
     );
 
     // Create store
-    const store = app._store = createStore({ // eslint-disable-line
+    const store = (app._store = createStore({
+      // eslint-disable-line
       reducers: createReducer(),
       initialState: hooksAndOpts.initialState || {},
       plugin,
       createOpts,
       sagaMiddleware,
       promiseMiddleware,
-    });
+    }));
 
     // Extend store
     store.runSaga = sagaMiddleware.run;
@@ -188,7 +204,12 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     const unlisteners = {};
     for (const model of this._models) {
       if (model.subscriptions) {
-        unlisteners[model.namespace] = runSubscription(model.subscriptions, model, app, onError);
+        unlisteners[model.namespace] = runSubscription(
+          model.subscriptions,
+          model,
+          app,
+          onError
+        );
       }
     }
 
@@ -202,11 +223,13 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
      * @returns {Object}
      */
     function createReducer() {
-      return reducerEnhancer(combineReducers({
-        ...reducers,
-        ...extraReducers,
-        ...(app._store ? app._store.asyncReducers : {}),
-      }));
+      return reducerEnhancer(
+        combineReducers({
+          ...reducers,
+          ...extraReducers,
+          ...(app._store ? app._store.asyncReducers : {}),
+        })
+      );
     }
   }
 }
