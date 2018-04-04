@@ -6,6 +6,7 @@ node_js:
   - "9"
 
 before_script:
+  - npm run build
   - npm run bootstrap
 
 after_success:
