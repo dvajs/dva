@@ -12,7 +12,8 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint --ext .js packages",
     "precommit": "lint-staged",
-    "publish": "./scripts/publish.js"
+    "publish": "./scripts/publish.js",
+    "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.40",
