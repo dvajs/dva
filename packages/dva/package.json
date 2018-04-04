@@ -60,5 +60,8 @@
     "index.js",
     "router.js",
     "saga.js"
-  ]
+  ],
+  "devDependencies": {
+    "object-assign": "^4.1.1"
+  }
 }
