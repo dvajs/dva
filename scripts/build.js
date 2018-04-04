@@ -7,6 +7,8 @@ const { readdirSync, readFileSync, writeFileSync, existsSync } = require('fs');
 const { join } = require('path');
 const chokidar = require('chokidar');
 
+const lib = process.env.ES ? 'es' : 'lib';
+
 const nodeBabelConfig = {
   presets: [
     [
@@ -26,6 +28,7 @@ const browserBabelConfig = {
       require.resolve('@babel/preset-env'),
       {
         browsers: ['last 2 versions', 'IE 10'],
+        modules: process.env.ES ? false : 'commonjs',
       },
     ],
     require.resolve('@babel/preset-react'),
@@ -52,7 +55,7 @@ function transform(opts = {}) {
 }
 
 function buildPkg(pkg) {
-  rimraf.sync(join(cwd, 'packages', pkg, 'lib'));
+  rimraf.sync(join(cwd, 'packages', pkg, lib));
   vfs
     .src(`./packages/${pkg}/src/**/*.js`)
     .pipe(
@@ -66,7 +69,7 @@ function buildPkg(pkg) {
         cb(null, f);
       })
     )
-    .pipe(vfs.dest(`./packages/${pkg}/lib/`));
+    .pipe(vfs.dest(`./packages/${pkg}/${lib}/`));
 }
 
 function build() {
@@ -90,7 +93,7 @@ function build() {
             path: fullPath,
           });
           writeFileSync(
-            join(cwd, 'packages', pkg, 'lib', relPath),
+            join(cwd, 'packages', pkg, lib, relPath),
             code,
             'utf-8'
           );
