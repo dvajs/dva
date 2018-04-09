@@ -1,16 +1,15 @@
 import { NAMESPACE_SEP } from './constants';
 
 export default function createPromiseMiddleware(app) {
-  const map = {};
-
-  const middleware = () => next => (action) => {
+  return () => next => action => {
     const { type } = action;
     if (isEffect(type)) {
       return new Promise((resolve, reject) => {
-        map[type] = {
-          resolve: wrapped.bind(null, type, resolve),
-          reject: wrapped.bind(null, type, reject),
-        };
+        next({
+          __dva_resolve: resolve,
+          __dva_reject: reject,
+          ...action,
+        });
       });
     } else {
       return next(action);
@@ -29,27 +28,4 @@ export default function createPromiseMiddleware(app) {
 
     return false;
   }
-
-  function wrapped(type, fn, args) {
-    if (map[type]) delete map[type];
-    fn(args);
-  }
-
-  function resolve(type, args) {
-    if (map[type]) {
-      map[type].resolve(args);
-    }
-  }
-
-  function reject(type, args) {
-    if (map[type]) {
-      map[type].reject(args);
-    }
-  }
-
-  return {
-    middleware,
-    resolve,
-    reject,
-  };
 }
