@@ -13,5 +13,8 @@ export default {
     add(state) {
       state.a.b.c.count += 1;
     },
+    setNewProp(state) {
+      state.newProp = 'hi new prop';
+    },
   },
 };
