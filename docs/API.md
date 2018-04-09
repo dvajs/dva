@@ -229,7 +229,7 @@ app.router(({ history }) => {
 });
 ```
 
-Recommend using seperate file to config router. Then we can do hmr with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr). e.g.
+Recommend using separate file to config router. Then we can do hmr with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr). e.g.
 
 ```js
 app.router(require('./router'));
