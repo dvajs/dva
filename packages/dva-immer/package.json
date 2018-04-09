@@ -1,0 +1,32 @@
+{
+  "name": "dva-immer",
+  "version": "0.0.0-alpha.1",
+  "description": "Auto loading plugin for dva.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvajs/dva/tree/master/packages/dva-immer"
+  },
+  "homepage": "https://github.com/dvajs/dva",
+  "keywords": [
+    "dva",
+    "dva-plugin",
+    "immer"
+  ],
+  "author": "chencheng <sorrycc@gmail.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "devDependencies": {
+    "dva": "^2.2.0-0"
+  },
+  "peerDependencies": {
+    "dva": "^2.2.0-0"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.34",
+    "immer": "^1.2.1"
+  }
+}
