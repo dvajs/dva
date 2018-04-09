@@ -3,6 +3,8 @@ import flatten from 'flatten';
 import invariant from 'invariant';
 import window from 'global/window';
 import { returnSelf, isArray } from './utils';
+import { isActionMap } from './index'
+import { ACTIONS_NAME, NAMESPACE_SEP } from './constants'
 
 export default function({
   reducers,

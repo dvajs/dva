@@ -13,6 +13,7 @@ import {
   unlisten as unlistenSubscription,
 } from './subscription';
 import { noop } from './utils';
+import { NAMESPACE_SEP, ACTIONS_NAME } from './constants'
 
 // Internal model to update global state when do unmodel
 const dvaModel = {
@@ -24,6 +25,8 @@ const dvaModel = {
     },
   },
 };
+
+export const isActionMap = Symbol()
 
 /**
  * Create dva-core instance.
@@ -42,6 +45,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     _store: null,
     _plugin: plugin,
     use: plugin.use.bind(plugin),
+    actions: {},
     model,
     start,
   };
@@ -56,6 +60,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
+    comboCreateAction(m)
     app._models.push(prefixNamespace(m));
   }
 
@@ -122,6 +127,58 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
 
     // Delete model from app._models
     app._models = app._models.filter(model => model.namespace !== namespace);
+
+    // Delete createActions
+    removeCreateAction(namespace)
+  }
+
+  function comboCreateAction(model) {
+    let {
+      namespace,
+      effects,
+      reducers
+    } = model
+
+    if (Array.isArray(reducers)) {
+      reducers = reducers[0]
+    }
+
+    const actionMap = {
+      combineReducer(actions) {
+        const afterActions = {}
+        for (let reducerActionName in actions) {
+          if (Object.prototype.hasOwnProperty.call(actions, reducerActionName)) {
+            const type = `${namespace}${NAMESPACE_SEP}${reducerActionName}`
+            afterActions[type] = {
+              type,
+              payload: actions[reducerActionName]
+            }
+          }
+        }
+        return app._store.dispatch({
+          type: ACTIONS_NAME,
+          payload: afterActions
+        })
+      },
+    }
+
+    // effects 不会触发同名 reducer
+    Object.keys({ ...effects, ...reducers }).reduce((actionMap, actionName) => {
+      actionMap[actionName] = payload => {
+        const action = { type: `${namespace}${NAMESPACE_SEP}${actionName}` }
+        if (payload) {
+          action.payload = payload
+        }
+        return app._store.dispatch(action)
+      }
+      return actionMap
+    }, actionMap)
+
+    app.actions[namespace] = actionMap
+  }
+
+  function removeCreateAction(namespace) {
+    delete app.actions[namespace]
   }
 
   /**

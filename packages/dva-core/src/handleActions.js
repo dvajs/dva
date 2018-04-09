@@ -1,3 +1,5 @@
+import { id } from './index'
+import { ACTIONS_NAME } from './constants'
 
 function identify(value) {
   return value;
@@ -5,8 +7,11 @@ function identify(value) {
 
 function handleAction(actionType, reducer = identify) {
   return (state, action) => {
-    const { type } = action;
-    if (type && actionType !== type) {
+    if (action.type === ACTIONS_NAME) {
+      action = action.payload[actionType] || {}
+    }
+    const { type, payload } = action;
+    if (actionType !== type) {
       return state;
     }
     return reducer(state, action);

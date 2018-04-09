@@ -22,6 +22,8 @@ export default function prefixNamespace(model) {
   } = model;
 
   if (reducers) {
+    // Support reducer enhancer
+    // e.g. reducers: [realReducers, enhancer]
     if (isArray(reducers)) {
       model.reducers[0] = prefix(reducers[0], namespace, 'reducer');
     } else {
