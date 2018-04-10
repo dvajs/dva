@@ -34,17 +34,16 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.34",
     "@types/isomorphic-fetch": "^0.0.34",
-    "@types/react-router": "2.x",
-    "@types/react-router-redux": "^4.0.40",
+    "@types/react-router": "^4.0.23",
+    "@types/react-router-redux": "^5.0.13",
     "dva-core": "^1.1.0",
     "global": "^4.3.2",
     "history": "^4.6.3",
     "invariant": "^2.2.2",
     "isomorphic-fetch": "^2.2.1",
-    "react-async-component": "^1.0.0-beta.3",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
-    "react-router-redux": "5.0.0-alpha.8",
+    "react-router-redux": "5.0.0-alpha.9",
     "redux": "^3.7.2"
   },
   "peerDependencies": {

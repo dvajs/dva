@@ -36,7 +36,7 @@
     "invariant": "^2.2.1",
     "is-plain-object": "^2.0.3",
     "redux": "^3.7.1",
-    "redux-saga": "^0.15.4",
+    "redux-saga": "^0.16.0",
     "warning": "^3.0.0"
   },
   "peerDependencies": {
