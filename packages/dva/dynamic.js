@@ -1,5 +1,1 @@
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = require('./lib/dynamic');
+module.exports = require('./lib/dynamic');
