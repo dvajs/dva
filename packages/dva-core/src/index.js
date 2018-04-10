@@ -73,14 +73,12 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     m = model(m);
 
     const store = app._store;
-    if (m.reducers) {
-      store.asyncReducers[m.namespace] = getReducer(
-        m.reducers,
-        m.state,
-        plugin._handleActions
-      );
-      store.replaceReducer(createReducer(store.asyncReducers));
-    }
+    store.asyncReducers[m.namespace] = getReducer(
+      m.reducers,
+      m.state,
+      plugin._handleActions
+    );
+    store.replaceReducer(createReducer(store.asyncReducers));
     if (m.effects) {
       store.runSaga(
         app._getSaga(m.effects, m, onError, plugin.get('onEffect'))
