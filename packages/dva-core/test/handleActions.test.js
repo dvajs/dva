@@ -1,3 +1,4 @@
+import expect from 'expect';
 import handleActions from '../src/handleActions';
 
 describe('handleActions', () => {
@@ -46,5 +47,11 @@ describe('handleActions', () => {
 
   it('uses the identity if the specified reducer is undefined', () => {
     expect(reducers(initialState, { type: LOGIN_SAVE })).toBe(initialState);
+  });
+
+  it('dispatch not valid action', () => {
+    expect(() => {
+      reducers(initialState, { type: '' });
+    }).toThrow(/dispatch: action should be a plain Object with type/);
   });
 });
