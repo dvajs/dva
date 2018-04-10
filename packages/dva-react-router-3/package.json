@@ -1,6 +1,6 @@
 {
   "name": "dva-react-router-3",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Official React bindings for dva, with react-router@3.",
   "repository": {
     "type": "git",
