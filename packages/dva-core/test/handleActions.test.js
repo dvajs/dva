@@ -1,4 +1,3 @@
-import expect from 'expect';
 import handleActions from '../src/handleActions';
 
 describe('handleActions', () => {

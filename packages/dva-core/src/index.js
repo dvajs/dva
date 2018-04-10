@@ -56,7 +56,9 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
-    app._models.push(prefixNamespace(m));
+    const prefixedModel = prefixNamespace({ ...m });
+    app._models.push(prefixedModel);
+    return prefixedModel;
   }
 
   /**
@@ -68,7 +70,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
    * @param m
    */
   function injectModel(createReducer, onError, unlisteners, m) {
-    model(m);
+    m = model(m);
 
     const store = app._store;
     if (m.reducers) {

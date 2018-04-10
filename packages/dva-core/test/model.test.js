@@ -1,4 +1,3 @@
-import expect from 'expect';
 import EventEmitter from 'events';
 import { create } from '../src/index';
 
@@ -268,5 +267,19 @@ describe('app.model', () => {
     app._store.dispatch({ type: 'a/d' });
 
     expect([countA, countB, countC, countD]).toEqual([1, 1, 1, 1]);
+  });
+
+  it('register the model without affecting itself', () => {
+    const countModel = {
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add() {},
+      },
+    };
+    const app = create();
+    app.model(countModel);
+    app.start();
+    expect(Object.keys(countModel.reducers)).toEqual(['add']);
   });
 });
