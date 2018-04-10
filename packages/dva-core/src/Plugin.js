@@ -38,7 +38,7 @@ export default class Plugin {
     );
     const hooks = this.hooks;
     for (const key in plugin) {
-      if (Object.prototype.hasOwnProperty.call(plugin, key)) {
+      if (Object.prototype.hasOwnProperty.call(plugin, key) && !!plugin[key]) {
         invariant(hooks[key], `plugin.use: unknown plugin property: ${key}`);
         if (key === '_handleActions') {
           this._handleActions = plugin[key];
