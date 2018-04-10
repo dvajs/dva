@@ -15,12 +15,6 @@
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "ruban build",
-    "test": "ruban test",
-    "debug": "ruban debug",
-    "coveralls": "ruban coveralls"
-  },
   "devDependencies": {
     "dva": "^2.0.4"
   },

@@ -25,12 +25,6 @@
   "bugs": {
     "url": "https://github.com/dvajs/dva/issues"
   },
-  "scripts": {
-    "build": "ruban build",
-    "test": "ruban test",
-    "debug": "ruban debug",
-    "coveralls": "ruban coveralls"
-  },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.34",
     "@types/isomorphic-fetch": "^0.0.34",
@@ -59,8 +53,5 @@
     "index.js",
     "router.js",
     "saga.js"
-  ],
-  "devDependencies": {
-    "object-assign": "^4.1.1"
-  }
+  ]
 }
