@@ -52,6 +52,7 @@
     "fetch.js",
     "index.js",
     "router.js",
-    "saga.js"
+    "saga.js",
+    "*.d.ts"
   ]
 }
