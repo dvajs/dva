@@ -37,7 +37,7 @@
     "redux": "3.x"
   },
   "devDependencies": {
-    "redux": "^3.7.2"
+    "redux": "^4.0.0"
   },
   "files": [
     "lib",
