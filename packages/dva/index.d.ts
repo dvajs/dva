@@ -44,9 +44,10 @@ export interface EffectsCommandMap {
 
 export type Effect = (action: Action, effects: EffectsCommandMap) => void;
 export type EffectType = 'takeEvery' | 'takeLatest' | 'watcher' | 'throttle';
-export type EffectWithType = [Effect, { type : EffectType }];
+export type EffectWithType = [Effect, { type: EffectType }];
 export type Subscription = (api: SubscriptionAPI, done: Function) => void;
 export type ReducersMapObjectWithEnhancer = [ReducersMapObject, ReducerEnhancer];
+export type RouterGetter = (api: RouterAPI) => JSX.Element | Object;
 
 export interface EffectsMapObject {
   [key: string]: Effect | EffectWithType;
@@ -107,7 +108,7 @@ export interface DvaInstance {
    *
    * @param router
    */
-  router: (router: Router) => void,
+  router: (router: RouterGetter) => void,
 
   /**
    * Start the application. Selector is optional. If no selector
