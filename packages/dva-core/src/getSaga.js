@@ -112,9 +112,9 @@ function createEffects(model) {
   return { ...sagaEffects, put, take };
 }
 
-function applyOnEffect(fns, effect, model, key) {
+function applyOnEffect(fns, effect, model, key, type) {
   for (const fn of fns) {
-    effect = fn(effect, sagaEffects, model, key);
+    effect = fn(effect, sagaEffects, model, key, type);
   }
   return effect;
 }
