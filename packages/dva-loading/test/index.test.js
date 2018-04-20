@@ -317,4 +317,32 @@ describe('dva-loading', () => {
       done();
     }, 200);
   });
+  it('multiple requests', done => {
+    const app = dva();
+    app.use(createLoading());
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        *a(action, { call }) {
+          yield call(delay, 300);
+        },
+      },
+    });
+    app.router(() => 1);
+    app.start();
+    app._store.dispatch({ type: 'count/a' });
+    expect(app._store.getState().loading.effects['count/a']).toEqual(true);
+    setTimeout(() => {
+      app._store.dispatch({ type: 'count/a' });
+      expect(app._store.getState().loading.effects['count/a']).toEqual(true);
+    }, 200);
+    setTimeout(() => {
+      expect(app._store.getState().loading.effects['count/a']).toEqual(true);
+    }, 400);
+    setTimeout(() => {
+      expect(app._store.getState().loading.effects['count/a']).toEqual(false);
+      done();
+    }, 600);
+  });
 });
