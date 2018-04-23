@@ -19,7 +19,7 @@ const nodeBabelConfig = {
         },
       },
     ],
-    require.resolve('@babel/preset-stage-0'),
+    [require.resolve('@babel/preset-stage-0'), { decoratorsLegacy: true }],
   ],
 };
 const browserBabelConfig = {
@@ -32,7 +32,7 @@ const browserBabelConfig = {
       },
     ],
     require.resolve('@babel/preset-react'),
-    require.resolve('@babel/preset-stage-0'),
+    [require.resolve('@babel/preset-stage-0'), { decoratorsLegacy: true }],
   ],
   plugins: [require.resolve('@babel/plugin-transform-runtime')],
 };
