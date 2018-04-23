@@ -1,49 +1,31 @@
-# dva-loading
+# dva-immer
 
-[![NPM version](https://img.shields.io/npm/v/dva-loading.svg?style=flat)](https://npmjs.org/package/dva-loading)
-[![Build Status](https://img.shields.io/travis/dvajs/dva-loading.svg?style=flat)](https://travis-ci.org/dvajs/dva-loading)
-[![Coverage Status](https://img.shields.io/coveralls/dvajs/dva-loading.svg?style=flat)](https://coveralls.io/r/dvajs/dva-loading)
-[![NPM downloads](http://img.shields.io/npm/dm/dva-loading.svg?style=flat)](https://npmjs.org/package/dva-loading)
+[![NPM version](https://img.shields.io/npm/v/dva-immer.svg?style=flat)](https://npmjs.org/package/dva-immer)
+[![Build Status](https://img.shields.io/travis/dvajs/dva-immer.svg?style=flat)](https://travis-ci.org/dvajs/dva-immer)
+[![Coverage Status](https://img.shields.io/coveralls/dvajs/dva-immer.svg?style=flat)](https://coveralls.io/r/dvajs/dva-immer)
+[![NPM downloads](http://img.shields.io/npm/dm/dva-immer.svg?style=flat)](https://npmjs.org/package/dva-immer)
 
-Auto loading plugin for dva. :clap: You don't need to write `showLoading` and `hideLoading` any more.
+Create the next immutable state tree by simply modifying the current tree
 
 ---
 
 ## Install
 
 ```bash
-$ npm install dva-loading --save
+$ npm install dva-immer --save
 ```
 
 ## Usage
 
 ```javascript
-import createLoading from 'dva-loading';
 
 const app = dva();
-app.use(createLoading(opts));
+app.use(require('dva-immer').default());
 ```
+some like [umi-plugin-dva](https://github.com/umijs/umi/blob/master/packages/umi-plugin-dva/src/index.js) line 106
 
-Then we can access loading state from store.
+Look more [Immer](https://github.com/mweststrate/immer)
 
-### opts
-
-- `opts.namespace`: property key on global state, type String, Default `loading`
-
-[See real project usage on dva-hackernews](https://github.com/dvajs/dva-hackernews/blob/2c3330b1c8ae728c94ebe1399b72486ad5a1a7a0/src/index.js#L4-L7).
-
-## State Structure
-
-```
-loading: {
-  global: false,
-  models: {
-    users: false,
-    todos: false,
-    ...
-  },
-}
-```
 
 ## License
 
