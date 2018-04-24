@@ -83,7 +83,7 @@
 
 > 之前在 dvaantdpro 1、2 群的请勿重复加入。
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/HCNLMoIrDbThXHzouksS.JPG" width="200" />
+<img src="https://gw.alipayobjects.com/zos/rmsportal/WdeuPFPzlKkfEWtxxeGL.jpg" width="200" />
 
 扫码加微信群。(群满 100 人后，可加 `sorryccpro` 备注 `dva` 邀请加入）
 
