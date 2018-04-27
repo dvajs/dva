@@ -163,8 +163,6 @@ const app = dva({
 });
 ```
 
-View [examples/count-undo](https://github.com/dvajs/dva/blob/master/examples/count-undo/index.js) for details.
-
 #### `onEffect(fn)`
 
 Wrap effect execute.
