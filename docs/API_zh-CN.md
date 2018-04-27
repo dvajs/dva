@@ -161,8 +161,6 @@ const app = dva({
 });
 ```
 
-详见 [examples/count-undo](https://github.com/dvajs/dva/blob/master/examples/count-undo/index.js) 。
-
 #### `onEffect(fn)`
 
 封装 effect 执行。比如 [dva-loading](https://github.com/dvajs/dva-loading) 基于此实现了自动处理 loading 状态。
@@ -315,7 +313,7 @@ app.model({
 
 格式为 `(state, action) => newState` 或 `[(state, action) => newState, enhancer]`。
 
-详见： https://github.com/dvajs/dva/blob/master/packages/dva-core/test/reducers-test.js
+详见： https://github.com/dvajs/dva/blob/master/packages/dva-core/test/reducers.test.js
 
 ### effects
 
@@ -330,7 +328,7 @@ type 类型有：
 * `throttle`
 * `watcher`
 
-详见：https://github.com/dvajs/dva/blob/master/packages/dva-core/test/effects-test.js
+详见：https://github.com/dvajs/dva/blob/master/packages/dva-core/test/effects.test.js
 
 ### subscriptions
 
