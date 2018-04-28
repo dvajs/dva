@@ -14,8 +14,8 @@ const app = dva({
             netApi:netaApi,
             // 全局的网络开始处理
             // 每个人对于网络请求的处理规格都是不同的 
-            // 在这里 你就可以直接编写你对应的处理逻辑 对于符合要求的直接返回 不符合直接返回fasle
-            //然后就会走到onNetError中去处理这个网络请求
+            // 如果返回false则会走到对应的onError中不会进行数据合并
+            // 如果你返回任何其他的数据 都会直接跟对应网络请求target所对应的model原有state进行合并
             onGLNetStart:({retData})=>{
                 debugger
                 // 不要在这里做除了逻辑判断以外的多余操作
