@@ -43,7 +43,7 @@ export default function getFetchData(fetchConfig){
                 },
             },
             effects:{
-                *sendData({payload},{call,select,race,take}){
+                *sendData({payload},{call,select,race,take,put}){
                     try {
                         // 这里保存最后需要合并的数据
                         let ret = {}
@@ -79,7 +79,6 @@ export default function getFetchData(fetchConfig){
                                             const oldState = yield select((state)=>({...state[keyName]}))
                                             ret[keyName] = {...oldState,...ret[keyName],...(tranData?tranData(netData):netData)}  
                                             onCallBack && onCallBack({...obj,...extendAttr,params,timeOut,urlAddress}) 
-                                            yield put({type:`${retKeyName}/generalState`,payload:{isShow:true}})
                                         }
                                     }else {
                                         yield put({type:'generalState',payload:{isShow:true,isNetError:true,isNetErrorData:obj}})
@@ -98,7 +97,7 @@ export default function getFetchData(fetchConfig){
                             for(let i = 0; i < retKeys.length;i++){
                                 const retKeyName = retKeys[i]
                                 const retObj = ret[retKeyName]
-                                yield put({type:`${retKeyName}/generalState`,payload:{...retObj,isShow:false}})
+                                yield put({type:`${retKeyName}/generalState`,payload:{...retObj}})
                             }
                             yield put({type:'generalState',payload:{isShow:false}})
                         }

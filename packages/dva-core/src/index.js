@@ -48,7 +48,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
   const app = {
     _models: [
       prefixNamespace({ ...dvaModel }),
-      prefixNamespace({ ...fetchModel(hooksAndOpts.fethConfig) }),
+      hooksAndOpts.fetchConfig && prefixNamespace({ ...fetchModel(hooksAndOpts.fetchConfig) }),
     ],
     _store: null,
     _plugin: plugin,
@@ -68,8 +68,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
-    m.isShow = true
-    m.generalState = generalState
+    m.reducers.generalState = generalState
     app._models.push(prefixNamespace(m));
   }
 

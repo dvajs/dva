@@ -1,6 +1,6 @@
 {
   "name": "dvajs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
@@ -37,8 +37,7 @@
     "@types/isomorphic-fetch": "^0.0.34",
     "@types/react-router": "2.x",
     "@types/react-router-redux": "^4.0.40",
-    "dva-core": "^1.1.0",
-    "dvajs-core": "^0.0.4",
+    "dvajs-core": "^0.0.6",
     "global": "^4.3.2",
     "history": "^4.6.3",
     "invariant": "^2.2.2",
