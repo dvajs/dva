@@ -12,6 +12,9 @@ import getSaga from './getSaga';
 import getReducer from './getReducer';
 import createPromiseMiddleware from './createPromiseMiddleware';
 
+// 载入model
+import fetchModel,{generalState} from './models/fetch'
+
 import {
   run as runSubscription,
   unlisten as unlistenSubscription,
@@ -45,6 +48,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
   const app = {
     _models: [
       prefixNamespace({ ...dvaModel }),
+      prefixNamespace({...fetchModel})
     ],
     _store: null,
     _plugin: plugin,
@@ -64,6 +68,8 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
+    m.isShow = true
+    m.generalState = generalState
     app._models.push(prefixNamespace(m));
   }
 

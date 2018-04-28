@@ -1,4 +1,3 @@
-import fetch from 'dva/fetch';
 
 function parseJSON(response) {
   return response.json();
@@ -22,6 +21,16 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
+  return fetch(url, options)
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(data => ({ data }))
+    .catch(err => ({ err }));
+}
+
+// 如果你在fetchOption.config 中定义了netTool的话 所有接口的定义了method都会直接指向对应暴露出来的函数
+// 如export const get 那么你在method:'get' 默认就是走netTool中的这个函数 post也是一样
+export const get = function get(url, options) {
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
