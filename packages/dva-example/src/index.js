@@ -14,13 +14,16 @@ const app = dva({
             netApi:netaApi,
             // 全局的网络开始处理
             // 每个人对于网络请求的处理规格都是不同的 
-            // 在这里 你就可以直接编写你对应的处理逻辑 对于符合要求的直接返回true 不符合直接返回fasle
+            // 在这里 你就可以直接编写你对应的处理逻辑 对于符合要求的直接返回 不符合直接返回fasle
             //然后就会走到onNetError中去处理这个网络请求
-            onGLNetStart:(data)=>{
+            onGLNetStart:({retData})=>{
                 debugger
                 // 不要在这里做除了逻辑判断以外的多余操作
-                console.log('sadad',data)
-                return true
+                if (retData.error_code == 0){
+                    return retData.result
+                }else {
+                    return false
+                }
             },
             // 全局错误处理
             // 如果上面的条件不符合的话 你可以在这里 直接中断下面的数据请求

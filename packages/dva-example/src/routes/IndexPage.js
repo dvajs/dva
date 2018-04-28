@@ -8,16 +8,17 @@ class App extends React.Component {
     this.props.dispatch({type: 'fetch/sendData',payload:[
       {
         target: 'example',
-        url: 'book',
+        url: 'movie',
       }
     ]})
   }
 
   
   render(){
+    console.log('页面输出')
     return (
       <div className={styles.normal}>
-      <li>{this.props.a}</li>
+      <li>{this.props.title}</li>
       <button onClick={this.onButtonDown}>
         按钮点击
       </button>

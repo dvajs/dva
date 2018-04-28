@@ -19,8 +19,8 @@ export const get = function (url, options) {
   console.log('asdad',url,options)
   return new Promise((resolve, reject) => {
     fetch (url,options)
+    .then((e)=>e.json())
     .then((e)=>{
-      console.log('网络请求',e)
       resolve(e)
     })
     .catch((e)=>{

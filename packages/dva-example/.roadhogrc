@@ -14,11 +14,11 @@
     }
   },
   "proxy": {
-    "/book": {
-      "target": "https://api.douban.com/v2",
+    "/movie": {
+      "target": "http://op.juhe.cn/onebox",
       "changeOrigin": true,
       "secure": false,
-      "pathRewrite": {"^/book" : "/book/1220562"}
+      "pathRewrite": {"^/movie" : "/movie/video?dtype=&q=%E5%A4%8D%E4%BB%87%E8%80%85&key=d84605289eab72b971bbadbb4297cda4"}
     }
   }
 }
