@@ -13,27 +13,18 @@ function checkStatus(response) {
   throw error;
 }
 
-/**
- * Requests a URL, returning a promise.
- *
- * @param  {string} url       The URL we want to request
- * @param  {object} [options] The options we want to pass to "fetch"
- * @return {object}           An object containing either "data" or "err"
- */
-export default function request(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(data => ({ data }))
-    .catch(err => ({ err }));
-}
-
 // 如果你在fetchOption.config 中定义了netTool的话 所有接口的定义了method都会直接指向对应暴露出来的函数
 // 如export const get 那么你在method:'get' 默认就是走netTool中的这个函数 post也是一样
-export const get = function get(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(data => ({ data }))
-    .catch(err => ({ err }));
+export const get = function (url, options) {
+  console.log('asdad',url,options)
+  return new Promise((resolve, reject) => {
+    fetch (url,options)
+    .then((e)=>{
+      console.log('网络请求',e)
+      resolve(e)
+    })
+    .catch((e)=>{
+      reject(e)
+    })
+  });
 }

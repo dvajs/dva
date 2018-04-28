@@ -1,6 +1,6 @@
 import dva from 'dvajs';
 import './index.css';
-import request from './utils/request'
+import * as request from './utils/request'
 import * as netaApi from './utils/netaApi';
 // 1. Initialize
 const app = dva({
@@ -17,7 +17,9 @@ const app = dva({
             // 在这里 你就可以直接编写你对应的处理逻辑 对于符合要求的直接返回true 不符合直接返回fasle
             //然后就会走到onNetError中去处理这个网络请求
             onGLNetStart:(data)=>{
+                debugger
                 // 不要在这里做除了逻辑判断以外的多余操作
+                console.log('sadad',data)
                 return true
             },
             // 全局错误处理

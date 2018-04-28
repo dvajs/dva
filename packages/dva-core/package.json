@@ -1,6 +1,6 @@
 {
   "name": "dvajs-core",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "The core lightweight library for dva, based on redux and redux-saga.",
   "repository": {
     "type": "git",
@@ -39,7 +39,7 @@
     "redux": "^3.7.1",
     "redux-observable": "^0.18.0",
     "redux-saga": "^0.15.4",
-    "ruban": "^0.2.2",
+    "ruban": "^0.1.2",
     "warning": "^3.0.0"
   },
   "peerDependencies": {

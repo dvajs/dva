@@ -13,7 +13,7 @@ import getReducer from './getReducer';
 import createPromiseMiddleware from './createPromiseMiddleware';
 
 // 载入model
-import fetchModel,{generalState} from './models/fetch'
+import fetchModel, { generalState } from './models/fetch';
 
 import {
   run as runSubscription,
@@ -48,7 +48,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
   const app = {
     _models: [
       prefixNamespace({ ...dvaModel }),
-      prefixNamespace({...fetchModel})
+      prefixNamespace({ ...fetchModel(hooksAndOpts.fethConfig) }),
     ],
     _store: null,
     _plugin: plugin,

@@ -1,4 +1,9 @@
 
+// 延迟处理
+export const delay = time =>
+  new Promise (resolve => setTimeout (resolve, time))
+  
+
 // url转换
 const tranUrlFun = function(urlAddress = '',params){
     let url = urlAddress
@@ -25,8 +30,7 @@ export default function getFetchData(fetchConfig){
         extendAttr,GLParams,
         GLTimeOut
     } = fetchConfig
-    return (
-            {
+    return {
             namespace:'fetch',
             state:{
                 isShow:true,//true显示loading
@@ -39,7 +43,7 @@ export default function getFetchData(fetchConfig){
                 },
             },
             effects:{
-                *sendData({payload},{call,select,race,}){
+                *sendData({payload},{call,select,race,take}){
                     try {
                         // 这里保存最后需要合并的数据
                         let ret = {}
@@ -59,6 +63,7 @@ export default function getFetchData(fetchConfig){
                             if (url){
                                 let urlAddress = netApi?netApi[url]:url
                                 urlAddress = tranUrl?tranUrlFun(url,params):urlAddress
+                                // const retData = yield call(netTool[method],urlAddress,params)
                                 const {retData,timeout,cancel} = yield race({
                                     retData:call(netTool[method],urlAddress,params),
                                     timeout:call(delay,timeOut || 10000),
@@ -103,5 +108,4 @@ export default function getFetchData(fetchConfig){
                 }
             }
         }
-    )
 }
