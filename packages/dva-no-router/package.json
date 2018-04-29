@@ -1,6 +1,6 @@
 {
   "name": "dva-no-router",
-  "version": "1.0.3",
+  "version": "1.1.0-beta.1",
   "description": "Official React bindings for dva, no router.",
   "repository": {
     "type": "git",

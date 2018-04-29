@@ -7,29 +7,12 @@
 [![Dependencies](https://david-dm.org/dvajs/dva/status.svg)](https://david-dm.org/dvajs/dva)
 [![Join the chat at https://gitter.im/dvajs/Lobby](https://img.shields.io/gitter/room/dvajs/Lobby.svg?style=flat)](https://gitter.im/dvajs/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
-[View README in Chinese](README_zh-CN.md)
-
-Be based on [redux](https://github.com/reactjs/redux)、[redux-saga](https://github.com/redux-saga/redux-saga) and [react-router](https://github.com/ReactTraining/react-router) Lightweight front end frame.(Inspired by [elm](http://elm-lang.org/) and [choo](https://github.com/yoshuawuyts/choo))
-
----
-
-## Concept
-
-* **Simple use**：Only 6 API, especially friendly to Redux users
-* **elm concept**： `reducers`, `effects` , `subcriptions` make model
-* **Support mobile and react-native**：cross platform ([react-native Example](https://github.com/sorrycc/dva-example-react-native))
-* **Support HMR**：Be based on [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) support components、routes 和 models 的 HMR
-* **Dynamic loading Model and Routing**：Lazy loading mode quicker access speed. ([Example](https://github.com/dvajs/dva/blob/master/packages/dva-example-user-dashboard/src/router.js))
-* **Plug-in mechanism**：such as [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading) automatic processing loading state，not repeated showLoading or  hideLoading
-* **A perfect syntactic analysis library [dva-ast](https://github.com/dvajs/dva-ast)**：[dva-cli](https://github.com/dvajs/dva-cli) Based on this, intelligent creation is implemented model and router....
-* **Support TypeScript**：adopt d.ts ([Example](https://github.com/sorrycc/dva-boilerplate-typescript))
-
-## Why use dva ?
 
 * [Why dva and what's dva](https://github.com/dvajs/dva/issues/1)
 * [Alipay front application architecture development and selection](https://www.github.com/sorrycc/blog/issues/6)
 
-## Demos
+
+
 
 * [Count](https://stackblitz.com/edit/dva-example-count):Simple counter
 * [User Dashboard](https://github.com/dvajs/dva/tree/master/packages/dva-example-user-dashboard): User management
@@ -71,6 +54,7 @@ The following can help you better understand and use DVA：
 * Look at the [dva knowledge map](https://github.com/dvajs/dva-knowledgemap) all the basic knowledge, such as ES6, React, DVA, and so on
 * Look at [more FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)Look at what other people usually have.
 * If you create projects based on dva-cli, you'd better know him.[collocation method](https://github.com/sorrycc/roadhog#配置)
+
 
 
 ## License

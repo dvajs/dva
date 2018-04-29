@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga/lib/internal/middleware';
+import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import rxjs, { Observable } from 'rxjs';
+import { ajax } from 'rxjs/observable/dom/ajax';
 import invariant from 'invariant';
 import checkModel from './checkModel';
 import prefixNamespace from './prefixNamespace';
@@ -8,6 +11,10 @@ import createStore from './createStore';
 import getSaga from './getSaga';
 import getReducer from './getReducer';
 import createPromiseMiddleware from './createPromiseMiddleware';
+
+// 载入model
+import fetchModel, { generalState } from './models/fetch';
+
 import {
   run as runSubscription,
   unlisten as unlistenSubscription,
@@ -41,10 +48,12 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
   const app = {
     _models: [
       prefixNamespace({ ...dvaModel }),
+      hooksAndOpts.fetchConfig && prefixNamespace({ ...fetchModel(hooksAndOpts.fetchConfig) }),
     ],
     _store: null,
     _plugin: plugin,
     use: plugin.use.bind(plugin),
+    rootEpic: {},
     model,
     start,
   };
@@ -59,6 +68,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
+    m.reducers.generalState = generalState
     app._models.push(prefixNamespace(m));
   }
 
@@ -78,6 +88,11 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
       store.asyncReducers[m.namespace] = getReducer(m.reducers, m.state);
       store.replaceReducer(createReducer(store.asyncReducers));
     }
+    if (m.epics) {
+      app.rootEpic = { ...app.rootEpic, ...m.epics };
+      app.epicMiddleware.replaceEpic(app.rootEpic);
+    }
+
     if (m.effects) {
       store.runSaga(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
     }
@@ -147,6 +162,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     const reducers = { ...initialReducer };
     for (const m of app._models) {
       reducers[m.namespace] = getReducer(m.reducers, m.state);
+      app.rootEpic = { ...app.rootEpic, ...m.epics };
       if (m.effects) sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
     }
     const reducerEnhancer = plugin.get('onReducer');
@@ -155,7 +171,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
       Object.keys(extraReducers).every(key => !(key in reducers)),
       `[app.start] extitraReducers is conflict with other reducers, reducers list: ${Object.keys(reducers).join(', ')}`,
     );
-
+    app.epicMiddleware = createEpicMiddleware(combineEpics(...Object.keys(app.rootEpic).map(e => app.rootEpic[e])), { dependencies: { ajax, Observable } });
     // Create store
     const store = app._store = createStore({ // eslint-disable-line
       reducers: createReducer(),
@@ -164,6 +180,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
       createOpts,
       sagaMiddleware,
       promiseMiddleware,
+      epicMiddleware: app.epicMiddleware,
     });
 
     // Extend store

@@ -1,6 +1,6 @@
 {
-  "name": "dva",
-  "version": "2.2.0-beta.2",
+  "name": "dvajs",
+  "version": "0.0.6",
   "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
@@ -32,11 +32,12 @@
     "coveralls": "ruban coveralls"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0-beta.46",
     "@babel/runtime": "^7.0.0-beta.34",
     "@types/isomorphic-fetch": "^0.0.34",
     "@types/react-router": "2.x",
     "@types/react-router-redux": "^4.0.40",
-    "dva-core": "^1.1.0",
+    "dvajs-core": "^0.0.6",
     "global": "^4.3.2",
     "history": "^4.6.3",
     "invariant": "^2.2.2",
@@ -45,7 +46,9 @@
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
     "react-router-redux": "5.0.0-alpha.8",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "ruban": "^0.1.2",
+    "rxjs": "^5.5.10"
   },
   "peerDependencies": {
     "react": "15.x || ^16.0.0-0",

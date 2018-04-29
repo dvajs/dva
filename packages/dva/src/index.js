@@ -7,8 +7,8 @@ import {
 } from 'react-router-redux';
 import document from 'global/document';
 import { Provider } from 'react-redux';
-import * as core from 'dva-core';
-import { isFunction } from 'dva-core/lib/utils';
+import * as core from 'dvajs-core';
+import { isFunction } from 'dvajs-core/lib/utils';
 
 export default function (opts = {}) {
   const history = opts.history || createHashHistory();
@@ -63,7 +63,9 @@ export default function (opts = {}) {
       `[app.start] router must be registered before app.start()`,
     );
 
-    oldAppStart.call(app);
+    if (!app._store) {
+      oldAppStart.call(app);
+    }
     const store = app._store;
 
     // export _getProvider for HMR

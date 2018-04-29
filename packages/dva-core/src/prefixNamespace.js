@@ -19,6 +19,7 @@ export default function prefixNamespace(model) {
     namespace,
     reducers,
     effects,
+    epics,
   } = model;
 
   if (reducers) {
@@ -30,6 +31,9 @@ export default function prefixNamespace(model) {
   }
   if (effects) {
     model.effects = prefix(effects, namespace, 'effect');
+  }
+  if (epics) {
+    model.epics = prefix(epics, namespace, 'epics');
   }
   return model;
 }

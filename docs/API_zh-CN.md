@@ -258,7 +258,7 @@ model 是 dva 中最重要的概念。以下是典型的例子：
 ```js
 app.model({
   namespace: 'todo',
-	state: [],
+  state: [],
   reducers: {
     add(state, { payload: todo }) {
       // 保存数据到 state

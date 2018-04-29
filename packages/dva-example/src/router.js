@@ -1,5 +1,5 @@
 import React from 'react';
-import { routerRedux, Route, Switch } from 'dva/router';
+import { routerRedux, Route, Switch } from 'dvajs/router';
 import IndexPage from './routes/IndexPage';
 
 const { ConnectedRouter } = routerRedux;
