@@ -1,0 +1,21 @@
+{
+  "name": "dva-example-redux-redu",
+  "private": true,
+  "scripts": {
+    "start": "parcel ./src/index.html "
+  },
+  "author": "sjy <shijianyue47@gmail.com>",
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "parcel-bundler": "^1.4.1"
+  },
+  "dependencies": {
+    "dva": "^2.2.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "redux-undo": "^0.6.1"
+  },
+  "license": "MIT"
+}
