@@ -188,7 +188,7 @@ describe('effects', () => {
       effects: {
         addDelay: [
           function*() {
-            console.log(1);
+            yield 1;
           },
           { type: 'throttle' },
         ],
@@ -245,6 +245,7 @@ describe('effects', () => {
       effects: {
         addWatcher: [
           function*({ take, put, call }) {
+            // eslint-disable-next-line
             while (true) {
               const { payload } = yield take('addWatcher');
               yield call(delay, 100);
@@ -275,7 +276,7 @@ describe('effects', () => {
       effects: {
         addDelay: [
           function*() {
-            console.log(1);
+            yield 1;
           },
           { type: 'nonvalid' },
         ],

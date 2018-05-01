@@ -77,7 +77,7 @@ describe('opts and hooks', () => {
       state: 0,
       effects: {
         *add() {
-          throw new Error('add failed');
+          yield new Error('add failed');
         },
       },
     });

@@ -223,24 +223,25 @@ describe('app.model', () => {
       effects: {
         a: [
           function*() {
-            countA += 1;
+            yield (countA += 1);
           },
           { type: 'throttle', ms: 100 },
         ],
         b: [
           function*() {
-            countB += 1;
+            yield (countB += 1);
           },
           { type: 'takeEvery' },
         ],
         c: [
           function*() {
-            countC += 1;
+            yield (countC += 1);
           },
           { type: 'takeLatest' },
         ],
         d: [
           function*({ take }) {
+            // eslint-disable-next-line
             while (true) {
               yield take('a/d');
               countD += 1;

@@ -4,10 +4,12 @@ const NAMESPACE = 'loading';
 
 function createLoading(opts = {}) {
   const namespace = opts.namespace || NAMESPACE;
-  
+
   const { only = [], except = [] } = opts;
   if (only.length > 0 && except.length > 0) {
-    throw Error('It is ambiguous to configurate `only` and `except` items at the same time.');
+    throw Error(
+      'It is ambiguous to configurate `only` and `except` items at the same time.'
+    );
   }
 
   const initialState = {
@@ -33,13 +35,13 @@ function createLoading(opts = {}) {
           const effects = { ...state.effects, [actionType]: false };
           const models = {
             ...state.models,
-            [namespace]: Object.keys(effects).some((actionType) => {
+            [namespace]: Object.keys(effects).some(actionType => {
               const _namespace = actionType.split('/')[0];
               if (_namespace !== namespace) return false;
               return effects[actionType];
             }),
           };
-          const global = Object.keys(models).some((namespace) => {
+          const global = Object.keys(models).some(namespace => {
             return models[namespace];
           });
           ret = {
@@ -60,17 +62,17 @@ function createLoading(opts = {}) {
   function onEffect(effect, { put }, model, actionType) {
     const { namespace } = model;
     if (
-        (only.length === 0 && except.length === 0)
-        || (only.length > 0 && only.indexOf(actionType) !== -1)
-        || (except.length > 0 && except.indexOf(actionType) === -1)
+      (only.length === 0 && except.length === 0) ||
+      (only.length > 0 && only.indexOf(actionType) !== -1) ||
+      (except.length > 0 && except.indexOf(actionType) === -1)
     ) {
-        return function*(...args) {
-            yield put({ type: SHOW, payload: { namespace, actionType } });
-            yield effect(...args);
-            yield put({ type: HIDE, payload: { namespace, actionType } });
-        };
+      return function*(...args) {
+        yield put({ type: SHOW, payload: { namespace, actionType } });
+        yield effect(...args);
+        yield put({ type: HIDE, payload: { namespace, actionType } });
+      };
     } else {
-        return effect;
+      return effect;
     }
   }
 

@@ -155,8 +155,9 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
         m.state,
         plugin._handleActions
       );
-      if (m.effects)
+      if (m.effects) {
         sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
+      }
     }
     const reducerEnhancer = plugin.get('onReducer');
     const extraReducers = plugin.get('extraReducers');
@@ -168,8 +169,8 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     );
 
     // Create store
+    // eslint-disable-next-line
     const store = (app._store = createStore({
-      // eslint-disable-line
       reducers: createReducer(),
       initialState: hooksAndOpts.initialState || {},
       plugin,
