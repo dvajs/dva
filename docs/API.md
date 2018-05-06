@@ -156,8 +156,8 @@ const app = dva({
     return (state, action) => {
       const undoOpts = {};
       const newState = undoable(reducer, undoOpts)(state, action);
-      // 由于 dva 同步了 routing 数据，所以需要把这部分还原
-      return { ...newState, routing: newState.present.routing };
+      // 由于 dva 同步了 router 数据，所以需要把这部分还原
+      return { ...newState, router: newState.present.router };
     },
   },
 });

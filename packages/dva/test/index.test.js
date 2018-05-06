@@ -1,5 +1,6 @@
 import expect from 'expect';
 import React from 'react';
+import { createMatchSelector, LOCATION_CHANGE } from 'react-router-redux';
 import dva from '../src/index';
 
 const countModel = {
@@ -133,5 +134,31 @@ describe('index', () => {
 
     app._store.dispatch({ type: 'count/add' });
     expect(savedState.count).toEqual(1);
+  });
+
+  it('redux selector', () => {
+    let savedState = null;
+    const matchSelector = createMatchSelector('/');
+    const app = dva({
+      onStateChange(state) {
+        savedState = state;
+      },
+    });
+    app.router(() => 1);
+    app.start();
+
+    app._store.dispatch({
+      type: LOCATION_CHANGE,
+      payload: {
+        pathname: '/view',
+      },
+    });
+
+    expect(matchSelector(savedState)).toEqual({
+      isExact: false,
+      params: {},
+      path: '/',
+      url: '/',
+    });
   });
 });

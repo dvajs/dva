@@ -3,18 +3,18 @@ import invariant from 'invariant';
 import createHashHistory from 'history/createHashHistory';
 import {
   routerMiddleware,
-  routerReducer as routing,
+  routerReducer,
 } from 'react-router-redux';
 import document from 'global/document';
 import { Provider } from 'react-redux';
 import * as core from 'dva-core';
 import { isFunction } from 'dva-core/lib/utils';
 
-export default function (opts = {}) {
+export default function(opts = {}) {
   const history = opts.history || createHashHistory();
   const createOpts = {
     initialReducer: {
-      routing,
+      router: routerReducer,
     },
     setupMiddlewares(middlewares) {
       return [

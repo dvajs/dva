@@ -52,10 +52,10 @@ describe('reducers', () => {
     expect(app._store.getState().count).toEqual(1);
   });
 
-  // core 没有 routing 这个 reducer，所以用例无效了
+  // core 没有 router 这个 reducer，所以用例无效了
   xit('extraReducers: throw error if conflicts', () => {
     const app = create({
-      extraReducers: { routing() {} },
+      extraReducers: { router() {} },
     });
     expect(() => {
       app.start();
@@ -102,7 +102,7 @@ describe('reducers', () => {
   it('onReducer', () => {
     const undo = r => (state, action) => {
       const newState = r(state, action);
-      return { present: newState, routing: newState.routing };
+      return { present: newState, router: newState.router };
     };
     const app = create({
       onReducer: undo,

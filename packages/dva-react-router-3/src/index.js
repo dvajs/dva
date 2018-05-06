@@ -4,7 +4,7 @@ import hashHistory from 'react-router/lib/hashHistory';
 import {
   routerMiddleware,
   syncHistoryWithStore,
-  routerReducer as routing,
+  routerReducer,
 } from 'react-router-redux';
 import document from 'global/document';
 import { Provider } from 'react-redux';
@@ -15,7 +15,7 @@ export default function (opts = {}) {
   const history = opts.history || hashHistory;
   const createOpts = {
     initialReducer: {
-      routing,
+      router: routerReducer,
     },
     setupMiddlewares(middlewares) {
       return [
