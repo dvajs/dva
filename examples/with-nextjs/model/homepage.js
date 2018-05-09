@@ -1,3 +1,5 @@
+const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+
 const model = {
   namespace: 'index',
   state: {
@@ -11,22 +13,11 @@ const model = {
       const { delta } = payload;
       return { ...state, count: count + delta };
     },
-    changeInitStatus(state) {
-      return { ...state, init: true };
-    },
   },
   effects: {
-    // two usage
-    // first:  init data in server side;
-    // second: init data in client side for sync data between to sides
-    *initData({ delta }, { put, select }) {
-      const index = yield select(state => state.index);
-      const { init } = index;
-      // once init will not be called second time
-      if (!init) {
-        yield put({ type: 'caculate', delta });
-        yield put({ type: 'changeInitStatus' });
-      }
+    *init(action, { put }) {
+      yield delay(2000);
+      yield put({ type: 'caculate', delta: 1 });
     },
   },
 };
