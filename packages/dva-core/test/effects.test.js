@@ -147,6 +147,46 @@ describe('effects', () => {
     expect(app._store.getState().count).toEqual(3);
   });
 
+  it('onError: extension', () => {
+    const app = create({
+      onError(err, dispatch, extension) {
+        err.preventDefault();
+        dispatch({
+          type: 'err/append',
+          payload: extension,
+        });
+      },
+    });
+    app.model({
+      namespace: 'err',
+      state: [],
+      reducers: {
+        append(state, action) {
+          return [...state, action.payload];
+        },
+      },
+      effects: {
+        // eslint-disable-next-line
+        *generate() {
+          throw new Error('Effect error');
+        },
+      },
+    });
+    app.start();
+    app._store.dispatch({
+      type: 'err/generate',
+      payload: 'err.payload',
+    });
+    expect(app._store.getState().err.length).toEqual(1);
+    expect(app._store.getState().err[0].key).toEqual('err/generate');
+    expect(app._store.getState().err[0].effectArgs[0].type).toEqual(
+      'err/generate'
+    );
+    expect(app._store.getState().err[0].effectArgs[0].payload).toEqual(
+      'err.payload'
+    );
+  });
+
   it('type: takeLatest', done => {
     const app = create();
     const takeLatest = { type: 'takeLatest' };

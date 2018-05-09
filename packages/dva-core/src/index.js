@@ -69,7 +69,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
    * @param unlisteners
    * @param m
    */
-  function injectModel(createReducer, onError, unlisteners, m) {
+  function injectModel(createReducer, createOnError, unlisteners, m) {
     m = model(m);
 
     const store = app._store;
@@ -81,7 +81,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     store.replaceReducer(createReducer(store.asyncReducers));
     if (m.effects) {
       store.runSaga(
-        app._getSaga(m.effects, m, onError, plugin.get('onEffect'))
+        app._getSaga(m.effects, m, createOnError, plugin.get('onEffect'))
       );
     }
     if (m.subscriptions) {
@@ -89,7 +89,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
         m.subscriptions,
         m,
         app,
-        onError
+        createOnError()
       );
     }
   }
@@ -131,7 +131,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
    */
   function start() {
     // Global error handler
-    const onError = err => {
+    const createOnError = (extension = {}) => err => {
       if (err) {
         if (typeof err === 'string') err = new Error(err);
         err.preventDefault = () => {
@@ -139,7 +139,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
         };
         plugin.apply('onError', err => {
           throw new Error(err.stack || err);
-        })(err, app._store.dispatch);
+        })(err, app._store.dispatch, extension);
       }
     };
 
@@ -156,7 +156,9 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
         plugin._handleActions
       );
       if (m.effects)
-        sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
+        sagas.push(
+          app._getSaga(m.effects, m, createOnError, plugin.get('onEffect'))
+        );
     }
     const reducerEnhancer = plugin.get('onReducer');
     const extraReducers = plugin.get('extraReducers');
@@ -204,13 +206,18 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
           model.subscriptions,
           model,
           app,
-          onError
+          createOnError()
         );
       }
     }
 
     // Setup app.model and app.unmodel
-    app.model = injectModel.bind(app, createReducer, onError, unlisteners);
+    app.model = injectModel.bind(
+      app,
+      createReducer,
+      createOnError,
+      unlisteners
+    );
     app.unmodel = unmodel.bind(app, createReducer, reducers, unlisteners);
 
     /**
