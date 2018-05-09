@@ -1,11 +1,16 @@
+
 import Link from 'next/link';
 
-export default function() {
+export default function () {
   return (
     <div>
       Users
       <br />
-      <Link href="/">Back</Link>
+      <Link href="/">
+        <a>
+          Back
+        </a>
+      </Link>
     </div>
   );
 }
