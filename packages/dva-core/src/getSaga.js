@@ -59,7 +59,10 @@ function getWatcher(key, _effect, model, onError, onEffect) {
       yield sagaEffects.put({ type: `${key}${NAMESPACE_SEP}@@end` });
       resolve(ret);
     } catch (e) {
-      onError(e);
+      onError(e, {
+        key,
+        effectArgs: args,
+      });
       if (!e._dontReject) {
         reject(e);
       }

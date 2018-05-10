@@ -131,7 +131,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
    */
   function start() {
     // Global error handler
-    const onError = err => {
+    const onError = (err, extension) => {
       if (err) {
         if (typeof err === 'string') err = new Error(err);
         err.preventDefault = () => {
@@ -139,7 +139,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
         };
         plugin.apply('onError', err => {
           throw new Error(err.stack || err);
-        })(err, app._store.dispatch);
+        })(err, app._store.dispatch, extension);
       }
     };
 
