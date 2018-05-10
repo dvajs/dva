@@ -9,17 +9,11 @@ import {
 import { NAMESPACE_SEP } from './constants';
 import prefixType from './prefixType';
 
-export default function getSaga(effects, model, createOnError, onEffect) {
+export default function getSaga(effects, model, onError, onEffect) {
   return function*() {
     for (const key in effects) {
       if (Object.prototype.hasOwnProperty.call(effects, key)) {
-        const watcher = getWatcher(
-          key,
-          effects[key],
-          model,
-          createOnError,
-          onEffect
-        );
+        const watcher = getWatcher(key, effects[key], model, onError, onEffect);
         const task = yield sagaEffects.fork(watcher);
         yield sagaEffects.fork(function*() {
           yield sagaEffects.take(`${model.namespace}/@@CANCEL_EFFECTS`);
@@ -30,7 +24,7 @@ export default function getSaga(effects, model, createOnError, onEffect) {
   };
 }
 
-function getWatcher(key, _effect, model, createOnError, onEffect) {
+function getWatcher(key, _effect, model, onError, onEffect) {
   let effect = _effect;
   let type = 'takeEvery';
   let ms;
@@ -65,7 +59,10 @@ function getWatcher(key, _effect, model, createOnError, onEffect) {
       yield sagaEffects.put({ type: `${key}${NAMESPACE_SEP}@@end` });
       resolve(ret);
     } catch (e) {
-      createOnError({ key, effectArgs: args })(e);
+      onError(e, {
+        key,
+        effectArgs: args,
+      });
       if (!e._dontReject) {
         reject(e);
       }
