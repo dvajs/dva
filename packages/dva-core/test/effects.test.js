@@ -78,7 +78,7 @@ describe('effects', () => {
           yield put({ type: 'dump', payload: { count: payload } });
         },
         *process({ payload }, { put, select }) {
-          yield put.sync({ type: 'changeCountDelay', payload });
+          yield put.resolve({ type: 'changeCountDelay', payload });
           const count = yield select(state => state.counter.count);
           yield put({ type: 'dump', payload: { resolveCount: count } });
         },

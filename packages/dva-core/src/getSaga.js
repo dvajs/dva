@@ -106,19 +106,19 @@ function createEffects(model) {
   }
 
   // The operator `put` doesn't block waiting the returned promise to resolve.
-  // Using `put.sync` will wait until the promsie resolve/reject before resuming.
+  // Using `put.resolve` will wait until the promsie resolve/reject before resuming.
   // It will be helpful to organize multi-effects in order,
   // and increase the reusability by seperate the effect in stand-alone pieces.
   // https://github.com/redux-saga/redux-saga/issues/336
-  function putSync(action) {
+  function putResolve(action) {
     const { type } = action;
-    assertAction(type, 'sagaEffects.put.sync');
-    return sagaEffects.put.sync({
+    assertAction(type, 'sagaEffects.put.resolve');
+    return sagaEffects.put.resolve({
       ...action,
       type: prefixType(type, model),
     });
   }
-  put.sync = putSync;
+  put.resolve = putResolve;
 
   function take(type) {
     if (typeof type === 'string') {
