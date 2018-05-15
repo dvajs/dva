@@ -59,43 +59,37 @@ describe('effects', () => {
   it('put multi effects in order', done => {
     const app = create();
     app.model({
-      namespace: 'count',
-      state: 0,
+      namespace: 'counter',
+      state: {
+        count: 0,
+        resolveCount: 0,
+      },
       reducers: {
-        add(state, { payload }) {
-          return state + payload || 1;
+        dump(state, { payload }) {
+          return {
+            ...state,
+            ...payload,
+          };
         },
       },
       effects: {
-        *addDelay({ payload }, { put, call }) {
+        *changeCountDelay({ payload }, { put, call }) {
           yield call(delay, 200);
-          yield put({ type: 'add', payload });
+          yield put({ type: 'dump', payload: { count: payload } });
         },
-        *multiAdd({ payload }, { put }) {
-          yield put.sync({ type: 'addDelay', payload });
-          yield put.sync({ type: 'addDelay', payload });
-          yield put.sync({ type: 'addDelay', payload });
+        *process({ payload }, { put, select }) {
+          yield put.sync({ type: 'changeCountDelay', payload });
+          const count = yield select(state => state.counter.count);
+          yield put({ type: 'dump', payload: { resolveCount: count } });
         },
       },
     });
     app.start();
-    app._store.dispatch({ type: 'count/multiAdd', payload: 1 }).then(() => {
-      expect(app._store.getState().count).toEqual(3);
+    app._store.dispatch({ type: 'counter/process', payload: 1 }).then(() => {
+      expect(app._store.getState().counter.resolveCount).toEqual(1);
       done();
     });
-    expect(app._store.getState().count).toEqual(0);
-    setTimeout(() => {
-      expect(app._store.getState().count).toEqual(1);
-      done();
-    }, 250);
-    setTimeout(() => {
-      expect(app._store.getState().count).toEqual(2);
-      done();
-    }, 450);
-    setTimeout(() => {
-      expect(app._store.getState().count).toEqual(3);
-      done();
-    }, 650);
+    expect(app._store.getState().counter.resolveCount).toEqual(0);
   });
 
   it('take', done => {
