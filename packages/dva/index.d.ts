@@ -1,6 +1,6 @@
 import {
   Reducer,
-  Action,
+  AnyAction,
   ReducersMapObject,
   Dispatch,
   MiddlewareAPI,
@@ -34,7 +34,7 @@ export type DvaOption = Hooks & {
 }
 
 export interface EffectsCommandMap {
-  put: <A extends Action>(action: A) => any;
+  put: <A extends AnyAction>(action: A) => any;
   call: Function;
   select: Function;
   take: Function;
@@ -42,7 +42,7 @@ export interface EffectsCommandMap {
   [key: string]: any;
 }
 
-export type Effect = (action: Action, effects: EffectsCommandMap) => void;
+export type Effect = (action: AnyAction, effects: EffectsCommandMap) => void;
 export type EffectType = 'takeEvery' | 'takeLatest' | 'watcher' | 'throttle';
 export type EffectWithType = [Effect, { type : EffectType }];
 export type Subscription = (api: SubscriptionAPI, done: Function) => void;
