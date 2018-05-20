@@ -104,6 +104,22 @@ function createEffects(model) {
     assertAction(type, 'sagaEffects.put');
     return sagaEffects.put({ ...action, type: prefixType(type, model) });
   }
+
+  // The operator `put` doesn't block waiting the returned promise to resolve.
+  // Using `put.resolve` will wait until the promsie resolve/reject before resuming.
+  // It will be helpful to organize multi-effects in order,
+  // and increase the reusability by seperate the effect in stand-alone pieces.
+  // https://github.com/redux-saga/redux-saga/issues/336
+  function putResolve(action) {
+    const { type } = action;
+    assertAction(type, 'sagaEffects.put.resolve');
+    return sagaEffects.put.resolve({
+      ...action,
+      type: prefixType(type, model),
+    });
+  }
+  put.resolve = putResolve;
+
   function take(type) {
     if (typeof type === 'string') {
       assertAction(type, 'sagaEffects.take');

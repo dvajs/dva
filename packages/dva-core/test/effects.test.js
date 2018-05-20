@@ -56,6 +56,42 @@ describe('effects', () => {
     }, 200);
   });
 
+  it('put multi effects in order', done => {
+    const app = create();
+    app.model({
+      namespace: 'counter',
+      state: {
+        count: 0,
+        resolveCount: 0,
+      },
+      reducers: {
+        dump(state, { payload }) {
+          return {
+            ...state,
+            ...payload,
+          };
+        },
+      },
+      effects: {
+        *changeCountDelay({ payload }, { put, call }) {
+          yield call(delay, 200);
+          yield put({ type: 'dump', payload: { count: payload } });
+        },
+        *process({ payload }, { put, select }) {
+          yield put.resolve({ type: 'changeCountDelay', payload });
+          const count = yield select(state => state.counter.count);
+          yield put({ type: 'dump', payload: { resolveCount: count } });
+        },
+      },
+    });
+    app.start();
+    app._store.dispatch({ type: 'counter/process', payload: 1 }).then(() => {
+      expect(app._store.getState().counter.resolveCount).toEqual(1);
+      done();
+    });
+    expect(app._store.getState().counter.resolveCount).toEqual(0);
+  });
+
   it('take', done => {
     const app = create();
     app.model({
