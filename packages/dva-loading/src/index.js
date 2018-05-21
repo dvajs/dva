@@ -72,8 +72,8 @@ function createLoading(opts = {}) {
   function onEffect(effect, { put }, model, actionType, takeType) {
     const { namespace } = model;
     if (
-        (only.length === 0 && except.length === 0) 
-        || (only.length > 0 && only.indexOf(actionType) !== -1) 
+        (only.length === 0 && except.length === 0)
+        || (only.length > 0 && only.indexOf(actionType) !== -1)
         || (except.length > 0 && except.indexOf(actionType) === -1)
     ) {
         return function*(...args) {
