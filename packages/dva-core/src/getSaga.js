@@ -69,13 +69,7 @@ function getWatcher(key, _effect, model, onError, onEffect) {
     }
   }
 
-  const sagaWithOnEffect = applyOnEffect(
-    onEffect,
-    sagaWithCatch,
-    model,
-    key,
-    type
-  );
+  const sagaWithOnEffect = applyOnEffect(onEffect, sagaWithCatch, model, key, type);
 
   switch (type) {
     case 'watcher':
