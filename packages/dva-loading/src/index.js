@@ -34,10 +34,7 @@ function createLoading(opts = {}) {
           countCache = {
             effects: {
               ...countCache.effects,
-              [actionType]:
-                countCache.effects[actionType] && takeType != 'takeLatest'
-                  ? countCache.effects[actionType] + 1
-                  : 1,
+              [actionType]: countCache.effects[actionType] && takeType != 'takeLatest' ? countCache.effects[actionType] + 1 : 1,
             },
           };
           break;
@@ -76,13 +73,13 @@ function createLoading(opts = {}) {
     const { namespace } = model;
     if (
         (only.length === 0 && except.length === 0) 
-        ||(only.length > 0 && only.indexOf(actionType) !== -1) 
-        ||(except.length > 0 && except.indexOf(actionType) === -1)
+        || (only.length > 0 && only.indexOf(actionType) !== -1) 
+        || (except.length > 0 && except.indexOf(actionType) === -1)
     ) {
         return function*(...args) {
-          yield put({ type: SHOW, payload: { namespace, actionType, takeType } });
-          yield effect(...args);
-          yield put({ type: HIDE, payload: { namespace, actionType, takeType } });
+            yield put({ type: SHOW, payload: { namespace, actionType, takeType } });
+            yield effect(...args);
+            yield put({ type: HIDE, payload: { namespace, actionType, takeType } });
         };
     } else {
         return effect;
