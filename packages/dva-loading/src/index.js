@@ -34,7 +34,7 @@ function createLoading(opts = {}) {
           countCache = {
             effects: {
               ...countCache.effects,
-              [actionType]: countCache.effects[actionType] && takeType != 'takeLatest' ? countCache.effects[actionType] + 1 : 1,
+              [actionType]: countCache.effects[actionType] && takeType !== 'takeLatest' ? countCache.effects[actionType] + 1 : 1,
             },
           };
           break;
