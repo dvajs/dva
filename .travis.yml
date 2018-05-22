@@ -13,5 +13,9 @@ before_script:
 after_success:
   - npm run coveralls
 
+cache:
+  directories:
+    - node_modules
+
 git:
   depth: 5
