@@ -5,13 +5,18 @@ export default function() {
     _handleActions(handlers, defaultState) {
       return (state = defaultState, action) => {
         const { type } = action;
+        let compatiableRet;
         const ret = produce(state, draft => {
           const handler = handlers[type];
           if (handler) {
-            handler(draft, action);
+            compatiableRet = handler(draft, action);
           }
         });
-        return ret === undefined ? {} : ret;
+        return compatiableRet !== undefined
+          ? compatiableRet
+          : ret === undefined
+            ? {}
+            : ret;
       };
     },
   };
