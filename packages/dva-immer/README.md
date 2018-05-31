@@ -26,6 +26,8 @@ some like [umi-plugin-dva](https://github.com/umijs/umi/blob/master/packages/umi
 
 Look more [Immer](https://github.com/mweststrate/immer)
 
+PS. :smile: dva-immer still support [normal reducer modify pattern](./test/index.test.js#L34), which is great for migration a old codebase.
+
 
 ## License
 
