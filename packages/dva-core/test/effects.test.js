@@ -123,6 +123,44 @@ describe('effects', () => {
     }, 300);
   });
 
+  it('take with array of actions', () => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: null,
+      reducers: {
+        addRequest() {
+          return 1;
+        },
+        addFailure() {
+          return -1;
+        },
+        addSuccess() {
+          return 0;
+        },
+      },
+      effects: {
+        *add(action, { put }) {
+          yield put({ type: 'addRequest' });
+          if (action.amount > 0.5) {
+            yield put({ type: 'addSuccess' });
+          } else {
+            yield put({ type: 'addFailure' });
+          }
+        },
+        *test(action, { put, take }) {
+          yield put({ type: 'add', amount: action.amount });
+          yield take(['addSuccess', 'addFailure']);
+        },
+      },
+    });
+    app.start();
+    app._store.dispatch({ type: 'count/test', amount: 0 });
+    expect(app._store.getState().count).toEqual(-1);
+    app._store.dispatch({ type: 'count/test', amount: 1 });
+    expect(app._store.getState().count).toEqual(0);
+  });
+
   it('dispatch action for other models', () => {
     const app = create();
     app.model({

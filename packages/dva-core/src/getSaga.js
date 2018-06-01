@@ -124,6 +124,16 @@ function createEffects(model) {
     if (typeof type === 'string') {
       assertAction(type, 'sagaEffects.take');
       return sagaEffects.take(prefixType(type, model));
+    } else if (Array.isArray(type)) {
+      return sagaEffects.take(
+        type.map(t => {
+          if (typeof t === 'string') {
+            assertAction(t, 'sagaEffects.take');
+            return prefixType(type, model);
+          }
+          return t;
+        })
+      );
     } else {
       return sagaEffects.take(type);
     }
