@@ -1,6 +1,6 @@
 {
   "name": "dva-loading",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Auto loading plugin for dva.",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "devDependencies": {
-    "dva": "^2.2.3"
+    "dva": "^2.3.0"
   },
   "peerDependencies": {
     "dva": "^2.0.4"
