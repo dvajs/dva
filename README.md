@@ -78,13 +78,18 @@ Want more?
 * 在 gitc 分享 dva 的 PPT ：[React 应用框架在蚂蚁金服的实践](http://slides.com/sorrycc/dva)
 * 如果还在用 dva@1.x，请尽快 [升级到 2.x](https://github.com/sorrycc/blog/issues/48)
 
-## Community（中文）
+## Community
 
-> 之前在 dvaantdpro 1、2 群的请勿重复加入。
+### 微信群
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/WdeuPFPzlKkfEWtxxeGL.jpg" width="200" />
+<img src="https://gw.alipayobjects.com/zos/rmsportal/QwuMhmBXFuAqYvzktiGk.png" width="60" />
 
-扫码加微信群。(群满 100 人后，可加 `sorryccpro` 备注 `dva` 邀请加入）
+注：群满 100 人后，可加 `sorryccpro` 备注 `dva` 邀请加入。
+
+### Telegram
+
+[https://t.me/joinchat/G0DdHw9tDZC-_NmdKY2jYg](https://t.me/joinchat/G0DdHw9tDZC-_NmdKY2jYg)
+
 
 ## License
 

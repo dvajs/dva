@@ -13,4 +13,5 @@ package-lock.json
 .next/
 examples/**/.umi
 examples/**/.umi-production
-
+/website/build
+yarn.lock

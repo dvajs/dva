@@ -1,6 +1,8 @@
-# Concepts
+---
+sidebarDepth: 2
+---
 
-[View this in English](./Concepts.md)
+# Dva 概念
 
 ## 数据流向
 
@@ -112,7 +114,7 @@ app.router(({history}) =>
 
 所以在 dva 中，通常需要 connect Model的组件都是 Route Components，组织在`/routes/`目录下，而`/components/`目录下则是纯组件（Presentational Components）。
 
-## 参考引申
+## 参考
 
 - [redux docs](http://redux.js.org/docs/Glossary.html)
 - [redux docs 中文](http://cn.redux.js.org/index.html)
