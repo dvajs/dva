@@ -81,11 +81,13 @@
 
 ## 社区
 
-> 之前在 dvaantdpro 1、2 群的请勿重复加入。
+### 微信群
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/WdeuPFPzlKkfEWtxxeGL.jpg" width="200" />
+群满 100 人，可加 `sorryccpro` 备注 `dva` 邀请加入。
 
-扫码加微信群。(群满 100 人后，可加 `sorryccpro` 备注 `dva` 邀请加入）
+### Telegram
+
+[https://t.me/joinchat/G0DdHw9tDZC-_NmdKY2jYg](https://t.me/joinchat/G0DdHw9tDZC-_NmdKY2jYg)
 
 ## License
 

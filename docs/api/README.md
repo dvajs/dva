@@ -1,8 +1,11 @@
+---
+sidebarDepth: 2
+---
+
 # API
 
-[View this in English](./API.md)
-
 ## 输出文件
+
 ### dva
 
 默认输出文件。
@@ -50,6 +53,7 @@ const UserPageComponent = dynamic({
 * component：返回 Promise 的函数，Promise 返回 React Component
 
 ## dva API
+
 ### `app = dva(opts)`
 
 创建应用，返回 dva 实例。(注：dva 支持多实例)

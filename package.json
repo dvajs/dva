@@ -36,6 +36,7 @@
     "lerna": "^2.0.0",
     "lerna-changelog": "^0.7.0",
     "lint-staged": "^7.0.2",
+    "now": "^11.2.2",
     "prettier": "^1.11.1",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
@@ -49,7 +50,8 @@
     "through2": "^2.0.3",
     "uglify-js": "^3.3.18",
     "umi-test": "^0.5.3",
-    "vinyl-fs": "^3.0.2"
+    "vinyl-fs": "^3.0.2",
+    "vuepress": "^0.10.0"
   },
   "lint-staged": {
     "*.js": [
