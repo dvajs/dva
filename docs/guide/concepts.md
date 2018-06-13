@@ -86,7 +86,7 @@ import key from 'keymaster';
 app.model({
   namespace: 'count',
   subscriptions: {
-    keyEvent(dispatch) {
+    keyEvent({dispatch}) {
       key('⌘+up, ctrl+up', () => { dispatch({type:'add'}) });
     },
   }
