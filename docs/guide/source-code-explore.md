@@ -165,7 +165,7 @@ export default function(opts = {}) {
 ```  
 
 > 为什么不直接在 start 方式中 oldAppStart ?
-- 因为 dva-code 的 start 方法里有用到 this，不用 call 指定调用者为 app 的话，oldAppStart() 会找错对象。
+- 因为 dva-core 的 start 方法里有用到 this，不用 call 指定调用者为 app 的话，oldAppStart() 会找错对象。
 
 > 实现代理模式一定要用到 call 吗？
 - 不一定，看有没有 使用 this 或者代理的函数是不是箭头函数。从另一个角度来说，如果使用了 function 关键字又在内部使用了 this，那么一定要用 call/apply/bind 指定 this。
