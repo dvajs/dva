@@ -233,7 +233,7 @@ function render(container, store, app, router) {
 > 怎么理解 React 的 stateless 组件和 class 组件？
 - 你猜猜？
 ```
-JavaScript 并不存在 class 这个东西，即便是 es6 引入了以后经过 babale 编译也会转换成函数。因此直接使用无状态组件，省去了将 class 实例化再调用 render 函数的过程，有效的加快了渲染速度。
+JavaScript 并不存在 class 这个东西，即便是 es6 引入了以后经过 babel 编译也会转换成函数。因此直接使用无状态组件，省去了将 class 实例化再调用 render 函数的过程，有效的加快了渲染速度。
 
 即便是 class 组件，React.createElement 最终调用的也是 render 函数。不过这个目前只是我的推论，没有代码证据的证明。
 ```
