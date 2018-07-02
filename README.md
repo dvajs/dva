@@ -64,7 +64,7 @@ Some basic articles.
 * [dva APIs](https://github.com/dvajs/dva/blob/master/docs/API.md)
 * Checkout [dva knowledgemap](https://github.com/dvajs/dva-knowledgemap), including all the basic knowledge with ES6, React, dva
 * Checkout [more FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)
-* If your project is created by [dva-cli](https://github.com/dvajs/dva-cli), checkout how to [Configure it](https://github.com/sorrycc/roadhog/blob/master/README_en-us.md#configuration)
+* If your project is created by [dva-cli](https://github.com/dvajs/dva-cli), checkout how to [Configure it](https://github.com/sorrycc/roadhog#configuration)
 
 Want more?
 

@@ -1,6 +1,6 @@
 # API
 
-[以中文版查看此文](./API_zh-CN.md)
+[以中文版查看此文](https://dvajs.com/api/)
 
 ## Export Files
 ### dva

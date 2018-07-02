@@ -1,6 +1,6 @@
 # Concepts
 
-[以中文版查看此文](./Concepts_zh-CN.md)
+[以中文版查看此文](https://dvajs.com/guide/concepts.html)
 
 ## Data Flow
 
