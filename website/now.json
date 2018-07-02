@@ -1,5 +1,8 @@
 {
   "alias": [
     "dvajs.com"
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
