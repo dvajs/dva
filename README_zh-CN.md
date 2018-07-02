@@ -69,7 +69,7 @@
 * 掌握 dva 的[所有 API](https://dvajs.com/api/)
 * 查看 [dva 知识地图](https://dvajs.com/knowledgemap/) ，包含 ES6, React, dva 等所有基础知识
 * 查看 [更多 FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)，看看别人通常会遇到什么问题
-* 如果你基于 dva-cli 创建项目，最好了解他的 [配置方式](https://github.com/sorrycc/roadhog#配置)
+* 如果你基于 dva-cli 创建项目，最好了解他的 [配置方式](https://github.com/sorrycc/roadhog/blob/master/README_zh-cn.md#配置)
 
 还要了解更多?
 
