@@ -1,0 +1,111 @@
+import {
+  Reducer,
+  AnyAction,
+  ReducersMapObject,
+  Dispatch,
+  MiddlewareAPI,
+  StoreEnhancer
+} from 'redux';
+
+export interface onActionFunc {
+  (api: MiddlewareAPI<any>): void;
+}
+
+export interface ReducerEnhancer {
+  (reducer: Reducer<any>): void;
+}
+
+export interface Hooks {
+  onError?: (e: Error, dispatch: Dispatch<any>) => void;
+  onAction?: onActionFunc | onActionFunc[];
+  onStateChange?: () => void;
+  onReducer?: ReducerEnhancer;
+  onEffect?: () => void;
+  onHmr?: () => void;
+  extraReducers?: ReducersMapObject;
+  extraEnhancers?: StoreEnhancer<any>[];
+}
+
+export type DvaOption = Hooks & {
+  initialState?: Object;
+};
+
+export interface EffectsCommandMap {
+  put: <A extends AnyAction>(action: A) => any;
+  call: Function;
+  select: Function;
+  take: Function;
+  cancel: Function;
+  [key: string]: any;
+}
+
+export type Effect = (action: AnyAction, effects: EffectsCommandMap) => void;
+export type EffectType = 'takeEvery' | 'takeLatest' | 'watcher' | 'throttle';
+export type EffectWithType = [Effect, { type: EffectType }];
+export type ReducersMapObjectWithEnhancer = [
+  ReducersMapObject,
+  ReducerEnhancer
+];
+
+export interface EffectsMapObject {
+  [key: string]: Effect | EffectWithType;
+}
+
+export interface Model {
+  namespace: string;
+  state?: any;
+  reducers?: ReducersMapObject | ReducersMapObjectWithEnhancer;
+  effects?: EffectsMapObject;
+}
+
+export interface DvaInstance {
+  /**
+   * Register an object of hooks on the application.
+   *
+   * @param hooks
+   */
+  use: (hooks: Hooks) => void;
+
+  /**
+   * Register a model.
+   *
+   * @param model
+   */
+  model: (model: Model) => void;
+
+  /**
+   * Unregister a model.
+   *
+   * @param namespace
+   */
+  unmodel: (namespace: string) => void;
+
+  /**
+   * Config router. Takes a function with arguments { history, dispatch },
+   * and expects router config. It use the same api as react-router,
+   * return jsx elements or JavaScript Object for dynamic routing.
+   *
+   * @param router
+   */
+  router: Function;
+
+  /**
+   * Start the application. Selector is optional. If no selector
+   * arguments, it will return a function that return JSX elements.
+   *
+   * @param selector
+   */
+  start: (selector?: HTMLElement | string) => any;
+}
+
+export default function dva(opts?: DvaOption): DvaInstance;
+
+/**
+ * Connects a React component to Dva.
+ */
+export function connect(
+  mapStateToProps?: Function,
+  mapDispatchToProps?: Function,
+  mergeProps?: Function,
+  options?: Object
+): Function;
