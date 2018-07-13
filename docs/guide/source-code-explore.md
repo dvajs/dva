@@ -741,7 +741,7 @@ createPromiseMiddleware 的代码[在此](https://github.com/dvajs/dva/blob/mast
   
     function isEffect(type) {
 		// dva 里 action 的 type 有固定格式： model.namespace/model.effects
-		// const [namespace] = type.split(NAMESPACE_SEP); 是 es6 结构的写法
+		// const [namespace] = type.split(NAMESPACE_SEP); 是 es6 解构的写法
 		// 等同于 const namespace = type.split(NAMESPACE_SEP)[0];
 		// NAMESPACE_SEP 的值是 `/`
     	const [namespace] = type.split(NAMESPACE_SEP);
