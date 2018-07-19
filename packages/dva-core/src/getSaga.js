@@ -99,10 +99,19 @@ function createEffects(model) {
       }`
     );
   }
-  function put(action) {
+  function putAction(action) {
     const { type } = action;
     assertAction(type, 'sagaEffects.put');
     return sagaEffects.put({ ...action, type: prefixType(type, model) });
+  }
+
+  function put(channel, action) {
+    if (arguments.length > 1) {
+      return sagaEffects.put(channel, action);
+    } else {
+      action = channel;
+      return putAction(action);
+    }
   }
 
   // The operator `put` doesn't block waiting the returned promise to resolve.
