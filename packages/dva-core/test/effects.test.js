@@ -1,5 +1,6 @@
 import expect from 'expect';
 import { create } from '../src/index';
+import { channel } from '../saga';
 
 const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
@@ -159,6 +160,79 @@ describe('effects', () => {
     expect(app._store.getState().count).toEqual(-1);
     app._store.dispatch({ type: 'count/test', amount: 1 });
     expect(app._store.getState().count).toEqual(0);
+  });
+
+  it('actionChannel', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        *addDelay({ payload }, { put, call }) {
+          yield call(delay, 100);
+          yield put({ type: 'add', payload });
+        },
+        *watchRequest({}, { put, call, take, actionChannel }) {
+          const chan = yield actionChannel('count/request');
+          while (true) {
+            const { payload } = yield take(chan);
+            yield put({ type: 'addDelay', payload });
+          }
+        },
+      },
+    });
+    app.start();
+    app._store.dispatch({ type: 'count/watchRequest' });
+    app._store.dispatch({ type: 'count/request', payload: 2 });
+    expect(app._store.getState().count).toEqual(0);
+    setTimeout(() => {
+      expect(app._store.getState().count).toEqual(2);
+      done();
+    }, 200);
+  });
+
+  it('put channel', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        *addDelay({ payload }, { put, call }) {
+          yield call(delay, 100);
+          yield put({ type: 'add', payload });
+        },
+        *watchRequest({}, { put, call, take, takeEvery, fork }) {
+          const chan = yield call(channel);
+
+          yield takeEvery(chan, function*({ payload }) {
+            yield put({ type: 'addDelay', payload });
+          });
+
+          while (true) {
+            const { payload } = yield take('count/request');
+            yield put(chan, { payload });
+          }
+        },
+      },
+    });
+    app.start();
+    app._store.dispatch({ type: 'count/watchRequest' });
+    app._store.dispatch({ type: 'count/request', payload: 2 });
+    expect(app._store.getState().count).toEqual(0);
+    setTimeout(() => {
+      expect(app._store.getState().count).toEqual(2);
+      done();
+    }, 200);
   });
 
   it('dispatch action for other models', () => {
