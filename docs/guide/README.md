@@ -27,6 +27,6 @@ dva 首先是一个基于 [redux](https://github.com/reduxjs/redux) 和 [redux-s
 
 > D.Va拥有一部强大的机甲，它具有两台全自动的近距离聚变机炮、可以使机甲飞跃敌人或障碍物的推进器、 还有可以抵御来自正面的远程攻击的防御矩阵。
 
-—— 来自 [守望先锋](http://ow.blizzard.cn/heroes/dva) 。
+—— 来自 [守望先锋](https://ow.blizzard.cn/heroes/overwatch-dva) 。
 
 <img src="https://zos.alipayobjects.com/rmsportal/psagSCVHOKQVqqNjjMdf.jpg" width="200" height="200" />
