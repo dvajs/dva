@@ -101,7 +101,7 @@ app.model({
 
 ## Write components
 
-After designing the model, we begin to write component. We recommend organizing the Component with [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions) because we don't need state almost at all in dva architecture.
+After designing the model, we begin to write the component. We recommend organizing the Component with [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions) because we don't need state almost at all in dva architecture.
 
 ```javascript
 import styles from './index.less';
