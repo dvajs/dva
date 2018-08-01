@@ -206,6 +206,14 @@ persistStore(app._store);
 
 取消 model 注册，清理 reducers, effects 和 subscriptions。subscription 如果没有返回 unlisten 函数，使用 `app.unmodel` 会给予警告⚠️。
 
+### `app.replaceModel(model)`
+
+> 只在app.start()之后可用
+
+替换model为新model，清理旧model的reducers, effects 和 subscriptions，但会保留旧的state状态，对于HMR非常有用。subscription 如果没有返回 unlisten 函数，使用 `app.unmodel` 会给予警告⚠️。 
+
+如果原来不存在相同namespace的model，那么执行`app.model`操作
+
 ### `app.router(({ history, app }) => RouterConfig)`
 
 注册路由表。
