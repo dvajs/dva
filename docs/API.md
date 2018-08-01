@@ -216,7 +216,7 @@ Unregister model.
 
 Replace an existing model with a new one, comparing by the namespace. If no one matches, add the new one. 
 
-After called, old `reducers`, `effects`, `subscription` will be replaced with the new ones, while orginal state will be kept, which means it's useful for HMR.
+After called, old `reducers`, `effects`, `subscription` will be replaced with the new ones, while original state is kept, which means it's useful for HMR.
 
 ### `app.router(({ history, app }) => RouterConfig)`
 
