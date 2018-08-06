@@ -44,6 +44,7 @@
     "dist",
     "fetch.js",
     "index.js",
-    "saga.js"
+    "saga.js",
+    "*.d.ts"
   ]
 }
