@@ -129,7 +129,7 @@ function createEffects(model) {
         type.map(t => {
           if (typeof t === 'string') {
             assertAction(t, 'sagaEffects.take');
-            return prefixType(type, model);
+            return prefixType(t, model);
           }
           return t;
         })
