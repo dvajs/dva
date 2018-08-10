@@ -125,6 +125,7 @@ describe('effects', () => {
 
   it('take with array of actions', () => {
     const app = create();
+    let takenCount = 0;
     app.model({
       namespace: 'count',
       state: null,
@@ -151,6 +152,7 @@ describe('effects', () => {
         *test(action, { put, take }) {
           yield put({ type: 'add', amount: action.amount });
           yield take(['addSuccess', 'addFailure']);
+          takenCount += 1;
         },
       },
     });
@@ -159,6 +161,7 @@ describe('effects', () => {
     expect(app._store.getState().count).toEqual(-1);
     app._store.dispatch({ type: 'count/test', amount: 1 });
     expect(app._store.getState().count).toEqual(0);
+    expect(takenCount).toEqual(2);
   });
 
   it('dispatch action for other models', () => {
@@ -514,7 +517,6 @@ describe('effects', () => {
     expect(p2).toEqual({ type: 'count/add', payload: 2 });
     expect(app._store.getState().count).toEqual(2);
     p1.then(count => {
-      console.log('test', count);
       expect(count).toEqual(4);
       expect(app._store.getState().count).toEqual(4);
       done();
