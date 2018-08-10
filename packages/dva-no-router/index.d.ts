@@ -7,55 +7,75 @@ import {
   StoreEnhancer
 } from 'redux';
 
+import { History } from "history";
+
 export interface onActionFunc {
-  (api: MiddlewareAPI<any>): void;
+  (api: MiddlewareAPI<any>): void,
 }
 
 export interface ReducerEnhancer {
-  (reducer: Reducer<any>): void;
+  (reducer: Reducer<any>): void,
 }
 
 export interface Hooks {
-  onError?: (e: Error, dispatch: Dispatch<any>) => void;
-  onAction?: onActionFunc | onActionFunc[];
-  onStateChange?: () => void;
-  onReducer?: ReducerEnhancer;
-  onEffect?: () => void;
-  onHmr?: () => void;
-  extraReducers?: ReducersMapObject;
-  extraEnhancers?: StoreEnhancer<any>[];
+  onError?: (e: Error, dispatch: Dispatch<any>) => void,
+  onAction?: onActionFunc | onActionFunc[],
+  onStateChange?: () => void,
+  onReducer?: ReducerEnhancer,
+  onEffect?: () => void,
+  onHmr?: () => void,
+  extraReducers?: ReducersMapObject,
+  extraEnhancers?: StoreEnhancer<any>[],
 }
 
 export type DvaOption = Hooks & {
-  initialState?: Object;
-};
+  initialState?: Object,
+  history?: Object,
+}
 
 export interface EffectsCommandMap {
-  put: <A extends AnyAction>(action: A) => any;
-  call: Function;
-  select: Function;
-  take: Function;
-  cancel: Function;
-  [key: string]: any;
+  put: <A extends AnyAction>(action: A) => any,
+  call: Function,
+  select: Function,
+  take: Function,
+  cancel: Function,
+  [key: string]: any,
 }
 
 export type Effect = (action: AnyAction, effects: EffectsCommandMap) => void;
 export type EffectType = 'takeEvery' | 'takeLatest' | 'watcher' | 'throttle';
-export type EffectWithType = [Effect, { type: EffectType }];
-export type ReducersMapObjectWithEnhancer = [
-  ReducersMapObject,
-  ReducerEnhancer
-];
+export type EffectWithType = [Effect, { type : EffectType }];
+export type Subscription = (api: SubscriptionAPI, done: Function) => void;
+export type ReducersMapObjectWithEnhancer = [ReducersMapObject, ReducerEnhancer];
 
 export interface EffectsMapObject {
-  [key: string]: Effect | EffectWithType;
+  [key: string]: Effect | EffectWithType,
+}
+
+export interface SubscriptionAPI {
+  history: History,
+  dispatch: Dispatch<any>,
+}
+
+export interface SubscriptionsMapObject {
+  [key: string]: Subscription,
 }
 
 export interface Model {
-  namespace: string;
-  state?: any;
-  reducers?: ReducersMapObject | ReducersMapObjectWithEnhancer;
-  effects?: EffectsMapObject;
+  namespace: string,
+  state?: any,
+  reducers?: ReducersMapObject | ReducersMapObjectWithEnhancer,
+  effects?: EffectsMapObject,
+  subscriptions?: SubscriptionsMapObject,
+}
+
+export interface RouterAPI {
+  history: History,
+  app: DvaInstance,
+}
+
+export interface Router {
+  (api?: RouterAPI): JSX.Element | Object,
 }
 
 export interface DvaInstance {
@@ -64,21 +84,21 @@ export interface DvaInstance {
    *
    * @param hooks
    */
-  use: (hooks: Hooks) => void;
+  use: (hooks: Hooks) => void,
 
   /**
    * Register a model.
    *
    * @param model
    */
-  model: (model: Model) => void;
+  model: (model: Model) => void,
 
   /**
    * Unregister a model.
    *
    * @param namespace
    */
-  unmodel: (namespace: string) => void;
+  unmodel: (namespace: string) => void,
 
   /**
    * Config router. Takes a function with arguments { history, dispatch },
@@ -87,7 +107,7 @@ export interface DvaInstance {
    *
    * @param router
    */
-  router: Function;
+  router: (router: Router) => void,
 
   /**
    * Start the application. Selector is optional. If no selector
@@ -95,7 +115,7 @@ export interface DvaInstance {
    *
    * @param selector
    */
-  start: (selector?: HTMLElement | string) => any;
+  start: (selector?: HTMLElement | string) => any,
 }
 
 export default function dva(opts?: DvaOption): DvaInstance;
