@@ -27,7 +27,9 @@ const browserBabelConfig = {
     [
       require.resolve('@babel/preset-env'),
       {
-        browsers: ['last 2 versions', 'IE 10'],
+        targets: {
+          browsers: ['last 2 versions', 'IE 10'],
+        },
         modules: process.env.ES ? false : 'commonjs',
       },
     ],
