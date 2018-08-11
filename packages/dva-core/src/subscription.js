@@ -8,11 +8,12 @@ export function run(subs, model, app, onError) {
   for (const key in subs) {
     if (Object.prototype.hasOwnProperty.call(subs, key)) {
       const sub = subs[key];
-      const unlistener = sub({
+      const subs = isPlainObject(app._subscriptions) ? app._subscriptions : {}
+      const listeners = Object.assign({
         dispatch: prefixedDispatch(app._store.dispatch, model),
         history: app._history,
-        ...(isPlainObject(app._subscriptions) ? app._subscriptions : {})
-      }, onError);
+      }, subs)
+      const unlistener = sub(listeners), onError);
       if (isFunction(unlistener)) {
         funcs.push(unlistener);
       } else {
