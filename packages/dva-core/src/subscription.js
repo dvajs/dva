@@ -1,5 +1,5 @@
 import warning from 'warning';
-import { isFunction } from './utils';
+import { isPlainObject, isFunction } from './utils';
 import prefixedDispatch from './prefixedDispatch';
 
 export function run(subs, model, app, onError) {
@@ -11,6 +11,7 @@ export function run(subs, model, app, onError) {
       const unlistener = sub({
         dispatch: prefixedDispatch(app._store.dispatch, model),
         history: app._history,
+        ...(isPlainObject(app._subscriptions) ? app._subscriptions : {})
       }, onError);
       if (isFunction(unlistener)) {
         funcs.push(unlistener);
