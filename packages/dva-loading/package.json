@@ -16,10 +16,11 @@
   "license": "MIT",
   "main": "lib/index.js",
   "devDependencies": {
-    "dva": "^2.4.0"
+    "dva": "^2.4.0",
+    "dva-core": "^1.4.0"
   },
   "peerDependencies": {
-    "dva": "^2.0.4"
+    "dva-core": "^1.1.0"
   },
   "files": [
     "lib",
