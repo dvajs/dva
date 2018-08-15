@@ -138,7 +138,15 @@ function createEffects(model) {
       return sagaEffects.take(type);
     }
   }
-  return { ...sagaEffects, put, take };
+
+  function select(func) {
+    function selectFunc(state) {
+      return func(state, model.namespace);
+    }
+    return sagaEffects.select(selectFunc);
+  }
+
+  return { ...sagaEffects, put, take, select };
 }
 
 function applyOnEffect(fns, effect, model, key) {
