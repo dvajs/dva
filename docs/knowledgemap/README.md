@@ -593,6 +593,12 @@ const result = yield call(fetch, '/todos');
 const todos = yield select(state => state.todos);
 ```
 
+也可以方便的取出当前model内的state
+
+```javascript
+const todos = yield select((state, modelName) => state[modelName]);
+```
+
 ### 错误处理
 
 #### 全局错误处理
