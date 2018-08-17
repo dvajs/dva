@@ -164,6 +164,59 @@ describe('effects', () => {
     expect(takenCount).toEqual(2);
   });
 
+  it('selectState', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        *test(action, { put, selectState }) {
+          yield put({ type: 'add', payload: 2 });
+          const count = yield selectState(state => state);
+          expect(count).toEqual(2);
+          done();
+        },
+      },
+    });
+    app.start();
+    app._store.dispatch({ type: 'count/test' });
+  });
+
+  it('selectState with args', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: {
+        counter: 0,
+      },
+      reducers: {
+        add(state, { payload }) {
+          return {
+            counter: state.counter + payload || 1,
+          };
+        },
+      },
+      effects: {
+        *test(action, { put, selectState }) {
+          yield put({ type: 'add', payload: 1 });
+          const counter = yield selectState(
+            (state, name) => state[name],
+            'counter'
+          );
+          expect(counter).toEqual(1);
+          done();
+        },
+      },
+    });
+    app.start();
+    app._store.dispatch({ type: 'count/test' });
+  });
+
   it('dispatch action for other models', () => {
     const app = create();
     app.model({

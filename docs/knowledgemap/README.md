@@ -587,16 +587,18 @@ const result = yield call(fetch, '/todos');
 
 #### select
 
-用于从 state 里获取数据。
+用于从 store 里获取数据。
 
 ```javascript
-const todos = yield select(state => state.todos);
+const todos = yield select(store => store.todos);
 ```
 
-也可以方便的取出当前model内的state
+#### selectState
+
+取出当前model内的state
 
 ```javascript
-const todos = yield select((state, modelName) => state[modelName]);
+const todos = yield selectState((state) => state);
 ```
 
 ### 错误处理

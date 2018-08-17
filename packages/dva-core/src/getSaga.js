@@ -139,14 +139,13 @@ function createEffects(model) {
     }
   }
 
-  function select(func) {
-    function selectFunc(state) {
-      return func(state, model.namespace);
-    }
-    return sagaEffects.select(selectFunc);
+  function selectState(selector, ...args) {
+    return sagaEffects.select(store =>
+      selector(store[model.namespace], ...args)
+    );
   }
 
-  return { ...sagaEffects, put, take, select };
+  return { ...sagaEffects, put, take, selectState };
 }
 
 function applyOnEffect(fns, effect, model, key) {
