@@ -85,7 +85,7 @@ ReactDOM.render(<Father/>, mountNode);
 
 目前流行的数据流方案有：
 
-* Flux，单项数据流方案，以 [Redux](https://github.com/reactjs/redux) 为代表
+* Flux，单向数据流方案，以 [Redux](https://github.com/reactjs/redux) 为代表
 * Reactive，响应式数据流方案，以 [Mobx](https://github.com/mobxjs/mobx) 为代表
 * 其他，比如 rxjs 等
 
