@@ -1,24 +1,24 @@
 ---
 home: true
-actionText: 快速上手 →
+actionText: Quickstart →
 actionLink: /guide/
 features:
-- title: 易学易用
-  details: 仅有 6 个 api，对 redux 用户尤其友好，配合 umi 使用后更是降低为 0 API
-- title: elm 概念
-  details: 通过 reducers, effects 和 subscriptions 组织 model，简化 redux 和 redux-saga 引入的概念
-- title: 插件机制
-  details: 比如 dva-loading 可以自动处理 loading 状态，不用一遍遍地写 showLoading 和 hideLoading
+- title: Easy to learn and use
+  details: only 6 APIs, especially friendly to redux users. When using with umi, is reduced to 0 API
+- title: elm concept
+  details: organize models via reducers, effects and subscriptions
+- title: Plugin
+  details: plugins such as dva-loading can automatically handle the loading state without writing showLoading and hideLoading over and over again
 footer: MIT Licensed | Copyright © 2017-present
 ---
 
-### 社区
+### Community
 
-#### 微信群
+#### WeChat Group
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/QwuMhmBXFuAqYvzktiGk.png" width="60" />
 
-注：群满 100 人后，可加 `sorryccpro` 备注 `dva` 邀请加入。
+Note: After the group of 100 people, you can add `sorryccpro` remarks `dva` to invite to join.
 
 #### Telegram
 

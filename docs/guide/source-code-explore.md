@@ -4,13 +4,13 @@
 
 ## Hide the secret in package.json
 
-Any dva project, just type npm start and you can run it. I haven't cared about it many times before, until I was ready to study the source code: ** What happened when I knocked on this line of commands? **
+With any dva project, just type `npm start` and you can run it. I haven't cared about it much before, until I was ready to study the source code: **What happened when I knocked on this line of commands?**
 
-The answer is to go to package.json to find it.
+The answer is to go to `package.json` to find it.
 
-> There is a technology big cow once told me: before looking at the source code, go to package.json. Looking at the project's entry file, flipping through the dependencies it uses, has a rough idea of ​​the project.
+> A technology big shot once told me: before looking at the source code, go to `package.json`. Looking at the project's entry file, flipping through the dependencies it uses, will give you a rough overview of ​​the project.
 
-This is written in package.json:
+This is written in `package.json`:
 
 ```json
  "scripts": {
@@ -21,9 +21,9 @@ This is written in package.json:
 Turn over dependencies, `"roadhog": "^0.5.2"`.
 
 
-Since it can be found in devDependencies, it can certainly be found at [npm](https://www.npmjs.com/package/roadhog). It turned out to be a library similar to webpack, and the author looked a bit familiar...
+Since it can be found in `devDependencies`, it can certainly be found at [npm](https://www.npmjs.com/package/roadhog). It turned out to be a library similar to webpack, and the author looked a bit familiar...
 
-If dva is a pro-daughter, then [roadhog](https://github.com/sorrycc/roadhog.git) is a brother, and it is the role of webpack auto-packaging and hot-swapping.
+If dva is a pro-daughter, then [roadhog](https://github.com/sorrycc/roadhog.git) is a brother, and it plays the role of webpack auto-packaging and hot-swapping.
 
 There is such a message in the default configuration of roadhog:
 
@@ -37,7 +37,7 @@ After a round turn, the boot entry returned to `src/index.js`.
 
 ## `src/index.js`
 
-In `src/index.js`, dva has done a few things together:
+In `src/index.js`, dva has done a few things:
 
 0. Introducing dva from the 'dva' dependency: `import dva from 'dva'`;
 
@@ -49,9 +49,9 @@ In `src/index.js`, dva has done a few things together:
 
 4. Add route: `app.router(require('./routes/indexAnother'))`;
 
-5. Start: app.start('#root');
+5. Start: `app.start('#root')`;
 
-In these 6 steps, dva completed the main functions of `Resolving view layer`, `redux management model`, `saga solving asynchronous`. In fact, when I looked up the data and recalled the used scaffolding, I found that the current end frame is called the "framework" to solve these things. What the front-end engineers have done so far is to separate the dynamic data and the static view **, but the focus and implementation are different.
+In these 6 steps, dva completed the main functions of `resolving view layer`, `redux management model`, `saga asynchronous processing`. In fact, when I looked up the data and recalled the used scaffolding, I found that the current end frame is called a "framework" precisely to solve these things. What the front-end engineers have done so far is to separate the dynamic data and the static view, but the focus and implementation are different.
 
 So far, there have been so many frameworks, but the idea of ​​front-end MVX has not changed.
 
@@ -59,15 +59,15 @@ So far, there have been so many frameworks, but the idea of ​​front-end MVX 
 
 ## Looking for "dva"
 
-Since dva is from `dva`, what is the problem with dva is naturally going to be found in dva's [source code](https://github.com/dvajs/dva).
+Since dva is from `dva`, what dva is will naturally be found in dva's [source code](https://github.com/dvajs/dva).
 
-> Spoiler: dva is a function that returns an object of app.
+> Spoiler: dva is a function that returns an app object.
 
-> Spoiler 2: Currently the core part of dva's source code consists of two parts, `dva` and `dva-core`. The former implements the view layer with the high-level component React-redux, which solves the model layer with redux-saga.
+> Spoiler 2: Currently the core part of dva's source code consists of two parts, `dva` and `dva-core`. The former implements the view layer with the high-level component react-redux, which solves the model layer with redux-saga.
 
-Old rules, or first turn package.json.
+Old rules, or first turn `package.json`.
 
-The reference dependency is a good illustration of the power of dva: unifying the view layer.
+The dependencies list is a good illustration of the power of dva: unifying the view layer.
 
 ```json
 // The dependencies dva uses are as follows:
@@ -104,20 +104,20 @@ Obviously this `exports.default` is the dva we are looking for, but there is no 
 
 Here, dva did three more important things:
 
-1. Use the call to the dva-core instantiated app (this time only the data layer) to add some new functionality to the start method (or add the view layer to the model layer via proxy mode).
+1. Use the call to the dva-core instantiated app (this time, only the data layer) to add some new functionality to the start method (or add the view layer to the model layer via proxy mode).
 2. Complete the connection from react to redux using react-redux.
 3. Added redux middleware react-redux-router to enhance the function of the history object.
 
-### Using the call method to implement proxy mode
+### Using The call Method to Implement Proxy Mode
 
 The way to implement proxy mode in dva is as follows:
 
-**1. Create a new function that instantiates an app object inside the function. **
-**2. The new variable points to the method that the object wants to proxy, `oldStart = app.start`. **
-**3. Create a new method start with the same name, use call in it, and specify the caller of oldStart as app. **
-**4. Let app.start = start complete the proxy for the app object's start method. **
+1. Create a new function that instantiates an app object inside the function.
+2. The new variable points to the method that the object wants to proxy, `oldStart = app.start`.
+3. Create a new method start with the same name, use `call` in it, and specify the caller of `oldStart` as app.
+4. Let `app.start = start` complete the proxy for the app object's start method.
 
-On the code:
+In code:
 
 ```js
 export default function(opts = {}) {
@@ -164,19 +164,19 @@ export default function(opts = {}) {
 }
 ```  
 
-> Why not directly in the start mode oldAppStart ?
-- Since dva-core's start method is useful for this, without call to specify the caller to be app, oldAppStart() will find the wrong object.
+> Why not directly in the start mode `oldAppStart` ?
+- Since dva-core's start method is useful for this, without `call` to specify the caller to be app, `oldAppStart()` will find the wrong object.
 
-> Must I use call to implement proxy mode?
-- Not necessarily, see if there is a function that uses this or the proxy is not an arrow function. On the other hand, if you use the function keyword and internally use this, be sure to specify this with call/apply/bind.
+> Must I use `call` to implement proxy mode?
+- Not necessarily, see if there is a function that uses this or the proxy is not an arrow function. On the other hand, if you use the `function` keyword and internally use `this`, be sure to specify `this` with `call/apply/bind`.
 
 > Where will the call be used in the front end?
-- As far as actual development is concerned, because the es6 standard has already been used, there is basically no chance to deal with this. This.xxx.bind(this) is occasionally used in components of class type, and the stateless component washes and sleeps (because there is no such thing). If you implement a proxy, you can use inheritance/reverse inheritance methods -- such as high-level components.
+- As far as actual development is concerned, because the es6 standard has already been used, there is basically no chance to deal with this. `this.xxx.bin(this)` is occasionally used in components of `class` type, and the stateless component washes and sleeps (because there is no such thing). If you implement a proxy, you can use inheritance/reverse inheritance methods -- such as high-level components.
 
 
-### Use the high-level component of react-redux to pass the store
+### Use The High-Level Component of react-redux to Pass The Store
 
-The main function of the start method after the call proxy is to use the provider component of react-redux to associate the data with the view and generate a React element for presentation to the user.
+The main function of the `start` method after the call proxy is to use the provider component of `react-redux` to associate the data with the view and generate a React element for presentation to the user.
 
 Not much to say, on the code.
 
@@ -227,28 +227,28 @@ function render(container, store, app, router) {
 }
 ```
 
-> React.createElement(getProvider(store, app, router)) How to understand?
-- The getProvider actually returns not just a function, but a stateless React component. From this perspective, ReactElement.createElement(string/ReactClass type,[object props],[children ...]) can be written like this.
+> How do you understand `React.createElement(getProvider(store, app, router))` ?
+- The getProvider actually returns not just a function, but a stateless React component. From this perspective, `ReactElement.createElement(string/ReactClass type,[object props],[children ...])` can be written like this.
 
 > How do you understand React's stateless components and class components?
 - you guess?
 ```
 JavaScript does not have a class thing, even if es6 is introduced later, it will be converted into a function after babel compilation. Therefore, the use of stateless components directly, eliminating the need to instantiate the class and then call the render function, effectively speed up the rendering.
 
-Even for the class component, React.createElement eventually calls the render function. However, this is only my inference at present, and there is no proof of code evidence.
+Even for the class component, React.createElement eventually calls the `render` function. However, this is only my inference at present, and there is no proof or code evidence.
 ```
 
 #### react-redux and provider
 
 > What is the provider?
 
-Essentially a high-level component, it is also a practical way of proxy mode. After receiving the store generated by redux as a parameter, the store is passed into the proxy component through the context context. While retaining the functionality of the original component, it adds methods such as store dispatch.
+Essentially a high-level component, it is also a practical way of proxy mode. After receiving the store generated by redux as a parameter, the store is passed into the proxy component through the context context. While retaining the functionality of the original component, it adds methods such as store `dispatch`.
 
 > What is connect?
 
-Connect is also a high-level component of the proxy mode implementation, which implements the method of getting the store from the context for the delegated component.
+`connect` is also a high-level component of the proxy mode implementation, which implements the method of getting the store from the context for the delegated component.
 
-What happened when > connect()(MyComponent)?
+What happens when > `connect()(MyComponent)`?
 
 Only put the key part of the code, because I only understand the key part (face running):
 
@@ -315,11 +315,11 @@ export default function connectAdvanced() {
 
 
 ```
-Conclusion: For connect()(MyComponent)
+Conclusion: For `connect()(MyComponent)`
 
 1. connect is generated when connect is connected with the number 0 connect
 2. connect() No. 0 connect is called, returning the call #connectHOC()` of the 1st connect, and generating the 2nd connect (also a function).
-3. connect()(MyComponent) is equivalent to connect2(MyComponent), the return value is a new component
+3. `connect()(MyComponent)` is equivalent to `connect2(MyComponent)`, the return value is a new component
 
 
 ### redux and router
@@ -330,7 +330,7 @@ Then there is `react-router-redux`.
 
 `react-router-redux` is a middleware for redux (middleware: another practice of the JavaScript proxy pattern for agents that implement methods for dispatch, added or modified during dispatch action), the main functions are:
 
-> Enhanced the instance of history in the React Router library to allow changes in the history to be reflected in stae.
+> Enhanced the instance of history in the React Router library to allow changes in the history to be reflected in state.
 
 [github here](https://github.com/reactjs/react-router-redux)
 
@@ -343,9 +343,9 @@ Listen for router changes in subscriptions.
 
 Take a look at the implementation of the router in `index.js`:
 
-1. Initialize the method of adding react-router-redux middleware and reducer in createOpts, which is convenient for dva-core to call directly when creating store.
+1. Initialize the method of adding react-router-redux middleware and reducer in `createOpts`, which is convenient for dva-core to call directly when creating store.
 
-2. Use the patchHistory function to delegate history.linsten, adding a parameter to the callback function (that is, subscription).
+2. Use the `patchHistory` function to delegate `history.listen`, adding a parameter to the callback function (that is, subscription).
 
 > The things in subscriptions can be placed in dva-core.
 
@@ -423,19 +423,7 @@ const store = createStore(
 );
 ```
 
-## 视图与数据(上)
-
-`src/index.js` 主要实现了 dva 的 view 层，同时传递了一些初始化数据到 dva-core 所实现的 model 层。当然，还提供了一些 dva 中常用的方法函数：
-
-- `dynamic` 动态加载(2.0 以后官方提供 1.x 自己手动实现吧)
-- `fetch` 请求方法(其实 dva 只是做了一把搬运工)
-- `saga`(数据层处理异步的方法)。
-
-这么看 dva 真的是很薄的一层封装。
-
-而 dva-core 主要解决了 model 的问题，包括 state 管理、数据的异步加载、订阅-发布模式的实现，可以作为数据层在别处使用(看 2.0 更新也确实是作者的意图)。使用的状体啊管理库还是 redux，异步加载的解决方案是 saga。当然，一切也都写在 index.js 和 package.json 里。
-
-## Views and data (on)
+## Views and data (Above)
 
 `src/index.js` mainly implements the view layer of dva, and passes some initialization data to the model layer implemented by dva-core. Of course, some method functions commonly used in dva are also provided:
 
@@ -445,9 +433,9 @@ const store = createStore(
 
 So dva is really a very thin layer of packaging.
 
-Dva-core mainly solves the problem of model, including state management, asynchronous loading of data, and implementation of subscription-publishing mode, which can be used as a data layer elsewhere (see 2.0 update is indeed the author's intention). The management of the genre is still redux, the solution for asynchronous loading is saga. Of course, everything is written in index.js and package.json .
+Dva-core mainly solves the problem of model, including state management, asynchronous loading of data, and implementation of subscription-publishing mode, which can be used as a data layer elsewhere (see 2.0 update is indeed the author's intention). The management of the genre is still redux, the solution for asynchronous loading is saga. Of course, everything is written in `index.js` and `package.json`.
 
-## Views and data (below)
+## Views and Data (Below)
 
 There are many ways to deal with React's model layer. For example, state management does not have to use Redux, or you can use Mobx (writes will have a more MVX framework); asynchronous data streams may not use redux-saga, redux-thunk or The redux-promise solution is also available (although saga is currently relatively more elegant).
 
@@ -523,13 +511,13 @@ functoin start(){
 
 > I wasn't used to JavaScript at first because JavaScript is still a function-oriented programming language, that is, functions can be defined in functions, return values ​​can also be functions, and class is finally interpreted as a function. The app object is created in dva-core, but the definitions of model and start are placed behind. I didn't understand this shorthand at first, but later I became familiar with it and found it really understandable. You can see the methods included in the app at a glance, and you need to look backwards if you need to study the specific methods.
 
-[Plugin](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/Plugin.js) is a bunch of ** hook ** listener functions set by the author - that is Manually invoked (dva author) if certain conditions are met. In this way, the user simply passes the callback function according to the keyword set by the author, and will automatically trigger under these conditions.
+[Plugin](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/Plugin.js) is a bunch of **hook** listener functions set by the author - that is manually invoked (dva author) if certain conditions are met. In this way, the user simply passes the callback function according to the keyword set by the author, and will automatically trigger under these conditions.
 
-> Interestingly, I originally understood the concept of ** hook ** in Angular. In order to control the lifecycle of components as elegantly as React, Angular sets up a bunch of interfaces (because of the use of ts, there is a distinction between classes and interfaces in Angular). As long as the component implements the corresponding interface -- or the lifecycle hook -- the interface method is run under the corresponding conditions.
+> Interestingly, I originally understood the concept of **hook** in Angular. In order to control the lifecycle of components as elegantly as React, Angular sets up a bunch of interfaces (because of the use of ts, there is a distinction between classes and interfaces in Angular). As long as the component implements the corresponding interface -- or the lifecycle hook -- the interface method is run under the corresponding conditions.
 
 #### Plugin and plugin.use
 
-Both Plugin and plugin.use have the behavior of using the reduce method of an array:
+Both `Plugin` and `plugin.use` have the behavior of using the reduce method of an array:
 ```js
 const hooks = [
   'onError',
@@ -597,7 +585,7 @@ extraEnhancers: []
 
 - ````` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
 
-## model方法
+## model Method
 
 `model` is the method by which the app adds the model. This is used in the index.js of the **dva project**.
 
@@ -621,9 +609,9 @@ There is no processing on the model in `dva`, so the model in `dva-core` is the 
 
 > Ever wonder why we dispatch the action like this in dva ? `dispatch({type: 'example/loadDashboard'`
 
-## start method
+## start Method
 
-The `start` method is the core of `dva-core`. In the `start` method, dva completes the ** `store` initialization** and the **`redux-saga` call**. It introduces more calls than `dva`'s `start`.
+The `start` method is the core of `dva-core`. In the `start` method, dva completes the **`store` initialization** and the **`redux-saga` call**. It introduces more calls than `dva`'s `start`.
 
 Step by step analysis:
 
@@ -727,13 +715,13 @@ So what is sagas?
     }
 ```
 
-Obviously, sagas is an array, the elements inside are returned by `app._getSaga`, and `app._getSaga` has a lot to do with the object returned by the createPromiseMiddleware proxy app above.
+Obviously, sagas is an array, the elements inside are returned by `app._getSaga`, and `app._getSaga` has a lot to do with the object returned by the `createPromiseMiddleware` proxy app above.
 
 #### `createPromiseMiddleware`
 
-The code for createPromiseMiddleware [here](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/createPromiseMiddleware.js).
+The code for `createPromiseMiddleware` [here](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/createPromiseMiddleware.js).
 
-If you look familiar, it is certainly not because of the redux-promise source code, :-p.
+If it looks familiar, it is certainly not because of the redux-promise source code, :-p.
 
 ##### `middleware`
 
@@ -772,13 +760,13 @@ If you look familiar, it is certainly not because of the redux-promise source co
 
 > const middleware = ({dispatch}) => next => (action) => {... return next(action)} is basically a standard middleware. You can do a variety of actions on the action before return next(action) . Because this middleware does not use the dispatch method, it is omitted.
 
-The meaning of this code is that if the dispatch action points to the effects in the model, then a Promise object is returned. The resolve or reject method for this Promise object is placed in the map object. If it is non-effects (that is action), release it.
+The meaning of this code is that if the dispatch action points to the effects in the model, then a Promise object is returned. The `resolve` or `reject` method for this `Promise` object is placed in the `map` object. If it is non-effects (that is action), release it.
 
 In other words, middleware intercepts actions that point to effects.
 
 ##### Magic bind
 
-The role of bind is to bind new objects, and to generate new functions is everyone knows the concept. But bind can also set some parameters of the function in advance to generate a new function, and wait until the last parameter is determined.
+The role of `bind` is to bind new objects, and to generate new functions is everyone knows the concept. But `bind` can also set some parameters of the function in advance to generate a new function, and wait until the last parameter is determined.
 
 > How are JavaScript parameters called? [JavaScript special function Curry](https://juejin.im/post/598d0b7ff265da3e1727c491). Author: [Hu Yu](https://juejin.im/user/58e4b9b261ff4b006b3227f4). Article source: [Nuggets](https://juejin.im/timeline)
 
@@ -826,13 +814,13 @@ Analyze this code, dva does this:
 
 1. Generate a new function via `wrapped.bind(null, type, resolve)` and assign it to the resolve property of the anonymous object (reject).
 
-> 1.1 wrap Receives three parameters, which have been set by bind. `wrapped.bind(null, type, resolve)` is equivalent to `wrap(type, resolve, xxx)` (** where `resolve` is the ** in the Promise object).
+> 1.1 wrap Receives three parameters, which have been set by bind. `wrapped.bind(null, type, resolve)` is equivalent to `wrap(type, resolve, xxx)` (**where `resolve` is the** in the Promise object).
 
 > 1.2 After bind is assigned to the resolve attribute of an anonymous object, the anonymous object .resolve(xxxx) is equivalent to wrap(type, resolve, xxx), ie reslove(xxx).
 
-2. Use type to save this anonymous object in the map object, and type is the type of action, which is the form of namespace/effects, which is convenient to call later.
+2. Use type to save this anonymous object in the `map` object, and type is the type of action, which is the form of namespace/effects, which is convenient to call later.
 
-3. The return of the resolve receives two arguments of type and args. Type is used to find 1 anonymous function in map, args is used to execute as in 1.2.
+3. The return of the `resolve` receives two arguments of type and `args`. Type is used to find 1 anonymous function in `map`, `args` is used to execute as in 1.2.
 
 > The effect of this is to separate the execution of promises and promises. The internal variables of the function can still be accessed outside the scope of the function, in other words: closures.
 
@@ -863,7 +851,7 @@ export default function getSaga(resolve, reject, effects, model, onError, onEffe
 ```
 As you can see, `getSaga` eventually returns a [generator function](http://www.ruanyifeng.com/blog/2015/04/generator.html).
 
-This function traverses all the methods of the effects property** in the ** model (note: the same is the generator function). Combine ` for (const m of app._models)` in `index.js`, which is for all models.
+This function traverses all the methods of the effects property **in the** model (note: the same is the generator function). Combine ` for (const m of app._models)` in `index.js`, which is for all models.
 
 For each effect, getSaga generates a watcher and uses the **fork** of the saga function to split the function into a separate thread (generating a task object). At the same time, in order to facilitate the control of this thread, there is a generator function here. In this function, the action that cancels the effect is intercepted (in fact, it should be the action of the model in which the effect is unloaded), and once it is intercepted, the task thread that was split is immediately cancelled.
 
@@ -957,7 +945,7 @@ According to the execution of `const sagaWithOnEffect = applyOnEffect(onEffect, 
 
 ```
 
-In the `sagaWithOnEffect` function, sagas uses the passed argument (that is, action) to execute the corresponding effect method in the corresponding model, and returns the return value using the resolve stored in the map before returning its return value. At the same time, when executing the effect method, all the methods of saga itself (put, call, fork, etc.) are used as the second parameter, and the `concat` is used to splicing behind the action. Before the effect method is executed, two actions, start and end, are issued to facilitate the interception and invocation of the onEffect plugin.
+In the `sagaWithOnEffect` function, sagas uses the passed argument (that is, action) to execute the corresponding effect method in the corresponding model, and returns the return value using the `resolve` stored in the map before returning its return value. At the same time, when executing the `effect` method, all the methods of saga itself (put, call, fork, etc.) are used as the second parameter, and the `concat` is used to splicing behind the action. Before the `effect` method is executed, two actions, `start` and `end`, are issued to facilitate the interception and invocation of the `onEffect` plugin.
 
 So for `if (m.effects) sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));`.
 
@@ -965,13 +953,13 @@ So for `if (m.effects) sagas.push(app._getSaga(m.effects, m, onError, plugin.get
 2. Manually fork out the listener thread of a watcher function in the genenrator function (of course, fork cancels the function of the thread).
 3. The function (in the normal state) is a takeEvery block that is a thread that receives 2 arguments. The first parameter is the action of the listener, and the second parameter is the callback function after the action is listened to.
 4. The callback function (in the normal state) is a function that manually calls the corresponding attribute in the effects in the model. The actions of `start` and `end` were issued after this, and the resolve method saved in the map with the previous promise middleware returned the value.
-5. Finally, watcher's listener is started using sagas.forEach(sagaMiddleware.run).
+5. Finally, watcher's listener is started using `sagas.forEach(sagaMiddleware.run)`.
 
 ### store
 
 Now that you have a solution for asynchronous data streams, it's time to create a store.
 
-The normal redux createStore receives three parameters reducer, initState, applyMiddleware(middlewares).
+The normal redux `createStore` receives three parameters `reducer`, `initState`, `applyMiddleware(middlewares`).
 
 However, dva provides its own `createStore` method to organize a series of parameters that you create yourself.
 ```js
@@ -1014,16 +1002,16 @@ function getOnReducer(hook) {
 
 > If there is a plugin for onReducer, expand reducer with the reducer's plugin; otherwise return directly to reducer.
 
-In combineReducers:
-- The first `...reducers` is the historyReducer passed in from dva and the reducer in the model stripped out by ` reducers[m.namespace] = getReducer(m.reducers, m.state);
-- The second parameter is the extraReducers added manually in the plugin;
+In `combineReducers`:
+- The first `...reducers` is the `historyReducer` passed in from dva and the reducer in the model stripped out by `reducers[m.namespace] = getReducer(m.reducers, m.state);`
+- The second parameter is the `extraReducers` added manually in the plugin;
 - The third parameter is the asynchronous reducer, which is mainly used to dynamically load the reducer in the model after dva runs.
 
 
 #### createStore
 
 
-Now that we have a combine reducer, with sagaMiddleware and promiseMiddleware created in core, and createOpts passed in from dva, we can now officially create the store.
+Now that we have a combine reducer, with sagaMiddleware and `promiseMiddleware` created in core, and createOpts passed in from dva, we can now officially create the store.
 
 > The createOpts passed in from dva is
 ```js
@@ -1112,12 +1100,12 @@ The state, effect, and reducer in the model have been implemented, and the last 
     }
 ```
 
-setupApp(app) is passed from dva. It mainly uses the patchHistory function to proxy history.linsten, which strengthens the connection between redux and router. The path change can cause the state to change, and then listen to the change of the listen state to trigger. Callback.
+`setupApp(app)` is passed from dva. It mainly uses the patchHistory function to proxy `history.listen`, which strengthens the connection between redux and router. The path change can cause the state to change, and then listen to the change of the listen state to trigger Callback.
 > This is also the only place in the core that uses this , which forces the dva to be called with oldStart.call(app) .
 
 #### runSubscription
 
-This is the code for runSubscription
+This is the code for `runSubscription`
 
 ```js
 export function run(subs, model, app, onError) {

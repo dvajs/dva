@@ -156,7 +156,7 @@ const app = dva({
     return (state, action) => {
       const undoOpts = {};
       const newState = undoable(reducer, undoOpts)(state, action);
-      // 由于 dva 同步了 routing 数据，所以需要把这部分还原
+      // Since dva synchronizes the routing data, you need to restore this part.
       return { ...newState, routing: newState.present.routing };
     },
   },
@@ -335,7 +335,7 @@ View https://github.com/dvajs/dva/blob/master/packages/dva-core/test/reducers.te
 
 Store effects in key/value Object. Used for do async operations and biz logic, don't modify `state` directly. Triggered by `action`, could trigger new `action`, communicate with server, select data from global `state` and so on.
 
-`*(action, effects) => void` or `[*(action, effects) => void, { type }]`。
+`*(action, effects) => void` or `[*(action, effects) => void, { type }]`.
 
 type includes:
 

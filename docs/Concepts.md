@@ -25,7 +25,7 @@ console.log(app._store); // top state
 
 `type AsyncAction = any`
 
-Just like Redux's Action, in dva, action is a plain object that represents an intention to change the state. Actions are the only way to get data into the store. Any data, whether from UI events, network callbacks, or other sources such as WebSockets needs to eventually be dispatched as actions.action. (PS: dispatch is realized through props by connecting components.)
+Just like Redux's Action, in dva, action is a plain object that represents an intention to change the state. Actions are the only way to get data into the store. Any data, whether from UI events, network callbacks, or other sources such as WebSockets needs to eventually be dispatched as actions.action. (PS: dispatch is realized through props by connecting components)
 
 ```javascript
 dispatch({
@@ -95,7 +95,7 @@ app.model({
 
 Hereby router usually means frontend router. Because our current app is single page app, frontend codes are required to control the router logics. Through History API provided by the browser, we can monitor the change of the browser's url, so as to control the router.
 
-dva provide `router` function to control router, based on [react-router](https://github.com/reactjs/react-router)。
+dva provide `router` function to control router, based on [react-router](https://github.com/reactjs/react-router).
 
 ```javascript
 import { Router, Route } from 'dva/router';

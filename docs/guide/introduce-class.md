@@ -1,4 +1,4 @@
-#Introductory course
+#Introductory Course
 
 ::: tip
 The content comes from an introductory class that was previously prepared for internal classmates.
@@ -8,12 +8,12 @@ The content comes from an introductory class that was previously prepared for in
 
 React itself is just an abstraction layer of the DOM, using components to build virtual DOMs.
 
-If you are developing a large application, you still need to solve a problem.
+If you are developing a large application, you still need to solve some problems.
 
 * Communication: How do you communicate between components?
 * Data flow: How is the data concatenated with the view? How are routes and data bound? How to write asynchronous logic? and many more
 
-## Communication problem
+## Communication Problem
 There are three kinds of communication happening to the component.
 
 * Send a message to a subcomponent
@@ -22,7 +22,7 @@ There are three kinds of communication happening to the component.
 
 React only provides a means of communication: passing parameters. For large applications, it is very inconvenient.
 
-## Example of component communication
+## Example of Component Communication
 
 ### step 1
 
@@ -37,7 +37,7 @@ class Father extends React.Component {
   render() {
     return <div>
       <Son/>
-        <p>This shows the contents of the Son component.</p>
+      <p>This shows the contents of the Son component.</p>
     </div>;
   }
 }
@@ -79,19 +79,19 @@ class Father extends React.Component {
 ReactDOM.render(<Father/>, mountNode);
 ```
 
-Look at this example, read the source code, understand how the child component passes the function passed in by the parent component, and pass its own value back to the parent component.
+Look at this example, read the source code, understand how the child component uses the function passed in by the parent component, and passes its own value back to the parent component.
 
-## Data flow problem
+## Data Flow Problem
 
 The current popular data flow solutions are:
 
-* Flux, a one-way data flow scheme to [Redux](https://github.com/reactjs/redux) to represent
+* Flux, a one-way data flow scheme, represented by [Redux](https://github.com/reactjs/redux)
 * Reactive, responsive data streaming solution, represented by [Mobx](https://github.com/mobxjs/mobx)
 * Others, such as rxjs, etc.
 
 Which architecture is best for React?
 
-## The most popular data flow solution at present
+## The Most Popular Data Flow Solution at Present
 
 As of 2017.1, the most popular community React application architecture is as follows.
 
@@ -99,15 +99,15 @@ As of 2017.1, the most popular community React application architecture is as fo
 * Architecture: [Redux](https://github.com/reactjs/redux)
 * Asynchronous operation: [Redux-saga](https://github.com/yelouafi/redux-saga)
 
-Disadvantages: To introduce multiple libraries, the project structure is complex.
+Disadvantage: Introduces multiple libraries, the project structure is complex.
 
-## dva What is it?
+## dva, What is It?
 
 Dva is a React application framework developed by the Experience Technology Department. It wraps the above three React tool libraries together, simplifying the API and making developing React applications more convenient and faster.
 
 dva = React-Router + Redux + Redux-saga
 
-## The simplest structure of the dva application
+## The Simplest Structure of a dva Application
 ```js
 import dva from 'dva';
 const App = () => <div>Hello dva</div>;
@@ -124,17 +124,17 @@ app.start('#root');
 
 <img src="https://zos.alipayobjects.com/rmsportal/hUFIivoOFjVmwNXjjfPE.png" width="460" height="290" /> 
 
-## Core idea
+## Core Idea
 * State: an object that holds the entire application state
 * View: View layer composed of React components
-* Action: an object describing the event
+* Action: an object describing an event
 * connect method: a function that binds State to View
 * dispatch method: a function that sends an Action to the State
 
 ## State and View
 State is where the data is stored. After the Action is received, the data is updated.
 
-View is the UI layer of React components. After fetching data from State, it is rendered into HTML code. As long as the State changes, the View is automatically updated.
+View is the UI layer of React components. After fetching data from State, it is rendered into HTML code. Whenever the State changes, the View is automatically updated.
 
 ## Action
 Action is an object used to describe UI layer events.
@@ -146,9 +146,9 @@ Action is an object used to describe UI layer events.
 }
 ```
 
-## connect method
+## connect Method
 
-Connect is a function that binds State to View.
+`connect` is a function that binds State to View.
 
 ```js
 import { connect } from 'dva';
@@ -159,12 +159,12 @@ function mapStateToProps(state) {
 connect(mapStateToProps)(App);
 ```
 
-The connect method returns a React component, often referred to as a container component. Because it is a container for the original UI component, it is a layer of State outside.
+The `connect` method returns a React component, often referred to as a container component. Because it is a container for the original UI component, it is a layer of State outside.
 
-The first argument passed in by the connect method is the mapStateToProps function, and the mapStateToProps function returns an object that establishes the state-to-props mapping.
+The first argument passed in by the `connect` method is the `mapStateToProps` function, and the `mapStateToProps` function returns an object that establishes the state-to-props mapping.
 
-## dispatch method
-Dispatch is a function method that is used to send an Action to a State.
+## dispatch Method
+`dispatch` is a method that is used to send an Action to a State.
 
 ```js
 dispatch({
@@ -173,11 +173,11 @@ dispatch({
 })
 ```
 
-Where does the dispatch method come from? The Component that is connected will automatically have a dispatch method in props.
+Where does the `dispatch` method come from? The component that is connected will automatically have a dispatch method in props.
 
 > Where does the data for connect come from?
 
-## dva The simplest structure of the application (with model)
+## The Simplest Structure of a dva Application (With Model)
 ```js
 // Create an app
 const app = dva();
@@ -226,7 +226,7 @@ app.router(() => <App />);
 app.start('#root');
 ```
 
-## Example of a Model object
+## Example of a Model Object
 
 ```js
 {
@@ -244,7 +244,7 @@ app.start('#root');
 }
 ```
 
-## Model object properties
+## Model Object Properties
 
 * namespace: The name of the current model. The state of the entire application, composed of multiple small Model states with namespace as key
 * state: The current state of the model. The data is saved here, which directly determines the output of the view layer.
@@ -285,7 +285,7 @@ function *addAfter1Second(action, { put, call }) {
 }
 ```
 
-## Generator function
+## Generator Function
 
 Effect is a Generator function that internally uses the yield keyword to identify the operation of each step (whether asynchronous or synchronous).
 
@@ -296,7 +296,7 @@ Dva provides a number of handlers inside the effect function. The more common on
 * call: execute asynchronous function
 * put: emit an Action, similar to dispatch
 
-## Classroom combat
+## Classroom Exercise
 Write a list containing the delete button and delay the deletion of 1 second to perform the delete.
 
 <img src="https://zos.alipayobjects.com/rmsportal/qEVcuGVcKMGjlUNghHel.gif" />

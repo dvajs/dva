@@ -12,15 +12,15 @@ dva-cli version 0.9.1
 
 ## Create New App
 
-After installing dva-cli, you can access the `dva` command from the command line ([Cannot access?](http://stackoverflow.com/questions/15054388/global-node-modules-not-installing-correctly-command-not-found)). Now you can create new apps with `dva new`.
+After installing dva-cli, you can access the `dva` command from the command line ([Can't access?](http://stackoverflow.com/questions/15054388/global-node-modules-not-installing-correctly-command-not-found)). Now you can create new apps with `dva new`.
 
 ```bash
 $ dva new dva-quickstart
 ```
 
-This creates the `dva-quickstart` directory, which contains the project initialization directories and files, and provides development server, build scripts, data mock services, proxy servers, and more.
+This creates the `dva-quickstart` directory, which contains the project directories and files, and provides development server, build scripts, data mock services, proxy servers, and more.
 
-Then we `cd` enter the `dva-quickstart` directory and start the development server：
+Then we `cd` into the `dva-quickstart` directory and start the development server：
 
 ```bash
 $ cd dva-quickstart
@@ -42,7 +42,7 @@ To create a production build, use npm run build.
 
 Open http://localhost:8000 in your browser and you will see the dva welcome screen.
 
-## Use antd
+## Integrate antd
 
 Install `antd` and `babel-plugin-import` via npm. `babel-plugin-import` is used to load antd scripts and styles on demand. See [repo](https://github.com/ant-design/babel-plugin-import).
 
@@ -64,9 +64,9 @@ Edit `.webpackrc` to make the `babel-plugin-import` plugin take effect.
 
 ## Defining Routes
 
-We have to write an application to display the product list first. The first step is to create a route that can be thought of as a different page that makes up the application.
+We need to write an application to display a product list. The first step is to create a route that can be thought of as one of the pages that make up the application.
 
-New route component `routes/Products.js`, the content is as follows：
+Create a route component `routes/Products.js`, the content is as follows：
 
 ```javascript
 import React from 'react';
@@ -88,9 +88,9 @@ Add routing information to the routing table, edit `router.js`:
 
 Then open http://localhost:8000/#/products in your browser and you should see the `<h2>` tag defined earlier.
 
-## Write UI Component
+## Writing UI Components
 
-As your app grows, you'll need to share UI elements on multiple pages (or use it multiple times on a single page), and in dva you can pull this part into components.
+As your app grows, you'll need to share UI elements on multiple pages (or use it multiple times on a single page). In dva you can pull this part into reusable components.
 
 Let's write a `ProductList` component so that we can display the product list in different places.
 
@@ -133,11 +133,11 @@ export default ProductList;
 
 ## Model Definition
 
-Once the UI is complete, the data and logic are now processed.
+Once the UI is complete, we will begin processing the data and logic.
 
 Dva manages a domain model through the concept of model, including reducers that update state synchronously, handles the effects of asynchronous logic, and subscribes to subscriptions for data sources.
 
-New model `models/products.js`：
+Create a model `models/products.js`：
 
 ```javascript
 export default {
@@ -153,22 +153,22 @@ export default {
 
 In this model:
 
-- `namespace` indicates the key on the global state
+- `namespace` represents the key on the global state
 - `state` is the initial value, here is an empty array
-- `reducers` is equivalent to reducer in redux, receives action, synchronizes state
+- `reducers` is equivalent to a reducer in redux, receives action, synchronizes state
 
-Then don't forget to load him in `index.js`:
+Then don't forget to require it in `index.js`:
 
 ```diff
 // 3. Model
 + app.model(require('./models/products').default);
 ```
 
-## Connect up
+## Connect
 
 At this point, we have completed the model and component separately, so how do they connect together?
 
-Dva provides a connect method. If you are familiar with redux, this connect is the connect of react-redux.
+Dva provides a `connect` method. If you are familiar with redux, this `connect` is equivalent to the `connect` of `react-redux`.
 
 Edit `routes/Products.js` and replace it with the following:
 
@@ -198,7 +198,7 @@ export default connect(({ products }) => ({
 }))(Products);
 ```
 
-Finally, we need some initial data to get the application run. Edit `index.js`:
+Finally, we need some initial data to get the application running. Edit `index.js`:
 
 ```diff
 - const app = dva();
