@@ -2,11 +2,11 @@
 sidebarDepth: 2
 ---
 
-# Dva 概念
+# Dva concept
 
-## 数据流向
+## Data flow direction
 
-数据的改变发生通常是通过用户交互行为或者浏览器行为（如路由跳转等）触发的，当此类行为会改变数据的时候可以通过 `dispatch` 发起一个 action，如果是同步行为会直接通过 `Reducers` 改变 `State` ，如果是异步行为（副作用）会先触发 `Effects` 然后流向 `Reducers` 最终改变 `State`，所以在 dva 中，数据流向非常清晰简明，并且思路基本跟开源社区保持一致（也是来自于开源社区）。
+Data changes usually occur through user interaction or browser behavior (such as route jumps). When such behavior changes data, an action can be initiated via `dispatch`. If it is synchronous, it will pass directly. `Reducers` change `State`, if it is asynchronous behavior (side effects) will trigger `Effects` and then flow to `Reducers` and finally change `State`, so in dva, the data flow is very clear and concise, and the idea is basically consistent with the open source community. (also from the open source community).
 
 <img src="https://zos.alipayobjects.com/rmsportal/PPrerEAKbIoDZYr.png" width="807" />
 
@@ -16,38 +16,38 @@ sidebarDepth: 2
 
 `type State = any`
 
-State 表示 Model 的状态数据，通常表现为一个 javascript 对象（当然它可以是任何值）；操作的时候每次都要当作不可变数据（immutable data）来对待，保证每次都是全新对象，没有引用关系，这样才能保证 State 的独立性，便于测试和追踪变化。
+State represents the state data of the Model, usually represented as a javascript object (of course it can be any value); each time it is treated as immutable data, ensuring that each time it is a new object, no Quote relationships so that State independence is guaranteed, making it easy to test and track changes.
 
-在 dva 中你可以通过 dva 的实例属性 `_store` 看到顶部的 state 数据，但是通常你很少会用到:
+In dva you can see the top state data via the dva instance property `_store`, but usually you will rarely use it:
 
 ```javascript
 const app = dva();
-console.log(app._store); // 顶部的 state 数据
+console.log(app._store); // State data at the top
 ```
 
 ### Action
 
 `type AsyncAction = any`
 
-Action 是一个普通 javascript 对象，它是改变 State 的唯一途径。无论是从 UI 事件、网络回调，还是 WebSocket 等数据源所获得的数据，最终都会通过 dispatch 函数调用一个 action，从而改变对应的数据。action 必须带有 `type` 属性指明具体的行为，其它字段可以自定义，如果要发起一个 action 需要使用 `dispatch` 函数；需要注意的是 `dispatch` 是在组件 connect Models以后，通过 props 传入的。
+Action is a plain javascript object that is the only way to change State. Whether it's data from a UI event, a network callback, or a data source such as WebSocket, the action is eventually called by the dispatch function, which changes the corresponding data. The action must have a `type` attribute to indicate the specific behavior. Other fields can be customized. If you want to initiate an action, you need to use the `dispatch` function. Note that `dispatch` is passed after props through the component connect models.
 ```
 dispatch({
   type: 'add',
 });
 ```
 
-### dispatch 函数
+### dispatch function
 
 `type dispatch = (a: Action) => Action`
 
-dispatching function 是一个用于触发 action 的函数，action 是改变 State 的唯一途径，但是它只描述了一个行为，而 dipatch 可以看作是触发这个行为的方式，而 Reducer 则是描述如何改变数据的。
+The dispatching function is a function that triggers action, action is the only way to change State, but it only describes a behavior, and dipatch can be seen as the way to trigger this behavior, while Reducer describes how to change the data.
 
-在 dva 中，connect Model 的组件通过 props 可以访问到 dispatch，可以调用 Model 中的 Reducer 或者 Effects，常见的形式如：
+In dva, the components of the connect model can be accessed via props, and can be called Reducer or Effects in the Model. Common forms are:
 
 ```javascript
 dispatch({
-  type: 'user/add', // 如果在 model 外调用，需要添加 namespace
-  payload: {}, // 需要传递的信息
+  type: 'user/add', // If you call outside the model, you need to add a namespace
+  payload: {}, // Information to be passed
 });
 ```
 
@@ -55,9 +55,9 @@ dispatch({
 
 `type Reducer<S, A> = (state: S, action: A) => S`
 
-Reducer（也称为 reducing function）函数接受两个参数：之前已经累积运算的结果和当前要被累积的值，返回的是一个新的累积结果。该函数把一个集合归并成一个单值。
+The Reducer (also known as the reducing function) function takes two arguments: the result of the previously accumulated operation and the current value to be accumulated, and a new cumulative result is returned. This function groups a collection into a single value.
 
-Reducer 的概念来自于是函数式编程，很多语言中都有 reduce API。如在 javascript 中：
+The concept of Reducer comes from functional programming, and there are reduce APIs in many languages. As in javascript:
 
 ```javascript
 [{x:1},{y:2},{z:3}].reduce(function(prev, next){
@@ -66,19 +66,19 @@ Reducer 的概念来自于是函数式编程，很多语言中都有 reduce API�
 //return {x:1, y:2, z:3}
 ```
 
-在 dva 中，reducers 聚合积累的结果是当前 model 的 state 对象。通过 actions 中传入的值，与当前 reducers 中的值进行运算获得新的值（也就是新的 state）。需要注意的是 Reducer 必须是[纯函数](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md)，所以同样的输入必然得到同样的输出，它们不应该产生任何副作用。并且，每一次的计算都应该使用[immutable data](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md#reasonable)，这种特性简单理解就是每次操作都是返回一个全新的数据（独立，纯净），所以热重载和时间旅行这些功能才能够使用。
+In dva, the result of the aggregate accumulation of the reducers is the state object of the current model. The new value (that is, the new state) is obtained by evaluating the value passed in the actions with the value in the current reducers. Note that the Reducer must be [pure function](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md), so the same input must get the same output, they should not Produce any side effects. Also, every time you calculate, you should use [immutable data](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md#reasonable), which is a simple understanding of each operation. Both return a whole new amount of data (independent, pure), so hot overload and time travel can be used.
 
 ### Effect
 
-Effect 被称为副作用，在我们的应用中，最常见的就是异步操作。它来自于函数编程的概念，之所以叫副作用是因为它使得我们的函数变得不纯，同样的输入不一定获得同样的输出。
+Effect is called a side effect, and in our application, the most common is asynchronous operation. It comes from the concept of functional programming, which is called side effects because it makes our functions impure, and the same input does not necessarily get the same output.
 
-dva 为了控制副作用的操作，底层引入了[redux-sagas](http://superraytin.github.io/redux-saga-in-chinese)做异步流程控制，由于采用了[generator的相关概念](http://www.ruanyifeng.com/blog/2015/04/generator.html)，所以将异步转成同步写法，从而将effects转为纯函数。至于为什么我们这么纠结于 __纯函数__，如果你想了解更多可以阅读[Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide)，或者它的中文译本[JS函数式编程指南](https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details)。
+In order to control the side-effect operation, dva introduces [redux-sagas](http://superraytin.github.io/redux-saga-in-chinese) for asynchronous process control, because of the [generator related concept](http ://www.ruanyifeng.com/blog/2015/04/generator.html), so asynchronously converted to synchronous writing, thus turning effects into pure functions. As for why we are so entangled in __pure function __, if you want to know more, you can read [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide), or its Chinese Translation [JS Functional Programming Guide](https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details).
 
 ### Subscription
 
-Subscriptions 是一种从 __源__ 获取数据的方法，它来自于 elm。
+Subscriptions is a way to get data from __source__, which comes from elm.
 
-Subscription 语义是订阅，用于订阅一个数据源，然后根据条件 dispatch 需要的 action。数据源可以是当前的时间、服务器的 websocket 连接、keyboard 输入、geolocation 变化、history 路由变化等等。
+Subscription semantics is a subscription that is used to subscribe to a data source and then dispatch the required action based on the condition. The data source can be the current time, the server's websocket connection, keyboard input, geolocation changes, history routing changes, and more.
 
 ```javascript
 import key from 'keymaster';
@@ -95,9 +95,9 @@ app.model({
 
 ## Router
 
-这里的路由通常指的是前端路由，由于我们的应用现在通常是单页应用，所以需要前端代码来控制路由逻辑，通过浏览器提供的 [History API](http://mdn.beonex.com/en/DOM/window.history.html) 可以监听浏览器url的变化，从而控制路由相关操作。
+The route here usually refers to the front-end routing. Since our application is usually a single-page application, we need front-end code to control the routing logic, provided by the browser [History API](http://mdn.beonex.com/ En/DOM/window.history.html) can listen to changes in the browser url to control routing related operations.
 
-dva 实例提供了 router 方法来控制路由，使用的是[react-router](https://github.com/reactjs/react-router)。
+The dva instance provides the router method to control the route, using [react-router](https://github.com/reactjs/react-router).
 
 ```javascript
 import { Router, Route } from 'dva/router';
@@ -110,15 +110,15 @@ app.router(({history}) =>
 
 ## Route Components
 
-在[组件设计方法](https://github.com/dvajs/dva-docs/blob/master/v1/zh-cn/tutorial/04-%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95.md)中，我们提到过 Container Components，在 dva 中我们通常将其约束为 Route Components，因为在 dva 中我们通常以页面维度来设计 Container Components。
+In [Component Design Method](https://github.com/dvajs/dva-docs/blob/master/v1/zh-cn/tutorial/04-%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95.md), we mentioned Container Components, we usually constrain them to Route Components in dva, because in dva we Container Components are usually designed in page dimensions.
 
-所以在 dva 中，通常需要 connect Model的组件都是 Route Components，组织在`/routes/`目录下，而`/components/`目录下则是纯组件（Presentational Components）。
+So in dva, the components that normally require the connect model are Route Components, organized in the `/routes/` directory, and the `/components/` directory is the pure components (Presentational Components).
 
-## 参考
+## Reference
 
 - [redux docs](http://redux.js.org/docs/Glossary.html)
-- [redux docs 中文](http://cn.redux.js.org/index.html)
+- [redux docs Chinese](http://cn.redux.js.org/index.html)
 - [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide)
-- [JS函数式编程指南](https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details)
+- [JS Functional Programming Guide](https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details)
 - [choo docs](https://github.com/yoshuawuyts/choo)
 - [elm](http://elm-lang.org/blog/farewell-to-frp)

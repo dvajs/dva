@@ -1,32 +1,32 @@
-# 介绍
+# Introduction
 
-dva 首先是一个基于 [redux](https://github.com/reduxjs/redux) 和 [redux-saga](https://github.com/redux-saga/redux-saga) 的数据流方案，然后为了简化开发体验，dva 还额外内置了 [react-router](https://github.com/ReactTraining/react-router) 和 [fetch](https://github.com/github/fetch)，所以也可以理解为一个轻量级的应用框架。
+Dva is first a data flow scheme based on [redux](https://github.com/reduxjs/redux) and [redux-saga](https://github.com/redux-saga/redux-saga), then To simplify the development experience, dva also has built-in [react-router](https://github.com/ReactTraining/react-router) and [fetch](https://github.com/github/fetch), so Can be understood as a lightweight application framework.
 
-## 特性
+## Features
 
-* **易学易用**，仅有 6 个 api，对 redux 用户尤其友好，[配合 umi 使用](https://umijs.org/guide/with-dva.html)后更是降低为 0 API
-* **elm 概念**，通过 reducers, effects 和 subscriptions 组织 model
-* **插件机制**，比如 [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading) 可以自动处理 loading 状态，不用一遍遍地写 showLoading 和 hideLoading
-* **支持 HMR**，基于 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 实现 components、routes 和 models 的 HMR
+* ** Easy to learn and use**, only 6 apis, especially friendly to redux users, [use with umi](https://umijs.org/guide/with-dva.html) is reduced to 0 API
+* **elm concept**, organize models via reducers, effects and subscriptions
+* **Plug-in mechanism**, such as [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading) can automatically handle the loading state without writing showLoading and hideLoading over and over again
+* **Support HMR**, based on [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) implement HMR for components, routes and models
 
-## 他是如何工作的？
+## How does he work?
 
-## 他是怎么来的？
+## How did he come?
 
 * [Why dva and what's dva](https://github.com/dvajs/dva/issues/1)
-* [支付宝前端应用架构的发展和选择](https://www.github.com/sorrycc/blog/issues/6)
+* [Development and Choice of Alipay Front End Application Architecture](https://www.github.com/sorrycc/blog/issues/6)
 
-## 谁在用？
+## Who is using?
 
-## 为什么不是...?
+## Why not...?
 
 ### redux
 ### mobx
 
-## 命名由来？
+## Origin of the name?
 
-> D.Va拥有一部强大的机甲，它具有两台全自动的近距离聚变机炮、可以使机甲飞跃敌人或障碍物的推进器、 还有可以抵御来自正面的远程攻击的防御矩阵。
+> D.Va’s mech is nimble and powerful — its twin Fusion Cannons blast away with autofire at short range, and she can use its Boosters to barrel over enemies and obstacles, or deflect attacks with her projectile-dismantling Defense Matrix.
 
-—— 来自 [守望先锋](https://ow.blizzard.cn/heroes/overwatch-dva) 。
+—— From [OverWatch](http://ow.blizzard.cn/heroes/dva)
 
 <img src="https://zos.alipayobjects.com/rmsportal/psagSCVHOKQVqqNjjMdf.jpg" width="200" height="200" />

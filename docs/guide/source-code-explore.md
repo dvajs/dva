@@ -1,16 +1,16 @@
-# Dva 源码解析
+# Dva Source Resolution
 
-> 作者：杨光
+> Author: Yang Guang
 
-## 隐藏在 package.json 里的秘密
+## Hide the secret in package.json
 
-随便哪个 dva 的项目，只要敲入 npm start 就可以运行启动。之前敲了无数次我都没有在意，直到我准备研究源码的时候才意识到：**在敲下这行命令的时候，到底发生了什么呢？**
+Any dva project, just type npm start and you can run it. I haven't cared about it many times before, until I was ready to study the source code: ** What happened when I knocked on this line of commands? **
 
-答案要去 package.json 里去寻找。
+The answer is to go to package.json to find it.
 
->有位技术大牛曾经告诉过我：看源码之前，先去看 package.json 。看看项目的入口文件，翻翻它用了哪些依赖，对项目便有了大致的概念。
+> There is a technology big cow once told me: before looking at the source code, go to package.json. Looking at the project's entry file, flipping through the dependencies it uses, has a rough idea of ​​the project.
 
-package.json 里是这么写的：
+This is written in package.json:
 
 ```json
  "scripts": {
@@ -18,14 +18,14 @@ package.json 里是这么写的：
   },
 ```
 
-翻翻依赖，`"roadhog": "^0.5.2"`。
+Turn over dependencies, `"roadhog": "^0.5.2"`.
 
 
-既然能在 devDependencies 找到，那么肯定也能在 [npm](https://www.npmjs.com/package/roadhog) 上找到。原来是个和 webpack 相似的库，而且作者看着有点眼熟...
+Since it can be found in devDependencies, it can certainly be found at [npm](https://www.npmjs.com/package/roadhog). It turned out to be a library similar to webpack, and the author looked a bit familiar...
 
-如果说 dva 是亲女儿，那 [roadhog](https://github.com/sorrycc/roadhog.git) 就是亲哥哥了，起的是 webpack 自动打包和热更替的作用。
+If dva is a pro-daughter, then [roadhog](https://github.com/sorrycc/roadhog.git) is a brother, and it is the role of webpack auto-packaging and hot-swapping.
 
-在 roadhog 的默认配置里有这么一条信息：
+There is such a message in the default configuration of roadhog:
 
 ```json
 {
@@ -33,59 +33,59 @@ package.json 里是这么写的：
 }
 ```
 
-后转了一圈，启动的入口回到了 `src/index.js`。
+After a round turn, the boot entry returned to `src/index.js`.
 
 ## `src/index.js`
 
-在 `src/index.js` 里，dva 一共做了这么几件事：
+In `src/index.js`, dva has done a few things together:
 
-0. 从 'dva' 依赖中引入 dva ：`import dva from 'dva'`; 
+0. Introducing dva from the 'dva' dependency: `import dva from 'dva'`;
 
-1. 通过函数生成一个 app 对象：`const app = dva()`; 
+1. Generate an app object from the function: `const app = dva()`;
 
-2. 加载插件：`app.use({})`;
+2. Load the plugin: `app.use({})`;
 
-3. 注入 model：`app.model(require('./models/example'))`;
+3. Inject model:`app.model(require('./models/example'))`;
 
-4. 添加路由：`app.router(require('./routes/indexAnother'))`;
+4. Add route: `app.router(require('./routes/indexAnother'))`;
 
-5. 启动：app.start('#root');
+5. Start: app.start('#root');
 
-在这 6 步当中，dva 完成了 `使用 React 解决 view 层`、`redux 管理 model `、`saga 解决异步`的主要功能。事实上在我查阅资料以及回忆用过的脚手架时，发现目前端框架之所以被称为“框架”也就是解决了这些事情。前端工程师至今所做的事情都是在**分离动态的 data 和静态的 view **，只不过侧重点和实现方式也不同。
+In these 6 steps, dva completed the main functions of `Resolving view layer`, `redux management model`, `saga solving asynchronous`. In fact, when I looked up the data and recalled the used scaffolding, I found that the current end frame is called the "framework" to solve these things. What the front-end engineers have done so far is to separate the dynamic data and the static view **, but the focus and implementation are different.
 
-至今为止出了这么多框架，但是前端 MVX 的思想一直都没有改变。
+So far, there have been so many frameworks, but the idea of ​​front-end MVX has not changed.
 
 # dva 
 
-## 寻找 “dva”
+## Looking for "dva"
 
-既然 dva 是来自于 `dva`，那么 dva 是什么这个问题自然要去 dva 的[源码](https://github.com/dvajs/dva)中寻找了。
+Since dva is from `dva`, what is the problem with dva is naturally going to be found in dva's [source code](https://github.com/dvajs/dva).
 
-> 剧透：dva 是个函数，返回一了个 app 的对象。
+> Spoiler: dva is a function that returns an object of app.
 
-> 剧透2：目前 dva 的源码核心部分包含两部分，`dva` 和 `dva-core`。前者用高阶组件 React-redux 实现了 view 层，后者是用 redux-saga 解决了 model 层。
+> Spoiler 2: Currently the core part of dva's source code consists of two parts, `dva` and `dva-core`. The former implements the view layer with the high-level component React-redux, which solves the model layer with redux-saga.
 
-老规矩，还是先翻 package.json 。
+Old rules, or first turn package.json.
 
-引用依赖很好的说明了 dva 的功能：统一 view 层。
+The reference dependency is a good illustration of the power of dva: unifying the view layer.
 
 ```json
-// dva 使用的依赖如下：
+// The dependencies dva uses are as follows:
 
-    "babel-runtime": "^6.26.0", // 一个编译后文件引用的公共库，可以有效减少编译后的文件体积
-    "dva-core": "^1.1.0", // dva 另一个核心，用于处理数据层
-    "global": "^4.3.2", // 用于提供全局函数的引用
-    "history": "^4.6.3", // browserHistory 或者 hashHistory
-    "invariant": "^2.2.2", // 一个有趣的断言库
-    "isomorphic-fetch": "^2.2.1", // 方便请求异步的函数，dva 中的 fetch 来源
-    "react-async-component": "^1.0.0-beta.3", // 组件懒加载
-    "react-redux": "^5.0.5", // 提供了一个高阶组件，方便在各处调用 store
-    "react-router-dom": "^4.1.2", // router4，终于可以像写组件一样写 router 了
-    "react-router-redux": "5.0.0-alpha.6",// redux 的中间件，在 provider 里可以嵌套 router
-    "redux": "^3.7.2" // 提供了 store、dispatch、reducer 
+    "babel-runtime": "^6.26.0", // A public library referenced by the compiled file, which can effectively reduce the file size after compilation.
+    "dva-core": "^1.1.0", // dva another core for processing the data layer
+    "global": "^4.3.2", // a reference to provide a global function
+    "history": "^4.6.3", // browserHistory or hashHistory
+    "invariant": "^2.2.2", // An interesting assertion library
+    "isomorphic-fetch": "^2.2.1", // a function that facilitates asynchronous requests, a fetch source in dva
+    "react-async-component": "^1.0.0-beta.3", // component lazy loading
+    "react-redux": "^5.0.5", // provides a high-level component that makes it easy to call the store everywhere
+    "react-router-dom": "^4.1.2", // router4, you can finally write the router like a component.
+    "react-router-redux": "5.0.0-alpha.6", // Redux middleware can be nested in the provider
+    "redux": "^3.7.2" // provides store, dispatch, reducer
 	
 ```
-不过 script 没有给太多有用的信息，因为 `ruban build` 中的 `ruban` 显然是个私人库(虽然在 tnpm 上可以查到但是也是私人库)。但根据惯例，应该是 dva 包下的 `index.js` 文件提供了对外调用：
+However, script does not give much useful information, because `ruban` in `ruban build` is obviously a private library (although it can be found on tnpm but it is also a private library). But by convention, the `index.js` file under the dva package should provide an external call:
 ```js
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -95,93 +95,93 @@ exports.default = require('./lib');
 exports.connect = require('react-redux').connect;
 ```
 
-显然这个 `exports.default` 就是我们要找的 dva，但是源码中没有 `./lib` 文件夹。当然直接看也应该看不懂，因为一般都是使用 babel 的命令 `babel src -d libs` 进行编译后生成的，所以直接去看 `src/index.js` 文件。
+Obviously this `exports.default` is the dva we are looking for, but there is no `./lib` folder in the source. Of course, you should not understand it directly, because it is usually compiled using babel's command `babel src -d libs`, so go directly to the `src/index.js` file.
 
 
 ## `src/index.js`
 
-`src/index.js`[在此](https://github.com/dvajs/dva/blob/master/packages/dva/src/index.js) ：
+`src/index.js`[here](https://github.com/dvajs/dva/blob/master/packages/dva/src/index.js) :
 
-在这里，dva 做了三件比较重要的事情：
+Here, dva did three more important things:
 
-1. 使用 call 给 dva-core 实例化的 app(这个时候还只有数据层) 的 start 方法增加了一些新功能（或者说，通过代理模式给 model 层增加了 view 层）。
-2. 使用 react-redux 完成了 react 到 redux 的连接。
-3. 添加了 redux 的中间件 react-redux-router，强化了 history 对象的功能。
+1. Use the call to the dva-core instantiated app (this time only the data layer) to add some new functionality to the start method (or add the view layer to the model layer via proxy mode).
+2. Complete the connection from react to redux using react-redux.
+3. Added redux middleware react-redux-router to enhance the function of the history object.
 
-### 使用 call 方法实现代理模式
+### Using the call method to implement proxy mode
 
-dva 中实现代理模式的方式如下：
+The way to implement proxy mode in dva is as follows:
 
-**1. 新建 function ，函数内实例化一个 app 对象。**
-**2. 新建变量指向该对象希望代理的方法， `oldStart = app.start`。**
-**3. 新建同名方法 start，在其中使用 call，指定 oldStart 的调用者为 app。**
-**4. 令 app.start = start，完成对 app 对象的 start 方法的代理。**
+**1. Create a new function that instantiates an app object inside the function. **
+**2. The new variable points to the method that the object wants to proxy, `oldStart = app.start`. **
+**3. Create a new method start with the same name, use call in it, and specify the caller of oldStart as app. **
+**4. Let app.start = start complete the proxy for the app object's start method. **
 
-上代码:
+On the code:
 
 ```js
 export default function(opts = {}) {
 
-  // ...初始化 route ，和添加 route 中间件的方法。
+  // ...initialize route , and add route middleware.
 
   /**
-   * 1. 新建 function ，函数内实例化一个 app 对象。
+   * 1. Create a new function that instantiates an app object inside the function.
    * 
    */
   const app = core.create(opts, createOpts);
   /**
-   * 2. 新建变量指向该对象希望代理的方法
+   * 2. New variable points to the method that the object wants to proxy
    * 
    */
   const oldAppStart = app.start;
   app.router = router;
   /**
-   * 4. 令 app.start = start，完成对 app 对象的 start 方法的代理。
+   * 4. Let app.start = start complete the proxy for the app object's start method.
    * @type {[type]}
    */
   app.start = start;
   return app;
 
-  // router 赋值
+  // router assignment
 
   /**
-   * 3.1 新建同名方法 start，
+   * 3.1 Create a new method with the same name start,
    * 
    */
   function start(container) {
-    // 合法性检测代码
+    // legality detection code
 
     /**
-     * 3.2 在其中使用 call，指定 oldStart 的调用者为 app。
+     * 3.2 Use call in it, specifying the caller of oldStart as app.
      */
     oldAppStart.call(app);
 	
-	// 因为有 3.2 的执行才有现在的 store
+// Because there is a 3.2 implementation, there is a current store
     const store = app._store;
 
-	// 使用高阶组件创建视图
+// Create a view with high-level components
   }
 }
 ```  
 
-> 为什么不直接在 start 方式中 oldAppStart ?
-- 因为 dva-core 的 start 方法里有用到 this，不用 call 指定调用者为 app 的话，oldAppStart() 会找错对象。
+> Why not directly in the start mode oldAppStart ?
+- Since dva-core's start method is useful for this, without call to specify the caller to be app, oldAppStart() will find the wrong object.
 
-> 实现代理模式一定要用到 call 吗？
-- 不一定，看有没有 使用 this 或者代理的函数是不是箭头函数。从另一个角度来说，如果使用了 function 关键字又在内部使用了 this，那么一定要用 call/apply/bind 指定 this。
+> Must I use call to implement proxy mode?
+- Not necessarily, see if there is a function that uses this or the proxy is not an arrow function. On the other hand, if you use the function keyword and internally use this, be sure to specify this with call/apply/bind.
 
-> 前端还有那里会用到 call ？
-- 就实际开发来讲，因为已经使用了 es6 标准，基本和 this 没什么打交道的机会。使用 class 类型的组件中偶尔还会用到 this.xxx.bind(this)，stateless 组件就洗洗睡吧(因为压根没有 this)。如果实现代理，可以使用继承/反向继承的方法 —— 比如高阶组件。
+> Where will the call be used in the front end?
+- As far as actual development is concerned, because the es6 standard has already been used, there is basically no chance to deal with this. This.xxx.bind(this) is occasionally used in components of class type, and the stateless component washes and sleeps (because there is no such thing). If you implement a proxy, you can use inheritance/reverse inheritance methods -- such as high-level components.
 
 
-### 使用 react-redux 的高阶组件传递 store
+### Use the high-level component of react-redux to pass the store
 
-经过 call 代理后的 start 方法的主要作用，便是使用 react-redux 的 provider 组件将数据与视图联系了起来，生成 React 元素呈现给使用者。
+The main function of the start method after the call proxy is to use the provider component of react-redux to associate the data with the view and generate a React element for presentation to the user.
 
-不多说，上代码。
+Not much to say, on the code.
 
 ```js
-// 使用 querySelector 获得 dom
+// get dom using querySelector
 if (isString(container)) {
   container = document.querySelector(container);
   invariant(
@@ -190,9 +190,9 @@ if (isString(container)) {
   );
 }
 
-// 其他代码
+// other code
 
-// 实例化 store
+// instantiate store
 oldAppStart.call(app); 
 const store = app._store;
 
@@ -201,17 +201,17 @@ const store = app._store;
 app._getProvider = getProvider.bind(null, store, app);
 
 // If has container, render; else, return react component
-// 如果有真实的 dom 对象就把 react 拍进去
+// If there is a real dom object, take the react into it.
 if (container) {
   render(container, store, app, app._router);
-  // 热加载在这里
-  app._plugin.apply('onHmr')(render.bind(null, container, store, app));
-} else {
-  // 否则就生成一个 react ，供外界调用
+  // hot loading here
+  app._plugin.apply('onHmr')(render.bind(null, container,  store, app));
+      } else {
+  // Otherwise generate a react for the outside world to call
   return getProvider(store, this, this._router);
 }
   
- // 使用高阶组件包裹组件
+ // Wrap components with high-level components
 function getProvider(store, app, router) {
   return extraProps => (
     <Provider store={store}>
@@ -220,134 +220,134 @@ function getProvider(store, app, router) {
   );
 }
 
-// 真正的 react 在这里
+// The real react is here
 function render(container, store, app, router) {
-  const ReactDOM = require('react-dom');  // eslint-disable-line
+  const ReactDOM = require('react-dom'); // eslint-disable-line
   ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
 }
 ```
 
-> React.createElement(getProvider(store, app, router)) 怎么理解？
-- getProvider 实际上返回的不单纯是函数，而是一个无状态的 React 组件。从这个角度理解的话，ReactElement.createElement(string/ReactClass type,[object props],[children ...]) 是可以这么写的。
+> React.createElement(getProvider(store, app, router)) How to understand?
+- The getProvider actually returns not just a function, but a stateless React component. From this perspective, ReactElement.createElement(string/ReactClass type,[object props],[children ...]) can be written like this.
 
-> 怎么理解 React 的 stateless 组件和 class 组件？
-- 你猜猜？
+> How do you understand React's stateless components and class components?
+- you guess?
 ```
-JavaScript 并不存在 class 这个东西，即便是 es6 引入了以后经过 babel 编译也会转换成函数。因此直接使用无状态组件，省去了将 class 实例化再调用 render 函数的过程，有效的加快了渲染速度。
+JavaScript does not have a class thing, even if es6 is introduced later, it will be converted into a function after babel compilation. Therefore, the use of stateless components directly, eliminating the need to instantiate the class and then call the render function, effectively speed up the rendering.
 
-即便是 class 组件，React.createElement 最终调用的也是 render 函数。不过这个目前只是我的推论，没有代码证据的证明。
+Even for the class component, React.createElement eventually calls the render function. However, this is only my inference at present, and there is no proof of code evidence.
 ```
 
-#### react-redux 与 provider 
+#### react-redux and provider
 
-> provider 是个什么东西？
+> What is the provider?
 
-本质上是个高阶组件，也是代理模式的一种实践方式。接收 redux 生成的 store 做参数后，通过上下文 context 将 store 传递进被代理组件。在保留原组件的功能不变的同时，增加了 store 的 dispatch 等方法。
+Essentially a high-level component, it is also a practical way of proxy mode. After receiving the store generated by redux as a parameter, the store is passed into the proxy component through the context context. While retaining the functionality of the original component, it adds methods such as store dispatch.
 
-> connect 是个什么东西？
+> What is connect?
 
-connect 也是一个代理模式实现的高阶组件，为被代理的组件实现了从 context 中获得 store 的方法。
+Connect is also a high-level component of the proxy mode implementation, which implements the method of getting the store from the context for the delegated component.
 
-> connect()(MyComponent) 时发生了什么？
+What happened when > connect()(MyComponent)?
 
-只放关键部分代码，因为我也只看懂了关键部分(捂脸跑)：
+Only put the key part of the code, because I only understand the key part (face running):
 
 ```js
-import connectAdvanced from '../components/connectAdvanced' 
+import connectAdvanced from '../components/connectAdvanced'
 export function createConnect({
   connectHOC = connectAdvanced,
-.... 其他初始值
+//.... other initial values
 } = {}) {
-	
-  return function connect( { // 0 号 connnect
+
+  return function connect( { // 0 connnect
     mapStateToProps,
     mapDispatchToProps,
-   	... 其他初始值
+   //... other initial values
     } = {}
   ) {
-	....其他逻辑
-    return connectHOC(selectorFactory, {//  1号 connect
-		.... 默认参数
-		selectorFactory 也是个默认参数
+//....other logic
+    return connectHOC(selectorFactory, {// 1 connect
+//.... default parameters
+//selectorFactory is also a default parameter
       })
   }
 }
 
-export default createConnect() // 这是 connect 的本体，导出时即生成 connect 0
+export default createConnect() // This is the body of connect, which generates connect 0 when exported.
 
 ```
 ```js
-// hoist-non-react-statics，会自动把所有绑定在对象上的非React方法都绑定到新的对象上
+// hoist-non-react-statics, which automatically binds all non-React methods bound to the object to the new object.
 import hoistStatics from 'hoist-non-react-statics'
-// 1号 connect 的本体
+// The body of the 1st connect
 export default function connectAdvanced() {
-	// 逻辑处理
+// logical processing
 
-	// 1 号 connect 调用时生成 2 号 connect
+// #1 connect is generated when the second connection is generated
   return function wrapWithConnect(WrappedComponent) {
-   	// ... 逻辑处理
+   // ... logical processing
 
-	// 在函数内定义了一个可以拿到上下文对象中 store 的组件
+// Define a component inside the function that can get the store in the context object
     class Connect extends Component {
       
       getChildContext() {
-		// 上下文对象中获得 store
+// Get the store in the context object
         const subscription = this.propsMode ? null : this.subscription
         return { [subscriptionKey]: subscription || this.context[subscriptionKey] }
       }
-		
-		// 逻辑处理
+
+// logical processing
 
       render() {
 
-		  	// 	最终生成了新的 react 元素，并添加了新属性
+// Finally generated a new react element and added a new attribute
           return createElement(WrappedComponent, this.addExtraProps(selector.props))
 
       }
     }
 
-	// 逻辑处理
-	
-	// 最后用定义的 class 和 被代理的组件生成新的 react 组件
-    return hoistStatics(Connect, WrappedComponent)  // 2 号函数调用后生成的对象是组件
+// logical processing
+
+// Finally generate a new react component with the defined class and the delegated component
+    return hoistStatics(Connect, WrappedComponent) // The object generated after the call of function 2 is the component
   }
 }
 
 
 ```
-结论：对于 connect()(MyComponent)
+Conclusion: For connect()(MyComponent)
 
-1. connect 调用时生成 0 号 connect
-2. connect()  0 号 connect 调用，返回 1 号 connect 的调用 `connectHOC()` ，生成 2 号 connect(也是个函数) 。
-3. connect()(MyComponent) 等价于 connect2(MyComponent)，返回值是一个新的组件
+1. connect is generated when connect is connected with the number 0 connect
+2. connect() No. 0 connect is called, returning the call #connectHOC()` of the 1st connect, and generating the 2nd connect (also a function).
+3. connect()(MyComponent) is equivalent to connect2(MyComponent), the return value is a new component
 
 
-### redux 与 router
+### redux and router
 
-redux 是状态管理的库，router 是(唯一)控制页面跳转的库。两者都很美好，但是不美好的是两者无法协同工作。换句话说，当路由变化以后，store 无法感知到。
+Redux is a state-managed library, and router is the (unique) library that controls page jumps. Both are wonderful, but what's not good is that the two can't work together. In other words, when the route changes, the store is not aware of it.
 
-于是便有了 `react-router-redux`。
+Then there is `react-router-redux`.
 
-`react-router-redux` 是 redux 的一个中间件(中间件：JavaScript 代理模式的另一种实践 针对 dispatch 实现了方法的代理，在 dispatch action 的时候增加或者修改) ，主要作用是：
+`react-router-redux` is a middleware for redux (middleware: another practice of the JavaScript proxy pattern for agents that implement methods for dispatch, added or modified during dispatch action), the main functions are:
 
-> 加强了React Router库中history这个实例，以允许将history中接受到的变化反应到stae中去。
+> Enhanced the instance of history in the React Router library to allow changes in the history to be reflected in stae.
 
-[github 在此](https://github.com/reactjs/react-router-redux)
+[github here](https://github.com/reactjs/react-router-redux)
 
-从代码上讲，主要是监听了 history 的变化：
+In terms of code, it mainly monitors the change of history:
 
 `history.listen(location => analyticsService.track(location.pathname))`
 
-dva 在此基础上又进行了一层代理，把代理后的对象当作初始值传递给了 dva-core，方便其在 model 的 
-subscriptions 中监听 router 变化。
+On this basis, dva has performed a layer of proxy, passing the object after the proxy as the initial value to dva-core, which is convenient for the model.
+Listen for router changes in subscriptions.
 
-看看 `index.js` 里 router 的实现：
+Take a look at the implementation of the router in `index.js`:
 
-1.在 createOpts 中初始化了添加 react-router-redux 中间件的方法和其 reducer ，方便 dva-core 在创建 store 的时候直接调用。
+1. Initialize the method of adding react-router-redux middleware and reducer in createOpts, which is convenient for dva-core to call directly when creating store.
 
-2. 使用 patchHistory 函数代理 history.linsten，增加了一个回调函数的做参数(也就是订阅)。
+2. Use the patchHistory function to delegate history.linsten, adding a parameter to the callback function (that is, subscription).
 
-> subscriptions 的东西可以放在 dva-core 里再说，
+> The things in subscriptions can be placed in dva-core.
 
 ```js
 import createHashHistory from 'history/createHashHistory';
@@ -360,18 +360,18 @@ import * as core from 'dva-core';
 export default function (opts = {}) {
   const history = opts.history || createHashHistory();
   const createOpts = {
-  	// 	初始化 react-router-redux 的 router
+  // Initialize the router of react-router-redux
     initialReducer: {
       routing,
     },
-	// 初始化 react-router-redux 添加中间件的方法，放在所有中间件最前面
+// Initialize react-router-redux add middleware method, placed at the top of all middleware
     setupMiddlewares(middlewares) {
       return [
         routerMiddleware(history),
         ...middlewares,
       ];
     },
-	// 使用代理模式为 history 对象增加新功能，并赋给 app
+// Use the proxy mode to add new features to the history object, and assign it to the app
     setupApp(app) {
       app._history = patchHistory(history);
     },
@@ -394,7 +394,7 @@ export default function (opts = {}) {
 
 }
 
-// 使用代理模式扩展 history 对象的 listen 方法，添加了一个回调函数做参数并在路由变化是主动调用
+// Use the proxy mode to extend the listen method of the history object, add a callback function to do the parameters and actively call in the routing change
 function patchHistory(history) {
   const oldListen = history.listen;
   history.listen = (callback) => {
@@ -405,20 +405,20 @@ function patchHistory(history) {
 }
 ```
 
-> 剧透：redux 中创建 store 的方法为：
+> Spoiler: The method for creating a store in redux is:
 
 ```js
-// combineReducers 接收的参数是对象
-// 所以 initialReducer 的类型是对象
-// 作用：将对象中所有的 reducer 组合成一个大的 reducer
-const reducers = {}; 
-// applyMiddleware 接收的参数是可变参数
-// 所以 middleware 是数组
-// 作用：将所有中间件组成一个数组，依次执行
-const middleware = []; 
+// combineReducers receives parameters that are objects
+// So the type of initialReducer is an object
+// role: combine all the reducers in the object into a large reducer
+const reducers = {};
+// The parameters received by applyMiddleware are variable parameters.
+// So middleware is an array
+/ / Role: all the middleware into an array, in turn
+const middleware = [];
 const store = createStore(
   combineReducers(reducers),
-  initial_state, // 设置 state 的初始值
+  initial_state, // set the initial value of state
   applyMiddleware(...middleware)
 );
 ```
@@ -435,46 +435,58 @@ const store = createStore(
 
 而 dva-core 主要解决了 model 的问题，包括 state 管理、数据的异步加载、订阅-发布模式的实现，可以作为数据层在别处使用(看 2.0 更新也确实是作者的意图)。使用的状体啊管理库还是 redux，异步加载的解决方案是 saga。当然，一切也都写在 index.js 和 package.json 里。
 
-## 视图与数据(下)
+## Views and data (on)
 
-处理 React 的 model 层问题有很多种办法，比如状态管理就不一定要用 Redux，也可以使用 Mobx(写法会更有 MVX 框架的感觉)；异步数据流也未必使用 redux-saga，redux-thunk 或者 redux-promise 的解决方式也可以(不过目前看来 saga 是相对更优雅的)。
+`src/index.js` mainly implements the view layer of dva, and passes some initialization data to the model layer implemented by dva-core. Of course, some method functions commonly used in dva are also provided:
 
-放两篇个人感觉比较全面的技术文档：
+- `dynamic` dynamic loading (2.0 after the official offer 1.x manual implementation)
+- `fetch` request method (in fact, dva just did a porter)
+- `saga` (data layer processing asynchronous method).
 
-- 阮一峰前辈的 [redux 三部曲](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html)。
-- redux-saga 的[中文文档](http://leonshi.com/redux-saga-in-chinese/docs/api/index.html)。
+So dva is really a very thin layer of packaging.
 
-以及两者的 github：
+Dva-core mainly solves the problem of model, including state management, asynchronous loading of data, and implementation of subscription-publishing mode, which can be used as a data layer elsewhere (see 2.0 update is indeed the author's intention). The management of the genre is still redux, the solution for asynchronous loading is saga. Of course, everything is written in index.js and package.json .
+
+## Views and data (below)
+
+There are many ways to deal with React's model layer. For example, state management does not have to use Redux, or you can use Mobx (writes will have a more MVX framework); asynchronous data streams may not use redux-saga, redux-thunk or The redux-promise solution is also available (although saga is currently relatively more elegant).
+
+Put two technical documents that are more personal and personal:
+
+- [Redux Trilogy](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html) by Yu Yifeng's predecessor.
+- [Chinese documentation](http://leonshi.com/redux-saga-in-chinese/docs/api/index.html) for redux-saga.
+
+And the github of both:
 
 - [redux](https://github.com/reactjs/redux)
 - [redux-saga](https://github.com/redux-saga/redux-saga)
 
-然后继续深扒 `dva-core`，还是先从 `package.json` 扒起。
+Then continue to squat `dva-core`, or start with `package.json`.
 
 ## package.json
 
-`dva-core` 的 `package.json` 中依赖包如下：
+The dependencies in `package.json` of `dva-core` are as follows:
 
 ```json
-    "babel-runtime": "^6.26.0",  // 一个编译后文件引用的公共库，可以有效减少编译后的文件体积
-    "flatten": "^1.0.2", // 一个将多个数组值合并成一个数组的库
-    "global": "^4.3.2",// 用于提供全局函数比如 document 的引用
-    "invariant": "^2.2.1",// 一个有趣的断言库
-    "is-plain-object": "^2.0.3", // 判断是否是一个对象
-    "redux": "^3.7.1", // redux ，管理 react 状态的库
-    "redux-saga": "^0.15.4", // 处理异步数据流
-    "warning": "^3.0.0" // 同样是个断言库，不过输出的是警告
+    "babel-runtime": "^6.26.0", // A public library referenced by the compiled file, which can effectively reduce the file size after compilation.
+    "flatten": "^1.0.2", // a library that combines multiple array values ​​into one array
+    "global": "^4.3.2", // is used to provide a reference to a global function such as document
+    "invariant": "^2.2.1", // An interesting assertion library
+    "is-plain-object": "^2.0.3", // determine if it is an object
+    "redux": "^3.7.1", // redux , the library that manages the react state
+    "redux-saga": "^0.15.4", // Handling asynchronous data streams
+    "warning": "^3.0.0" // is also an assertion library, but the output is a warning
 ```
 
-当然因为打包还是用的 `ruban`，script 里没有什么太多有用的东西。继续依循惯例，去翻 `src/index.js`。
+Of course, because the package is still using `ruban`, there is not much useful stuff in the script. Continue to follow the convention and go to `src/index.js`.
 
 ## `src/index.js`
 
-`src/index` 的源码在[这里](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/index.js)
+The source code for `src/index` is at [here](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/index.js)
 
-在 `dva` 的 `src/index.js` 里，通过传递 2 个变量 `opts` 和 `createOpts` 并调用 `core.create`，`dva` 创建了一个 app 对象。其中 `opts` 是使用者添加的控制选项，`createOpts` 则是初始化了 reducer 与 redux 的中间件。
+In `drc`'s `src/index.js`, an app object is created by passing two variables `opts` and `createOpts` and calling `core.create`, `dva`. Where `opts` is the control option added by the user, and `createOpts` is the middleware that initializes reducer and redux.
 
-`dva-core` 的 `src/index.js` 里便是这个 app 对象的具体创建过程以及包含的方法：
+The `src/index.js` of `dva-core` is the specific creation process of this app object and the methods it contains:
 
 ```js
 export function create(hooksAndOpts = {}, createOpts = {}) {
@@ -497,27 +509,27 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     start,
   };
   return app;
-  	// .... 方法的实现
-	
-	function model(){
-		// model 方法
-	}
-	
-	functoin start(){
-		// Start 方法
-	}
+  // .... implementation of the method
+
+function model(){
+// model method
+}
+
+functoin start(){
+// Start method
+}
   }
   ```
 
-> 我最开始很不习惯 JavaScript 就是因为 JavaScript 还是一个函数向的编程语言，也就是函数里可以定义函数，返回值也可以是函数，class 最后也是被解释成函数。在 dva-core 里创建了 app 对象，但是把 model 和 start 的定义放在了后面。一开始对这种简写没看懂，后来熟悉了以后发现确实好理解。一眼就可以看到 app 所包含的方法，如果需要研究具体方法的话才需要向后看。
+> I wasn't used to JavaScript at first because JavaScript is still a function-oriented programming language, that is, functions can be defined in functions, return values ​​can also be functions, and class is finally interpreted as a function. The app object is created in dva-core, but the definitions of model and start are placed behind. I didn't understand this shorthand at first, but later I became familiar with it and found it really understandable. You can see the methods included in the app at a glance, and you need to look backwards if you need to study the specific methods.
 
-[Plugin](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/Plugin.js) 是作者设置的一堆**钩子**性监听函数——即是在符合某些条件的情况下下(dva 作者)进行手动调用。这样使用者只要按照作者设定过的关键词传递回调函数，在这些条件下便会自动触发。
+[Plugin](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/Plugin.js) is a bunch of ** hook ** listener functions set by the author - that is Manually invoked (dva author) if certain conditions are met. In this way, the user simply passes the callback function according to the keyword set by the author, and will automatically trigger under these conditions.
 
-> 有趣的是，我最初理解**钩子**的概念是在 Angular 里。为了能像 React 一样优雅的控制组件的生命周期，Angular 设置了一堆接口(因为使用的是 ts，所以 Angular 里有类和接口的区分)。只要组件实现(implements)对应的接口————或者称生命周期钩子，在对应的条件下就会运行接口的方法。 
+> Interestingly, I originally understood the concept of ** hook ** in Angular. In order to control the lifecycle of components as elegantly as React, Angular sets up a bunch of interfaces (because of the use of ts, there is a distinction between classes and interfaces in Angular). As long as the component implements the corresponding interface -- or the lifecycle hook -- the interface method is run under the corresponding conditions.
 
-#### Plugin 与 plugin.use
+#### Plugin and plugin.use
 
-Plugin 与 plugin.use 都有使用数组的 reduce 方法的行为：
+Both Plugin and plugin.use have the behavior of using the reduce method of an array:
 ```js
 const hooks = [
   'onError',
@@ -532,8 +544,8 @@ const hooks = [
 
 export function filterHooks(obj) {
   return Object.keys(obj).reduce((memo, key) => {
-  // 如果对象的 key 在 hooks 数组中
-  // 为 memo 对象添加新的 key，值为 obj 对应 key 的值
+  // if the object's key is in the hooks array
+  // Add a new key to the memo object, the value of obj corresponds to the value of key
     if (hooks.indexOf(key) > -1) {
       memo[key] = obj[key];
     }
@@ -547,16 +559,16 @@ export default class Plugin {
       memo[key] = [];
       return memo;
     }, {});
-	/*
-		等同于
-		
-		this.hooks = {
-			onError: [],
-			onStateChange:[],
-			....
-			extraEnhancers: []
-		}
-	*/
+/*
+Equivalent to
+
+this.hooks = {
+onError: [],
+onStateChange:[],
+....
+extraEnhancers: []
+}
+*/
   }
 
   use(plugin) {
@@ -574,24 +586,24 @@ export default class Plugin {
     }
   }
 
-  // 其他方法
+  // Other methods
 }
 ```
-- 构造器中的 `reduce` 初始化了一个以 `hooks` 数组所有元素为 key，值为空数组的对象，并赋给了 class 的私有变量 `this.hooks`。
+- `reduce` in the constructor initializes an object with all elements of the `hooks` array as key and an empty array, and is assigned to the class's private variable `this.hooks`.
 
-- `filterHooks` 通过 `reduce` 过滤了 `hooks` 数组以外的钩子。
+- `filterHooks` Filters hooks outside the `hooks` array with `reduce`.
 
-- `use` 中使用 `hasOwnProperty` 判断 `key` 是 `plugin` 的自身属性还是继承属性，使用原型链调用而不是 `plugin.hasOwnProperty()` 是防止使用者故意捣乱在 `plugin` 自己写一个 `hasOwnProperty = () => false // 这样无论如何调用 plugin.hasOwnProperty() 返回值都是 false`。
+- `use` uses `hasOwnProperty` to determine whether `key` is a `plugin` property or an inherited property. Using a prototype chain instead of `plugin.hasOwnProperty()` is to prevent the user from deliberately messing around and writing a `plugin` `hasOwnProperty = () => false // This way the call to plugin.hasOwnProperty() is false anyway.
 
-- `use` 中使用 `reduce` 为 `this.hooks` 添加了 `plugin[key]` 。 
+- ````` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` `
 
-## model 方法
+## model方法
 
-`model` 是 app 添加 model 的方法，在** dva 项目**的 index.js 是这么用的。
+`model` is the method by which the app adds the model. This is used in the index.js of the **dva project**.
 
 > app.model(require('./models/example'));
 
-在 `dva` 中没对 model 做任何处理，所以 `dva-core` 中的 model 就是 ** dva 项目**里调用的 model。
+There is no processing on the model in `dva`, so the model in `dva-core` is the model called in the **dva project**.
 
 ```js
   function model(m) {
@@ -603,17 +615,17 @@ export default class Plugin {
   
 ```
 
-- `checkModel` 主要是用 `invariant` 对传入的 model 进行了合法性检查。
+- `checkModel` mainly uses `invariant` to check the legality of the incoming model.
 
-- `prefixNamespace` 又使用 reduce 对每一个 model 做处理，为 model 的 reducers 和 effects 中的方法添加了 `${namespace}/` 的前缀。
+- `prefixNamespace` uses reduce to process each model, adding a prefix of `${namespace}/` to the methods in the model's reducers and effects.
 
-> Ever wonder why we dispatch the action like this in dva ? `dispatch({type: 'example/loadDashboard'` 
+> Ever wonder why we dispatch the action like this in dva ? `dispatch({type: 'example/loadDashboard'`
 
-## start 方法
+## start method
 
-`start` 方法是 `dva-core` 的核心，在 `start` 方法里，dva 完成了** `store` 初始化** 以及 **`redux-saga` 的调用**。比起 `dva` 的 `start`，它引入了更多的调用方式。
+The `start` method is the core of `dva-core`. In the `start` method, dva completes the ** `store` initialization** and the **`redux-saga` call**. It introduces more calls than `dva`'s `start`.
 
-一步一步分析：
+Step by step analysis:
 
 ### `onError`
 
@@ -630,64 +642,64 @@ export default class Plugin {
       }
     };
 ```
-这是一个全局错误处理，返回了一个接收错误并处理的函数，并以 `err` 和 `app._store.dispatch` 为参数执行调用。
+This is a global error handler that returns a function that receives the error and handles it, and executes the call with the arguments `err` and `app._store.dispatch`.
 
-看一下 `plugin.apply` 的实现：
+Take a look at the implementation of `plugin.apply`:
 
 ```js
   apply(key, defaultHandler) {
     const hooks = this.hooks;
-	/* 通过 validApplyHooks 进行过滤， apply 方法只能应用在全局报错或者热更替上 */ 
-    const  validApplyHooks = ['onError', 'onHmr'];
+/* Filtered by validApplyHooks, apply method can only be applied to global error or hot swap */
+    const validApplyHooks = ['onError', 'onHmr'];
     invariant(validApplyHooks.indexOf(key) > -1, `plugin.apply: hook ${key} cannot be applied`);
-	/* 从钩子中拿出挂载的回调函数 ，挂载动作见 use 部分*/
-    const fns = hooks[key];
+/* Take the mounted callback function from the hook. See the use section* for the mount action.
+    Const fns = hooks[key];
 
-    return (...args) => {
-		// 如果有回调执行回调
-      if (fns.length) {
-        for (const fn of fns) {
-          fn(...args);
+    Return (...args) => {
+// If there is a callback execution callback
+      If (fns.length) {
+        For (const fn of fns) {
+          Fn(...args);
         }
-		// 没有回调直接抛出错误
+// throws an error without a callback
       } else if (defaultHandler) {
         defaultHandler(...args);
-		
-		/*
-		这里 defaultHandler 为 (err) => {
-          throw new Error(err.stack || err);
+
+/*
+Here the defaultHandler is (err) => {
+          Throw new Error(err.stack || err);
         }
-		*/
+*/
       }
     };
   }
   ```
 
-###  `sagaMiddleware`
+### `sagaMiddleware`
 
-下一行代码是：    
+The next line of code is:
 
 > `const sagaMiddleware = createSagaMiddleware();`
 
-和 `redux-sagas` 的入门教程有点差异，因为正统的教程上添加 sagas 中间件的方法是： `createSagaMiddleware(...sagas)`
+It's a bit different from the introductory tutorial for `redux-sagas`, because the way to add sagas middleware on the orthodox tutorial is: `createSagaMiddleware(...sagas)`
 
-> sagas 为含有 saga 方法的 generator 函数数组。
+> sagas is an array of generator functions with saga methods.
 
-但是 api 里确实还提到，还有一~~~招从天而降的掌法~~~种动态调用的方式：
+However, the api does mention that there is still a ~~~ trick to the sky from the sky ~~~ kind of dynamic call:
 
->  `const task = sagaMiddleware.run(dynamicSaga)`
+> `const task = sagaMiddleware.run(dynamicSaga)`
 
-于是：
+then:
 
 ```js
-	  const sagaMiddleware = createSagaMiddleware();
-	  // ...
+const sagaMiddleware = createSagaMiddleware();
+// ...
       const sagas = [];
       const reducers = {...initialReducer
       };
       for (const m of app._models) {
-      	reducers[m.namespace] = getReducer(m.reducers, m.state);
-      	if (m.effects) sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
+      reducers[m.namespace] = getReducer(m.reducers, m.state);
+      if (m.effects) sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));
       }
       // ....
 
@@ -698,7 +710,7 @@ export default class Plugin {
 
 ### `sagas`
 
-那么 sagas 是什么呢？
+So what is sagas?
 
 ```js
     const {
@@ -715,24 +727,24 @@ export default class Plugin {
     }
 ```
 
-显然，sagas 是一个数组，里面的元素是用 `app._getSaga` 处理后的返回结果，而 `app._getSaga` 又和上面 createPromiseMiddleware 代理 app 后返回的对象有很大关系。
+Obviously, sagas is an array, the elements inside are returned by `app._getSaga`, and `app._getSaga` has a lot to do with the object returned by the createPromiseMiddleware proxy app above.
 
 #### `createPromiseMiddleware`
 
-createPromiseMiddleware 的代码[在此](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/createPromiseMiddleware.js)。
+The code for createPromiseMiddleware [here](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/createPromiseMiddleware.js).
 
-如果看着觉得眼熟，那肯定不是因为看过 redux-promise 源码的缘故，:-p。
+If you look familiar, it is certainly not because of the redux-promise source code, :-p.
 
 ##### `middleware`
 
-`middleware` 是一个 redux 的中间件，即在不影响 redux 本身功能的情况下为其添加了新特性的代码。redux 的中间件通过拦截 action 来实现其作用的。
+`middleware` is a redux middleware that adds new features to the redux itself without affecting its functionality. Redux's middleware does its job by intercepting actions.
 
 ```js
   const middleware = () => next => (action) => {
     const { type } = action;
     if (isEffect(type)) {
       return new Promise((resolve, reject) => {
-		// .... resolve ,reject
+// .... resolve ,reject
       });
     } else {
       return next(action);
@@ -740,37 +752,37 @@ createPromiseMiddleware 的代码[在此](https://github.com/dvajs/dva/blob/mast
   };
   
     function isEffect(type) {
-		// dva 里 action 的 type 有固定格式： model.namespace/model.effects
-		// const [namespace] = type.split(NAMESPACE_SEP); 是 es6 解构的写法
-		// 等同于 const namespace = type.split(NAMESPACE_SEP)[0];
-		// NAMESPACE_SEP 的值是 `/`
-    	const [namespace] = type.split(NAMESPACE_SEP);
-		// 根据 namespace 过滤出对应的 model
-    	const model = app._models.filter(m => m.namespace === namespace)[0];
-		// 如果 model 存在并且 model.effects[type] 也存在，那必然是 effects
-    	if (model) {
-    		if (model.effects && model.effects[type]) {
-    			return true;
-    		}
-    	}
+// The type of action in dva has a fixed format: model.namespace/model.effects
+// const [namespace] = type.split(NAMESPACE_SEP); yes es6 deconstruction
+// is equivalent to const namespace = type.split(NAMESPACE_SEP)[0];
+// The value of NAMESPACE_SEP is `/`
+    const [namespace] = type.split(NAMESPACE_SEP);
+// According to the namespace filter out the corresponding model
+    const model = app._models.filter(m => m.namespace === namespace)[0];
+// If the model exists and model.effects[type] also exists, it must be effects
+    if (model) {
+    if (model.effects && model.effects[type]) {
+    return true;
+    }
+    }
 
-    	return false;
+    return false;
     }
   ```
 
->  const middleware = ({dispatch}) => next => (action) => {... return next(action)} 基本上是一个标准的中间件写法。在 return next(action) 之前可以对 action 做各种各样的操作。因为此中间件没用到 dispatch 方法，所以省略了。
+> const middleware = ({dispatch}) => next => (action) => {... return next(action)} is basically a standard middleware. You can do a variety of actions on the action before return next(action) . Because this middleware does not use the dispatch method, it is omitted.
 
-本段代码的意思是，如果 dispatch 的 action 指向的是 model 里的 effects，那么返回一个 Promise 对象。此 Promise 的对象的解决( resolve )或者驳回方法 ( reject ) 放在 map 对象中。如果是非 effects (那就是 action 了)，放行。
+The meaning of this code is that if the dispatch action points to the effects in the model, then a Promise object is returned. The resolve or reject method for this Promise object is placed in the map object. If it is non-effects (that is action), release it.
 
-换句话说，middleware 拦截了指向 effects 的 action。
+In other words, middleware intercepts actions that point to effects.
 
-##### 神奇的 bind
+##### Magic bind
 
-bind 的作用是绑定新的对象，生成新函数是大家都知道概念。但是 bind 也可以提前设定好函数的某些参数生成新函数，等到最后一个参数确定时直接调用。
+The role of bind is to bind new objects, and to generate new functions is everyone knows the concept. But bind can also set some parameters of the function in advance to generate a new function, and wait until the last parameter is determined.
 
-> JavaScript 的参数是怎么被调用的？[JavaScript 专题之函数柯里化](https://juejin.im/post/598d0b7ff265da3e1727c491)。作者：[冴羽](https://juejin.im/user/58e4b9b261ff4b006b3227f4)。文章来源：[掘金](https://juejin.im/timeline)
+> How are JavaScript parameters called? [JavaScript special function Curry](https://juejin.im/post/598d0b7ff265da3e1727c491). Author: [Hu Yu](https://juejin.im/user/58e4b9b261ff4b006b3227f4). Article source: [Nuggets](https://juejin.im/timeline)
 
-这段代码恰好就是 bind 的一种实践方式。
+This code happens to be a way of doing things with bind.
 
 ```js
   const map = {};
@@ -810,25 +822,25 @@ bind 的作用是绑定新的对象，生成新函数是大家都知道概念。
     reject,
   };
 ```
-分析这段代码，dva 是这样做的：
+Analyze this code, dva does this:
 
-1. 通过 `wrapped.bind(null, type, resolve)` 产生了一个新函数，并且赋值给匿名对象的 resolve 属性(reject 同理)。
+1. Generate a new function via `wrapped.bind(null, type, resolve)` and assign it to the resolve property of the anonymous object (reject).
 
-> 1.1 wrap 接收三个参数，通过 bind 已经设定好了两个。`wrapped.bind(null, type, resolve)` 等同于 `wrap(type, resolve, xxx)`（**此处  `resolve` 是 Promise 对象中的**）。 
+> 1.1 wrap Receives three parameters, which have been set by bind. `wrapped.bind(null, type, resolve)` is equivalent to `wrap(type, resolve, xxx)` (** where `resolve` is the ** in the Promise object).
 
-> 1.2 通过 bind 赋给匿名对象的 resolve 属性后，匿名对象.resolve(xxxx) 等同于 wrap(type, resolve, xxx)，即 reslove(xxx)。
+> 1.2 After bind is assigned to the resolve attribute of an anonymous object, the anonymous object .resolve(xxxx) is equivalent to wrap(type, resolve, xxx), ie reslove(xxx).
 
-2. 使用 type 在 map 对象中保存此匿名对象，而 type 是 action 的 type，即 namespace/effects 的形式，方便之后进行调用。
+2. Use type to save this anonymous object in the map object, and type is the type of action, which is the form of namespace/effects, which is convenient to call later.
 
-3. return 出的 resolve 接收 type 和 args 两个参数。type 用来在 map 中寻找 1 里的匿名函数，args 用来像 1.2 里那样执行。
+3. The return of the resolve receives two arguments of type and args. Type is used to find 1 anonymous function in map, args is used to execute as in 1.2.
 
-> 这样做的作用是：分离了 promise 与 promise 的执行。在函数的作用域外依然可以访问到函数的内部变量，换言之：闭包。
+> The effect of this is to separate the execution of promises and promises. The internal variables of the function can still be accessed outside the scope of the function, in other words: closures.
 
 #### `getSaga`
 
-导出的 `resolve` 与 `reject` 方法，通过 bind 先设置进了 `getSaga` (同时也赋给了 `app._getSaga`)，sagas 最终也将 `getSaga` 的返回值放入了数组。
+The exported `resolve` and `reject` methods are first set into `getSaga` (also assigned to `app._getSaga`) via bind, and sagas finally puts the return value of `getSaga` into the array.
 
-[getSaga 源码](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/getSaga.js)
+[getSaga source](https://github.com/dvajs/dva/blob/master/packages/dva-core/src/getSaga.js)
 
 ```js
 export default function getSaga(resolve, reject, effects, model, onError, onEffect) {
@@ -836,10 +848,10 @@ export default function getSaga(resolve, reject, effects, model, onError, onEffe
     for (const key in effects) {
       if (Object.prototype.hasOwnProperty.call(effects, key)) {
         const watcher = getWatcher(resolve, reject, key, effects[key], model, onError, onEffect);
-		// 将 watcher 分离到另一个线程去执行
+// Separate the watcher to another thread to execute
         const task = yield sagaEffects.fork(watcher);
-		// 同时 fork 了一个线程，用于在 model 卸载后取消正在进行中的 task
-		// `${model.namespace}/@@CANCEL_EFFECTS` 的发出动作在 index.js 的 start 方法中，unmodel 方法里。
+// Also fork a thread to cancel the in progress task after the model is unloaded
+// The issue of `${model.namespace}/@@CANCEL_EFFECTS` is in the start method of index.js , in the unmodel method.
         yield sagaEffects.fork(function *() {
           yield sagaEffects.take(`${model.namespace}/@@CANCEL_EFFECTS`);
           yield sagaEffects.cancel(task);
@@ -849,11 +861,11 @@ export default function getSaga(resolve, reject, effects, model, onError, onEffe
   };
 }
 ```
-可以看到，`getSaga` 最终返回了一个 [generator 函数](http://www.ruanyifeng.com/blog/2015/04/generator.html)。
+As you can see, `getSaga` eventually returns a [generator function](http://www.ruanyifeng.com/blog/2015/04/generator.html).
 
-在该函数遍历了** model 中 effects 属性**的所有方法（注：同样是 generator 函数）。结合 `index.js` 里的 ` for (const m of app._models)`，该遍历针对所有的 model。
+This function traverses all the methods of the effects property** in the ** model (note: the same is the generator function). Combine ` for (const m of app._models)` in `index.js`, which is for all models.
 
-对于每一个 effect，getSaga 生成了一个 watcher ，并使用 saga 函数的 **fork** 将该函数切分到另一个单独的线程中去（生成了一个 task 对象）。同时为了方便对该线程进行控制，在此 fork 了一个 generator 函数。在该函数中拦截了取消 effect 的 action（事实上，应该是卸载effect 所在 model 的 action），一旦监听到则立刻取消分出去的 task 线程。
+For each effect, getSaga generates a watcher and uses the **fork** of the saga function to split the function into a separate thread (generating a task object). At the same time, in order to facilitate the control of this thread, there is a generator function here. In this function, the action that cancels the effect is intercepted (in fact, it should be the action of the model in which the effect is unloaded), and once it is intercepted, the task thread that was split is immediately cancelled.
 
 ##### getWatcher
 
@@ -864,11 +876,11 @@ function getWatcher(resolve, reject, key, _effect, model, onError, onEffect) {
   let ms;
 
   if (Array.isArray(_effect)) {
-	// effect 是数组而不是函数的情况下暂不考虑
+	// effect is not considered in the case of an array instead of a function
   }
 
   function *sagaWithCatch(...args) {
-		// .... sagaWithCatch 的逻辑
+		// .... logic of sagaWithCatch
   }
 
   const sagaWithOnEffect = applyOnEffect(onEffect, sagaWithCatch, model, key);
@@ -892,7 +904,7 @@ function getWatcher(resolve, reject, key, _effect, model, onError, onEffect) {
 }
 
 function createEffects(model) {
-	// createEffects(model) 的逻辑
+	// the logic of createEffects(model)
 }
 
 function applyOnEffect(fns, effect, model, key) {
@@ -903,30 +915,30 @@ function applyOnEffect(fns, effect, model, key) {
 }
 ```
 
-先不考虑 effect 的属性是数组而不是方法的情况。
+Let's not consider the case where the attribute of effect is an array rather than a method.
 
-`getWatcher` 接收六个参数：
-- `resolve/reject`: 中间件 `middleware` 的 res 和 rej 方法。
-- `key`:经过 prefixNamespace 转义后的 effect 方法名，namespace/effect（也是调用 action 时的 type）。
--` _effect`:effects 中 key 属性所指向的 generator 函数。
-- `model`： model
-- `onError`： 之前定义过的捕获全局错误的方法
-- `onEffect`：plugin.use 中传入的在触发 effect 时执行的回调函数（钩子函数）
+`getWatcher` receives six parameters:
+- `resolve/reject`: The res and rej methods of the middleware `middleware`.
+- `key`: The name of the effect method after the escape of prefixNamespace, namespace/effect (also the type when the action is called).
+-` _effect`: The generator function pointed to by the key attribute in effects.
+- `model`: model
+- `onError`: previously defined method for capturing global errors
+- Callback function (hook function) that is executed when the effect is triggered in `onEffect`:plugin.use
 
 
-`applyOnEffect` 对 effect 进行了动态代理，在保证 effect （即 `_effect`）正常调用的情况下，为期添加了 fns 的回调函数数组(即 `onEffect`)。使得在 effect 执行时， `onEffect` 内的每一个回调函数都可以被触发。
+`applyOnEffect` dynamically delegates the effect, and in the case of ensuring that the effect (ie `_effect`) is called normally, an array of callback functions of fns (ie `onEffect`) is added. This allows each callback function inside `onEffect` to be fired when effect is executed.
 
-因为没有经过 effects 的属性是数组的情况，所以 `type` 的值是 `takeEvery`，也就是监听每一个发出的 action ，即 `getWatcher` 的返回值最终走的是 switch 的 default 选项:
+Because the property without effects is an array, the value of `type` is `takeEvery`, which means that each action is listened to, ie the return value of `getWatcher` is finally the default option of switch:
 
 ```js
 function*() {
         yield takeEvery(key, sagaWithOnEffect);
       };
-	  
-```
-换句话说，每次发出指向 effects 的函数都会调用 `sagaWithOnEffect`。
 
-根据 `const sagaWithOnEffect = applyOnEffect(onEffect, sagaWithCatch, model, key);` 的执行情况，如果 onEffect 的插件为空的情况下，`sagaWithOnEffect` 的值为 `sagaWithCatch`。
+```
+In other words, `sagaWithOnEffect` is called every time a function that points to effects is issued.
+
+According to the execution of `const sagaWithOnEffect = applyOnEffect(onEffect, sagaWithCatch, model, key);`, if the onEffect plugin is empty, the value of `sagaWithOnEffect` is `sagaWithCatch`.
 
 ```js
   function *sagaWithCatch(...args) {
@@ -945,23 +957,23 @@ function*() {
 
 ```
 
-在 `sagaWithOnEffect` 函数中，sagas 使用传入的参数(也就是 action)执行了对应的 model 中 对应的 effect 方法，同时将返回值使用之前保存在 map 里的 resolve 返回了其返回值。同时在执行 effect 方法的时候，将 saga 本身的所有方法(put、call、fork 等等)作为第二个参数，使用 `concat` 拼接在 action 的后面。在执行 effect 方法前，又发出了 start 和 end 两个 action，方便 onEffect 的插件进行拦截和调用。
+In the `sagaWithOnEffect` function, sagas uses the passed argument (that is, action) to execute the corresponding effect method in the corresponding model, and returns the return value using the resolve stored in the map before returning its return value. At the same time, when executing the effect method, all the methods of saga itself (put, call, fork, etc.) are used as the second parameter, and the `concat` is used to splicing behind the action. Before the effect method is executed, two actions, start and end, are issued to facilitate the interception and invocation of the onEffect plugin.
 
-因此，对于 `if (m.effects) sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));`。
+So for `if (m.effects) sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect')));`.
 
-1. dva 通过 `app._getSaga(m.effects, m, onError, plugin.get('onEffect'))` 返回了一个 genenrator 函数。
-2. 在 genenrator 函数中手动 fork 出一个 watcher 函数的监听线程(当然也 fork 了取消线程的功能)。
-3. 该函数(在普通状态下)是一个 takeEvery 的阻塞是线程，接收 2 个参数。第一个参数为监听的 action，第二个参数为监听到 action 后的回调函数。
-4. (普通状态下)的回调函数，就是手动调用了 model 里 effects 中对应属性的函数。在此之前之后发出了 `start` 和 `end` 的 action，同时用之前 promise 中间件保存在 map 中的 resolve 方法返回了值。
-5. 最后使用 sagas.forEach(sagaMiddleware.run) 启动了 watcher 的监听。
+1. dva returns a genenrator function via `app._getSaga(m.effects, m, onError, plugin.get('onEffect'))`.
+2. Manually fork out the listener thread of a watcher function in the genenrator function (of course, fork cancels the function of the thread).
+3. The function (in the normal state) is a takeEvery block that is a thread that receives 2 arguments. The first parameter is the action of the listener, and the second parameter is the callback function after the action is listened to.
+4. The callback function (in the normal state) is a function that manually calls the corresponding attribute in the effects in the model. The actions of `start` and `end` were issued after this, and the resolve method saved in the map with the previous promise middleware returned the value.
+5. Finally, watcher's listener is started using sagas.forEach(sagaMiddleware.run).
 
 ### store
 
-现在已经有了针对异步数据流的解决办法，那么该创建 store 了。
+Now that you have a solution for asynchronous data streams, it's time to create a store.
 
-正常情况的 redux 的 createStore 接收三个参数 reducer, initState,applyMiddleware(middlewares)。
+The normal redux createStore receives three parameters reducer, initState, applyMiddleware(middlewares).
 
-不过 dva 提供了自己的 `createStore` 方法，用来组织一系列自己创建的参数。
+However, dva provides its own `createStore` method to organize a series of parameters that you create yourself.
 ```js
     // Create store
     const store = app._store = createStore({ // eslint-disable-line
@@ -986,7 +998,7 @@ function*() {
     }
 ```
 
-`createReducer` 实际上是用 plugin 里的 onReducer (如果有)扩展了 reducer 功能，对于 `const reducerEnhancer = plugin.get('onReducer');`，plugin 里的相关代码为：
+`createReducer` actually extends the reducer function with onReducer (if any) in plugin. For `const reducerEnhancer = plugin.get('onReducer');`, the relevant code in plugin is:
 
 ```js
 function getOnReducer(hook) {
@@ -1000,20 +1012,20 @@ function getOnReducer(hook) {
 
 ```
 
-> 如果有 onReducer 的插件，那么用 reducer 的插件扩展 reducer；否则直接返回 reducer。
+> If there is a plugin for onReducer, expand reducer with the reducer's plugin; otherwise return directly to reducer.
 
-combineReducers 中：
-- 第一个 `...reducers` 是从 dva 里传入的 historyReducer，以及通过 ` reducers[m.namespace] = getReducer(m.reducers, m.state);` 剥离出的 model 中的 reducer
-- 第二个参数为手动在 plugin 里添加的 extraReducers；
-- 第三个参数为异步 reducer，主要是用于在 dva 运行以后动态加载 model 里的 reducer。
+In combineReducers:
+- The first `...reducers` is the historyReducer passed in from dva and the reducer in the model stripped out by ` reducers[m.namespace] = getReducer(m.reducers, m.state);
+- The second parameter is the extraReducers added manually in the plugin;
+- The third parameter is the asynchronous reducer, which is mainly used to dynamically load the reducer in the model after dva runs.
 
 
 #### createStore
 
 
-现在我们有了一个 combine 过的 reducer，有了 core 中创建的 sagaMiddleware 和 promiseMiddleware，还有了从 dva 中传入的 createOpts，现在可以正式创建 store 了。
+Now that we have a combine reducer, with sagaMiddleware and promiseMiddleware created in core, and createOpts passed in from dva, we can now officially create the store.
 
-> 从 dva 中传入的 createOpts 为 
+> The createOpts passed in from dva is
 ```js
     setupMiddlewares(middlewares) {
       return [
@@ -1022,10 +1034,10 @@ combineReducers 中：
       ];
     },
 ```
-> 用与把 redux-router 的中间件排在中间件的第一个。
+> Use the middleware that puts redux-router in the middle of the middleware.
 
 
-虽然看起来很长，但是对于大多数普通用户来说，在未开启 redux 的调试插件，未传入额外的 onAction 以及 extraEnhancers 的情况下，上面的代码等价于:
+Although it looks long, for most normal users, the above code is equivalent to: if the debug plugin for redux is not enabled, and no additional onAction and extraEnhancers are passed.
 
 ```js
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -1055,15 +1067,15 @@ export default function ({
   ];
 
   return createStore(reducers, initialState, compose(...enhancers));
-  // 对于 redux 中 的 compose 函数，在数组长度为 1  的情况下返回第一个元素。
-  // compose(...enhancers) 等同于 applyMiddleware(...middlewares)
+  // For the compose function in redux, returns the first element if the array length is 1.
+   // compose(...enhancers) is equivalent to applyMiddleware(...middlewares)
 }
 
 ```
 
-### 订阅
+### Subscribe
 
-现在 dva 已经创建了 store，有了异步数据流加载方案，并且又做了一些其他的事情：
+Now dva has created the store, has an asynchronous data stream loading scheme, and does something else:
 
 ```js
     // Extend store
@@ -1082,10 +1094,10 @@ export default function ({
     sagas.forEach(sagaMiddleware.run);
 ```
 
-- 手动运行 getSaga 里返回的 watcer 函数。
-- 判断如果有 onStateChange 的 plugin 也手动运行一下。
+- Manually run the watcer function returned in getSaga.
+- Determine if the plugin with onStateChange is also run manually.
 
-model 里的 state、effect、reducer 已经实现了，就缺最后的订阅 subscription 部分。
+The state, effect, and reducer in the model have been implemented, and the last subscription subscription is missing.
 
 ```js
     // Setup app
@@ -1100,12 +1112,12 @@ model 里的 state、effect、reducer 已经实现了，就缺最后的订阅 su
     }
 ```
 
-setupApp(app) 是从 dva 里传过来的，主要是使用 patchHistory 函数代理 history.linsten，即强化了 redux 和 router 的联系，是的路径变化可以引起 state 的变化，进而听过监听 state 的变化来触发回调。
-> 这也是 core 中唯一使用 this 的地方，逼得 dva 中必须使用 oldStart.call(app) 来进行调用。
+setupApp(app) is passed from dva. It mainly uses the patchHistory function to proxy history.linsten, which strengthens the connection between redux and router. The path change can cause the state to change, and then listen to the change of the listen state to trigger. Callback.
+> This is also the only place in the core that uses this , which forces the dva to be called with oldStart.call(app) .
 
 #### runSubscription
 
-这是 runSubscription 的代码
+This is the code for runSubscription
 
 ```js
 export function run(subs, model, app, onError) {
@@ -1128,28 +1140,28 @@ export function run(subs, model, app, onError) {
   return { funcs, nonFuncs };
 }
 ```
-- 第一个参数为 model 中的 subscription 对象。
-- 第二个参数为对应的 model
-- 第三个参数为 core 里创建的 app
-- 第四个参数为全局异常捕获的 onError
+- The first parameter is the subscription object in the model.
+- The second parameter is the corresponding model
+- The third parameter is the app created in core
+- The fourth parameter is the onError captured by the global exception.
 
-1. `Object.prototype.hasOwnProperty.call(subs, key)` 
-还是使用原型方法判断 key 是不是 subs 的自有属性。
+1. `Object.prototype.hasOwnProperty.call(subs, key)`
+Still use the prototype method to determine whether key is a self-owned property of subs.
 
-2. 如果是自由属性，那么拿到属性对应的值(是一个 function)
+2. If it is a free attribute, then get the value corresponding to the attribute (is a function)
 
-3. 调用该 function，传入 dispatch 和 history 属性。history 就是经过 redux-router 强化过的 history，而 dispatch，也就是 `prefixedDispatch(app._store.dispatch, model)`
+3. Call the function, passing in the dispatch and history properties. History is the history that has been enhanced by redux-router, and dispatch, which is `prefixedDispatch(app._store.dispatch, model)`
 
 ```js
 export default function prefixedDispatch(dispatch, model) {
   return (action) => {
-	// 断言检测
+    // assertion detection
     return dispatch({ ...action, type: prefixType(type, model) });
-  };
+   };
 }
 
 ```
 
-实际上是用将 action 里的 type 添加了 `${model.namespance}/` 的前缀。
+In fact, the prefix of `${model.namespance}/` is added to the type in the action.
 
-自此，model 中的四大组件全部完毕，完成了 dva 的数据层处理。
+Since then, all four components in the model have been completed, and the data layer processing of dva has been completed.

@@ -1,8 +1,8 @@
-# 快速上手
+# Quick Start
 
-## 安装 dva-cli
+## Install dva-cli
 
-通过 npm 安装 dva-cli 并确保版本是 `0.9.1` 或以上。
+Install dva-cli via npm and make sure the version is `0.9.1` or above.
 
 ```bash
 $ npm install dva-cli -g
@@ -10,24 +10,24 @@ $ dva -v
 dva-cli version 0.9.1
 ```
 
-## 创建新应用
+## Create New App
 
-安装完 dva-cli 之后，就可以在命令行里访问到 `dva` 命令（[不能访问？](http://stackoverflow.com/questions/15054388/global-node-modules-not-installing-correctly-command-not-found)）。现在，你可以通过 `dva new` 创建新应用。
+After installing dva-cli, you can access the `dva` command from the command line ([Cannot access?](http://stackoverflow.com/questions/15054388/global-node-modules-not-installing-correctly-command-not-found)). Now you can create new apps with `dva new`.
 
 ```bash
 $ dva new dva-quickstart
 ```
 
-这会创建 `dva-quickstart` 目录，包含项目初始化目录和文件，并提供开发服务器、构建脚本、数据 mock 服务、代理服务器等功能。
+This creates the `dva-quickstart` directory, which contains the project initialization directories and files, and provides development server, build scripts, data mock services, proxy servers, and more.
 
-然后我们 `cd` 进入 `dva-quickstart` 目录，并启动开发服务器：
+Then we `cd` enter the `dva-quickstart` directory and start the development server：
 
 ```bash
 $ cd dva-quickstart
 $ npm start
 ```
 
-几秒钟后，你会看到以下输出：
+After a few seconds, you will see the following output：
 
 ```bash
 Compiled successfully!
@@ -40,17 +40,17 @@ Note that the development build is not optimized.
 To create a production build, use npm run build.
 ```
 
-在浏览器里打开 http://localhost:8000 ，你会看到 dva 的欢迎界面。
+Open http://localhost:8000 in your browser and you will see the dva welcome screen.
 
-## 使用 antd
+## Use antd
 
-通过 npm 安装 `antd` 和 `babel-plugin-import` 。`babel-plugin-import` 是用来按需加载 antd 的脚本和样式的，详见 [repo](https://github.com/ant-design/babel-plugin-import) 。
+Install `antd` and `babel-plugin-import` via npm. `babel-plugin-import` is used to load antd scripts and styles on demand. See [repo](https://github.com/ant-design/babel-plugin-import).
 
 ```bash
 $ npm install antd babel-plugin-import --save
 ```
 
-编辑 `.webpackrc`，使 `babel-plugin-import` 插件生效。
+Edit `.webpackrc` to make the `babel-plugin-import` plugin take effect.
 
 ```diff
 {
@@ -60,13 +60,13 @@ $ npm install antd babel-plugin-import --save
 }
 ```
 
-> 注：dva-cli 基于 roadhog 实现 build 和 dev，更多 `.webpackrc` 的配置详见 [roadhog#配置](https://github.com/sorrycc/roadhog#配置)
+> Note: dva-cli implements build and dev based on roadhog. For more configuration of `.webpackrc`, see [roadhog#config](https://github.com/sorrycc/roadhog#配置)
 
-## 定义路由
+## Defining Routes
 
-我们要写个应用来先显示产品列表。首先第一步是创建路由，路由可以想象成是组成应用的不同页面。
+We have to write an application to display the product list first. The first step is to create a route that can be thought of as a different page that makes up the application.
 
-新建 route component `routes/Products.js`，内容如下：
+New route component `routes/Products.js`, the content is as follows：
 
 ```javascript
 import React from 'react';
@@ -78,7 +78,7 @@ const Products = (props) => (
 export default Products;
 ```
 
-添加路由信息到路由表，编辑 `router.js` :
+Add routing information to the routing table, edit `router.js`:
 
 ```diff
 + import Products from './routes/Products';
@@ -86,15 +86,15 @@ export default Products;
 + <Route path="/products" exact component={Products} />
 ```
 
-然后在浏览器里打开 http://localhost:8000/#/products ，你应该能看到前面定义的 `<h2>` 标签。
+Then open http://localhost:8000/#/products in your browser and you should see the `<h2>` tag defined earlier.
 
-## 编写 UI Component
+## Write UI Component
 
-随着应用的发展，你会需要在多个页面分享 UI 元素 (或在一个页面使用多次)，在 dva 里你可以把这部分抽成 component 。
+As your app grows, you'll need to share UI elements on multiple pages (or use it multiple times on a single page), and in dva you can pull this part into components.
 
-我们来编写一个 `ProductList` component，这样就能在不同的地方显示产品列表了。
+Let's write a `ProductList` component so that we can display the product list in different places.
 
-新建 `components/ProductList.js` 文件：
+Create a new `components/ProductList.js` file:
 
 ```javascript
 import React from 'react';
@@ -131,13 +131,13 @@ ProductList.propTypes = {
 export default ProductList;
 ```
 
-## 定义 Model
+## Model Definition
 
-完成 UI 后，现在开始处理数据和逻辑。
+Once the UI is complete, the data and logic are now processed.
 
-dva 通过 model 的概念把一个领域的模型管理起来，包含同步更新 state 的 reducers，处理异步逻辑的 effects，订阅数据源的 subscriptions 。
+Dva manages a domain model through the concept of model, including reducers that update state synchronously, handles the effects of asynchronous logic, and subscribes to subscriptions for data sources.
 
-新建 model `models/products.js` ：
+New model `models/products.js`：
 
 ```javascript
 export default {
@@ -151,26 +151,26 @@ export default {
 };
 ```
 
-这个 model 里：
+In this model:
 
-- `namespace` 表示在全局 state 上的 key
-- `state` 是初始值，在这里是空数组
-- `reducers` 等同于 redux 里的 reducer，接收 action，同步更新 state
+- `namespace` indicates the key on the global state
+- `state` is the initial value, here is an empty array
+- `reducers` is equivalent to reducer in redux, receives action, synchronizes state
 
-然后别忘记在 `index.js` 里载入他：
+Then don't forget to load him in `index.js`:
 
 ```diff
 // 3. Model
 + app.model(require('./models/products').default);
 ```
 
-## connect 起来
+## Connect up
 
-到这里，我们已经单独完成了 model 和 component，那么他们如何串联起来呢?
+At this point, we have completed the model and component separately, so how do they connect together?
 
-dva 提供了 connect 方法。如果你熟悉 redux，这个 connect 就是 react-redux 的 connect 。
+Dva provides a connect method. If you are familiar with redux, this connect is the connect of react-redux.
 
-编辑 `routes/Products.js`，替换为以下内容：
+Edit `routes/Products.js` and replace it with the following:
 
 ```javascript
 import React from 'react';
@@ -198,7 +198,7 @@ export default connect(({ products }) => ({
 }))(Products);
 ```
 
-最后，我们还需要一些初始数据让这个应用 run 起来。编辑 `index.js`：
+Finally, we need some initial data to get the application run. Edit `index.js`:
 
 ```diff
 - const app = dva();
@@ -212,21 +212,21 @@ export default connect(({ products }) => ({
 + });
 ```
 
-刷新浏览器，应该能看到以下效果：
+Refresh the browser, you should see the following effects:
 
 <p style="text-align: center">
   <img src="https://zos.alipayobjects.com/rmsportal/GQJeDDeUCSTRMMg.gif" />
 </p>
 
-## 构建应用
+## Build an app
 
-完成开发并且在开发环境验证之后，就需要部署给我们的用户了。先执行下面的命令：
+Once the development is complete and verified in the development environment, it needs to be deployed to our users. First execute the following command:
 
 ```bash
 $ npm run build
 ```
 
-几秒后，输出应该如下：
+After a few seconds, the output should look like this:
 
 ```bash
 > @ build /private/tmp/myapp
@@ -241,4 +241,4 @@ File sizes after gzip:
   270 B     dist/index.css
 ```
 
-`build` 命令会打包所有的资源，包含 JavaScript, CSS, web fonts, images, html 等。然后你可以在 `dist/` 目录下找到这些文件。
+The `build` command will package all resources, including JavaScript, CSS, web fonts, images, html, and more. Then you can find these files in the `dist/` directory.

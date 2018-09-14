@@ -1,30 +1,30 @@
-# 入门课
+#Introductory course
 
 ::: tip
-内容来自之前为内部同学准备的入门课。
+The content comes from an introductory class that was previously prepared for internal classmates.
 :::
 
-## React 没有解决的问题
+## React Unresolved Issues
 
-React 本身只是一个 DOM 的抽象层，使用组件构建虚拟 DOM。
+React itself is just an abstraction layer of the DOM, using components to build virtual DOMs.
 
-如果开发大应用，还需要解决一个问题。
+If you are developing a large application, you still need to solve a problem.
 
-* 通信：组件之间如何通信？
-* 数据流：数据如何和视图串联起来？路由和数据如何绑定？如何编写异步逻辑？等等
+* Communication: How do you communicate between components?
+* Data flow: How is the data concatenated with the view? How are routes and data bound? How to write asynchronous logic? and many more
 
-## 通信问题
-组件会发生三种通信。
+## Communication problem
+There are three kinds of communication happening to the component.
 
-* 向子组件发消息
-* 向父组件发消息
-* 向其他组件发消息
+* Send a message to a subcomponent
+* Send a message to the parent component
+* Send messages to other components
 
-React 只提供了一种通信手段：传参。对于大应用，很不方便。
+React only provides a means of communication: passing parameters. For large applications, it is very inconvenient.
 
-## 组件通信的例子
+## Example of component communication
 
-### 步骤1
+### step 1
 
 ```js
 class Son extends React.Component {
@@ -37,7 +37,7 @@ class Father extends React.Component {
   render() {
     return <div>
       <Son/>
-      <p>这里显示 Son 组件的内容</p>
+        <p>This shows the contents of the Son component.</p>
     </div>;
   }
 }
@@ -45,9 +45,9 @@ class Father extends React.Component {
 ReactDOM.render(<Father/>, mountNode);
 ```
 
-看这个例子，想一想父组件如何拿到子组件的值。
+Looking at this example, think about how the parent component gets the value of the child component.
 
-### 步骤2
+### Step 2
 
 ```js
 class Son extends React.Component {
@@ -71,7 +71,7 @@ class Father extends React.Component {
   render() {
     return <div>
       <Son onChange={this.changeHandler.bind(this)}/>
-      <p>这里显示 Son 组件的内容：{this.state.son}</p>
+      <p>Show the contents of the Son component here：{this.state.son}</p>
     </div>;
   }
 }
@@ -79,65 +79,65 @@ class Father extends React.Component {
 ReactDOM.render(<Father/>, mountNode);
 ```
 
-看下这个例子，看懂源码，理解子组件如何通过父组件传入的函数，将自己的值再传回父组件。 
+Look at this example, read the source code, understand how the child component passes the function passed in by the parent component, and pass its own value back to the parent component.
 
-## 数据流问题
+## Data flow problem
 
-目前流行的数据流方案有：
+The current popular data flow solutions are:
 
-* Flux，单向数据流方案，以 [Redux](https://github.com/reactjs/redux) 为代表
-* Reactive，响应式数据流方案，以 [Mobx](https://github.com/mobxjs/mobx) 为代表
-* 其他，比如 rxjs 等
+* Flux, a one-way data flow scheme to [Redux](https://github.com/reactjs/redux) to represent
+* Reactive, responsive data streaming solution, represented by [Mobx](https://github.com/mobxjs/mobx)
+* Others, such as rxjs, etc.
 
-到底哪一种架构最合适 React ？
+Which architecture is best for React?
 
-## 目前最流行的数据流方案
+## The most popular data flow solution at present
 
-截止 2017.1，最流行的社区 React 应用架构方案如下。
+As of 2017.1, the most popular community React application architecture is as follows.
 
-* 路由： [React-Router](https://github.com/ReactTraining/react-router/tree/v2.8.1)
-* 架构： [Redux](https://github.com/reactjs/redux)
-* 异步操作： [Redux-saga](https://github.com/yelouafi/redux-saga)
+* Routing: [React-Router](https://github.com/ReactTraining/react-router/tree/v2.8.1)
+* Architecture: [Redux](https://github.com/reactjs/redux)
+* Asynchronous operation: [Redux-saga](https://github.com/yelouafi/redux-saga)
 
-缺点：要引入多个库，项目结构复杂。
+Disadvantages: To introduce multiple libraries, the project structure is complex.
 
-## dva 是什么
+## dva What is it?
 
-dva 是体验技术部开发的 React 应用框架，将上面三个 React 工具库包装在一起，简化了 API，让开发 React 应用更加方便和快捷。
+Dva is a React application framework developed by the Experience Technology Department. It wraps the above three React tool libraries together, simplifying the API and making developing React applications more convenient and faster.
 
 dva = React-Router + Redux + Redux-saga
 
-## dva 应用的最简结构
+## The simplest structure of the dva application
 ```js
 import dva from 'dva';
 const App = () => <div>Hello dva</div>;
 
-// 创建应用
+// Create an app
 const app = dva();
-// 注册视图
+// Registration view
 app.router(() => <App />);
-// 启动应用
+// Launch application
 app.start('#root');
 ```
 
-## 数据流图
+## Data Flow Diagram
 
 <img src="https://zos.alipayobjects.com/rmsportal/hUFIivoOFjVmwNXjjfPE.png" width="460" height="290" /> 
 
-## 核心概念 
-* State：一个对象，保存整个应用状态
-* View：React 组件构成的视图层
-* Action：一个对象，描述事件 
-* connect 方法：一个函数，绑定 State 到 View
-* dispatch 方法：一个函数，发送 Action 到 State
+## Core idea
+* State: an object that holds the entire application state
+* View: View layer composed of React components
+* Action: an object describing the event
+* connect method: a function that binds State to View
+* dispatch method: a function that sends an Action to the State
 
-## State 和 View
-State 是储存数据的地方，收到 Action 以后，会更新数据。
+## State and View
+State is where the data is stored. After the Action is received, the data is updated.
 
-View 就是 React 组件构成的 UI 层，从 State 取数据后，渲染成 HTML 代码。只要 State 有变化，View 就会自动更新。
+View is the UI layer of React components. After fetching data from State, it is rendered into HTML code. As long as the State changes, the View is automatically updated.
 
 ## Action
-Action 是用来描述 UI 层事件的一个对象。
+Action is an object used to describe UI layer events.
 
 ```js
 {
@@ -146,9 +146,9 @@ Action 是用来描述 UI 层事件的一个对象。
 }
 ```
 
-## connect 方法
+## connect method
 
-connect 是一个函数，绑定 State 到 View。
+Connect is a function that binds State to View.
 
 ```js
 import { connect } from 'dva';
@@ -159,12 +159,12 @@ function mapStateToProps(state) {
 connect(mapStateToProps)(App);
 ```
 
-connect 方法返回的也是一个 React 组件，通常称为容器组件。因为它是原始 UI 组件的容器，即在外面包了一层 State。
+The connect method returns a React component, often referred to as a container component. Because it is a container for the original UI component, it is a layer of State outside.
 
-connect 方法传入的第一个参数是 mapStateToProps  函数，mapStateToProps 函数会返回一个对象，用于建立 State 到 Props 的映射关系。
+The first argument passed in by the connect method is the mapStateToProps function, and the mapStateToProps function returns an object that establishes the state-to-props mapping.
 
-## dispatch 方法
-dispatch 是一个函数方法，用来将 Action 发送给 State。
+## dispatch method
+Dispatch is a function method that is used to send an Action to a State.
 
 ```js
 dispatch({
@@ -173,16 +173,16 @@ dispatch({
 })
 ```
 
-dispatch 方法从哪里来？被 connect 的 Component 会自动在 props 中拥有 dispatch 方法。
+Where does the dispatch method come from? The Component that is connected will automatically have a dispatch method in props.
 
-> connect 的数据从哪里来? 
+> Where does the data for connect come from?
 
-## dva 应用的最简结构（带 model)
+## dva The simplest structure of the application (with model)
 ```js
-// 创建应用
+// Create an app
 const app = dva();
 
-// 注册 Model
+// Register Model
 app.model({
   namespace: 'count',
   state: 0,
@@ -197,36 +197,36 @@ app.model({
   },
 });
 
-// 注册视图
+// Registration view
 app.router(() => <ConnectedApp />);
 
-// 启动应用
+// Launch application
 app.start('#root');
 ```
 
-## 数据流图 1
+## Data Flow Diagram 1
 
 <img src="https://zos.alipayobjects.com/rmsportal/cyzvnIrRhJGOiLliwhcZ.png" width="450" height="380" />
 
-## 数据流图 2
+## Data Flow Diagram 2
 
 <img src="https://zos.alipayobjects.com/rmsportal/pHTYrKJxQHPyJGAYOzMu.png" width="607" height="464" />
 
 ## app.model
 
-dva 提供 app.model 这个对象，所有的应用逻辑都定义在它上面。
+Dva provides the app.model object, and all application logic is defined on it.
 
 ```js
 const app = dva();
 
-// 新增这一行
+// add this line
 app.model({ /**/ });
 
 app.router(() => <App />);
 app.start('#root');
 ```
 
-## Model 对象的例子
+## Example of a Model object
 
 ```js
 {
@@ -244,27 +244,27 @@ app.start('#root');
 }
 ```
 
-## Model 对象的属性
+## Model object properties
 
-* namespace: 当前 Model 的名称。整个应用的 State，由多个小的 Model 的 State 以 namespace 为 key 合成
-* state: 该 Model 当前的状态。数据保存在这里，直接决定了视图层的输出
-* reducers: Action 处理器，处理同步动作，用来算出最新的 State
-* effects：Action 处理器，处理异步动作
+* namespace: The name of the current model. The state of the entire application, composed of multiple small Model states with namespace as key
+* state: The current state of the model. The data is saved here, which directly determines the output of the view layer.
+* reducers: Action handlers that handle synchronous actions to calculate the latest State
+* effects: Action handler, handling asynchronous actions
 
 ## Reducer
 
-Reducer 是 Action 处理器，用来处理同步操作，可以看做是 state 的计算器。它的作用是根据 Action，从上一个 State 算出当前 State。
+The Reducer is an Action handler that handles synchronous operations and can be thought of as a state calculator. Its role is to calculate the current State from the previous State based on the Action.
 
-一些例子：
+Some examples:
 
 ```js
 // count +1
 function add(state) { return state + 1; }
 
-// 往 [] 里添加一个新 todo
+// Add a new todo to []
 function addTodo(state, action) { return [...state, action.payload]; }
 
-// 往 { todos: [], loading: true } 里添加一个新 todo，并标记 loading 为 false
+// Add a new todo to { todos: [], loading: true }，and mark loading as false
 function addTodo(state, action) {
   return {
     ...state,
@@ -276,7 +276,7 @@ function addTodo(state, action) {
 
 ## Effect
 
-Action 处理器，处理异步动作，基于 Redux-saga 实现。Effect 指的是副作用。根据函数式编程，计算以外的操作都属于 Effect，典型的就是 I/O 操作、数据库读写。
+The Action handler, which handles asynchronous actions, is based on the Redux-saga implementation. Effect refers to side effects. According to functional programming, operations other than calculations belong to Effect, typically I/O operations, database read and write.
 
 ```js
 function *addAfter1Second(action, { put, call }) {
@@ -285,18 +285,18 @@ function *addAfter1Second(action, { put, call }) {
 }
 ```
 
-## Generator 函数
+## Generator function
 
-Effect 是一个 Generator 函数，内部使用 yield 关键字，标识每一步的操作（不管是异步或同步）。
+Effect is a Generator function that internally uses the yield keyword to identify the operation of each step (whether asynchronous or synchronous).
 
-## call 和 put
+## call and put
 
-dva 提供多个 effect 函数内部的处理函数，比较常用的是 `call` 和 `put`。
+Dva provides a number of handlers inside the effect function. The more common ones are `call` and `put`.
 
-* call：执行异步函数
-* put：发出一个 Action，类似于 dispatch
+* call: execute asynchronous function
+* put: emit an Action, similar to dispatch
 
-## 课堂实战
-写一个列表，包含删除按钮，点删除按钮后延迟 1 秒执行删除。
+## Classroom combat
+Write a list containing the delete button and delay the deletion of 1 second to perform the delete.
 
 <img src="https://zos.alipayobjects.com/rmsportal/qEVcuGVcKMGjlUNghHel.gif" />

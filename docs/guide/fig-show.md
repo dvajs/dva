@@ -1,54 +1,54 @@
-# Dva 图解
+# Dva Diagram
 
-> 作者：至正<br />
-> 原文链接：[https://yuque.com/flying.ni/the-tower/tvzasn](https://yuque.com/flying.ni/the-tower/tvzasn)
+> Author: positive<br />
+> Original link: [https://yuque.com/flying.ni/the-tower/tvzasn](https://yuque.com/flying.ni/the-tower/tvzasn)
 
-## 示例背景
+## Sample background
 
-最常见的 Web 类示例之一: TodoList = Todo list + Add todo button
+One of the most common examples of Web classes: TodoList = Todo list + Add todo button
 
-## 图解一: React 表示法
+## Illustration 1: React notation
 
 ![图片.png | left | 747x518](https://cdn.yuque.com/yuque/0/2018/png/103904/1528436560812-2586a0b5-7a6a-4a07-895c-f822fa85d5de.png "")
 
-按照 React 官方指导意见, 如果多个 Component 之间要发生交互, 那么状态(即: 数据)就维护在这些 Component 的最小公约父节点上, 也即是 `<App/>`
+According to the official React guidelines, if there is interaction between multiple components, the state (ie: data) is maintained on the smallest convention parent of these Components, which is `<App/>`
 
-`<TodoList/> <Todo/>` 以及`<AddTodoBtn/>` 本身不维持任何 state, 完全由父节点`<App/>` 传入 props 以决定其展现, 是一个纯函数的存在形式, 即: `Pure Component`
+`<TodoList/> <Todo/>` and `<AddTodoBtn/>` do not maintain any state itself, and are completely passed by the parent node `<App/>` to determine its presentation. It is a pure function existence form, ie : `Pure Component`
 
-## 图解二: Redux 表示法
+## Illustration 2: Redux notation
 
-React 只负责页面渲染, 而不负责页面逻辑, 页面逻辑可以从中单独抽取出来, 变成 store
+React is only responsible for page rendering, not responsible for page logic. Page logic can be extracted separately from it into store
 
 ![图片.png | left | 747x558](https://cdn.yuque.com/yuque/0/2018/png/103904/1528436134375-4c15f63d-72f1-4c73-94a6-55b220d2547c.png "")
 
-与图一相比, 几个明显的改进点:
+Compared with Figure 1, there are several obvious improvements:
 
-1. 状态及页面逻辑从 `<App/>`里面抽取出来, 成为独立的 store, 页面逻辑就是 reducer
-2. `<TodoList/> ` 及`<AddTodoBtn/>`都是 Pure Component, 通过 connect 方法可以很方便地给它俩加一层 wrapper 从而建立起与 store 的联系: 可以通过 dispatch 向 store 注入 action, 促使 store 的状态进行变化, 同时又订阅了 store 的状态变化, 一旦状态有变, 被 connect 的组件也随之刷新
-3. 使用 dispatch 往 store 发送 action 的这个过程是可以被拦截的, 自然而然地就可以在这里增加各种 Middleware, 实现各种自定义功能, eg: logging
+1. The state and page logic are extracted from `<App/>` and become a separate store. The page logic is reducer.
+2. `<TodoList/> ` and `<AddTodoBtn/>` are both Pure Component. It is convenient to add a wrapper to the store via the connect method to establish a connection with the store: You can inject the action into the store through the dispatch. Causes the state of the store to change, and at the same time subscribes to the state change of the store. Once the state changes, the connected component is also refreshed.
+3. The process of sending a dispatch to the store using dispatch can be intercepted. Naturally, you can add various Middleware to implement various custom functions. eg: logging
 
-这样一来, 各个部分各司其职, 耦合度更低, 复用度更高, 扩展性更好
+In this way, each part has its own functions, lower coupling, higher reusability, and better scalability.
 
-## 图解三: 加入 Saga
+## Illustration 3: Join Saga
 
 ![图片.png | left | 747x504](https://cdn.yuque.com/yuque/0/2018/png/103904/1528436167824-7fa834ea-aa6c-4f9f-bab5-b8c5312bcf7e.png "")
 
-上面说了, 可以使用 Middleware 拦截 action, 这样一来异步的网络操作也就很方便了, 做成一个 Middleware 就行了, 这里使用 redux-saga 这个类库, 举个栗子:
+As mentioned above, you can use Middleware to intercept the action, so that asynchronous network operations are very convenient. Make a Middleware. Here, use the redux-saga class library, and give a chestnut:
 
-1. 点击创建 Todo 的按钮, 发起一个 type == addTodo 的 action
-2. saga 拦截这个 action, 发起 http 请求, 如果请求成功, 则继续向 reducer 发一个 type == addTodoSucc 的 action, 提示创建成功, 反之则发送 type == addTodoFail 的 action 即可
+1. Click the Create Todo button to launch a type == addTodo action
+2. saga intercepts the action and initiates the http request. If the request is successful, it continues to send a type == addTodoSucc action to the reducer, prompting that the creation is successful, otherwise sending the action of type == addTodoFail
 
-## 图解四: Dva 表示法
+## Illustration 4: Dva notation
 
 ![图片.png | left | 747x490](https://cdn.yuque.com/yuque/0/2018/png/103904/1528436195004-cd3800f2-f13d-40ba-bb1f-4efba99cfe0d.png "")
 
-有了前面的三步铺垫, Dva 的出现也就水到渠成了, 正如 Dva 官网所言, Dva 是基于 React + Redux + Saga 的最佳实践沉淀, 做了 3 件很重要的事情, 大大提升了编码体验:
+With the previous three steps, Dva's appearance has become a reality. As Dva's official website said, Dva is based on the best practice of React + Redux + Saga. It has done 3 important things, greatly improving the coding experience. :
 
-1. 把 store 及 saga 统一为一个 model 的概念, 写在一个 js 文件里面
-2. 增加了一个 Subscriptions, 用于收集其他来源的 action, eg: 键盘操作
-3. model 写法很简约, 类似于 DSL 或者 RoR, coding 快得飞起✈️
+1. Unify store and saga into a model concept, written in a js file
+2. Added a Subscriptions to collect actions from other sources, eg: Keyboard operations
+3. The model is very simple, similar to DSL or RoR, coding is flying fast✈️
 
-`约定优于配置, 总是好的`😆
+`Convention over configuration, always good`😆
 
 ```js
 app.model({
