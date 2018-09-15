@@ -6,7 +6,7 @@ sidebarDepth: 2
 
 ## Data Flow
 
-Data changes usually occur through user interaction or browser behavior (such as route jumps). When such behavior changes data, an action can be initiated via `dispatch`. If it is synchronous, it will pass directly. `Reducers` change `State`, if it is asynchronous behavior (side effects) will trigger `Effects` and then flow to `Reducers` and finally change `State`, so in dva, the data flow is very clear and concise, and the idea is basically consistent with the open source community. (also from the open source community).
+Data changes usually occur through user interaction or browser behavior (such as url redirects). When such behavior changes data, an action can be initiated via `dispatch`. If it is synchronous,  it will pass data directly to `Reducers` to update `State`. If it is asynchronous behavior (side effects), `Effects` will be triggered, then data flows to `Reducers`, and finally `State` will be updated. So in dva, the data flow is very clear. The basic principles are consistent with other open source community.
 
 <img src="https://zos.alipayobjects.com/rmsportal/PPrerEAKbIoDZYr.png" width="807" />
 
@@ -16,9 +16,9 @@ Data changes usually occur through user interaction or browser behavior (such as
 
 `type State = any`
 
-State represents the state data of the Model, usually represented as a javascript object (of course it can be any type). It is treated as immutable data, ensuring that each time it is a new object. No Quote relationships so that State independence is guaranteed, making it easy to test and track changes.
+`State` represents the state of the `Model`, that is usually represented as a javascript object (of course it can be any type). It should be treated immutable, ensuring that each time it is a new object without any reference relationships so that `State` independent. That will make easy to test and track changes.
 
-In dva you can see the top state data via the dva instance property `_store`, but usually you will rarely use it:
+In dva you can see the top state data via the dva instance property `_store`, but you will rarely use it:
 
 ```javascript
 const app = dva();

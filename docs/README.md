@@ -6,7 +6,7 @@ features:
 - title: Easy to learn and use
   details: only 6 APIs, especially friendly to redux users. When using with umi, is reduced to 0 API
 - title: elm concept
-  details: organize models via reducers, effects and subscriptions
+  details: organize models via reducers, effects and subscriptions in order to simplify redux and redux-saga concepts.
 - title: Plugin
   details: plugins such as dva-loading can automatically handle the loading state without writing showLoading and hideLoading over and over again
 footer: MIT Licensed | Copyright © 2017-present
