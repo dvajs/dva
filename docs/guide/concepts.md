@@ -42,11 +42,11 @@ dispatch({
 
 The `dispatch` method is a method that triggers actions. Actions are the only way to change State, but an action only describes a behavior, and `dipatch` can be seen as the way to trigger this behavior, while Reducer describes how to change the data.
 
-In dva, the components of the connected model can be accessed via props, and can be called Reducer or Effects in the Model. Common forms are:
+In dva, `dispatch` can be accessed via props of the connected components, and it triggers `Reducer` or `Effects` in the `Model`. For example:
 
 ```javascript
 dispatch({
-  type: 'user/add', // If you call outside the model, you need to add a namespace
+  type: 'user/add', // If you reference the action name outside the model, you will need to add the namespace
   payload: {}, // Information to be passed
 });
 ```
@@ -55,7 +55,7 @@ dispatch({
 
 `type Reducer<S, A> = (state: S, action: A) => S`
 
-The Reducer (also known as the reducing function) takes two arguments: the result of the previously accumulated operation and the current value to be accumulated, and a new cumulative result is returned. This function groups a collection into a single value.
+The `Reducer` (also known as the reducing function) takes two arguments: the current state which was previously calculated and the value effecting the current state. It returns a result which will be the new state. This function aggregates a collection into a single value.
 
 The concept of Reducer comes from functional programming, and there are reduce APIs in many languages. As in javascript:
 
@@ -66,13 +66,13 @@ The concept of Reducer comes from functional programming, and there are reduce A
 //return {x:1, y:2, z:3}
 ```
 
-In dva, the result of the aggregate accumulation of the reducers is the state object of the current model. The new value (that is, the new state) is obtained by evaluating the value passed in the actions with the current state in the reducers. Note that the Reducer must be a [pure function](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md), so the same input always gives the same output, it should not produce any side effects. Also, every time you calculate, you should use [immutable data](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md#reasonable), which makes for a simple understanding of each operation. A new state object should always be returned (independent, pure), so hot overload and time travel can be used.
+In dva, the result of the aggregate accumulation of the reducers is the state object of the current model. The new value (that is, the new state) is obtained by evaluating the value passed in the actions with the current state in the reducers. Note that the `Reducer` must be a [pure function](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md), so the same input always gives the same output, it should not produce any side effects. Also, every time you calculate, you should use [immutable data](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch3.md#reasonable), which makes for a simple understanding of each operation. A new state object should always be returned (independent, pure), so hot reload and time travel can be used.
 
 ### Effect
 
-Effect is also called a side effect, and in our application, the most common is asynchronous operations. The concept comes from functional programming, where it is called side effects because it makes our functions impure, and the same input does not necessarily get the same output.
+`Effect` is also called a side effect, and in our application, the most common use case is asynchronous operations. The concept comes from functional programming, where it is called side effects because it makes our functions impure, which means the same input does not necessarily result in the same output.
 
-In order to control the side-effect operation, dva introduces [redux-sagas](http://superraytin.github.io/redux-saga-in-chinese) for asynchronous process control, because of the [generator related concept](http://www.ruanyifeng.com/blog/2015/04/generator.html). So asynchronous operations are converted to synchronous, thus turning effects into pure functions. As for why we are so entangled in __pure function__, if you want to know more, you can read [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide), or its Chinese Translation [JS Functional Programming Guide](https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details).
+In order to control the side-effect operation, dva introduces [redux-sagas](http://superraytin.github.io/redux-saga-in-chinese) for asynchronous process control. Because of the [generator related concept](http://www.ruanyifeng.com/blog/2015/04/generator.html), asynchronous operations are converted into synchronous sequences, thus turning effects into pure functions. If you want to know more on why we are so entangled in __pure functions__, you can read more on [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide), or its Chinese Translation [JS Functional Programming Guide](https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details).
 
 ### Subscription
 

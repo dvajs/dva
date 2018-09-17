@@ -2,7 +2,7 @@
 
 > Author: Xu Fei
 
-In dva's official repository, a tutorial is provided to cover some of the basic concepts of dva. In the real business development process, there are many scenarios that cannot be covered by those basic operations. This article attempts to enumerate some common requirements for dva implementation.
+In dva's official repository, a tutorial is provided to cover some of the basic concepts of dva. In the real business development process, there are many scenarios that cannot be covered by those basic operations. This article attempts to enumerate some common use cases for dva implementations.
 
 ## Dynamically Loading Model
 
@@ -80,7 +80,7 @@ Therefore, in business, the possible use cases are:
 ContainerB <-- reusable     ContainerC <-- reusable
 ```
 
-Here, ContainerB and ContainerC are subordinates of ContainerA, and their logical structure is the same, but the difference is different. We can let them connect to the same model separately. Note that at this time, the modification of the model will affect both views at the same time, because the model is directly stored in the state as the key in the state, there is actually only one instance.
+Here, ContainerB and ContainerC are subordinates of ContainerA, and their logical structure is the same, but the appearance is different. We can let them connect to the same model separately. Note that at this time, the modification of the model will affect both views at the same time, because the model is directly stored in the state as the key in the state, there is actually only one instance.
 
 ## Dynamically Expanding the Model
 
@@ -93,10 +93,10 @@ In this case, if we let them reuse the same model, but doing so is a challenge f
 The so-called extension is usually to do a few things:
 
 - Add something
-- Cover some original things
-- Create something dynamically based on criteria
+- Overwrite some existing things
+- Create something dynamically based on conditions
 
-Notice that each model in dva is actually a normal JavaScript object, with
+Notice that each model in dva is actually a plain JavaScript object, with
 
 - namespace
 - state
@@ -110,7 +110,7 @@ Note that there are two levels. The `state`, `reducers`, `effects`, `subscriptio
 
 This can be done with the dva community's `dva-model-extend` library.
 
-From another angle, you can also generate a model through a factory function, such as:
+From another perspective, you could also generate a model through a factory function, for example:
 
 ```JavaScript
 function createModel(options) {
@@ -132,13 +132,13 @@ const modelA = createModel({ namespace: 'A', param: { type: 'A' } });
 const modelB = createModel({ namespace: 'A', param: { type: 'B' } });
 ```
 
-In this way, the extension of the model can also be realized.
+In this way, the extension of the model can also be implemented.
 
-## Long Process Business Logic
+## Long Sequence Business Logic
 
-In business, sometimes there will be a long process, for example, the submission of a complex form of ours, in the middle will need to initiate a variety of operations on the view state:
+In some use cases, the business operation can be a very long sequence. For example, in the middle of submission of a complex form, we will need to change a variety of states on the view:
 
-**This is a real business**
+**This is a real world example:**
 ```JavaScript
 *submit(action, { put, call, select }) {
   const formData = yield select(state => {
@@ -163,7 +163,7 @@ In business, sometimes there will be a long process, for example, the submission
   if (result.success) {
     toast({
       type: 'success',
-      content: '委托已受理',
+      content: 'The comission has been accepted',
     });
     // Once you have succeeded, get the current price and fill in it.
     // yield put({type: 'fetchQuotation', payload: stock});
@@ -196,9 +196,9 @@ In business, sometimes there will be a long process, for example, the submission
 
 In an effect, multiple `put`s can be used to call the reducer to update the state.
 
-There are other processes. There may be multiple asynchronous service calls in the effect. For example, to call the server for verification, and then submit the data after the success. At this time, there will be multiple call operations in an effect.
+In some other scenarios, multiple asynchronous services can be called in the effect, for example, to call the server for verification, and then to submit the data after the success. At this time, there will be multiple `call` operations in an effect.
 
-## Using the take Operation for Event Monitoring
+## Using `take` to Listen to Events
 
 Besides the situation mentioned in the previous section, we may also encounter other scenarios, such as:
 
@@ -210,13 +210,13 @@ In redux-saga, the two operations of take and takeLatest are provided. dva is a 
 
 To understand the semantics of the take operation, see the comparison of the two examples:
 
-Suppose we have an event handler code:
+Suppose we have an event handler:
 
 ```JavaScript
 someSource.on('click', event => doSomething(event))
 ```
 
-This code is converted to a generator, which is the following form:
+If we use the generator pattern:
 
 ```JavaScript
 function* saga() {
@@ -231,13 +231,13 @@ So, we can also use the take operation in dva to listen for actions.
 
 ## Multitasking Scheduling
 
-In the previous section, we mentioned the serial execution of multiple tasks. This is the most common multi-tasking implementation in the business, just one `yield` call.
+In the previous section, we mentioned the serial execution of multiple tasks. This is the most common multi-tasking implementation in the business, just use a series of `yield` calls.
 
 Sometimes, we may want multiple tasks to be executed in other ways, such as:
 
-- Parallel, there are no dependencies between several tasks, and subsequent operations have no dependencies on their results
-- Competition, between several tasks, as soon as one execution is completed, the next step is entered.
-- Subtasks, several tasks, executed in parallel, but must be completed after the next link
+- **Parallel**: there are no dependencies between tasks, and subsequent operations have no dependencies on their results.
+- **Competition**: between several tasks. As soon as one execution is completed, the other tasks are terminated.
+- **Subtasks**: several tasks executed in parallel, but must be completed before the next batch.
 
 ### Parallel Execution of Tasks
 
