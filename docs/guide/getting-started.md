@@ -117,6 +117,7 @@ const ProductList = ({ onDelete, products }) => {
   }];
   return (
     <Table
+      rowKey="id"
       dataSource={products}
       columns={columns}
     />
