@@ -27,6 +27,6 @@
     "src"
   ],
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0"
+    "@babel/runtime": "^7.0.0"
   }
 }

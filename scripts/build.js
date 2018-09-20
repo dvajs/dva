@@ -23,12 +23,7 @@ const browserBabelConfig = {
     require.resolve('@babel/preset-react'),
   ],
   plugins: [
-    [
-      require.resolve('@babel/plugin-transform-runtime'),
-      {
-        corejs: 2,
-      },
-    ],
+    require.resolve('@babel/plugin-transform-runtime'),
     require.resolve('@babel/plugin-proposal-export-default-from'),
   ],
 };
