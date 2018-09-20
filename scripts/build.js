@@ -9,19 +9,6 @@ const chokidar = require('chokidar');
 
 const lib = process.env.ES ? 'es' : 'lib';
 
-const nodeBabelConfig = {
-  presets: [
-    [
-      require.resolve('@babel/preset-env'),
-      {
-        targets: {
-          node: 6,
-        },
-      },
-    ],
-    [require.resolve('@babel/preset-stage-0'), { decoratorsLegacy: true }],
-  ],
-};
 const browserBabelConfig = {
   presets: [
     [
@@ -34,27 +21,24 @@ const browserBabelConfig = {
       },
     ],
     require.resolve('@babel/preset-react'),
-    [require.resolve('@babel/preset-stage-0'), { decoratorsLegacy: true }],
   ],
-  plugins: [require.resolve('@babel/plugin-transform-runtime')],
+  plugins: [
+    [
+      require.resolve('@babel/plugin-transform-runtime'),
+      {
+        corejs: 2,
+      },
+    ],
+    require.resolve('@babel/plugin-proposal-export-default-from'),
+  ],
 };
 
 const cwd = process.cwd();
 
-function isBrowserTransform(path) {
-  return true;
-}
-
 function transform(opts = {}) {
   const { content, path } = opts;
-  const isBrowser = isBrowserTransform(path);
-  console.log(
-    chalk[isBrowser ? 'yellow' : 'blue'](
-      `[TRANSFORM] ${path.replace(`${cwd}/`, '')}`
-    )
-  );
-  const config = isBrowser ? browserBabelConfig : nodeBabelConfig;
-  return babel.transform(content, config).code;
+  console.log(chalk.yellow(`[TRANSFORM] ${path.replace(`${cwd}/`, '')}`));
+  return babel.transform(content, browserBabelConfig).code;
 }
 
 function buildPkg(pkg) {
