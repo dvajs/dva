@@ -39,19 +39,19 @@ if (buildUmdCleanCode === 1) {
   process.exit(1);
 }
 
-const { code: buildUmdCode } = shell.exec('npm run build:umd');
-if (buildUmdCode === 1) {
-  console.error('Failed: npm run build:umd');
-  process.exit(1);
-}
-
-const { code: buildUmdProductionCode } = shell.exec(
-  'npm run build:umd:production'
-);
-if (buildUmdProductionCode === 1) {
-  console.error('Failed: npm run build:umd:production');
-  process.exit(1);
-}
+// const { code: buildUmdCode } = shell.exec('npm run build:umd');
+// if (buildUmdCode === 1) {
+//   console.error('Failed: npm run build:umd');
+//   process.exit(1);
+// }
+//
+// const { code: buildUmdProductionCode } = shell.exec(
+//   'npm run build:umd:production'
+// );
+// if (buildUmdProductionCode === 1) {
+//   console.error('Failed: npm run build:umd:production');
+//   process.exit(1);
+// }
 
 const cp = fork(
   join(process.cwd(), 'node_modules/.bin/lerna'),
