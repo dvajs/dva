@@ -12,6 +12,6 @@
   },
   "devDependencies": {
     "now": "^11.2.3",
-    "vuepress": "^0.10.1"
+    "vuepress": "^0.14.4"
   }
 }
