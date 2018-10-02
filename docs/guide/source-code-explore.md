@@ -51,7 +51,7 @@ package.json 里是这么写的：
 
 5. 启动：app.start('#root');
 
-在这 6 步当中，dva 完成了 `使用 React 解决 view 层`、`redux 管理 model `、`saga 解决异步`的主要功能。事实上在我查阅资料以及回忆用过的脚手架时，发现目前端框架之所以被称为“框架”也就是解决了这些事情。前端工程师至今所做的事情都是在**分离动态的 data 和静态的 view **，只不过侧重点和实现方式也不同。
+在这 6 步当中，dva 完成了 `使用 React 解决 view 层`、`redux 管理 model `、`saga 解决异步`的主要功能。事实上在我查阅资料以及回忆用过的脚手架时，发现目前端框架之所以被称为“框架”也就是解决了这些事情。前端工程师至今所做的事情都是在**分离动态的 data 和静态的 view**，只不过侧重点和实现方式也不同。
 
 至今为止出了这么多框架，但是前端 MVX 的思想一直都没有改变。
 
@@ -587,11 +587,11 @@ export default class Plugin {
 
 ## model 方法
 
-`model` 是 app 添加 model 的方法，在** dva 项目**的 index.js 是这么用的。
+`model` 是 app 添加 model 的方法，在**dva 项目**的 index.js 是这么用的。
 
 > app.model(require('./models/example'));
 
-在 `dva` 中没对 model 做任何处理，所以 `dva-core` 中的 model 就是 ** dva 项目**里调用的 model。
+在 `dva` 中没对 model 做任何处理，所以 `dva-core` 中的 model 就是 **dva 项目**里调用的 model。
 
 ```js
   function model(m) {
@@ -611,7 +611,7 @@ export default class Plugin {
 
 ## start 方法
 
-`start` 方法是 `dva-core` 的核心，在 `start` 方法里，dva 完成了** `store` 初始化** 以及 **`redux-saga` 的调用**。比起 `dva` 的 `start`，它引入了更多的调用方式。
+`start` 方法是 `dva-core` 的核心，在 `start` 方法里，dva 完成了 **`store` 初始化** 以及 **`redux-saga` 的调用**。比起 `dva` 的 `start`，它引入了更多的调用方式。
 
 一步一步分析：
 
@@ -723,7 +723,7 @@ createPromiseMiddleware 的代码[在此](https://github.com/dvajs/dva/blob/mast
 
 如果看着觉得眼熟，那肯定不是因为看过 redux-promise 源码的缘故，:-p。
 
-##### `middleware`
+#### `middleware`
 
 `middleware` 是一个 redux 的中间件，即在不影响 redux 本身功能的情况下为其添加了新特性的代码。redux 的中间件通过拦截 action 来实现其作用的。
 
@@ -764,7 +764,7 @@ createPromiseMiddleware 的代码[在此](https://github.com/dvajs/dva/blob/mast
 
 换句话说，middleware 拦截了指向 effects 的 action。
 
-##### 神奇的 bind
+#### 神奇的 bind 
 
 bind 的作用是绑定新的对象，生成新函数是大家都知道概念。但是 bind 也可以提前设定好函数的某些参数生成新函数，等到最后一个参数确定时直接调用。
 
@@ -855,7 +855,7 @@ export default function getSaga(resolve, reject, effects, model, onError, onEffe
 
 对于每一个 effect，getSaga 生成了一个 watcher ，并使用 saga 函数的 **fork** 将该函数切分到另一个单独的线程中去（生成了一个 task 对象）。同时为了方便对该线程进行控制，在此 fork 了一个 generator 函数。在该函数中拦截了取消 effect 的 action（事实上，应该是卸载effect 所在 model 的 action），一旦监听到则立刻取消分出去的 task 线程。
 
-##### getWatcher
+#### getWatcher
 
 ```js
 function getWatcher(resolve, reject, key, _effect, model, onError, onEffect) {
