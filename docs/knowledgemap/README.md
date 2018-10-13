@@ -794,7 +794,7 @@ $ npm install --save history
 ```javascript
 import createHistory from 'history/createBrowserHistory';
 const app = dva({
-  history: browserHistory,
+  history: createHistory(),
 });
 ```
 
