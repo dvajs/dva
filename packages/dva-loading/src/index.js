@@ -4,7 +4,7 @@ const NAMESPACE = 'loading';
 
 function createLoading(opts = {}) {
   const namespace = opts.namespace || NAMESPACE;
-  
+
   const { only = [], except = [] } = opts;
   if (only.length > 0 && except.length > 0) {
     throw Error('It is ambiguous to configurate `only` and `except` items at the same time.');
@@ -66,8 +66,13 @@ function createLoading(opts = {}) {
     ) {
         return function*(...args) {
             yield put({ type: SHOW, payload: { namespace, actionType } });
-            yield effect(...args);
-            yield put({ type: HIDE, payload: { namespace, actionType } });
+            try {
+              yield effect(...args);
+            } catch (e) {
+              throw e
+            } finally {
+              yield put({ type: HIDE, payload: { namespace, actionType } });
+            }
         };
     } else {
         return effect;
