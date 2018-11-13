@@ -68,17 +68,17 @@ Some basic articles.
 
 Want more?
 
-* 看看 dva 的前身 [React + Redux 最佳实践](https://github.com/sorrycc/blog/issues/1)，知道 dva 是怎么来的
-* 在 gitc 分享 dva 的 PPT ：[React 应用框架在蚂蚁金服的实践](http://slides.com/sorrycc/dva)
-* 如果还在用 dva@1.x，请尽快 [升级到 2.x](https://github.com/sorrycc/blog/issues/48)
+* Where did dva come from? Checkout the predecessor [React + Redux](https://github.com/sorrycc/blog/issues/1)
+* Sharing dva's slides: [React 应用框架在蚂蚁金服的实践](http://slides.com/sorrycc/dva)
+* Still using dva @1.x? you can [upgrade to 2.x](https://github.com/sorrycc/blog/issues/48)
 
 ## Community
 
-### 微信群
+### WeChat Group
 
 <img src="https://gw.alipayobjects.com/zos/rmsportal/QwuMhmBXFuAqYvzktiGk.png" width="60" />
 
-注：群满 100 人后，可加 `sorryccpro` 备注 `dva` 邀请加入。
+Note: After reaching over 100 members, please add `sorryccpro` with subject `dva` to get invites.
 
 ### Telegram
 
