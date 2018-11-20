@@ -124,7 +124,7 @@ export default function dva(opts?: DvaOption): DvaInstance;
  * Connects a React component to Dva.
  */
 export function connect(
-  mapStateToProps?: Function,
+  mapStateToProps?: (state: any) => any,
   mapDispatchToProps?: Function,
   mergeProps?: Function,
   options?: Object
