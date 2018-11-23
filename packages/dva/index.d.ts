@@ -2,12 +2,16 @@ import {
   Reducer,
   AnyAction,
   ReducersMapObject,
-  Dispatch,
+  Action,
   MiddlewareAPI,
   StoreEnhancer
 } from 'redux';
 
 import { History } from "history";
+
+export interface Dispatch<S> {
+  <A extends Action>(action: A): Promise<A>;
+}
 
 export interface onActionFunc {
   (api: MiddlewareAPI<any>): void,
