@@ -81,9 +81,9 @@
 
 ### 微信群
 
-<img src="https://gw.alipayobjects.com/zos/rmsportal/QwuMhmBXFuAqYvzktiGk.png" width="60" />
+<img src="https://img03.sogoucdn.com/app/a/100520146/3544b6bbdd976ef3caa4f44cd9de38e5" width="60" />
 
-注：群满 100 人后，可加 `sorryccpro` 备注 `dva` 邀请加入。
+扫码加 `UMI_HELPER`，回复 `dva` 自动加群。
 
 ### Telegram
 
