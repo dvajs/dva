@@ -58,7 +58,7 @@ Reducer's concepts from FP:
 
 ```javascript
 [{x:1},{y:2},{z:3}].reduce(function(prev, next){
-    return Object.assign(prev, next);
+    return Object.assign({}, prev, next);
 })
 //return {x:1, y:2, z:3}
 ```
