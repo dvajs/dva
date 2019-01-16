@@ -11,5 +11,6 @@
 
 ## 社区
 
+* [umi-dva-antd-mobile](https://github.com/hqwlkj/umi-dva-antd-mobile)，来自 @Yanghc 的 umi + dva + antd-mobile 的 mobile 版本脚手架，支持 TypeScript。
 * [Account System](https://github.com/yvanwangl/AccountSystem.git): 小型库存管理系统
 * [react-native-dva-starter](https://github.com/nihgwu/react-native-dva-starter): 集成了 dva 和 react-navigation 典型应用场景的 React Native 实例
