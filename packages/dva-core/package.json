@@ -2,6 +2,8 @@
   "name": "dva-core",
   "version": "1.5.0-beta.2",
   "description": "The core lightweight library for dva, based on redux and redux-saga.",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dvajs/dva"

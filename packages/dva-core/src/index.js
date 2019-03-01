@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import createSagaMiddleware from 'redux-saga/lib/internal/middleware';
+import createSagaMiddleware from 'redux-saga/es/internal/middleware';
 import invariant from 'invariant';
 import checkModel from './checkModel';
 import prefixNamespace from './prefixNamespace';
