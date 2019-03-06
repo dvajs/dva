@@ -113,7 +113,8 @@ function patchHistory(history) {
 }
 
 export { connect } from 'react-redux';
+export fetch from 'isomorphic-fetch';
+export dynamic from './dynamic';
 export { router };
 export { saga };
 export { routerRedux };
-export dynamic from './dynamic';
