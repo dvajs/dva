@@ -1,4 +1,0 @@
-
-describe('index', () => {
-  it('normal', () => {});
-});
