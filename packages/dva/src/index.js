@@ -1,11 +1,14 @@
 import React from 'react';
 import invariant from 'invariant';
-import createHashHistory from 'history/createHashHistory';
-import { routerMiddleware, routerReducer as routing } from 'react-router-redux';
+import { createHashHistory } from 'history';
 import document from 'global/document';
 import { Provider } from 'react-redux';
-import * as core from 'dva-core';
-import { isFunction } from 'dva-core/es/utils';
+import { utils, create, saga } from 'dva-core';
+import * as router from 'react-router-dom';
+import * as routerRedux from 'react-router-redux';
+
+const { routerMiddleware, routerReducer: routing } = routerRedux;
+const { isFunction } = utils;
 
 export default function(opts = {}) {
   const history = opts.history || createHashHistory();
@@ -21,7 +24,7 @@ export default function(opts = {}) {
     },
   };
 
-  const app = core.create(opts, createOpts);
+  const app = create(opts, createOpts);
   const oldAppStart = app.start;
   app.router = router;
   app.start = start;
@@ -108,3 +111,9 @@ function patchHistory(history) {
   };
   return history;
 }
+
+export { connect } from 'react-redux';
+export { router };
+export { saga };
+export { routerRedux };
+export dynamic from './dynamic';

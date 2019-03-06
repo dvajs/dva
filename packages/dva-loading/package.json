@@ -1,7 +1,10 @@
 {
   "name": "dva-loading",
   "version": "2.1.0-beta.2",
-  "description": "Auto loading plugin for dva.",
+  "description": "Auto loading data binding plugin for dva.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/dvajs/dva"
@@ -14,17 +17,15 @@
   ],
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "es/index.js",
   "devDependencies": {
     "dva": "^2.5.0-beta.2",
     "dva-core": "^1.5.0-beta.2"
   },
   "peerDependencies": {
-    "dva-core": "^1.1.0"
+    "dva-core": "^1.1.0 | ^1.5.0-0"
   },
   "files": [
-    "lib",
+    "dist",
     "src"
   ],
   "dependencies": {
