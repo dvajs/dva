@@ -1,4 +1,3 @@
-import expect from 'expect';
 import { create } from '../src/index';
 
 describe('checkModel', () => {
@@ -28,7 +27,7 @@ describe('checkModel', () => {
         namespace: '_array',
         reducers: [{}, () => {}],
       });
-    }).toNotThrow();
+    }).not.toThrow();
   });
 
   it('reducers can be object', () => {
@@ -38,7 +37,7 @@ describe('checkModel', () => {
         namespace: '_object',
         reducers: {},
       });
-    }).toNotThrow();
+    }).not.toThrow();
   });
 
   it('reducers can not be string', () => {
@@ -85,7 +84,7 @@ describe('checkModel', () => {
       app.model({
         namespace: '_',
       });
-    }).toNotThrow();
+    }).not.toThrow();
   });
 
   it('effects should be plain object', () => {
@@ -107,6 +106,6 @@ describe('checkModel', () => {
         namespace: '_',
         effects: {},
       });
-    }).toNotThrow();
+    }).not.toThrow();
   });
 });

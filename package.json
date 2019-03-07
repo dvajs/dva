@@ -22,7 +22,6 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.11.1",
-    "expect": "1",
     "husky": "^0.14.3",
     "lerna": "^3.4.0",
     "lerna-changelog": "^0.8.0",
