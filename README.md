@@ -74,15 +74,9 @@ Want more?
 
 ## Community
 
-### 微信群
-
-<img src="https://img03.sogoucdn.com/app/a/100520146/3544b6bbdd976ef3caa4f44cd9de38e5" width="60" />
-
-扫码加 `UMI_HELPER`，回复 `dva` 自动加群。
-
-### Telegram
-
-[https://t.me/joinchat/G0DdHw9tDZC-_NmdKY2jYg](https://t.me/joinchat/G0DdHw9tDZC-_NmdKY2jYg)
+| Slack Group                                                  | Github Issue                                            | 钉钉群                                                       | 微信群                                                       |
+| ------------------------------------------------------------ | ------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [sorrycc.slack.com](https://join.slack.com/t/sorrycc/shared_invite/enQtNTUzMTYxNDQ5MzE4LTg1NjEzYWUwNDQzMWU3YjViYjcyM2RkZDdjMzE0NzIxMTg3MzIwMDM2YjUwNTZkNDdhNTY5ZTlhYzc1Nzk2NzI) | [umijs/umi/issues](https://github.com/umijs/umi/issues) | <img src="https://gw.alipayobjects.com/zos/rmsportal/jPXcQOlGLnylGMfrKdBz.jpg" width="60" /> | <img src="https://img.alicdn.com/tfs/TB13U6aF6DpK1RjSZFrXXa78VXa-752-974.jpg" width="60" /> |
 
 ## License
 

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import createSagaMiddleware from 'redux-saga/lib/internal/middleware';
+import createSagaMiddleware, * as saga from 'redux-saga';
 import invariant from 'invariant';
 import checkModel from './checkModel';
 import prefixNamespace from './prefixNamespace';
@@ -12,7 +12,9 @@ import {
   run as runSubscription,
   unlisten as unlistenSubscription,
 } from './subscription';
-import { noop, findIndex } from './utils';
+import * as utils from './utils';
+
+const { noop, findIndex } = utils;
 
 // Internal model to update global state when do unmodel
 const dvaModel = {
@@ -277,3 +279,6 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     }
   }
 }
+
+export { saga };
+export { utils };

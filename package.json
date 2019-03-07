@@ -1,11 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "node scripts/build.js",
-    "build:es": "ES=1 node scripts/build.js",
-    "build:umd:clean": "rm -rf packages/dva/dist",
-    "build:umd": "node scripts/umd.js",
-    "build:umd:production": "NODE_ENV=production node scripts/umd.js",
+    "build": "umi-lib build",
     "doc:dev": "./website/node_modules/.bin/vuepress dev ./docs",
     "doc:deploy": "cd ./website && npm run deploy && cd -",
     "changelog": "lerna-changelog",
@@ -18,12 +14,6 @@
     "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.0",
-    "@babel/core": "^7.1.0",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^9.0.0",
     "chalk": "^2.3.2",
     "coveralls": "^3.0.0",
@@ -32,7 +22,6 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.11.1",
-    "expect": "^1.20.2",
     "husky": "^0.14.3",
     "lerna": "^3.4.0",
     "lerna-changelog": "^0.8.0",
@@ -40,17 +29,9 @@
     "prettier": "^1.14.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.66.1",
-    "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-uglify": "^6.0.0",
     "shelljs": "^0.8.1",
-    "through2": "^2.0.3",
-    "uglify-js": "^3.4.9",
-    "umi-test": "^1.0.0",
-    "vinyl-fs": "^3.0.2"
+    "umi-library": "^1.0.0",
+    "umi-test": "^1.0.0"
   },
   "lint-staged": {
     "*.js": [

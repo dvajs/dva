@@ -5,7 +5,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/dvajs/dva-loading.svg?style=flat)](https://coveralls.io/r/dvajs/dva-loading)
 [![NPM downloads](http://img.shields.io/npm/dm/dva-loading.svg?style=flat)](https://npmjs.org/package/dva-loading)
 
-Auto loading plugin for dva. :clap: You don't need to write `showLoading` and `hideLoading` any more.
+Auto loading data binding plugin for dva. :clap: You don't need to write `showLoading` and `hideLoading` any more.
 
 ---
 

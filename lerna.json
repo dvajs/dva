@@ -11,15 +11,14 @@
     },
     "cacheDir": ".changelog"
   },
-  "commands": {
-    "publish": {
-      "ignore": [
-        "dva-example*"
-      ]
-    }
-  },
   "packages": [
     "packages/*"
   ],
+  "command": {
+    "version": {
+      "exact": true
+    }
+  },
+  "npmClient": "yarn",
   "version": "independent"
 }
