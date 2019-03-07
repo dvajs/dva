@@ -30,6 +30,7 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "shelljs": "^0.8.1",
+    "umi-library": "^1.0.0",
     "umi-test": "^1.0.0"
   },
   "lint-staged": {
