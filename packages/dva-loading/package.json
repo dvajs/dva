@@ -18,8 +18,8 @@
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "dva": "^2.5.0-beta.2",
-    "dva-core": "^1.5.0-beta.2"
+    "dva": "2.5.0-beta.2",
+    "dva-core": "1.5.0-beta.2"
   },
   "peerDependencies": {
     "dva-core": "^1.1.0 | ^1.5.0-0"
