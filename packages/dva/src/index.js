@@ -2,7 +2,7 @@ import React from 'react';
 import invariant from 'invariant';
 import { createHashHistory } from 'history';
 import document from 'global/document';
-import { Provider } from 'react-redux';
+import { Provider, connect, connectAdvanced } from 'react-redux';
 import { utils, create, saga } from 'dva-core';
 import * as router from 'react-router-dom';
 import * as routerRedux from 'react-router-redux';
@@ -33,7 +33,7 @@ export default function(opts = {}) {
   function router(router) {
     invariant(
       isFunction(router),
-      `[app.router] router should be function, but got ${typeof router}`
+      `[app.router] router should be function, but got ${typeof router}`,
     );
     app._router = router;
   }
@@ -48,13 +48,13 @@ export default function(opts = {}) {
     // 并且是 HTMLElement
     invariant(
       !container || isHTMLElement(container),
-      `[app.start] container should be HTMLElement`
+      `[app.start] container should be HTMLElement`,
     );
 
     // 路由必须提前注册
     invariant(
       app._router,
-      `[app.start] router must be registered before app.start()`
+      `[app.start] router must be registered before app.start()`,
     );
 
     if (!app._store) {
@@ -99,7 +99,7 @@ function render(container, store, app, router) {
   const ReactDOM = require('react-dom'); // eslint-disable-line
   ReactDOM.render(
     React.createElement(getProvider(store, app, router)),
-    container
+    container,
   );
 }
 
@@ -112,9 +112,9 @@ function patchHistory(history) {
   return history;
 }
 
-export { connect } from 'react-redux';
 export fetch from 'isomorphic-fetch';
 export dynamic from './dynamic';
+export { connect, connectAdvanced };
 export { router };
 export { saga };
 export { routerRedux };

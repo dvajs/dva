@@ -29,13 +29,14 @@
     "prettier": "^1.14.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-testing-library": "^6.0.0",
     "shelljs": "^0.8.1",
     "umi-library": "^1.0.0",
     "umi-test": "^1.0.0"
   },
   "lint-staged": {
     "*.js": [
-      "prettier --trailing-comma es5 --single-quote --write",
+      "prettier --trailing-comma all --single-quote --write",
       "git add"
     ]
   }
