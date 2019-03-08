@@ -1,6 +1,10 @@
 import React from 'react';
 import invariant from 'invariant';
-import { createHashHistory } from 'history';
+import {
+  createBrowserHistory,
+  createMemoryHistory,
+  createHashHistory,
+} from 'history';
 import document from 'global/document';
 import { Provider, connect, connectAdvanced } from 'react-redux';
 import { utils, create, saga } from 'dva-core';
@@ -118,3 +122,4 @@ export { connect, connectAdvanced };
 export { router };
 export { saga };
 export { routerRedux };
+export { createBrowserHistory, createMemoryHistory, createHashHistory };
