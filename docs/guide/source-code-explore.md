@@ -587,11 +587,11 @@ export default class Plugin {
 
 ## model 方法
 
-`model` 是 app 添加 model 的方法，在** dva 项目**的 index.js 是这么用的。
+`model` 是 app 添加 model 的方法，在 **dva 项目** 的 index.js 是这么用的。
 
 > app.model(require('./models/example'));
 
-在 `dva` 中没对 model 做任何处理，所以 `dva-core` 中的 model 就是 ** dva 项目**里调用的 model。
+在 `dva` 中没对 model 做任何处理，所以 `dva-core` 中的 model 就是 **dva 项目** 里调用的 model。
 
 ```js
   function model(m) {
@@ -611,7 +611,7 @@ export default class Plugin {
 
 ## start 方法
 
-`start` 方法是 `dva-core` 的核心，在 `start` 方法里，dva 完成了** `store` 初始化** 以及 **`redux-saga` 的调用**。比起 `dva` 的 `start`，它引入了更多的调用方式。
+`start` 方法是 `dva-core` 的核心，在 `start` 方法里，dva 完成了 **`store` 初始化** 以及 **`redux-saga` 的调用**。比起 `dva` 的 `start`，它引入了更多的调用方式。
 
 一步一步分析：
 
@@ -851,7 +851,7 @@ export default function getSaga(resolve, reject, effects, model, onError, onEffe
 ```
 可以看到，`getSaga` 最终返回了一个 [generator 函数](http://www.ruanyifeng.com/blog/2015/04/generator.html)。
 
-在该函数遍历了** model 中 effects 属性**的所有方法（注：同样是 generator 函数）。结合 `index.js` 里的 ` for (const m of app._models)`，该遍历针对所有的 model。
+在该函数遍历了 **model 中 effects 属性** 的所有方法（注：同样是 generator 函数）。结合 `index.js` 里的 ` for (const m of app._models)`，该遍历针对所有的 model。
 
 对于每一个 effect，getSaga 生成了一个 watcher ，并使用 saga 函数的 **fork** 将该函数切分到另一个单独的线程中去（生成了一个 task 对象）。同时为了方便对该线程进行控制，在此 fork 了一个 generator 函数。在该函数中拦截了取消 effect 的 action（事实上，应该是卸载effect 所在 model 的 action），一旦监听到则立刻取消分出去的 task 线程。
 
