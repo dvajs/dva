@@ -244,10 +244,10 @@ function* saga() {
 如果想要让任务并行执行，可以通过下面这种方式：
 
 ```JavaScript
-const [result1, result2]  = yield [
+const [result1, result2]  = yield all([
   call(service1, param1),
   call(service2, param2)
-]
+])
 ```
 
 把多个要并行执行的东西放在一个数组里，就可以并行执行，等所有的都结束之后，进入下个环节，类似promise.all的操作。一般有一些集成界面，比如dashboard，其中各组件之间业务关联较小，就可以用这种方式去分别加载数据，此时，整体加载时间只取决于时间最长的那个。
