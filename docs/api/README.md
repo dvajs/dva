@@ -226,7 +226,7 @@ app.router(({ history }) => {
   return (
     <Router history={history}>
       <Route path="/" component={App} />
-    <Router>
+    </Router>
   );
 });
 ```
