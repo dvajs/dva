@@ -39,14 +39,14 @@
     "history": "^4.7.2",
     "invariant": "^2.2.4",
     "isomorphic-fetch": "^2.2.1",
-    "react-redux": "^6.0.1",
+    "react-redux": "^7.0.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "5.0.0-alpha.9",
     "redux": "^4.0.1"
   },
   "peerDependencies": {
-    "react": "15.x || ^16.0.0-0",
-    "react-dom": "15.x || ^16.0.0-0"
+    "react": "^16.18.4",
+    "react-dom": "^16.18.4"
   },
   "files": [
     "dist",
