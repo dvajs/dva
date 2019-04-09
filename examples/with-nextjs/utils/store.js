@@ -1,5 +1,5 @@
 import React from 'react';
-import dva, { connect } from 'dva';
+import dva, { connect } from 'dva-no-router';
 import { Provider } from 'react-redux';
 import model from '../model/index';
 
