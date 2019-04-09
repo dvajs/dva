@@ -71,8 +71,10 @@ function createLoading(opts = {}) {
         try {
           yield effect(...args);  
         } catch (error) {
+          throw error
+        } finally {
+          yield put({ type: HIDE, payload: { namespace, actionType } });
         }
-        yield put({ type: HIDE, payload: { namespace, actionType } });
       };
     } else {
       return effect;
