@@ -10,7 +10,7 @@ if (
     .stdout.indexOf('https://registry.npmjs.org/') === -1
 ) {
   console.error(
-    'Failed: set npm registry to https://registry.npmjs.org/ first'
+    'Failed: set npm registry to https://registry.npmjs.org/ first',
   );
   process.exit(1);
 }
@@ -33,33 +33,13 @@ if (buildCode === 1) {
   process.exit(1);
 }
 
-const { code: buildUmdCleanCode } = shell.exec('npm run build:umd:clean');
-if (buildUmdCleanCode === 1) {
-  console.error('Failed: npm run build:umd:clean');
-  process.exit(1);
-}
-
-// const { code: buildUmdCode } = shell.exec('npm run build:umd');
-// if (buildUmdCode === 1) {
-//   console.error('Failed: npm run build:umd');
-//   process.exit(1);
-// }
-//
-// const { code: buildUmdProductionCode } = shell.exec(
-//   'npm run build:umd:production'
-// );
-// if (buildUmdProductionCode === 1) {
-//   console.error('Failed: npm run build:umd:production');
-//   process.exit(1);
-// }
-
 const cp = fork(
   join(process.cwd(), 'node_modules/.bin/lerna'),
   ['publish', '--skip-npm'].concat(process.argv.slice(2)),
   {
     stdio: 'inherit',
     cwd: process.cwd(),
-  }
+  },
 );
 cp.on('error', err => {
   console.log(err);
