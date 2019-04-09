@@ -9,22 +9,27 @@ import document from 'global/document';
 import { Provider, connect, connectAdvanced } from 'react-redux';
 import { utils, create, saga } from 'dva-core';
 import * as router from 'react-router-dom';
-import * as routerRedux from 'react-router-redux';
+import {
+  ConnectedRouter,
+  connectRouter,
+  routerMiddleware,
+} from 'connected-react-router';
+import routerRedux from 'connected-react-router/esm/actions';
 
-const { routerMiddleware, routerReducer: routing } = routerRedux;
 const { isFunction } = utils;
 
 export default function(opts = {}) {
   const history = opts.history || createHashHistory();
   const createOpts = {
     initialReducer: {
-      routing,
+      router: connectRouter(history),
     },
     setupMiddlewares(middlewares) {
       return [routerMiddleware(history), ...middlewares];
     },
     setupApp(app) {
       app._history = patchHistory(history);
+      // app._history = patchHistory(history);
     },
   };
 
@@ -93,7 +98,9 @@ function isString(str) {
 function getProvider(store, app, router) {
   const DvaRoot = extraProps => (
     <Provider store={store}>
-      {router({ app, history: app._history, ...extraProps })}
+      <ConnectedRouter history={app._history}>
+        {router({ app, history: app._history, ...extraProps })}
+      </ConnectedRouter>
     </Provider>
   );
   return DvaRoot;
@@ -110,7 +117,7 @@ function render(container, store, app, router) {
 function patchHistory(history) {
   const oldListen = history.listen;
   history.listen = callback => {
-    callback(history.location);
+    callback(history.location, history.action);
     return oldListen.call(history, callback);
   };
   return history;
