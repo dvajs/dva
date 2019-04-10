@@ -8,3 +8,4 @@
 /packages/**/node_modules
 /packages/**/dist
 /lerna-debug.log
+.idea

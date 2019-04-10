@@ -9,16 +9,16 @@ import document from 'global/document';
 import { Provider, connect, connectAdvanced } from 'react-redux';
 import { utils, create, saga } from 'dva-core';
 import * as router from 'react-router-dom';
-import * as routerRedux from 'react-router-redux';
-
-const { routerMiddleware, routerReducer: routing } = routerRedux;
+import * as routerRedux from 'connected-react-router';
+import { routerReducer } from './routerReducer';
+const { routerMiddleware } = routerRedux;
 const { isFunction } = utils;
 
 export default function(opts = {}) {
   const history = opts.history || createHashHistory();
   const createOpts = {
     initialReducer: {
-      routing,
+      routerReducer,
     },
     setupMiddlewares(middlewares) {
       return [routerMiddleware(history), ...middlewares];
