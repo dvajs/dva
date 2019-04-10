@@ -11,7 +11,7 @@ import { utils, create, saga } from 'dva-core';
 import * as router from 'react-router-dom';
 import * as routerRedux from 'connected-react-router';
 
-const { ConnectedRouter, connectRouter, routerMiddleware } = routerRedux;
+const { connectRouter, routerMiddleware } = routerRedux;
 const { isFunction } = utils;
 
 export default function(opts = {}) {

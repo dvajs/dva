@@ -132,3 +132,9 @@ export function connect(
 
 import * as routerRedux from 'connected-react-router';
 export { routerRedux };
+
+import * as fetch from 'isomorphic-fetch';
+export { fetch };
+
+import * as router from 'react-router-dom';
+export { router };
