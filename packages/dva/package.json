@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "2.6.0-beta.1",
+  "version": "2.6.0-beta.2",
   "description": "React and redux based, lightweight and elm-style framework.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -33,14 +33,14 @@
     "@babel/runtime": "^7.0.0",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/react-router-dom": "^4.3.1",
-    "dva-core": "1.6.0-beta.1",
+    "connected-react-router": "^6.3.2",
+    "dva-core": "1.6.0-beta.2",
     "global": "^4.3.2",
     "history": "^4.7.2",
     "invariant": "^2.2.4",
     "isomorphic-fetch": "^2.2.1",
     "react-redux": "^7.0.1",
     "react-router-dom": "^4.3.1",
-    "connected-react-router": "^6.3.2",
     "redux": "^4.0.1"
   },
   "peerDependencies": {

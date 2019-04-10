@@ -1,6 +1,6 @@
 {
   "name": "dva-loading",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Auto loading data binding plugin for dva.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -18,8 +18,8 @@
   "author": "chencheng <sorrycc@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "dva": "2.6.0-beta.1",
-    "dva-core": "1.6.0-beta.1"
+    "dva": "2.6.0-beta.2",
+    "dva-core": "1.6.0-beta.2"
   },
   "peerDependencies": {
     "dva-core": "^1.1.0 | ^1.5.0-0 | ^1.6.0-0"
