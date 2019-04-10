@@ -1,11 +1,6 @@
 import invariant from 'invariant';
 import warning from 'warning';
-import {
-  effects as sagaEffects,
-  takeEvery,
-  takeLatest,
-  throttle,
-} from 'redux-saga';
+import { effects as sagaEffects } from 'redux-saga';
 import { NAMESPACE_SEP } from './constants';
 import prefixType from './prefixType';
 
@@ -37,14 +32,14 @@ function getWatcher(key, _effect, model, onError, onEffect) {
       if (type === 'throttle') {
         invariant(
           opts.ms,
-          'app.start: opts.ms should be defined if type is throttle'
+          'app.start: opts.ms should be defined if type is throttle',
         );
         ms = opts.ms;
       }
     }
     invariant(
       ['watcher', 'takeEvery', 'takeLatest', 'throttle'].indexOf(type) > -1,
-      'app.start: effect type should be takeEvery, takeLatest, throttle or watcher'
+      'app.start: effect type should be takeEvery, takeLatest, throttle or watcher',
     );
   }
 
@@ -76,15 +71,15 @@ function getWatcher(key, _effect, model, onError, onEffect) {
       return sagaWithCatch;
     case 'takeLatest':
       return function*() {
-        yield takeLatest(key, sagaWithOnEffect);
+        yield sagaEffects.takeLatest(key, sagaWithOnEffect);
       };
     case 'throttle':
       return function*() {
-        yield throttle(ms, key, sagaWithOnEffect);
+        yield sagaEffects.throttle(ms, key, sagaWithOnEffect);
       };
     default:
       return function*() {
-        yield takeEvery(key, sagaWithOnEffect);
+        yield sagaEffects.takeEvery(key, sagaWithOnEffect);
       };
   }
 }
@@ -96,7 +91,7 @@ function createEffects(model) {
       type.indexOf(`${model.namespace}${NAMESPACE_SEP}`) !== 0,
       `[${name}] ${type} should not be prefixed with namespace ${
         model.namespace
-      }`
+      }`,
     );
   }
   function put(action) {
@@ -132,7 +127,7 @@ function createEffects(model) {
             return prefixType(t, model);
           }
           return t;
-        })
+        }),
       );
     } else {
       return sagaEffects.take(type);

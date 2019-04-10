@@ -129,3 +129,6 @@ export function connect(
   mergeProps?: Function,
   options?: Object
 ): Function;
+
+import * as routerRedux from 'connected-react-router';
+export { routerRedux };

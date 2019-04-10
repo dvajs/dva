@@ -1,2 +1,2 @@
 module.exports = require('react-router-dom');
-module.exports.routerRedux = require('react-router-redux');
+module.exports.routerRedux = require('connected-react-router');
