@@ -9,13 +9,9 @@ import document from 'global/document';
 import { Provider, connect, connectAdvanced } from 'react-redux';
 import { utils, create, saga } from 'dva-core';
 import * as router from 'react-router-dom';
-import {
-  ConnectedRouter,
-  connectRouter,
-  routerMiddleware,
-} from 'connected-react-router';
-import routerRedux from 'connected-react-router/esm/actions';
+import * as routerRedux from 'connected-react-router';
 
+const { ConnectedRouter, connectRouter, routerMiddleware } = routerRedux;
 const { isFunction } = utils;
 
 export default function(opts = {}) {
@@ -98,9 +94,7 @@ function isString(str) {
 function getProvider(store, app, router) {
   const DvaRoot = extraProps => (
     <Provider store={store}>
-      <ConnectedRouter history={app._history}>
-        {router({ app, history: app._history, ...extraProps })}
-      </ConnectedRouter>
+      {router({ app, history: app._history, ...extraProps })}
     </Provider>
   );
   return DvaRoot;

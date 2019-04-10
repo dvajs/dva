@@ -6,7 +6,7 @@
     "doc:deploy": "cd ./website && npm run deploy && cd -",
     "changelog": "lerna-changelog",
     "test": "npm run debug -- --coverage",
-    "debug": "umi-test --transform-include connected-react-router/esm",
+    "debug": "umi-test",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint --ext .js packages",
     "precommit": "lint-staged",
