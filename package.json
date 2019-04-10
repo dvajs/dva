@@ -5,8 +5,8 @@
     "doc:dev": "./website/node_modules/.bin/vuepress dev ./docs",
     "doc:deploy": "cd ./website && npm run deploy && cd -",
     "changelog": "lerna-changelog",
-    "test": "umi-test --coverage",
-    "debug": "umi-test",
+    "test": "npm run debug -- --coverage",
+    "debug": "umi-test --transform-include connected-react-router/esm",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint --ext .js packages",
     "precommit": "lint-staged",
@@ -32,7 +32,7 @@
     "react-testing-library": "^6.0.0",
     "shelljs": "^0.8.1",
     "umi-library": "^1.0.0",
-    "umi-test": "^1.0.0"
+    "umi-test": "^1.5.2"
   },
   "lint-staged": {
     "*.js": [
