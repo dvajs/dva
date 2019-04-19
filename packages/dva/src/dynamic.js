@@ -9,6 +9,18 @@ function registerModel(app, model) {
   }
 }
 
+function registerModel(app, model) {
+  model = model.default || model;
+
+  if (
+    !app._models.some(item => {
+      return item.namespace === model.namespace;
+    })
+  ) {
+    app.model(model);
+  }
+}
+
 let defaultLoadingComponent = () => null;
 
 function asyncComponent(config) {
