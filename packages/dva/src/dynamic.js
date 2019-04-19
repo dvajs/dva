@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 
-const cached = {};
 function registerModel(app, model) {
   model = model.default || model;
-  if (!cached[model.namespace]) {
+
+  if (
+    !app._models.some(item => {
+      return item.namespace === model.namespace;
+    })
+  ) {
     app.model(model);
-    cached[model.namespace] = 1;
   }
 }
 
