@@ -29,7 +29,7 @@ export default function({
   const composeEnhancers =
   process.env.NODE_ENV !== "production" &&
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true,maxAge:30 })
     : compose;
 
   const enhancers = [applyMiddleware(...middlewares), ...extraEnhancers];
