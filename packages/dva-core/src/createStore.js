@@ -16,7 +16,7 @@ export default function({
   const extraEnhancers = plugin.get('extraEnhancers');
   invariant(
     isArray(extraEnhancers),
-    `[app.start] extraEnhancers should be array, but got ${typeof extraEnhancers}`
+    `[app.start] extraEnhancers should be array, but got ${typeof extraEnhancers}`,
   );
 
   const extraMiddlewares = plugin.get('onAction');
@@ -27,10 +27,10 @@ export default function({
   ]);
 
   const composeEnhancers =
-  process.env.NODE_ENV !== "production" &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose;
+    process.env.NODE_ENV !== 'production' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, maxAge: 30 })
+      : compose;
 
   const enhancers = [applyMiddleware(...middlewares), ...extraEnhancers];
 
