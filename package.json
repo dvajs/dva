@@ -3,7 +3,7 @@
   "scripts": {
     "build": "umi-lib build",
     "doc:dev": "./website/node_modules/.bin/vuepress dev ./docs",
-    "doc:deploy": "cd ./website && npm run deploy && cd -",
+    "doc:deploy": "rm -rf ./website/yarn.lock && cd ./website && npm run deploy && cd -",
     "changelog": "lerna-changelog",
     "test": "npm run debug -- --coverage",
     "debug": "umi-test",

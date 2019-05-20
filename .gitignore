@@ -3,7 +3,7 @@
 /.changelog
 /examples/**/.umi
 /examples/**/.umi-production
-/website/build
+/website/dist
 /node_modules
 /packages/**/node_modules
 /packages/**/dist

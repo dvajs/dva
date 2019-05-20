@@ -1,17 +1,10 @@
 {
-  "name": "umi-site",
   "scripts": {
-    "start": "node server.js",
-    "deploy": "npm run build:doc && now && now alias",
-    "dev": "vuepress dev ../docs",
-    "build": "echo empty build",
-    "build:doc": "vuepress build ../docs --dest ./build"
-  },
-  "dependencies": {
-    "express": "^4.16.2"
+    "now-build": "echo empty build",
+    "deploy": "vuepress build ../docs --dest ./dist && now && now alias"
   },
   "devDependencies": {
-    "now": "^11.2.3",
+    "now": "^13.1.3",
     "vuepress": "^0.14.4"
   }
 }
