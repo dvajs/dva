@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "sideEffects": false,
+  "typings": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/dvajs/dva"
