@@ -47,7 +47,7 @@ function RouterConfig({ history, app }) {
 
 从业务场景来说，有不少场景是可以做全局model的，比如说，我们在路由之间前进后退，model可以用于在路由间共享数据，比较典型的，像列表页和详情页的互相跳转，就可以用同一份model去共享它们的数据。
 
-注意，如果当前应用中加载了不止一个model，在其中一个的effect里面做select操作，是可以获取另外一个中的state的：
+注意，如果当前应用中加载了不止一个model，在其中一个的effect里面做select操作，是可以获取另外一个model中的state的：
 
 ```JavaScript
 *foo(action, { select }) {
