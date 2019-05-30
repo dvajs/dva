@@ -1,10 +1,6 @@
 import React from 'react';
 import invariant from 'invariant';
-import {
-  createBrowserHistory,
-  createMemoryHistory,
-  createHashHistory,
-} from 'history';
+import { createBrowserHistory, createMemoryHistory, createHashHistory } from 'history';
 import document from 'global/document';
 import { Provider, connect, connectAdvanced } from 'react-redux';
 import { utils, create, saga } from 'dva-core';
@@ -57,10 +53,7 @@ export default function(opts = {}) {
     );
 
     // 路由必须提前注册
-    invariant(
-      app._router,
-      `[app.start] router must be registered before app.start()`,
-    );
+    invariant(app._router, `[app.start] router must be registered before app.start()`);
 
     if (!app._store) {
       oldAppStart.call(app);
@@ -82,9 +75,7 @@ export default function(opts = {}) {
 }
 
 function isHTMLElement(node) {
-  return (
-    typeof node === 'object' && node !== null && node.nodeType && node.nodeName
-  );
+  return typeof node === 'object' && node !== null && node.nodeType && node.nodeName;
 }
 
 function isString(str) {
@@ -93,19 +84,14 @@ function isString(str) {
 
 function getProvider(store, app, router) {
   const DvaRoot = extraProps => (
-    <Provider store={store}>
-      {router({ app, history: app._history, ...extraProps })}
-    </Provider>
+    <Provider store={store}>{router({ app, history: app._history, ...extraProps })}</Provider>
   );
   return DvaRoot;
 }
 
 function render(container, store, app, router) {
   const ReactDOM = require('react-dom'); // eslint-disable-line
-  ReactDOM.render(
-    React.createElement(getProvider(store, app, router)),
-    container,
-  );
+  ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
 }
 
 function patchHistory(history) {

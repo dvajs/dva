@@ -1,11 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from 'react-testing-library';
-import dva, {
-  connect,
-  createMemoryHistory,
-  router,
-  routerRedux,
-} from '../dist/index';
+import dva, { connect, createMemoryHistory, router, routerRedux } from '../dist/index';
 
 const { Link, Switch, Route, Router } = router;
 
@@ -39,22 +34,20 @@ test('connect', () => {
       },
     },
   });
-  const App = connect(state => ({ count: state.count }))(
-    ({ count, dispatch }) => {
-      return (
-        <>
-          <div data-testid="count">{count}</div>
-          <button
-            onClick={() => {
-              dispatch({ type: 'count/add' });
-            }}
-          >
-            add
-          </button>
-        </>
-      );
-    },
-  );
+  const App = connect(state => ({ count: state.count }))(({ count, dispatch }) => {
+    return (
+      <>
+        <div data-testid="count">{count}</div>
+        <button
+          onClick={() => {
+            dispatch({ type: 'count/add' });
+          }}
+        >
+          add
+        </button>
+      </>
+    );
+  });
   app.router(() => <App />);
   app.start();
 

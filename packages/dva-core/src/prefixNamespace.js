@@ -15,11 +15,7 @@ function prefix(obj, namespace, type) {
 }
 
 export default function prefixNamespace(model) {
-  const {
-    namespace,
-    reducers,
-    effects,
-  } = model;
+  const { namespace, reducers, effects } = model;
 
   if (reducers) {
     if (isArray(reducers)) {

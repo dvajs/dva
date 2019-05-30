@@ -88,11 +88,7 @@ describe('index', () => {
 
   it('opts.extraEnhancers', () => {
     let count = 0;
-    const countEnhancer = storeCreator => (
-      reducer,
-      preloadedState,
-      enhancer
-    ) => {
+    const countEnhancer = storeCreator => (reducer, preloadedState, enhancer) => {
       const store = storeCreator(reducer, preloadedState, enhancer);
       const oldDispatch = store.dispatch;
       store.dispatch = action => {

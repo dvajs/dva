@@ -256,12 +256,8 @@ describe('effects', () => {
     });
     expect(app._store.getState().err.length).toEqual(1);
     expect(app._store.getState().err[0].key).toEqual('err/generate');
-    expect(app._store.getState().err[0].effectArgs[0].type).toEqual(
-      'err/generate'
-    );
-    expect(app._store.getState().err[0].effectArgs[0].payload).toEqual(
-      'err.payload'
-    );
+    expect(app._store.getState().err[0].effectArgs[0].type).toEqual('err/generate');
+    expect(app._store.getState().err[0].effectArgs[0].payload).toEqual('err.payload');
   });
 
   it('type: takeLatest', done => {
@@ -305,7 +301,7 @@ describe('effects', () => {
       effects: {
         addDelay: [
           function*() {
-            console.log(1);
+            yield console.log(1);
           },
           { type: 'throttle' },
         ],
@@ -392,7 +388,7 @@ describe('effects', () => {
       effects: {
         addDelay: [
           function*() {
-            console.log(1);
+            yield console.log(1);
           },
           { type: 'nonvalid' },
         ],
@@ -401,9 +397,7 @@ describe('effects', () => {
 
     expect(() => {
       app.start();
-    }).toThrow(
-      /app.start: effect type should be takeEvery, takeLatest, throttle or watcher/
-    );
+    }).toThrow(/app.start: effect type should be takeEvery, takeLatest, throttle or watcher/);
   });
 
   it('onEffect', done => {
