@@ -17,8 +17,7 @@ function asyncComponent(config) {
   return class DynamicComponent extends Component {
     constructor(...args) {
       super(...args);
-      this.LoadingComponent =
-        config.LoadingComponent || defaultLoadingComponent;
+      this.LoadingComponent = config.LoadingComponent || defaultLoadingComponent;
       this.state = {
         AsyncComponent: null,
       };
@@ -60,8 +59,7 @@ export default function dynamic(config) {
     resolve:
       config.resolve ||
       function() {
-        const models =
-          typeof resolveModels === 'function' ? resolveModels() : [];
+        const models = typeof resolveModels === 'function' ? resolveModels() : [];
         const component = resolveComponent();
         return new Promise(resolve => {
           Promise.all([...models, component]).then(ret => {

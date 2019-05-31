@@ -52,7 +52,7 @@ describe('dva-loading', () => {
     app.use(
       createLoading({
         effects: true,
-      })
+      }),
     );
     app.model({
       namespace: 'count',
@@ -98,7 +98,7 @@ describe('dva-loading', () => {
     app.use(
       createLoading({
         namespace: 'fooLoading',
-      })
+      }),
     );
     app.model({
       namespace: 'count',
@@ -118,7 +118,7 @@ describe('dva-loading', () => {
     app.use(
       createLoading({
         only: ['count/a'],
-      })
+      }),
     );
     app.model({
       namespace: 'count',
@@ -163,7 +163,7 @@ describe('dva-loading', () => {
     app.use(
       createLoading({
         except: ['count/a'],
-      })
+      }),
     );
     app.model({
       namespace: 'count',
@@ -210,7 +210,7 @@ describe('dva-loading', () => {
         createLoading({
           only: ['count/a'],
           except: ['count/b'],
-        })
+        }),
       );
     }).toThrow('ambiguous');
   });

@@ -30,7 +30,7 @@ describe('handleActions', () => {
 
       [LOGIN_SAVE]: undefined,
     },
-    initialState
+    initialState,
   );
 
   it('LOGIN_START', () => {

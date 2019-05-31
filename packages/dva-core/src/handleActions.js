@@ -16,14 +16,11 @@ function handleAction(actionType, reducer = identify) {
 }
 
 function reduceReducers(...reducers) {
-  return (previous, current) =>
-    reducers.reduce((p, r) => r(p, current), previous);
+  return (previous, current) => reducers.reduce((p, r) => r(p, current), previous);
 }
 
 function handleActions(handlers, defaultState) {
-  const reducers = Object.keys(handlers).map(type =>
-    handleAction(type, handlers[type])
-  );
+  const reducers = Object.keys(handlers).map(type => handleAction(type, handlers[type]));
   const reducer = reduceReducers(...reducers);
   return (state = defaultState, action) => reducer(state, action);
 }

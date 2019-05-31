@@ -25,16 +25,13 @@ function getWatcher(key, _effect, model, onError, onEffect) {
   let ms;
 
   if (Array.isArray(_effect)) {
-    effect = _effect[0];
+    [effect] = _effect;
     const opts = _effect[1];
     if (opts && opts.type) {
-      type = opts.type;
+      ({ type } = opts);
       if (type === 'throttle') {
-        invariant(
-          opts.ms,
-          'app.start: opts.ms should be defined if type is throttle',
-        );
-        ms = opts.ms;
+        invariant(opts.ms, 'app.start: opts.ms should be defined if type is throttle');
+        ({ ms } = opts);
       }
     }
     invariant(
@@ -89,9 +86,7 @@ function createEffects(model) {
     invariant(type, 'dispatch: action should be a plain Object with type');
     warning(
       type.indexOf(`${model.namespace}${NAMESPACE_SEP}`) !== 0,
-      `[${name}] ${type} should not be prefixed with namespace ${
-        model.namespace
-      }`,
+      `[${name}] ${type} should not be prefixed with namespace ${model.namespace}`,
     );
   }
   function put(action) {

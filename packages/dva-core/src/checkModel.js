@@ -2,18 +2,10 @@ import invariant from 'invariant';
 import { isArray, isFunction, isPlainObject } from './utils';
 
 export default function checkModel(model, existModels) {
-  const {
-    namespace,
-    reducers,
-    effects,
-    subscriptions,
-  } = model;
+  const { namespace, reducers, effects, subscriptions } = model;
 
   // namespace 必须被定义
-  invariant(
-    namespace,
-    `[app.model] namespace should be defined`,
-  );
+  invariant(namespace, `[app.model] namespace should be defined`);
   // 并且是字符串
   invariant(
     typeof namespace === 'string',
@@ -56,10 +48,7 @@ export default function checkModel(model, existModels) {
     );
 
     // subscription 必须为函数
-    invariant(
-      isAllFunction(subscriptions),
-      `[app.model] subscription should be function`,
-    );
+    invariant(isAllFunction(subscriptions), `[app.model] subscription should be function`);
   }
 }
 

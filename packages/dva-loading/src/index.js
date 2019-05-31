@@ -7,9 +7,7 @@ function createLoading(opts = {}) {
 
   const { only = [], except = [] } = opts;
   if (only.length > 0 && except.length > 0) {
-    throw Error(
-      'It is ambiguous to configurate `only` and `except` items at the same time.'
-    );
+    throw Error('It is ambiguous to configurate `only` and `except` items at the same time.');
   }
 
   const initialState = {
@@ -31,7 +29,7 @@ function createLoading(opts = {}) {
             effects: { ...state.effects, [actionType]: true },
           };
           break;
-        case HIDE: // eslint-disable-line
+        case HIDE: {
           const effects = { ...state.effects, [actionType]: false };
           const models = {
             ...state.models,
@@ -51,6 +49,7 @@ function createLoading(opts = {}) {
             effects,
           };
           break;
+        }
         default:
           ret = state;
           break;

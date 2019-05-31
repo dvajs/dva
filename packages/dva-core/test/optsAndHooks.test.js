@@ -76,6 +76,7 @@ describe('opts and hooks', () => {
       namespace: 'count',
       state: 0,
       effects: {
+        // eslint-disable-next-line require-yield
         *add() {
           throw new Error('add failed');
         },
@@ -147,11 +148,7 @@ describe('opts and hooks', () => {
 
   it('opts.extraEnhancers', () => {
     let count = 0;
-    const countEnhancer = storeCreator => (
-      reducer,
-      preloadedState,
-      enhancer
-    ) => {
+    const countEnhancer = storeCreator => (reducer, preloadedState, enhancer) => {
       const store = storeCreator(reducer, preloadedState, enhancer);
       const oldDispatch = store.dispatch;
       store.dispatch = action => {

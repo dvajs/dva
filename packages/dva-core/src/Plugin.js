@@ -32,11 +32,8 @@ export default class Plugin {
   }
 
   use(plugin) {
-    invariant(
-      isPlainObject(plugin),
-      'plugin.use: plugin should be plain object'
-    );
-    const hooks = this.hooks;
+    invariant(isPlainObject(plugin), 'plugin.use: plugin should be plain object');
+    const { hooks } = this;
     for (const key in plugin) {
       if (Object.prototype.hasOwnProperty.call(plugin, key)) {
         invariant(hooks[key], `plugin.use: unknown plugin property: ${key}`);
@@ -52,12 +49,9 @@ export default class Plugin {
   }
 
   apply(key, defaultHandler) {
-    const hooks = this.hooks;
+    const { hooks } = this;
     const validApplyHooks = ['onError', 'onHmr'];
-    invariant(
-      validApplyHooks.indexOf(key) > -1,
-      `plugin.apply: hook ${key} cannot be applied`
-    );
+    invariant(validApplyHooks.indexOf(key) > -1, `plugin.apply: hook ${key} cannot be applied`);
     const fns = hooks[key];
 
     return (...args) => {
@@ -72,7 +66,7 @@ export default class Plugin {
   }
 
   get(key) {
-    const hooks = this.hooks;
+    const { hooks } = this;
     invariant(key in hooks, `plugin.get: hook ${key} cannot be got`);
     if (key === 'extraReducers') {
       return getExtraReducers(hooks[key]);
