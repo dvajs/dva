@@ -1,8 +1,18 @@
 import React from 'react';
-import { render, fireEvent } from 'react-testing-library';
-import dva, { connect, createMemoryHistory, router, routerRedux } from '../dist/index';
+import { render, fireEvent, cleanup } from 'react-testing-library';
+import dva, {
+  connect,
+  useDispatch,
+  useSelector,
+  useStore,
+  createMemoryHistory,
+  router,
+  routerRedux,
+} from '../dist/index';
 
 const { Link, Switch, Route, Router } = router;
+
+afterEach(cleanup);
 
 test('normal', () => {
   const app = dva();
@@ -49,12 +59,49 @@ test('connect', () => {
     );
   });
   app.router(() => <App />);
-  app.start();
 
   const { getByTestId, getByText } = render(React.createElement(app.start()));
   expect(getByTestId('count').innerHTML).toEqual('0');
   fireEvent.click(getByText('add'));
   expect(getByTestId('count').innerHTML).toEqual('1');
+});
+
+test('hooks api: useDispatch, useSelector and useStore', () => {
+  const app = dva();
+  app.model({
+    namespace: 'count',
+    state: 0,
+    reducers: {
+      add(state) {
+        return state + 1;
+      },
+    },
+  });
+  const App = () => {
+    const dispatch = useDispatch();
+    const store = useStore();
+    const { count } = useSelector(state => ({ count: state.count }));
+    return (
+      <>
+        <div data-testid="count">{count}</div>
+        <div data-testid="state">{store.getState().count}</div>
+        <button
+          onClick={() => {
+            dispatch({ type: 'count/add' });
+          }}
+        >
+          add
+        </button>
+      </>
+    );
+  };
+  app.router(() => <App />);
+
+  const { getByTestId, getByText } = render(React.createElement(app.start()));
+  expect(getByTestId('count').innerHTML).toEqual('0');
+  fireEvent.click(getByText('add'));
+  expect(getByTestId('count').innerHTML).toEqual('1');
+  expect(getByTestId('state').innerHTML).toEqual('1');
 });
 
 test('navigate', async () => {
