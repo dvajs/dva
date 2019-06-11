@@ -3,10 +3,10 @@
   "changelog": {
     "repo": "dvajs/dva",
     "labels": {
-      "pr: enhancement": ":rocket: Enhancement",
-      "pr: bug": ":bug: Bug Fix",
-      "pr: documentation": ":book: Documentation",
-      "pr: dependency": ":deciduous_tree: Dependency"
+      "pr(enhancement)": ":rocket: Enhancement",
+      "pr(bug)": ":bug: Bug Fix",
+      "pr(documentation)": ":book: Documentation",
+      "pr(dependency)": ":deciduous_tree: Dependency"
     },
     "cacheDir": ".changelog"
   },
