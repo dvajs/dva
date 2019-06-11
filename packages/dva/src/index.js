@@ -2,7 +2,14 @@ import React from 'react';
 import invariant from 'invariant';
 import { createBrowserHistory, createMemoryHistory, createHashHistory } from 'history';
 import document from 'global/document';
-import { Provider, connect, connectAdvanced } from 'react-redux';
+import {
+  Provider,
+  connect,
+  connectAdvanced,
+  useSelector,
+  useDispatch,
+  useStore,
+} from 'react-redux';
 import { utils, create, saga } from 'dva-core';
 import * as router from 'react-router-dom';
 import * as routerRedux from 'connected-react-router';
@@ -105,7 +112,7 @@ function patchHistory(history) {
 
 export fetch from 'isomorphic-fetch';
 export dynamic from './dynamic';
-export { connect, connectAdvanced };
+export { connect, connectAdvanced, useSelector, useDispatch, useStore };
 export { router };
 export { saga };
 export { routerRedux };
