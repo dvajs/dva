@@ -1,4 +1,5 @@
 import expect from 'expect';
+import mm from 'mm';
 import { create } from '../src/index';
 
 const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
@@ -30,8 +31,8 @@ describe('effects', () => {
     }, 200);
   });
 
-  it('put action with namespace will get a warning', done => {
-    const app = create();
+  function testAppCreator(opts) {
+    const app = create(opts);
     app.model({
       namespace: 'count',
       state: 0,
@@ -41,19 +42,52 @@ describe('effects', () => {
         },
       },
       effects: {
-        *addDelay({ payload }, { put, call }) {
-          yield call(delay, 100);
+        *putWithNamespace({ payload }, { put }) {
+          yield put({ type: 'count/add', payload });
+        },
+        *putWithoutNamespace({ payload }, { put }) {
           yield put({ type: 'add', payload });
         },
       },
     });
+    return app;
+  }
+
+  it('put action with namespace will get a warning', () => {
+    const app = testAppCreator();
+    const logs = [];
+    mm(console, 'error', log => {
+      logs.push(log);
+    });
     app.start();
-    app._store.dispatch({ type: 'count/addDelay', payload: 2 });
     expect(app._store.getState().count).toEqual(0);
-    setTimeout(() => {
-      expect(app._store.getState().count).toEqual(2);
-      done();
-    }, 200);
+    expect(logs.length).toEqual(0);
+    app._store.dispatch({ type: 'count/putWithNamespace', payload: 2 });
+    expect(logs.length).toEqual(1);
+    expect(logs[0]).toEqual(
+      'Warning: [sagaEffects.put] count/add should not be prefixed with namespace count',
+    );
+    app._store.dispatch({ type: 'count/putWithoutNamespace', payload: 2 });
+    expect(logs.length).toEqual(1);
+    expect(app._store.getState().count).toEqual(4);
+    mm.restore();
+  });
+
+  it('test disable namespacePrefixWarning', () => {
+    const app = testAppCreator({ namespacePrefixWarning: false });
+    const logs = [];
+    mm(console, 'error', log => {
+      logs.push(log);
+    });
+    app.start();
+    expect(app._store.getState().count).toEqual(0);
+    expect(logs.length).toEqual(0);
+    app._store.dispatch({ type: 'count/putWithNamespace', payload: 2 });
+    expect(logs.length).toEqual(0);
+    app._store.dispatch({ type: 'count/putWithoutNamespace', payload: 2 });
+    expect(logs.length).toEqual(0);
+    expect(app._store.getState().count).toEqual(4);
+    mm.restore();
   });
 
   it('put multi effects in order', done => {
