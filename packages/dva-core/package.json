@@ -39,6 +39,7 @@
     "redux": "4.x"
   },
   "devDependencies": {
+    "mm": "^2.5.0",
     "redux": "^4.0.1"
   },
   "files": [
