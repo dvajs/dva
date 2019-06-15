@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "2.6.0-beta.5",
+  "version": "2.6.0-beta.6",
   "description": "React and redux based, lightweight and elm-style framework.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -34,7 +34,7 @@
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/react-router-dom": "^4.3.1",
     "connected-react-router": "^6.3.2",
-    "dva-core": "1.6.0-beta.4",
+    "dva-core": "1.6.0-beta.5",
     "global": "^4.3.2",
     "history": "^4.7.2",
     "invariant": "^2.2.4",
