@@ -72,7 +72,7 @@ export interface Model {
   subscriptions?: SubscriptionsMapObject,
 }
 
-export interface DvaStore extends Store {
+export interface DvaStore extends Store<any> {
   runSaga: (saga: any) => any
 }
 
