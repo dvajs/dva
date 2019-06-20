@@ -44,5 +44,6 @@
     "src",
     "index.js",
     "saga.js"
-  ]
+  ],
+  "typings": "index.d.ts"
 }
