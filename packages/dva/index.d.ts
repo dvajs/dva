@@ -121,15 +121,10 @@ export interface DvaInstance {
 
 export default function dva(opts?: DvaOption): DvaInstance;
 
-/**
- * Connects a React component to Dva.
- */
-export function connect(
-  mapStateToProps?: Function,
-  mapDispatchToProps?: Function,
-  mergeProps?: Function,
-  options?: Object
-): Function;
+export {
+  connect, connectAdvanced, useSelector, useDispatch, useStore,
+  DispatchProp,
+} from 'react-redux';
 
 import * as routerRedux from 'connected-react-router';
 export { routerRedux };
