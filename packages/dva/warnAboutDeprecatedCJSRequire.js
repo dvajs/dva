@@ -28,6 +28,6 @@ module.exports = function(member) {
   printWarning(
     'Please use `require("dva").%s` instead of `require("dva/%s")`. ' +
       'Support for the latter will be removed in the next major release.',
-    [member, member],
+    [member, member]
   );
 };
