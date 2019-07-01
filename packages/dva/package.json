@@ -1,6 +1,6 @@
 {
   "name": "dva",
-  "version": "2.6.0-beta.8",
+  "version": "2.6.0-beta.9",
   "description": "React and redux based, lightweight and elm-style framework.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
