@@ -29,7 +29,7 @@ export interface Hooks {
 }
 
 export type DvaOption = Hooks & {
-  namespacePrefixWarning: boolean,
+  namespacePrefixWarning?: boolean,
   initialState?: Object,
   history?: Object,
 }
