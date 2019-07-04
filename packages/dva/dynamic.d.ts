@@ -2,9 +2,11 @@ import { DvaInstance } from 'dva';
 import React from 'react';
 
 interface Config {
-  app: DvaInstance,
-  models?: () => PromiseLike<any>[]
-  component: () => PromiseLike<any>
+  app: DvaInstance;
+  component: () => PromiseLike<any>;
+  models?: () => PromiseLike<any>[];
+  resolve?: () => PromiseLike<any>;
+  LoadingComponent?: React.ComponentType;
 }
 
 declare const dynamic: (config: Config) => React.ComponentType;
