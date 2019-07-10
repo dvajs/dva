@@ -9,6 +9,7 @@ import {
   useSelector,
   useDispatch,
   useStore,
+  shallowEqual,
 } from 'react-redux';
 import { utils, create, saga } from 'dva-core';
 import * as router from 'react-router-dom';
@@ -112,7 +113,7 @@ function patchHistory(history) {
 
 export fetch from 'isomorphic-fetch';
 export dynamic from './dynamic';
-export { connect, connectAdvanced, useSelector, useDispatch, useStore };
+export { connect, connectAdvanced, useSelector, useDispatch, useStore, shallowEqual };
 export { router };
 export { saga };
 export { routerRedux };

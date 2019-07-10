@@ -123,7 +123,7 @@ export default function dva(opts?: DvaOption): DvaInstance;
 
 export {
   connect, connectAdvanced, useSelector, useDispatch, useStore,
-  DispatchProp,
+  DispatchProp, shallowEqual
 } from 'react-redux';
 
 import * as routerRedux from 'connected-react-router';

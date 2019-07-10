@@ -8,6 +8,7 @@ import dva, {
   createMemoryHistory,
   router,
   routerRedux,
+  shallowEqual,
 } from '../dist/index';
 
 const { Link, Switch, Route, Router } = router;
@@ -66,7 +67,7 @@ test('connect', () => {
   expect(getByTestId('count').innerHTML).toEqual('1');
 });
 
-test('hooks api: useDispatch, useSelector and useStore', () => {
+test('hooks api: useDispatch, useSelector shallowEqual, and useStore', () => {
   const app = dva();
   app.model({
     namespace: 'count',
@@ -77,13 +78,23 @@ test('hooks api: useDispatch, useSelector and useStore', () => {
       },
     },
   });
+
+  const useShallowEqualSelector = selector => {
+    return useSelector(selector, shallowEqual);
+  };
+
   const App = () => {
     const dispatch = useDispatch();
     const store = useStore();
     const { count } = useSelector(state => ({ count: state.count }));
+    const { shallowEqualCount } = useShallowEqualSelector(state => ({
+      shallowEqualCount: state.count,
+    }));
+
     return (
       <>
         <div data-testid="count">{count}</div>
+        <div data-testid="shallowEqualCount">{shallowEqualCount}</div>
         <div data-testid="state">{store.getState().count}</div>
         <button
           onClick={() => {
@@ -99,8 +110,10 @@ test('hooks api: useDispatch, useSelector and useStore', () => {
 
   const { getByTestId, getByText } = render(React.createElement(app.start()));
   expect(getByTestId('count').innerHTML).toEqual('0');
+  expect(getByTestId('shallowEqualCount').innerHTML).toEqual('0');
   fireEvent.click(getByText('add'));
   expect(getByTestId('count').innerHTML).toEqual('1');
+  expect(getByTestId('shallowEqualCount').innerHTML).toEqual('0');
   expect(getByTestId('state').innerHTML).toEqual('1');
 });
 
