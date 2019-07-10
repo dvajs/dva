@@ -79,9 +79,7 @@ test('hooks api: useDispatch, useSelector shallowEqual, and useStore', () => {
     },
   });
 
-  const useShallowEqualSelector = selector => {
-    return useSelector(selector, shallowEqual);
-  };
+  const useShallowEqualSelector = selector => useSelector(selector, shallowEqual);
 
   const App = () => {
     const dispatch = useDispatch();
@@ -113,7 +111,7 @@ test('hooks api: useDispatch, useSelector shallowEqual, and useStore', () => {
   expect(getByTestId('shallowEqualCount').innerHTML).toEqual('0');
   fireEvent.click(getByText('add'));
   expect(getByTestId('count').innerHTML).toEqual('1');
-  expect(getByTestId('shallowEqualCount').innerHTML).toEqual('0');
+  expect(getByTestId('shallowEqualCount').innerHTML).toEqual('1');
   expect(getByTestId('state').innerHTML).toEqual('1');
 });
 
