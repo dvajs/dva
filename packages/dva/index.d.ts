@@ -4,7 +4,8 @@ import {
   ReducersMapObject,
   Dispatch,
   MiddlewareAPI,
-  StoreEnhancer
+  StoreEnhancer,
+  bindActionCreators
 } from 'redux';
 
 import { History } from "history";
@@ -120,6 +121,8 @@ export interface DvaInstance {
 }
 
 export default function dva(opts?: DvaOption): DvaInstance;
+
+export { bindActionCreators };
 
 export {
   connect, connectAdvanced, useSelector, useDispatch, useStore,
