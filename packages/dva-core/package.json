@@ -32,7 +32,7 @@
     "global": "^4.3.2",
     "invariant": "^2.2.1",
     "is-plain-object": "^2.0.3",
-    "redux-saga": "^0.16.0",
+    "redux-saga": "^1.0.0",
     "warning": "^3.0.0"
   },
   "peerDependencies": {

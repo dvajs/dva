@@ -15,6 +15,7 @@ import { bindActionCreators } from 'redux';
 import { utils, create, saga } from 'dva-core';
 import * as router from 'react-router-dom';
 import * as routerRedux from 'connected-react-router';
+import { createActionCreatorFactory } from 'dva-action';
 
 const { connectRouter, routerMiddleware } = routerRedux;
 const { isFunction } = utils;
@@ -120,3 +121,4 @@ export { router };
 export { saga };
 export { routerRedux };
 export { createBrowserHistory, createMemoryHistory, createHashHistory };
+export { createActionCreatorFactory };

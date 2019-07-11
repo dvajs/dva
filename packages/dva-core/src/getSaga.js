@@ -1,14 +1,38 @@
 import invariant from 'invariant';
 import warning from 'warning';
-import { effects as sagaEffects } from 'redux-saga';
+import * as sagaEffects from 'redux-saga/effects';
 import { NAMESPACE_SEP } from './constants';
 import prefixType from './prefixType';
 
-export default function getSaga(effects, model, onError, onEffect, opts = {}) {
+export default function getSaga(effects, watchers, model, onError, onEffect, opts = {}) {
   return function*() {
     for (const key in effects) {
       if (Object.prototype.hasOwnProperty.call(effects, key)) {
         const watcher = getWatcher(key, effects[key], model, onError, onEffect, opts);
+        const task = yield sagaEffects.fork(watcher);
+        yield sagaEffects.fork(function*() {
+          yield sagaEffects.take(`${model.namespace}/@@CANCEL_EFFECTS`);
+          yield sagaEffects.cancel(task);
+        });
+      }
+    }
+    const watchersTransformedToEffects = Object.keys(watchers).reduce((acc, watcherKey) => {
+      return {
+        [watcherKey]: [watchers[watcherKey], { type: 'watcher' }],
+        ...acc,
+      };
+    }, {});
+
+    for (const key in watchersTransformedToEffects) {
+      if (Object.prototype.hasOwnProperty.call(watchersTransformedToEffects, key)) {
+        const watcher = getWatcher(
+          key,
+          watchersTransformedToEffects[key],
+          model,
+          onError,
+          onEffect,
+          opts,
+        );
         const task = yield sagaEffects.fork(watcher);
         yield sagaEffects.fork(function*() {
           yield sagaEffects.take(`${model.namespace}/@@CANCEL_EFFECTS`);
@@ -30,8 +54,8 @@ function getWatcher(key, _effect, model, onError, onEffect, opts) {
     const opts = _effect[1];
     if (opts && opts.type) {
       ({ type } = opts);
-      if (type === 'throttle') {
-        invariant(opts.ms, 'app.start: opts.ms should be defined if type is throttle');
+      if (type === 'throttle' || type === 'debounce') {
+        invariant(opts.ms, 'app.start: opts.ms should be defined if type is throttle or debounce');
         ({ ms } = opts);
       }
       if (type === 'poll') {
@@ -40,8 +64,8 @@ function getWatcher(key, _effect, model, onError, onEffect, opts) {
       }
     }
     invariant(
-      ['watcher', 'takeEvery', 'takeLatest', 'throttle', 'poll'].indexOf(type) > -1,
-      'app.start: effect type should be takeEvery, takeLatest, throttle, poll or watcher',
+      ['watcher', 'takeEvery', 'takeLatest', 'throttle', 'debounce', 'poll'].indexOf(type) > -1,
+      'app.start: effect type should be takeEvery, takeLatest, throttle, debounce, poll or watcher',
     );
   }
 
@@ -78,6 +102,10 @@ function getWatcher(key, _effect, model, onError, onEffect, opts) {
     case 'throttle':
       return function*() {
         yield sagaEffects.throttle(ms, key, sagaWithOnEffect);
+      };
+    case 'debounce':
+      return function*() {
+        yield sagaEffects.debounce(ms, key, sagaWithOnEffect);
       };
     case 'poll':
       return function*() {

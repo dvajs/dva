@@ -75,7 +75,9 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     store.asyncReducers[m.namespace] = getReducer(m.reducers, m.state, plugin._handleActions);
     store.replaceReducer(createReducer());
     if (m.effects) {
-      store.runSaga(app._getSaga(m.effects, m, onError, plugin.get('onEffect'), hooksAndOpts));
+      store.runSaga(
+        app._getSaga(m.effects, m.watchers, m, onError, plugin.get('onEffect'), hooksAndOpts),
+      );
     }
     if (m.subscriptions) {
       unlisteners[m.namespace] = runSubscription(m.subscriptions, m, app, onError);
@@ -105,7 +107,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     // Cancel effects
     store.dispatch({ type: `${namespace}/@@CANCEL_EFFECTS` });
 
-    // Unlisten subscrioptions
+    // Unlisten subscriptions
     unlistenSubscription(unlisteners, namespace);
 
     // Delete model from app._models
@@ -113,7 +115,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
   }
 
   /**
-   * Replace a model if it exsits, if not, add it to app
+   * Replace a model if it exists, if not, add it to app
    * Attention:
    * - Only available after dva.start gets called
    * - Will not check origin m is strict equal to the new one
@@ -137,7 +139,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
       delete store.asyncReducers[namespace];
       delete reducers[namespace];
 
-      // Unlisten subscrioptions
+      // Unlisten subscriptions
       unlistenSubscription(unlisteners, namespace);
 
       // Delete model from app._models
@@ -178,7 +180,9 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     for (const m of app._models) {
       reducers[m.namespace] = getReducer(m.reducers, m.state, plugin._handleActions);
       if (m.effects) {
-        sagas.push(app._getSaga(m.effects, m, onError, plugin.get('onEffect'), hooksAndOpts));
+        sagas.push(
+          app._getSaga(m.effects, m.watchers, m, onError, plugin.get('onEffect'), hooksAndOpts),
+        );
       }
     }
     const reducerEnhancer = plugin.get('onReducer');

@@ -1,0 +1,28 @@
+{
+  "name": "dva-action",
+  "version": "0.0.1",
+  "description": "Action creator factory for dva",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "sideEffects": false,
+  "keywords": [
+    "dva"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https//github.com/dvajs/dva"
+  },
+  "author": "XI Chen <xichen1427@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.5.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.16"
+  }
+}

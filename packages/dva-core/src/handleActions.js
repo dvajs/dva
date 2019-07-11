@@ -16,7 +16,7 @@ function handleAction(actionType, reducer = identify) {
 }
 
 function reduceReducers(...reducers) {
-  return (previous, current) => reducers.reduce((p, r) => r(p, current), previous);
+  return (state, action) => reducers.reduce((s, r) => r(s, action), state);
 }
 
 function handleActions(handlers, defaultState) {
