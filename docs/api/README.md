@@ -339,6 +339,7 @@ type 类型有：
 * `takeLatest`
 * `throttle`
 * `watcher`
+* `poll`
 
 详见：https://github.com/dvajs/dva/blob/master/packages/dva-core/test/effects.test.js
 

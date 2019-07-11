@@ -343,6 +343,7 @@ type includes:
 * `takeLatest`
 * `throttle`
 * `watcher`
+* `poll`
 
 View https://github.com/dvajs/dva/blob/master/packages/dva-core/test/effects.test.js for details.
 

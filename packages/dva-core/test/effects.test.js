@@ -414,6 +414,193 @@ describe('effects', () => {
     }, 200);
   });
 
+  it('type: poll', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        pollAdd: [
+          function*(_, { put }) {
+            yield put({ type: 'add', payload: 1 });
+          },
+          { type: 'poll', delay: 1000 },
+        ],
+      },
+    });
+    app.start();
+
+    app._store.dispatch({ type: 'count/pollAdd-start' });
+
+    setTimeout(() => {
+      app._store.dispatch({ type: 'count/pollAdd-stop' });
+      expect(app._store.getState().count).toEqual(2);
+      done();
+    }, 2000);
+  });
+
+  it('type: poll and stop', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        pollAdd: [
+          function*(_, { put }) {
+            yield put({ type: 'add', payload: 1 });
+          },
+          { type: 'poll', delay: 1000 },
+        ],
+      },
+    });
+    app.start();
+
+    app._store.dispatch({ type: 'count/pollAdd-start' });
+    // should work one time
+    app._store.dispatch({ type: 'count/pollAdd-stop' });
+
+    setTimeout(() => {
+      expect(app._store.getState().count).toEqual(1);
+      done();
+    }, 200);
+  });
+
+  it('type: poll with payload', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        pollAdd: [
+          function*({ payload }, { put }) {
+            yield put({ type: 'add', payload });
+          },
+          { type: 'poll', delay: 1000 },
+        ],
+      },
+    });
+    app.start();
+
+    app._store.dispatch({ type: 'count/pollAdd-start', payload: 2 });
+
+    setTimeout(() => {
+      app._store.dispatch({ type: 'count/pollAdd-stop' });
+      expect(app._store.getState().count).toEqual(4);
+      done();
+    }, 2000);
+  });
+
+  it('type: poll, start many time', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        pollAdd: [
+          function*({ payload }, { put }) {
+            yield put({ type: 'add', payload });
+          },
+          { type: 'poll', delay: 1000 },
+        ],
+      },
+    });
+    app.start();
+
+    app._store.dispatch({ type: 'count/pollAdd-start', payload: 2 });
+
+    setTimeout(() => {
+      // second start should not work
+      app._store.dispatch({ type: 'count/pollAdd-start', payload: 3 });
+      app._store.dispatch({ type: 'count/pollAdd-stop' });
+      expect(app._store.getState().count).toEqual(6);
+      done();
+    }, 3000);
+  });
+
+  it('type: poll, start many time 2', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        pollAdd: [
+          function*(_, { put }) {
+            yield put({ type: 'add', payload: 1 });
+          },
+          { type: 'poll', delay: 1000 },
+        ],
+      },
+    });
+    app.start();
+
+    app._store.dispatch({ type: 'count/pollAdd-start' });
+    // second start should not work
+    app._store.dispatch({ type: 'count/pollAdd-start' });
+
+    setTimeout(() => {
+      app._store.dispatch({ type: 'count/pollAdd-stop' });
+      expect(app._store.getState().count).toEqual(3);
+      done();
+    }, 3000);
+  });
+
+  it('type: poll, start and stop many time', done => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      reducers: {
+        add(state, { payload }) {
+          return state + payload || 1;
+        },
+      },
+      effects: {
+        pollAdd: [
+          function*(_, { put }) {
+            yield put({ type: 'add', payload: 1 });
+          },
+          { type: 'poll', delay: 1000 },
+        ],
+      },
+    });
+    app.start();
+
+    app._store.dispatch({ type: 'count/pollAdd-start' });
+    app._store.dispatch({ type: 'count/pollAdd-stop' });
+    app._store.dispatch({ type: 'count/pollAdd-start' });
+
+    setTimeout(() => {
+      app._store.dispatch({ type: 'count/pollAdd-stop' });
+      expect(app._store.getState().count).toEqual(3);
+      done();
+    }, 2000);
+  });
+
   xit('nonvalid type', () => {
     const app = create();
     app.model({
