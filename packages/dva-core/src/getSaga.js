@@ -23,6 +23,7 @@ function getWatcher(key, _effect, model, onError, onEffect, opts) {
   let effect = _effect;
   let type = 'takeEvery';
   let ms;
+  let delayMs;
 
   if (Array.isArray(_effect)) {
     [effect] = _effect;
@@ -33,10 +34,14 @@ function getWatcher(key, _effect, model, onError, onEffect, opts) {
         invariant(opts.ms, 'app.start: opts.ms should be defined if type is throttle');
         ({ ms } = opts);
       }
+      if (type === 'poll') {
+        invariant(opts.delay, 'app.start: opts.delay should be defined if type is poll');
+        ({ delay: delayMs } = opts);
+      }
     }
     invariant(
-      ['watcher', 'takeEvery', 'takeLatest', 'throttle'].indexOf(type) > -1,
-      'app.start: effect type should be takeEvery, takeLatest, throttle or watcher',
+      ['watcher', 'takeEvery', 'takeLatest', 'throttle', 'poll'].indexOf(type) > -1,
+      'app.start: effect type should be takeEvery, takeLatest, throttle, poll or watcher',
     );
   }
 
@@ -73,6 +78,24 @@ function getWatcher(key, _effect, model, onError, onEffect, opts) {
     case 'throttle':
       return function*() {
         yield sagaEffects.throttle(ms, key, sagaWithOnEffect);
+      };
+    case 'poll':
+      return function*() {
+        function delay(timeout) {
+          return new Promise(resolve => setTimeout(resolve, timeout));
+        }
+        function* pollSagaWorker(sagaEffects, action) {
+          const { call } = sagaEffects;
+          while (true) {
+            yield call(sagaWithOnEffect, action);
+            yield call(delay, delayMs);
+          }
+        }
+        const { call, take, race } = sagaEffects;
+        while (true) {
+          const action = yield take(`${key}-start`);
+          yield race([call(pollSagaWorker, sagaEffects, action), take(`${key}-stop`)]);
+        }
       };
     default:
       return function*() {
