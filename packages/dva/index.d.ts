@@ -5,7 +5,6 @@ import {
   Dispatch,
   MiddlewareAPI,
   StoreEnhancer,
-  bindActionCreators
 } from 'redux';
 
 import { History } from "history";
@@ -122,18 +121,15 @@ export interface DvaInstance {
 
 export default function dva(opts?: DvaOption): DvaInstance;
 
-export { bindActionCreators };
-
-export {
-  connect, connectAdvanced, useSelector, useDispatch, useStore,
-  DispatchProp, shallowEqual
-} from 'react-redux';
-
-import * as routerRedux from 'connected-react-router';
-export { routerRedux };
-
-import * as fetch from 'isomorphic-fetch';
-export { fetch };
-
+export { default as fetch } from 'isomorphic-fetch';
+export { default as dynamic } from './dynamic';
+export { connect, connectAdvanced, useSelector, useDispatch, useStore, shallowEqual, DispatchProp } from 'react-redux';
+export { bindActionCreators } from 'redux';
 import * as router from 'react-router-dom';
 export { router };
+// export { saga } from 'dva-core'; // NOTE: uncomment when dva-core has definition files
+import * as routerRedux from 'connected-react-router';
+export { routerRedux };
+export { createBrowserHistory, createMemoryHistory, createHashHistory } from 'history';
+
+

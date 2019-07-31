@@ -346,7 +346,7 @@ describe('effects', () => {
     }).toThrow(/app.start: opts.ms should be defined if type is throttle/);
   });
 
-  it('type: throttle', done => {
+  it('type: throttle', async done => {
     const app = create();
     app.model({
       namespace: 'count',
@@ -368,14 +368,18 @@ describe('effects', () => {
     });
     app.start();
 
-    // Only catch the last one.
+    // catch first one
     app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    // miss in between
     app._store.dispatch({ type: 'count/addDelay', payload: 3 });
-
-    setTimeout(() => {
-      expect(app._store.getState().count).toEqual(2);
-      done();
-    }, 200);
+    app._store.dispatch({ type: 'count/addDelay', payload: 3 });
+    // catch the last one
+    app._store.dispatch({ type: 'count/addDelay', payload: 3 });
+    await delay(150);
+    expect(app._store.getState().count).toEqual(2);
+    await delay(250);
+    expect(app._store.getState().count).toEqual(5);
+    done();
   });
 
   it('type: watcher', done => {
