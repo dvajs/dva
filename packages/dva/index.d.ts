@@ -137,3 +137,6 @@ export { fetch };
 
 import * as router from 'react-router-dom';
 export { router };
+
+import dynamic from './dynamic';
+export { dynamic };
