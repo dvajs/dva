@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import flatten from 'flatten';
 import invariant from 'invariant';
-import window from 'global/window';
+import win from 'global/window';
 import { returnSelf, isArray } from './utils';
 
 export default function({
@@ -27,8 +27,8 @@ export default function({
   ]);
 
   const composeEnhancers =
-    process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, maxAge: 30 })
+    process.env.NODE_ENV !== 'production' && win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      ? win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, maxAge: 30 })
       : compose;
 
   const enhancers = [applyMiddleware(...middlewares), ...extraEnhancers];
