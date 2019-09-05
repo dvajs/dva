@@ -43,6 +43,7 @@
     "redux": "^4.0.1"
   },
   "files": [
+    "dist",
     "lib",
     "src",
     "index.js",
