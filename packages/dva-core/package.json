@@ -1,6 +1,6 @@
 {
   "name": "dva-core",
-  "version": "1.6.0-beta.6",
+  "version": "1.6.0-beta.7",
   "description": "The core lightweight library for dva, based on redux and redux-saga.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
