@@ -1,5 +1,6 @@
 import {
   Reducer,
+  Action,
   AnyAction,
   ReducersMapObject,
   Dispatch,
@@ -52,6 +53,10 @@ export type ReducersMapObjectWithEnhancer = [ReducersMapObject, ReducerEnhancer]
 
 export interface EffectsMapObject {
   [key: string]: Effect | EffectWithType,
+}
+
+export interface Dispatch<A extends Action = AnyAction> {
+  <T extends A>(action: T): Promise<any> | T;
 }
 
 export interface SubscriptionAPI {
