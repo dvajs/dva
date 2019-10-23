@@ -1,0 +1,35 @@
+{
+  "name": "dva-error",
+  "version": "1.0.0",
+  "description": "Auto error data binding plugin for dva.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "sideEffects": false,
+  "typings": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvajs/dva"
+  },
+  "homepage": "https://github.com/dvajs/dva",
+  "keywords": [
+    "dva",
+    "dva-plugin",
+    "error"
+  ],
+  "author": "xialvjun <xialvjun@live.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "dva": "2.6.0-beta.14",
+    "dva-core": "2.0.0"
+  },
+  "peerDependencies": {
+    "dva-core": "^1.1.0 | ^1.5.0-0 | ^1.6.0-0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.0.0"
+  }
+}
