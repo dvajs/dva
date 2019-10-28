@@ -15,6 +15,8 @@ const { Link, Switch, Route, Router } = router;
 
 afterEach(cleanup);
 
+const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+
 test('normal', () => {
   const app = dva();
   app.model({
@@ -154,7 +156,9 @@ test('navigate', async () => {
   const { getByTestId, getByText } = render(React.createElement(app.start()));
   expect(getByTestId('title').innerHTML).toEqual('You are on Home');
   fireEvent.click(getByText('Users'));
+  await delay(100);
   expect(getByTestId('title').innerHTML).toEqual('You are on Users');
   fireEvent.click(getByText('RouterRedux to Home'));
+  await delay(100);
   expect(getByTestId('title').innerHTML).toEqual('You are on Home');
 });

@@ -30,7 +30,6 @@ export default function(opts = {}) {
     },
     setupApp(app) {
       app._history = patchHistory(history);
-      // app._history = patchHistory(history);
     },
   };
 
@@ -106,8 +105,23 @@ function render(container, store, app, router) {
 function patchHistory(history) {
   const oldListen = history.listen;
   history.listen = callback => {
+    // Let ConnectedRouter to sync history to store first
+    // connected-react-router's version is locked since the check function may be broken
+    // ref: https://github.com/umijs/umi/issues/2693
+    const isConnectedRouterHandler =
+      callback.name === 'handleLocationChange' &&
+      callback.toString().indexOf('onLocationChanged') > -1;
     callback(history.location, history.action);
-    return oldListen.call(history, callback);
+    return oldListen.call(history, (...args) => {
+      if (isConnectedRouterHandler) {
+        callback(...args);
+      } else {
+        // Delay all listeners besides ConnectedRouter
+        setTimeout(() => {
+          callback(...args);
+        });
+      }
+    });
   };
   return history;
 }
