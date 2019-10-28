@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "father build",
+    "build": "father-build",
     "doc:dev": "./website/node_modules/.bin/vuepress dev ./docs",
     "doc:deploy": "rm -rf ./website/yarn.lock && cd ./website && npm run deploy && cd -",
     "changelog": "lerna-changelog",
@@ -33,7 +33,7 @@
     "react-dom": "^16.8.4",
     "react-testing-library": "^6.0.0",
     "shelljs": "^0.8.1",
-    "father": "^2.6.6",
+    "father-build": "^1.14.0",
     "umi-test": "^1.5.2"
   },
   "lint-staged": {
