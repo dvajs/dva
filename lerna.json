@@ -1,12 +1,12 @@
 {
-  "lerna": "2.0.0",
   "changelog": {
     "repo": "dvajs/dva",
     "labels": {
       "pr(enhancement)": ":rocket: Enhancement",
       "pr(bug)": ":bug: Bug Fix",
       "pr(documentation)": ":book: Documentation",
-      "pr(dependency)": ":deciduous_tree: Dependency"
+      "pr(dependency)": ":deciduous_tree: Dependency",
+      "pr(chore)": ":turtle: Chore"
     },
     "cacheDir": ".changelog"
   },
