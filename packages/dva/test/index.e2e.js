@@ -10,7 +10,6 @@ import dva, {
   routerRedux,
   shallowEqual,
 } from '../dist/index';
-import counter from '../../../examples/with-redux-undo/src/models/counter';
 
 const { Link, Switch, Route, Router } = router;
 
