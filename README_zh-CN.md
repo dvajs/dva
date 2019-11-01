@@ -2,7 +2,6 @@
 
 # dva
 
-
 [![codecov](https://codecov.io/gh/dvajs/dva/branch/master/graph/badge.svg)](https://codecov.io/gh/dvajs/dva)
 [![CircleCI](https://circleci.com/gh/dvajs/dva.svg?style=svg)](https://circleci.com/gh/dvajs/dva)
 [![NPM version](https://img.shields.io/npm/v/dva.svg?style=flat)](https://npmjs.org/package/dva)
