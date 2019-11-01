@@ -359,7 +359,7 @@ describe('effects', () => {
       effects: {
         addDelay: [
           function*({ payload }, { call, put }) {
-            yield call(delay, 100);
+            yield call(delay, 120);
             yield put({ type: 'add', payload });
           },
           { type: 'throttle', ms: 100 },
