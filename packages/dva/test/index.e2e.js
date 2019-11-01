@@ -36,6 +36,65 @@ test('normal', () => {
   expect(app._store.getState().count).toEqual(1);
 });
 
+test('subscription execute multiple times', async () => {
+  const app = dva();
+  app.model({
+    namespace: 'count',
+    state: 0,
+    subscriptions: {
+      setup({ history, dispatch }) {
+        return history.listen(() => {
+          dispatch({
+            type: 'add',
+          });
+        });
+      },
+    },
+    reducers: {
+      add(state) {
+        return state + 1;
+      },
+    },
+  });
+
+  const Count = connect(state => ({ count: state.count }))(function(props) {
+    return <div data-testid="count">{props.count}</div>;
+  });
+
+  function Home() {
+    return <div />;
+  }
+
+  function Users() {
+    return <div />;
+  }
+
+  app.router(({ history }) => {
+    return (
+      <Router history={history}>
+        <>
+          <Link to="/">Home</Link>
+          <Link to="/users">Users</Link>
+          <Count />
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/users" component={Users} />
+          </Switch>
+        </>
+      </Router>
+    );
+  });
+
+  const { getByTestId, getByText } = render(React.createElement(app.start()));
+  expect(getByTestId('count').innerHTML).toEqual('1');
+  fireEvent.click(getByText('Users'));
+  await delay(100);
+  expect(getByTestId('count').innerHTML).toEqual('2');
+  fireEvent.click(getByText('Home'));
+  await delay(100);
+  expect(getByTestId('count').innerHTML).toEqual('3');
+});
+
 test('connect', () => {
   const app = dva();
   app.model({
