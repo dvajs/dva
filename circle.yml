@@ -1,0 +1,53 @@
+version: 2.1
+executors:
+  node:
+    docker:
+      - image: circleci/node:latest-browsers
+    working_directory: ~/dva
+
+environment:
+  NODE_ENV: test
+  NODE_OPTIONS: --max_old_space_size=4096
+  NPM_CONFIG_LOGLEVEL: error
+  JOBS: max # https://gist.github.com/ralphtheninja/f7c45bdee00784b41fed
+
+jobs:
+  yarn_build:
+    executor: node
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn bootstrap
+      - run: yarn build
+      - run:
+          command: yarn test -- --forceExit --detectOpenHandles --runInBand --maxWorkers=2
+          no_output_timeout: 300m
+      - run: bash <(curl -s https://codecov.io/bash)
+  cnpm_build:
+    executor: node
+    steps:
+      - checkout
+      - run: sudo npm install -g cnpm
+      - run: cnpm install --registry=https://registry.npmjs.org
+      - run: cnpm run bootstrap -- --npm-client=cnpm
+      - run: cnpm run build
+      - run:
+          command: npm run test -- --forceExit --detectOpenHandles --runInBand --maxWorkers=2
+          no_output_timeout: 300m
+      - run: bash <(curl -s https://codecov.io/bash)
+workflows:
+  version: 2
+  build-test:
+    jobs:
+      - yarn_build:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+                - /release\/.*/
+      - cnpm_build:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+                - /release\/.*/
