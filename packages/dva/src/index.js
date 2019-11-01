@@ -105,12 +105,22 @@ function render(container, store, app, router) {
 function patchHistory(history) {
   const oldListen = history.listen;
   history.listen = callback => {
+    // TODO: refact this with modified ConnectedRouter
     // Let ConnectedRouter to sync history to store first
     // connected-react-router's version is locked since the check function may be broken
+    // min version of connected-react-router
+    // e.g.
+    // function (e, t) {
+    //   var n = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
+    //   r.inTimeTravelling ? r.inTimeTravelling = !1 : a(e, t, n)
+    // }
     // ref: https://github.com/umijs/umi/issues/2693
+    const cbStr = callback.toString();
     const isConnectedRouterHandler =
-      callback.name === 'handleLocationChange' &&
-      callback.toString().indexOf('onLocationChanged') > -1;
+      (callback.name === 'handleLocationChange' && cbStr.indexOf('onLocationChanged') > -1) ||
+      (cbStr.indexOf('.inTimeTravelling') > -1 &&
+        cbStr.indexOf('.inTimeTravelling') > -1 &&
+        cbStr.indexOf('arguments[2]') > -1);
     callback(history.location, history.action);
     return oldListen.call(history, (...args) => {
       if (isConnectedRouterHandler) {
