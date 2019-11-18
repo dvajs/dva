@@ -18,6 +18,7 @@ import * as routerRedux from 'connected-react-router';
 
 const { connectRouter, routerMiddleware } = routerRedux;
 const { isFunction } = utils;
+const { useHistory, useLocation, useParams, useRouteMatch } = router;
 
 export default function(opts = {}) {
   const history = opts.history || createHashHistory();
@@ -144,3 +145,4 @@ export { router };
 export { saga };
 export { routerRedux };
 export { createBrowserHistory, createMemoryHistory, createHashHistory };
+export { useHistory, useLocation, useParams, useRouteMatch };
