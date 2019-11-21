@@ -3,13 +3,16 @@ import {
   Action,
   AnyAction,
   ReducersMapObject,
-  Dispatch,
   MiddlewareAPI,
   StoreEnhancer,
   bindActionCreators
 } from 'redux';
 
 import { History } from "history";
+
+export interface Dispatch<A extends Action = AnyAction> {
+  <T extends A>(action: T): Promise<any> | T;
+}
 
 export interface onActionFunc {
   (api: MiddlewareAPI<any>): void,
@@ -53,10 +56,6 @@ export type ReducersMapObjectWithEnhancer = [ReducersMapObject, ReducerEnhancer]
 
 export interface EffectsMapObject {
   [key: string]: Effect | EffectWithType,
-}
-
-export interface Dispatch<A extends Action = AnyAction> {
-  <T extends A>(action: T): Promise<any> | T;
 }
 
 export interface SubscriptionAPI {
