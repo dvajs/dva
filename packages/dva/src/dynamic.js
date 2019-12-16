@@ -62,19 +62,18 @@ export default function dynamic(config) {
         const models = typeof resolveModels === 'function' ? resolveModels() : [];
         const component = resolveComponent();
         return new Promise(resolve => {
-          Promise.all([...models, component]).then(ret => {
+          Promise.all([component, ...models]).then(([asyncCom, ...asyncModels]) => {
             if (!models || !models.length) {
-              return resolve(ret[0]);
+              return resolve(asyncCom);
             } else {
-              const len = models.length;
-              ret.slice(0, len).forEach(m => {
+              asyncModels.forEach(m => {
                 m = m.default || m;
                 if (!Array.isArray(m)) {
                   m = [m];
                 }
                 m.map(_ => registerModel(app, _));
               });
-              resolve(ret[len]);
+              resolve(asyncCom);
             }
           });
         });
