@@ -120,4 +120,33 @@ describe('reducers', () => {
 
     expect(app._store.getState().present.count).toEqual(0);
   });
+
+  it('effects put reducers when reducers is array', () => {
+    const enhancer = r => (state, action) => {
+      const newState = r(state, action);
+      return newState;
+    };
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      effects: {
+        *putSetState(action, { put }) {
+          yield put({ type: 'setState' });
+        },
+      },
+      reducers: [
+        {
+          setState(state) {
+            return state + 1;
+          },
+        },
+        enhancer,
+      ],
+    });
+    app.start();
+
+    app._store.dispatch({ type: 'count/putSetState' });
+    expect(app._store.getState().count).toEqual(1);
+  });
 });
