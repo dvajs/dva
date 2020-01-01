@@ -142,3 +142,4 @@ export { fetch };
 import * as router from 'react-router-dom';
 export { router };
 export { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
+export { default as dynamic } from './dynamic';
