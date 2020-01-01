@@ -129,9 +129,21 @@ export default function dva(opts?: DvaOption): DvaInstance;
 export { bindActionCreators };
 
 export {
-  connect, connectAdvanced, useSelector, useDispatch, useStore,
+  connectAdvanced, useSelector, useDispatch, useStore,
   DispatchProp, shallowEqual
 } from 'react-redux';
+
+import { ComponentClass } from 'react';
+import {
+  connect as nativeConnect,
+  MapDispatchToPropsParam,
+  MapStateToPropsParam
+} from 'react-redux';
+export type ComponentDecorator<P = any> = <T extends ComponentClass<P>>(WrappedComponent: T) => T;
+export const connect: <P, S>(
+  mapState: MapStateToPropsParam<Partial<P>, P, S>,
+  mapDispatch?: MapDispatchToPropsParam<Partial<P>, P>
+  ) => ComponentDecorator = nativeConnect as any;
 
 import * as routerRedux from 'connected-react-router';
 export { routerRedux };
