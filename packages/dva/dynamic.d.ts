@@ -1,5 +1,5 @@
 interface Idynamic {
-  app, models?, component,
+  app: any, models?: any, component: any,
   resolve?:(value?: PromiseLike<any>) => void,
 }
 declare function dynamic(config: Idynamic): any;
