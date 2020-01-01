@@ -1,8 +1,3 @@
-// interface Idynamic {
-//   app: any, models?: any, component: any,
-//   resolve?:(value?: PromiseLike<any>) => void,
-// }
-
 import { DvaInstance } from 'dva';
 import React from 'react';
 
