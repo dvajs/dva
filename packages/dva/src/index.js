@@ -22,6 +22,8 @@ const { useHistory, useLocation, useParams, useRouteMatch } = router;
 
 export default function(opts = {}) {
   const history = opts.history || createHashHistory();
+  const { enableReduxDevTools } = opts;
+
   const createOpts = {
     initialReducer: {
       router: connectRouter(history),
@@ -32,6 +34,7 @@ export default function(opts = {}) {
     setupApp(app) {
       app._history = patchHistory(history);
     },
+    enableReduxDevTools,
   };
 
   const app = create(opts, createOpts);

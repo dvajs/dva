@@ -10,8 +10,13 @@ export default function({
   plugin,
   sagaMiddleware,
   promiseMiddleware,
-  createOpts: { setupMiddlewares = returnSelf },
+  createOpts: {
+    setupMiddlewares = returnSelf,
+    enableReduxDevTools = true,
+    reduxDevToolsOptions = { maxAage: 30, trace: true },
+  },
 }) {
+  console.log('Creating store...');
   // extra enhancers
   const extraEnhancers = plugin.get('extraEnhancers');
   invariant(
@@ -27,8 +32,10 @@ export default function({
   ]);
 
   const composeEnhancers =
-    process.env.NODE_ENV !== 'production' && win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, maxAge: 30 })
+    enableReduxDevTools &&
+    process.env.NODE_ENV !== 'production' &&
+    win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      ? win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(reduxDevToolsOptions)
       : compose;
 
   const enhancers = [applyMiddleware(...middlewares), ...extraEnhancers];
