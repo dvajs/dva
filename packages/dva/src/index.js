@@ -22,7 +22,7 @@ const { useHistory, useLocation, useParams, useRouteMatch } = router;
 
 export default function(opts = {}) {
   const history = opts.history || createHashHistory();
-  const { enableReduxDevTools } = opts;
+  const { enableReduxDevTools, reduxDevToolsOptions } = opts;
 
   const createOpts = {
     initialReducer: {
@@ -35,6 +35,7 @@ export default function(opts = {}) {
       app._history = patchHistory(history);
     },
     enableReduxDevTools,
+    reduxDevToolsOptions,
   };
 
   const app = create(opts, createOpts);
