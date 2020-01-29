@@ -291,7 +291,7 @@ const CountApp = ({count, dispatch}) => {
 Note:
 
 1. `*add() {}` is equal to `add: function*(){}`
-2. `call` and `put` are effect commands from redux-saga. `call` is for async logic, and `put` is for dispatching actions. Besides these, there are commands such as `select`, `take`, `fork`, `cancel`, and so on. View more on [redux-saga documatation](http://redux-saga.github.io/redux-saga/docs/basics/DeclarativeEffects.html)
+2. `call` and `put` are effect commands from redux-saga. `call` is for async logic, and `put` is for dispatching actions. Besides these, there are commands such as `select`, `take`, `fork`, `cancel`, and so on. View more on [redux-saga documentation](http://redux-saga.github.io/redux-saga/docs/basics/DeclarativeEffects.html)
 
 Refresh you browser, and if successful, it should have all the effects of the beginning gif.
 
