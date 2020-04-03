@@ -154,7 +154,7 @@ connect 是一个函数，绑定 State 到 View。
 import { connect } from 'dva';
 
 function mapStateToProps(state) {
-  return { todos: state.todos };
+  return { todos: state.${namespace}.todos };
 }
 connect(mapStateToProps)(App);
 ```
