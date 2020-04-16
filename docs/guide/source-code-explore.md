@@ -170,7 +170,7 @@ export default function(opts = {}) {
 > 实现代理模式一定要用到 call 吗？
 - 不一定，看有没有 使用 this 或者代理的函数是不是箭头函数。从另一个角度来说，如果使用了 function 关键字又在内部使用了 this，那么一定要用 call/apply/bind 指定 this。
 
-> 前端还有那里会用到 call ？
+> 前端还有哪里会用到 call ？
 - 就实际开发来讲，因为已经使用了 es6 标准，基本和 this 没什么打交道的机会。使用 class 类型的组件中偶尔还会用到 this.xxx.bind(this)，stateless 组件就洗洗睡吧(因为压根没有 this)。如果实现代理，可以使用继承/反向继承的方法 —— 比如高阶组件。
 
 
