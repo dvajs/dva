@@ -6,8 +6,8 @@ node_js:
   - "12"
 
 before_script:
-  - npm run build
   - npm run bootstrap
+  - npm run build
 
 after_success:
   - npm run coveralls

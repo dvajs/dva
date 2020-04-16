@@ -1,5 +1,5 @@
 export default {
-  entry: ['src/index.js', 'src/dynamic.js'],
+  entry: ['src/index.tsx', 'src/dynamic.js'],
   cjs: 'rollup',
   esm: 'rollup',
   runtimeHelpers: true,

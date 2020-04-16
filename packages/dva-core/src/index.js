@@ -105,7 +105,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     // Cancel effects
     store.dispatch({ type: `${namespace}/@@CANCEL_EFFECTS` });
 
-    // Unlisten subscrioptions
+    // Unlisten subscriptions
     unlistenSubscription(unlisteners, namespace);
 
     // Delete model from app._models
@@ -113,7 +113,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
   }
 
   /**
-   * Replace a model if it exsits, if not, add it to app
+   * Replace a model if it exists, if not, add it to app
    * Attention:
    * - Only available after dva.start gets called
    * - Will not check origin m is strict equal to the new one
@@ -137,7 +137,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
       delete store.asyncReducers[namespace];
       delete reducers[namespace];
 
-      // Unlisten subscrioptions
+      // Unlisten subscriptions
       unlistenSubscription(unlisteners, namespace);
 
       // Delete model from app._models

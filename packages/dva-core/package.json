@@ -4,6 +4,7 @@
   "description": "The core lightweight library for dva, based on redux and redux-saga.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "typings": "typings/index.d.ts",
   "sideEffects": false,
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "@types/history": "^4.7.5",
+    "@types/react-redux": "^7.1.7",
     "flatten": "^1.0.2",
     "global": "^4.3.2",
     "invariant": "^2.2.1",

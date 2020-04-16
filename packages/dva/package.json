@@ -4,7 +4,7 @@
   "description": "React and redux based, lightweight and elm-style framework.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
-  "typings": "index.d.ts",
+  "typings": "dist/index.d.ts",
   "sideEffects": false,
   "repository": {
     "type": "git",
@@ -34,6 +34,9 @@
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/react-redux": "^7.1.0",
     "@types/react-router-dom": "^5.1.2",
+    "@types/invariant": "^2.2.31",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
     "connected-react-router": "6.5.2",
     "dva-core": "2.0.2",
     "global": "^4.3.2",
