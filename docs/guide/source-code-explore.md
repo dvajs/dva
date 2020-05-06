@@ -350,7 +350,7 @@ subscriptions 中监听 router 变化。
 > subscriptions 的东西可以放在 dva-core 里再说，
 
 ```js
-import createHashHistory from 'history/createHashHistory';
+import { createHashHistory } from 'history';
 import {
   routerMiddleware,
   routerReducer as routing,
