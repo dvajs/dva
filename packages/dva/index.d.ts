@@ -39,13 +39,10 @@ export type DvaOption = Hooks & {
   history?: Object,
 }
 
-export interface EffectsCommandMap {
+import sagaEffects from 'redux-saga/effects'
+export interface EffectsCommandMap extends Omit<typeof sagaEffects, 'put' | 'take'>{
   put: <A extends AnyAction>(action: A) => any,
-  call: Function,
-  select: Function,
   take: Function,
-  cancel: Function,
-  [key: string]: any,
 }
 
 export type Effect = (action: AnyAction, effects: EffectsCommandMap) => void;
