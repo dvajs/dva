@@ -78,7 +78,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
       store.runSaga(app._getSaga(m.effects, m, onError, plugin.get('onEffect'), hooksAndOpts));
     }
     if (m.subscriptions) {
-      unlisteners[m.namespace] = runSubscription(m.subscriptions, m, app, onError);
+      unlisteners[m.namespace] = runSubscription(m.subscriptions, m, app, onError, hooksAndOpts);
     }
   }
 
@@ -224,7 +224,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
     const unlisteners = {};
     for (const model of this._models) {
       if (model.subscriptions) {
-        unlisteners[model.namespace] = runSubscription(model.subscriptions, model, app, onError);
+        unlisteners[model.namespace] = runSubscription(model.subscriptions, model, app, onError, hooksAndOpts);
       }
     }
 

@@ -2,7 +2,7 @@ import warning from 'warning';
 import { isFunction } from './utils';
 import prefixedDispatch from './prefixedDispatch';
 
-export function run(subs, model, app, onError) {
+export function run(subs, model, app, onError, opts = {}) {
   const funcs = [];
   const nonFuncs = [];
   for (const key in subs) {
@@ -10,7 +10,7 @@ export function run(subs, model, app, onError) {
       const sub = subs[key];
       const unlistener = sub(
         {
-          dispatch: prefixedDispatch(app._store.dispatch, model),
+          dispatch: prefixedDispatch(app._store.dispatch, model, opts),
           history: app._history,
         },
         onError,
