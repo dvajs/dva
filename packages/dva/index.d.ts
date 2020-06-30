@@ -18,12 +18,16 @@ export interface onActionFunc {
   (api: MiddlewareAPI<any>): void,
 }
 
+export interface EffectError extends Error {
+  preventDefault: () => void
+}
+
 export interface ReducerEnhancer {
   (reducer: Reducer<any>): void,
 }
 
 export interface Hooks {
-  onError?: (e: Error, dispatch: Dispatch<any>) => void,
+  onError?: (e: EffectError, dispatch: Dispatch<any>) => void,
   onAction?: onActionFunc | onActionFunc[],
   onStateChange?: () => void,
   onReducer?: ReducerEnhancer,
