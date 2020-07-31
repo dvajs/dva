@@ -504,7 +504,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
 	}
 	
 	functoin start(){
-		// Start 方法
+		// start 方法
 	}
   }
   ```
