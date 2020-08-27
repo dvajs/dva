@@ -50,6 +50,12 @@ To create a production build, use npm run build.
 $ npm install antd babel-plugin-import --save
 ```
 
+编辑 `src/index.js`，引入 `antd` 样式，使 `antd` 生效。
+
+```diff
++ import 'antd/dist/antd.css';
+```
+
 编辑 `.webpackrc`，使 `babel-plugin-import` 插件生效。
 
 ```diff
@@ -117,6 +123,7 @@ const ProductList = ({ onDelete, products }) => {
   }];
   return (
     <Table
+      rowKey={record => record.id}
       dataSource={products}
       columns={columns}
     />
