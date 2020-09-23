@@ -2,7 +2,7 @@ version: 2.1
 executors:
   node:
     docker:
-      - image: circleci/node:latest-browsers
+      - image: circleci/node:10.13-browsers
     working_directory: ~/dva
 
 environment:
