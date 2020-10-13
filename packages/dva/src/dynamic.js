@@ -35,11 +35,9 @@ function asyncComponent(config) {
     load() {
       resolve().then(m => {
         const AsyncComponent = m.default || m;
-        if (this.mounted) {
-          this.setState({ AsyncComponent });
-        } else {
-          this.state.AsyncComponent = AsyncComponent; // eslint-disable-line
-        }
+        this.mounted
+          ? this.setState({ AsyncComponent })
+          : (this.state.AsyncComponent = AsyncComponent);
       });
     }
 
