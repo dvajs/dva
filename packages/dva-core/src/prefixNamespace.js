@@ -19,6 +19,7 @@ export default function prefixNamespace(model) {
 
   if (reducers) {
     if (isArray(reducers)) {
+      // 需要复制一份，不能直接修改 model.reducers[0], 会导致微前端场景下，重复添加前缀
       const [reducer, ...rest] = reducers;
       model.reducers = [prefix(reducer, namespace, 'reducer'), ...rest];
     } else {
