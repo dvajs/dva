@@ -19,7 +19,8 @@ export default function prefixNamespace(model) {
 
   if (reducers) {
     if (isArray(reducers)) {
-      model.reducers[0] = prefix(reducers[0], namespace, 'reducer');
+      const [reducer, ...rest] = reducers;
+      model.reducers = [prefix(reducer, namespace, 'reducer'), ...rest];
     } else {
       model.reducers = prefix(reducers, namespace, 'reducer');
     }
