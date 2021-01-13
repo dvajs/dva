@@ -1,5 +1,7 @@
 import produce from 'immer';
 
+export { enableES5, enableAllPlugins } from 'immer';
+
 export default function() {
   return {
     _handleActions(handlers, defaultState) {
