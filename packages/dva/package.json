@@ -37,7 +37,7 @@
     "connected-react-router": "6.5.2",
     "dva-core": "2.0.4",
     "global": "^4.3.2",
-    "history": "^4.7.2",
+    "history": "~4.7.2",
     "invariant": "^2.2.4",
     "isomorphic-fetch": "^2.2.1",
     "react-redux": "^7.1.0",
