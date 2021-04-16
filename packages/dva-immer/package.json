@@ -1,6 +1,6 @@
 {
   "name": "dva-immer",
-  "version": "0.5.2",
+  "version": "1.0.0",
   "description": "Auto loading data binding plugin for dva.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
