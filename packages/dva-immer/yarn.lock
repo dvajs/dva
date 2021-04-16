@@ -9,10 +9,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-immer@^7.0.5:
-  version "7.0.9"
-  resolved "https://registry.npmjs.org/immer/-/immer-7.0.9.tgz#28e7552c21d39dd76feccd2b800b7bc86ee4a62e"
-  integrity sha512-Vs/gxoM4DqNAYR7pugIxi0Xc8XAun/uy7AQu4fLLqaTBHxjOP9pJ266Q9MWA/ly4z6rAFZbvViOtihxUZ7O28A==
+immer@^8.0.4:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.4.tgz#3a21605a4e2dded852fb2afd208ad50969737b7a"
+  integrity sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
