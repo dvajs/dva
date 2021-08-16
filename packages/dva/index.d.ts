@@ -81,7 +81,7 @@ export interface RouterAPI {
 }
 
 export interface Router {
-  (api?: RouterAPI): JSX.Element | Object,
+  (api: RouterAPI): JSX.Element | Object,
 }
 
 export interface DvaInstance {
