@@ -7,6 +7,7 @@ import {
   StoreEnhancer,
   bindActionCreators
 } from 'redux';
+import { Task, Channel } from 'redux-saga';
 
 import { History } from "history";
 
@@ -40,12 +41,12 @@ export type DvaOption = Hooks & {
 }
 
 export interface EffectsCommandMap {
-  put: <A extends AnyAction>(action: A) => any,
-  call: Function,
-  select: Function,
-  take: Function,
-  cancel: Function,
-  [key: string]: any,
+  put: <A extends AnyAction>(action: A) => any;
+  call: <P, R>(foo: (p: P) => R, params: P) => R;
+  select: (globalData: any) => any;
+  take: <A extends AnyAction>(patternOrChannel: Task | Channel<any>) => A;
+  cancel: (...tasks: Task[]) => Promise<void>;
+  [key: string]: any;
 }
 
 export type Effect = (action: AnyAction, effects: EffectsCommandMap) => void;
