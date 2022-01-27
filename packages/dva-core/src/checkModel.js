@@ -14,7 +14,7 @@ export default function checkModel(model, existModels) {
   // 并且唯一
   invariant(
     !existModels.some(model => model.namespace === namespace),
-    `[app.model] namespace should be unique`,
+    `[app.model] namespace should be unique : [${namespace}]`,
   );
 
   // state 可以为任意值
