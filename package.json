@@ -10,7 +10,7 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint --ext .js packages",
     "precommit": "lint-staged",
-    "publish": "./scripts/publish.js",
+    "release": "./scripts/publish.js",
     "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
