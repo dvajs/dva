@@ -122,7 +122,9 @@ function patchHistory(history) {
       (cbStr.indexOf('.inTimeTravelling') > -1 &&
         cbStr.indexOf('.inTimeTravelling') > -1 &&
         cbStr.indexOf('arguments[2]') > -1);
-    callback(history.location, history.action);
+    // why add __isDvaPatch: true
+    // since it's a patch from dva, we need to identify it in the listen handlers
+    callback(history.location, history.action, { __isDvaPatch: true });
     return oldListen.call(history, (...args) => {
       if (isConnectedRouterHandler) {
         callback(...args);
