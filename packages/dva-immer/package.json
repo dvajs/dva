@@ -7,7 +7,7 @@
   "sideEffects": false,
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "immer": "^8.0.4"
+    "immer": "^9.0.6"
   },
   "peerDependencies": {
     "dva": "^2.5.0-0"

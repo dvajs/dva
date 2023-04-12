@@ -35,7 +35,7 @@
     "react-dom": "^16.8.4",
     "react-testing-library": "^6.0.0",
     "shelljs": "^0.8.1",
-    "umi-test": "^1.5.2"
+    "umi-test": "^1.9.7"
   },
   "lint-staged": {
     "*.js": [
