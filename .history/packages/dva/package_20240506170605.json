@@ -45,8 +45,8 @@
     "redux": "^4.0.1"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   },
   "files": [
     "dist",
