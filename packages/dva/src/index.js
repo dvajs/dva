@@ -20,7 +20,7 @@ const { connectRouter, routerMiddleware } = routerRedux;
 const { isFunction } = utils;
 const { useHistory, useLocation, useParams, useRouteMatch } = router;
 
-export default function (opts = {}) {
+export default function(opts = {}) {
   const history = opts.history || createHashHistory();
   const createOpts = {
     initialReducer: {
