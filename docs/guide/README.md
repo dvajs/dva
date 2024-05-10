@@ -4,7 +4,7 @@ dva 首先是一个基于 [redux](https://github.com/reduxjs/redux) 和 [redux-s
 
 ## 特性
 
-* **易学易用**，仅有 6 个 api，对 redux 用户尤其友好，[配合 umi 使用](https://umijs.org/guide/with-dva.html)后更是降低为 0 API
+* **易学易用**，仅有 6 个 api，对 redux 用户尤其友好，[配合 umi 使用](https://umijs.org/docs/max/dva)后更是降低为 0 API
 * **elm 概念**，通过 reducers, effects 和 subscriptions 组织 model
 * **插件机制**，比如 [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading) 可以自动处理 loading 状态，不用一遍遍地写 showLoading 和 hideLoading
 * **支持 HMR**，基于 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 实现 components、routes 和 models 的 HMR
