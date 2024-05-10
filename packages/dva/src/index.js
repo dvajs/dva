@@ -99,8 +99,8 @@ function getProvider(store, app, router) {
 }
 
 function render(container, store, app, router) {
-  const ReactDOM = require('react-dom'); // eslint-disable-line
-  ReactDOM.render(React.createElement(getProvider(store, app, router)), container);
+  const ReactDOM = require('react-dom/client'); // eslint-disable-line
+  ReactDOM.createRoot(container).render(React.createElement(getProvider(store, app, router)));
 }
 
 function patchHistory(history) {
