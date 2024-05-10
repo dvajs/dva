@@ -223,7 +223,7 @@ function getProvider(store, app, router) {
 // 真正的 react 在这里
 function render(container, store, app, router) {
   const ReactDOM = require('react-dom/client') // eslint-disable-line
-  ReactDOM.createRoot(container).render(React.createElement(getProvider(store, app, router)))
+  ReactDOM.createRoot(container).render(React.createElement(getProvider(store, app, router)));
 }
 ```
 

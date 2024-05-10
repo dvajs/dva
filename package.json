@@ -42,6 +42,5 @@
       "prettier --trailing-comma all --single-quote --write",
       "git add"
     ]
-  },
-  "repository": "git@github.com:jasonzhuang/dva18.git"
+  }
 }
