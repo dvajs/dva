@@ -23,11 +23,7 @@
 * **支持 HMR**，基于 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 实现 components、routes 和 models 的 HMR
 
 ## 快速上手
-
-* [dva 和 antd 项目快速上手](https://dvajs.com/guide/getting-started.html)
-* [dva 入门课](https://dvajs.com/guide/introduce-class.html)
-
-更多文档，详见：[https://dvajs.com/](https://dvajs.com/)
+请参考 [docs 目录](./docs) 获取指南和 API 参考。
 
 ## 他是怎么来的？
 
@@ -67,9 +63,9 @@
 
 以下能帮你更好地理解和使用 dva ：
 
-* 理解 dva 的 [8 个概念](https://dvajs.com/guide/concepts.html) ，以及他们是如何串起来的
-* 掌握 dva 的[所有 API](https://dvajs.com/api/)
-* 查看 [dva 知识地图](https://dvajs.com/knowledgemap/) ，包含 ES6, React, dva 等所有基础知识
+* 理解 dva 的 [8 个概念](./docs/Concepts.md) ，以及他们是如何串起来的
+* 掌握 dva 的[所有 API](./docs/API.md)
+* 查看 [dva 知识地图](./docs/knowledgemap/README.md) ，包含 ES6, React, dva 等所有基础知识
 * 查看 [更多 FAQ](https://github.com/dvajs/dva/issues?q=is%3Aissue+is%3Aclosed+label%3Afaq)，看看别人通常会遇到什么问题
 * 如果你基于 dva-cli 创建项目，最好了解他的 [配置方式](https://github.com/sorrycc/roadhog/blob/master/README_zh-cn.md#配置)
 

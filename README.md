@@ -35,10 +35,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 
 ## Quick Start
 
-* [Real project with dva](https://dvajs.com/guide/getting-started.html)
-* [dva intro course](https://dvajs.com/guide/introduce-class.html)
-
-More documentation, checkout [https://dvajs.com/](https://dvajs.com/)
+See the [docs directory](./docs) for guides and API references.
 
 ## FAQ
 
