@@ -11397,10 +11397,10 @@ umask@^1.1.0:
   resolved "https://registry.npmjs.org/umask/-/umask-1.1.0.tgz#f29cebf01df517912bb58ff9c4e50fde8e33320d"
   integrity sha1-8pzr8B31F5ErtY/5xOUP3o4zMg0=
 
-umi-test@^1.5.2:
-  version "1.9.6"
-  resolved "https://registry.npmjs.org/umi-test/-/umi-test-1.9.6.tgz#63856c511d396def5a088e6df7cdfc5311da2321"
-  integrity sha512-2t5YbLAKLE9HhCiFzgy32yUrYG7fjTLgYcIdLBROnD17bB7KoOWj+Y83RZIJqH3rUSpOqWxOKqv7cUdArbEqTQ==
+umi-test@^1.9.7:
+  version "1.9.7"
+  resolved "https://registry.npmjs.org/umi-test/-/umi-test-1.9.7.tgz#6c97e4e3116bf50d01f4ca0af7f1a701104b595e"
+  integrity sha512-CacQE/YwbL7QuzNolAuVR0KNbR1OjC8Ki2ZLSu9ZO1qE6LnBInRo/J5IDbD8/0gmb04JBR/flyDw++hqTtF4yw==
   dependencies:
     "@babel/core" "7.4.5"
     "@babel/preset-typescript" "7.3.3"
@@ -11421,13 +11421,13 @@ umi-test@^1.5.2:
     react-dom "^16.8.6"
     regenerator-runtime "0.13.2"
     typescript "^3.7.2"
-    umi-utils "1.7.2"
+    umi-utils "1.7.3"
     yargs-parser "13.1.1"
 
-umi-utils@1.7.2:
-  version "1.7.2"
-  resolved "https://registry.npmjs.org/umi-utils/-/umi-utils-1.7.2.tgz#940448f1241630843dd55e7b3b48a5c3d1aff53d"
-  integrity sha512-l/IV3bcPqjhzTi4L4HkcWVh8+mLzXupXdsQi87RmGHcPR9CRlZW91PLRVaybZ3G/KTBbhlVl4pF4RrtU972/QA==
+umi-utils@1.7.3:
+  version "1.7.3"
+  resolved "https://registry.npmjs.org/umi-utils/-/umi-utils-1.7.3.tgz#fe11d487d2894f2e06ca7f65a2a19d5b1f901335"
+  integrity sha512-KLUGIKXkuPOq8LACQN57nj9rSPIjLz8eLbR4mZpihJ3BgL3f1bZFvmUV/VYHr9D7PfFH2Vb1Y6UAOuNkKL9g2g==
   dependencies:
     chalk "2.4.2"
     dotenv "^8.2.0"
