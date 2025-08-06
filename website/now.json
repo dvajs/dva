@@ -1,10 +1,7 @@
 {
-  "name": "dvajs.com",
+  "name": "dva",
   "version": 2,
   "builds": [
     { "src": "package.json", "use": "@now/static-build" }
-  ],
-  "alias": [
-    "dvajs.com"
   ]
 }

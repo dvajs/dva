@@ -1,7 +1,5 @@
 # Concepts
 
-[以中文版查看此文](https://dvajs.com/guide/concepts.html)
-
 ## Data Flow
 
 <img src="https://zos.alipayobjects.com/rmsportal/PPrerEAKbIoDZYr.png" width="807" />
